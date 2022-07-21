@@ -1,15 +1,19 @@
 package my.wallet.ui.scanner
 
 import android.os.Bundle
+import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import my.wallet.databinding.FragmentScannerBinding
 
+@AndroidEntryPoint
 class ScannerFragment : Fragment() {
+
+    val scannerViewModel: ScannerViewModel by viewModels()
 
     private var _binding: FragmentScannerBinding? = null
 
@@ -21,14 +25,14 @@ class ScannerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val scannerViewModel = ViewModelProvider(this)[ScannerViewModel::class.java]
-
         _binding = FragmentScannerBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        scannerViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.scannerPreview.apply {
+            scannerViewModel.bindCamera(
+                lifecycleOwner = this@ScannerFragment,
+                surfaceProvider = surfaceProvider,
+                targetSize = Size(width, height),
+            )
         }
         return root
     }
