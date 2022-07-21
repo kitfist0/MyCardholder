@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="my.wallet">
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
