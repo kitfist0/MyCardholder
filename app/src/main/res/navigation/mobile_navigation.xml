@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_scanner" />
 
     <fragment
-        android:id="@+id/navigation_history"
-        android:name="my.wallet.ui.history.HistoryFragment"
-        android:label="@string/title_history"
-        tools:layout="@layout/fragment_history" />
+        android:id="@+id/navigation_cards"
+        android:name="my.wallet.ui.cards.CardsFragment"
+        android:label="@string/title_cards"
+        tools:layout="@layout/fragment_cards" />
 
     <fragment
         android:id="@+id/navigation_settings"

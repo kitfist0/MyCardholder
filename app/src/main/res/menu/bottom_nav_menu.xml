@@ -7,9 +7,9 @@
         android:title="@string/title_scanner" />
 
     <item
-        android:id="@+id/navigation_history"
-        android:icon="@drawable/ic_menu_wallet"
-        android:title="@string/title_history" />
+        android:id="@+id/navigation_cards"
+        android:icon="@drawable/ic_menu_cards"
+        android:title="@string/title_cards" />
 
     <item
         android:id="@+id/navigation_settings"
