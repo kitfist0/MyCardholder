@@ -13,7 +13,7 @@ import my.wallet.databinding.FragmentScannerBinding
 @AndroidEntryPoint
 class ScannerFragment : Fragment() {
 
-    val scannerViewModel: ScannerViewModel by viewModels()
+    private val scannerViewModel: ScannerViewModel by viewModels()
 
     private var _binding: FragmentScannerBinding? = null
 
