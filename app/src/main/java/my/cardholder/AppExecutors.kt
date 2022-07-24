@@ -1,4 +1,4 @@
-package my.wallet
+package my.cardholder
 
 import android.os.Handler
 import android.os.Looper

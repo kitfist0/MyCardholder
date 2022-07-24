@@ -1,4 +1,4 @@
-package my.wallet.ui.scanner
+package my.cardholder.ui.scanner
 
 import android.util.Log
 import android.util.Size
@@ -10,8 +10,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.lifecycle.HiltViewModel
-import my.wallet.AppExecutors
-import my.wallet.analyzer.QrCodeAnalyzer
+import my.cardholder.AppExecutors
+import my.cardholder.analyzer.QrCodeAnalyzer
 
 @HiltViewModel
 class ScannerViewModel(

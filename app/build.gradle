@@ -10,7 +10,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "my.wallet"
+        applicationId "my.cardholder"
         minSdk 24
         targetSdk 32
         versionCode 1

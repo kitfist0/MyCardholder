@@ -1,4 +1,4 @@
-package my.wallet.ui.scanner
+package my.cardholder.ui.scanner
 
 import android.os.Bundle
 import android.util.Size
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import my.wallet.databinding.FragmentScannerBinding
+import my.cardholder.databinding.FragmentScannerBinding
 
 @AndroidEntryPoint
 class ScannerFragment : Fragment() {

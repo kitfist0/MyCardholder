@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_scanner"
-        android:name="my.wallet.ui.scanner.ScannerFragment"
+        android:name="my.cardholder.ui.scanner.ScannerFragment"
         android:label="@string/title_scanner"
         tools:layout="@layout/fragment_scanner" />
 
     <fragment
         android:id="@+id/navigation_cards"
-        android:name="my.wallet.ui.cards.CardsFragment"
+        android:name="my.cardholder.ui.cards.CardsFragment"
         android:label="@string/title_cards"
         tools:layout="@layout/fragment_cards" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="my.wallet.ui.settings.SettingsFragment"
+        android:name="my.cardholder.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 

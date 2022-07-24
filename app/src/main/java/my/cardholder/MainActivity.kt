@@ -1,4 +1,4 @@
-package my.wallet
+package my.cardholder
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import my.wallet.databinding.ActivityMainBinding
+import my.cardholder.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

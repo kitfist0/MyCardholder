@@ -1,4 +1,4 @@
-package my.wallet.analyzer
+package my.cardholder.analyzer
 
 import android.graphics.ImageFormat.*
 import android.os.Build

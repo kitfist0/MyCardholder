@@ -1,4 +1,4 @@
-package my.wallet.di
+package my.cardholder.di
 
 import android.app.Application
 import android.content.Context
@@ -9,8 +9,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import my.wallet.data.AppDatabase
-import my.wallet.data.CardDao
+import my.cardholder.data.AppDatabase
+import my.cardholder.data.CardDao
 import javax.inject.Singleton
 
 @Module

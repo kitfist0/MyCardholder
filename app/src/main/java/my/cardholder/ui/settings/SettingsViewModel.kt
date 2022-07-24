@@ -1,4 +1,4 @@
-package my.wallet.ui.settings
+package my.cardholder.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

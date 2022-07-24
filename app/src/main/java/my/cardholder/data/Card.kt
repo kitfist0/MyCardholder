@@ -1,4 +1,4 @@
-package my.wallet.data
+package my.cardholder.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
