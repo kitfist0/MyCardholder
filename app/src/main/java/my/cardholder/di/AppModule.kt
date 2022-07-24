@@ -31,7 +31,7 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "wallet.db")
+        return Room.databaseBuilder(context, AppDatabase::class.java, "cardholder.db")
             .fallbackToDestructiveMigration()
             .allowMainThreadQueries()
             .build()
