@@ -12,9 +12,10 @@ import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.lifecycle.HiltViewModel
 import my.cardholder.AppExecutors
 import my.cardholder.analyzer.QrCodeAnalyzer
+import javax.inject.Inject
 
 @HiltViewModel
-class ScannerViewModel(
+class ScannerViewModel @Inject constructor(
     private val appExecutors: AppExecutors,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
 ) : ViewModel() {

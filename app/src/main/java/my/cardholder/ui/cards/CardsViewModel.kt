@@ -3,11 +3,14 @@ package my.cardholder.ui.cards
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CardsViewModel : ViewModel() {
+@HiltViewModel
+class CardsViewModel @Inject constructor(): ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "History Fragment"
+        value = "Cards Fragment"
     }
     val text: LiveData<String> = _text
 }

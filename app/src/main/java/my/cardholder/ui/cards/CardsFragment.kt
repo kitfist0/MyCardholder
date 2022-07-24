@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardsBinding
 
+@AndroidEntryPoint
 class CardsFragment : Fragment() {
+
+    private val viewModel: CardsViewModel by viewModels()
 
     private var _binding: FragmentCardsBinding? = null
 
@@ -20,12 +24,9 @@ class CardsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val cardsViewModel = ViewModelProvider(this)[CardsViewModel::class.java]
-
         _binding = FragmentCardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        cardsViewModel.text.observe(viewLifecycleOwner) {
+        viewModel.text.observe(viewLifecycleOwner) {
             binding.cardsTitleText.text = it
         }
         return root
