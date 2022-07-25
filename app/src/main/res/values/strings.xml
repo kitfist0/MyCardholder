@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyWallet</string>
+    <string name="app_name">MyCardholder</string>
     <string name="title_cards">Cards</string>
     <string name="title_scanner">Scanner</string>
     <string name="title_settings">Settings</string>
