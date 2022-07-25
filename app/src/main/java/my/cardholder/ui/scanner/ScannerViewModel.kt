@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModel
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.lifecycle.HiltViewModel
 import my.cardholder.AppExecutors
-import my.cardholder.analyzer.QrCodeAnalyzer
+import my.cardholder.analyzer.BarcodeAnalyzer
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,8 +36,8 @@ class ScannerViewModel @Inject constructor(
                 .setTargetResolution(targetSize)
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
-            imageAnalysis.setAnalyzer(appExecutors.analysisExecutor(), QrCodeAnalyzer { qrResult ->
-                Log.d("SCANNER_VIEW_MODEL", "qrResult: ${qrResult.text}")
+            imageAnalysis.setAnalyzer(appExecutors.analysisExecutor(), BarcodeAnalyzer { result ->
+                Log.d("SCANNER_VIEW_MODEL", "Result: ${result.text}")
             })
             cameraProviderFuture.get()
                 .bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)

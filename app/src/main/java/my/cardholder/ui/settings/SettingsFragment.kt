@@ -26,7 +26,7 @@ class SettingsFragment : Fragment() {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
         viewModel.text.observe(viewLifecycleOwner) {
-            binding.textNotifications.text = it
+            binding.settingsTitleText.text = it
         }
         return root
     }
