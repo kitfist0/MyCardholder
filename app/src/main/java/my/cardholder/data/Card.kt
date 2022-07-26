@@ -8,6 +8,7 @@ data class Card (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val title: String,
+    val text: String,
     val logo: String = "",
     val color: String,
     val format: String,
