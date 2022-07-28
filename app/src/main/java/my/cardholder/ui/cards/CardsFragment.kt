@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardsBinding
 
@@ -19,7 +20,7 @@ class CardsFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView
     private val binding get() = _binding!!
 
-    private val adapter by lazy {
+    private val listAdapter by lazy {
         CardsListAdapter(
             onItemClick = { cardId -> viewModel.onCardClicked(cardId) }
         )
@@ -31,9 +32,13 @@ class CardsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCardsBinding.inflate(inflater, container, false)
-        binding.cardsRecyclerView.adapter = adapter
+        binding.cardsRecyclerView.apply {
+            addItemDecoration(CardsOverlapDecoration())
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = listAdapter
+        }
         viewModel.cards.observe(viewLifecycleOwner) { cards ->
-            adapter.submitList(cards)
+            listAdapter.submitList(cards)
         }
         return binding.root
     }
