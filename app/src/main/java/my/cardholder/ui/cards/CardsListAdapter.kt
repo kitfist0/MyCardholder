@@ -1,14 +1,12 @@
 package my.cardholder.ui.cards
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.Card
-import my.cardholder.R
+import my.cardholder.databinding.ItemCardBinding
 
 class CardsListAdapter(
     private val onItemClick: (cardId: Long) -> Unit,
@@ -24,22 +22,25 @@ class CardsListAdapter(
     }
 
     inner class CardViewHolder(
-        itemView: View,
-    ) : RecyclerView.ViewHolder(itemView) {
+        private val binding: ItemCardBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         init {
             itemView.setOnClickListener { onItemClick.invoke(getItem(adapterPosition).id) }
+        }
+
+        fun bind(card: Card) {
+            binding.itemCardTitleText.text = card.title
+            binding.itemCardSubtitleText.text = card.text
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
-        return CardViewHolder(view)
+        val binding = ItemCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CardViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        getItem(position).apply {
-            holder.itemView.findViewById<TextView>(R.id.item_card_title_text).text = title
-            holder.itemView.findViewById<TextView>(R.id.item_card_subtitle_text).text = text
-        }
+        holder.bind(getItem(position))
     }
 }
