@@ -1,9 +1,9 @@
 package my.cardholder.ui.cards
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import my.cardholder.data.Card
 import javax.inject.Inject
@@ -14,6 +14,9 @@ class CardsViewModel @Inject constructor(): ViewModel() {
     companion object {
         private const val TAG = "CARDS_VIEW_MODEL"
     }
+
+    private val _navigateTo = MutableLiveData<NavDirections>()
+    val navigateTo: LiveData<NavDirections> = _navigateTo
 
     private val _cards = MutableLiveData<List<Card>>().apply {
         value = listOf(
@@ -38,6 +41,6 @@ class CardsViewModel @Inject constructor(): ViewModel() {
     val cards: LiveData<List<Card>> = _cards
 
     fun onCardClicked(cardId: Long) {
-        Log.d(TAG, "onCardClicked: $cardId")
+        _navigateTo.value = CardsFragmentDirections.fromCardsToCard(cardId)
     }
 }

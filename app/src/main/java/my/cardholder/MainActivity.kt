@@ -2,6 +2,7 @@ package my.cardholder
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -30,5 +31,12 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.main_nav_host_fragment)
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.mainBottomNavView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_card-> binding.mainBottomNavView.isVisible = false
+                else -> binding.mainBottomNavView.isVisible = true
+            }
+        }
     }
 }

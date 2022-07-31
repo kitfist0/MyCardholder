@@ -29,8 +29,12 @@
 
     <fragment
         android:id="@+id/navigation_card"
-        android:name="my.cardholder.ui.cards.CardsFragment"
+        android:name="my.cardholder.ui.card.CardFragment"
         android:label="@string/title_card"
-        tools:layout="@layout/fragment_card" />
+        tools:layout="@layout/fragment_card">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
+    </fragment>
 
 </navigation>

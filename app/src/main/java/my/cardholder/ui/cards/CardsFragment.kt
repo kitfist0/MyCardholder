@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardsBinding
@@ -39,6 +40,9 @@ class CardsFragment : Fragment() {
         }
         viewModel.cards.observe(viewLifecycleOwner) { cards ->
             listAdapter.submitList(cards)
+        }
+        viewModel.navigateTo.observe(viewLifecycleOwner) { navDirection ->
+            findNavController().navigate(navDirection)
         }
         return binding.root
     }
