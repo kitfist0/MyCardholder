@@ -6,9 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import my.cardholder.databinding.FragmentCardsBinding
 
 @AndroidEntryPoint
@@ -41,8 +47,12 @@ class CardsFragment : Fragment() {
         viewModel.cards.observe(viewLifecycleOwner) { cards ->
             listAdapter.submitList(cards)
         }
-        viewModel.navigateTo.observe(viewLifecycleOwner) { navDirection ->
-            findNavController().navigate(navDirection)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventsFlow
+                    .onEach { findNavController().navigate(it) }
+                    .collect()
+            }
         }
         return binding.root
     }
