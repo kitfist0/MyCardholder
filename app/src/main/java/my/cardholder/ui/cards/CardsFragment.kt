@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +30,12 @@ class CardsFragment : Fragment() {
 
     private val listAdapter by lazy {
         CardsListAdapter(
-            onItemClick = { cardId -> viewModel.onCardClicked(cardId) }
+            onItemClick = { cardId, sharedElementsMap ->
+                val extras = FragmentNavigator.Extras.Builder()
+                    .addSharedElements(sharedElementsMap)
+                    .build()
+                viewModel.onCardClicked(cardId, extras)
+            }
         )
     }
 
@@ -50,7 +56,7 @@ class CardsFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventsFlow
-                    .onEach { findNavController().navigate(it) }
+                    .onEach { findNavController().navigate(it.first, it.second) }
                     .collect()
             }
         }

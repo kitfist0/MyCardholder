@@ -1,7 +1,9 @@
 package my.cardholder.ui.cards
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +11,7 @@ import my.cardholder.data.Card
 import my.cardholder.databinding.ItemCardBinding
 
 class CardsListAdapter(
-    private val onItemClick: (cardId: Long) -> Unit,
+    private val onItemClick: (cardId: Long, sharedElementsMap: Map<View, String>) -> Unit,
 ) : ListAdapter<Card, CardsListAdapter.CardViewHolder>(CardDiffCallback) {
 
     companion object {
@@ -26,7 +28,15 @@ class CardsListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            itemView.setOnClickListener { onItemClick.invoke(getItem(adapterPosition).id) }
+            itemView.setOnClickListener {
+                val cardId = getItem(adapterPosition).id
+                val sharedElements = mapOf(
+                    binding.itemCardTitleText to "title_$cardId",
+                    binding.itemCardSubtitleText to "subtitle_$cardId",
+                    binding.itemCardBarcodeImage to "barcode_$cardId",
+                ).onEach { ViewCompat.setTransitionName(it.key, it.value) }
+                onItemClick.invoke(cardId, sharedElements)
+            }
         }
 
         fun bind(card: Card) {
