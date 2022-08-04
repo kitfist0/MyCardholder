@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.data.Card.Companion.barcodeTransitionId
+import my.cardholder.data.Card.Companion.textTransitionId
+import my.cardholder.data.Card.Companion.titleTransitionId
 import my.cardholder.databinding.FragmentCardBinding
 
 @AndroidEntryPoint
 class CardFragment : Fragment() {
-
-    private val args: CardFragmentArgs by navArgs()
 
     private val viewModel: CardViewModel by viewModels()
 
@@ -37,11 +37,10 @@ class CardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
-        val cardId = args.cardId
-        ViewCompat.setTransitionName(binding.cardTitleText, "title_$cardId")
-        ViewCompat.setTransitionName(binding.cardSubtitleText, "subtitle_$cardId")
-        ViewCompat.setTransitionName(binding.cardBarcodeImage, "barcode_$cardId")
         viewModel.card.observe(viewLifecycleOwner) { card ->
+            ViewCompat.setTransitionName(binding.cardTitleText, card.titleTransitionId())
+            ViewCompat.setTransitionName(binding.cardSubtitleText, card.textTransitionId())
+            ViewCompat.setTransitionName(binding.cardBarcodeImage, card.barcodeTransitionId())
             binding.cardTitleText.text = card.title
             binding.cardSubtitleText.text = card.text
         }

@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.Card
+import my.cardholder.data.Card.Companion.barcodeTransitionId
+import my.cardholder.data.Card.Companion.textTransitionId
+import my.cardholder.data.Card.Companion.titleTransitionId
 import my.cardholder.databinding.ItemCardBinding
 
 class CardsListAdapter(
@@ -29,13 +32,13 @@ class CardsListAdapter(
 
         init {
             itemView.setOnClickListener {
-                val cardId = getItem(adapterPosition).id
+                val card = getItem(adapterPosition)
                 val sharedElements = mapOf(
-                    binding.itemCardTitleText to "title_$cardId",
-                    binding.itemCardSubtitleText to "subtitle_$cardId",
-                    binding.itemCardBarcodeImage to "barcode_$cardId",
-                ).onEach { ViewCompat.setTransitionName(it.key, it.value) }
-                onItemClick.invoke(cardId, sharedElements)
+                    binding.itemCardTitleText to card.titleTransitionId(),
+                    binding.itemCardSubtitleText to card.textTransitionId(),
+                    binding.itemCardBarcodeImage to card.barcodeTransitionId(),
+                ).onEach { entry -> ViewCompat.setTransitionName(entry.key, entry.value) }
+                onItemClick.invoke(card.id, sharedElements)
             }
         }
 
