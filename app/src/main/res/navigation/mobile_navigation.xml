@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_cards">
+    app:startDestination="@id/navigation_cards">
 
     <fragment
         android:id="@+id/navigation_scanner"
@@ -15,12 +15,26 @@
         android:id="@+id/navigation_cards"
         android:name="my.cardholder.ui.cards.CardsFragment"
         android:label="@string/title_cards"
-        tools:layout="@layout/fragment_cards" />
+        tools:layout="@layout/fragment_cards">
+        <action
+            android:id="@+id/from_cards_to_card"
+            app:destination="@id/navigation_card" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
         android:name="my.cardholder.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_card"
+        android:name="my.cardholder.ui.card.CardFragment"
+        android:label="@string/title_card"
+        tools:layout="@layout/fragment_card">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
+    </fragment>
 
 </navigation>
