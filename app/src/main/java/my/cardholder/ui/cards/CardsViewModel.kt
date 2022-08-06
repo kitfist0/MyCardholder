@@ -1,11 +1,12 @@
 package my.cardholder.ui.cards
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import my.cardholder.data.Card
 import my.cardholder.ui.base.BaseViewModel
@@ -37,7 +38,7 @@ class CardsViewModel @Inject constructor(): BaseViewModel() {
             ),
         )
     }
-    val cards: LiveData<List<Card>> = _cards
+    val cards: Flow<List<Card>> = _cards.asFlow()
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
         eventChannel.trySend(CardsFragmentDirections.fromCardsToCard(cardId) to extras)

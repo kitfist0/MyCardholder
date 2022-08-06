@@ -1,44 +1,26 @@
 package my.cardholder.ui.scanner
 
-import android.os.Bundle
 import android.util.Size
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentScannerBinding
+import my.cardholder.ui.base.BaseFragment
 
 @AndroidEntryPoint
-class ScannerFragment : Fragment() {
+class ScannerFragment : BaseFragment<FragmentScannerBinding>(FragmentScannerBinding::inflate) {
 
-    private val scannerViewModel: ScannerViewModel by viewModels()
+    override val viewModel: ScannerViewModel by viewModels()
 
-    private var _binding: FragmentScannerBinding? = null
-
-    // This property is only valid between onCreateView and onDestroyView
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentScannerBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+    override fun initViews() {
         binding.scannerPreview.apply {
-            scannerViewModel.bindCamera(
+            viewModel.bindCamera(
                 lifecycleOwner = this@ScannerFragment,
                 surfaceProvider = surfaceProvider,
                 targetSize = Size(width, height),
             )
         }
-        return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun collectData() {
     }
 }
