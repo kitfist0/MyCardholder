@@ -2,17 +2,17 @@ package my.cardholder.ui.cards
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import my.cardholder.data.Card
+import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CardsViewModel @Inject constructor(): ViewModel() {
+class CardsViewModel @Inject constructor(): BaseViewModel() {
 
     private val eventChannel = Channel<Pair<NavDirections, Navigator.Extras>>(Channel.BUFFERED)
     val eventsFlow = eventChannel.receiveAsFlow()
