@@ -1,6 +1,5 @@
 package my.cardholder.ui.scanner
 
-import android.util.Size
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentScannerBinding
@@ -16,7 +15,6 @@ class ScannerFragment : BaseFragment<FragmentScannerBinding>(FragmentScannerBind
             viewModel.bindCamera(
                 lifecycleOwner = this@ScannerFragment,
                 surfaceProvider = surfaceProvider,
-                targetSize = Size(width, height),
             )
         }
     }

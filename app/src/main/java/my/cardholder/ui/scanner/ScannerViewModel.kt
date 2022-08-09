@@ -1,7 +1,6 @@
 package my.cardholder.ui.scanner
 
 import android.util.Log
-import android.util.Size
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -23,7 +22,6 @@ class ScannerViewModel @Inject constructor(
     fun bindCamera(
         lifecycleOwner: LifecycleOwner,
         surfaceProvider: Preview.SurfaceProvider,
-        targetSize: Size,
     ) {
         cameraProviderFuture.addListener({
             val cameraSelector = CameraSelector.Builder()
@@ -33,7 +31,6 @@ class ScannerViewModel @Inject constructor(
                 .build()
             preview.setSurfaceProvider(surfaceProvider)
             val imageAnalysis = ImageAnalysis.Builder()
-                .setTargetResolution(targetSize)
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
             imageAnalysis.setAnalyzer(appExecutors.analysisExecutor(), BarcodeAnalyzer { result ->
