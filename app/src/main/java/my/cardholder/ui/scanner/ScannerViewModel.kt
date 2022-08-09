@@ -7,18 +7,18 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.lifecycle.HiltViewModel
 import my.cardholder.AppExecutors
 import my.cardholder.analyzer.BarcodeAnalyzer
+import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ScannerViewModel @Inject constructor(
     private val appExecutors: AppExecutors,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
-) : ViewModel() {
+) : BaseViewModel() {
 
     fun bindCamera(
         lifecycleOwner: LifecycleOwner,

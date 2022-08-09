@@ -1,17 +1,18 @@
 package my.cardholder.ui.card
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import my.cardholder.data.Card
+import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CardViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _card = MutableLiveData<Card>().apply {
         value = Card(
@@ -23,5 +24,5 @@ class CardViewModel @Inject constructor(
             time = 0L,
         )
     }
-    val card: LiveData<Card> = _card
+    val card: Flow<Card> = _card.asFlow()
 }
