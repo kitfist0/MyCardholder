@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -45,6 +47,15 @@ abstract class BaseFragment<out VB : ViewBinding>(
         super.onViewCreated(view, savedInstanceState)
         initViews()
         collectData()
+        viewModel.baseEvents.collectWhenStarted { event ->
+            when (event) {
+                is SnackMessage ->
+                    Snackbar.make(requireView(), event.message, Snackbar.LENGTH_LONG).show()
+                is Navigate -> event.extras
+                    ?.let { extras -> findNavController().navigate(event.direction, extras) }
+                    ?: findNavController().navigate(event.direction)
+            }
+        }
     }
 
     protected fun <T> Flow<T>.collectWhenStarted(action: (T) -> Unit) {

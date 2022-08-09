@@ -2,7 +2,6 @@ package my.cardholder.ui.cards
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardsBinding
@@ -34,6 +33,5 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(FragmentCardsBinding::i
 
     override fun collectData() {
         viewModel.cards.collectWhenStarted { cards -> listAdapter.submitList(cards) }
-        viewModel.eventsFlow.collectWhenStarted { findNavController().navigate(it.first, it.second) }
     }
 }

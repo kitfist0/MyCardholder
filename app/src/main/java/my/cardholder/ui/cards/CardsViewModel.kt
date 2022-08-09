@@ -2,21 +2,15 @@ package my.cardholder.ui.cards
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
-import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.receiveAsFlow
 import my.cardholder.data.Card
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CardsViewModel @Inject constructor(): BaseViewModel() {
-
-    private val eventChannel = Channel<Pair<NavDirections, Navigator.Extras>>(Channel.BUFFERED)
-    val eventsFlow = eventChannel.receiveAsFlow()
 
     private val _cards = MutableLiveData<List<Card>>().apply {
         value = listOf(
@@ -41,6 +35,6 @@ class CardsViewModel @Inject constructor(): BaseViewModel() {
     val cards: Flow<List<Card>> = _cards.asFlow()
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
-        eventChannel.trySend(CardsFragmentDirections.fromCardsToCard(cardId) to extras)
+        navigate(CardsFragmentDirections.fromCardsToCard(cardId), extras)
     }
 }
