@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="?colorSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/card_guideline_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/card_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:layout_height="200dp"
         android:background="@drawable/white_rounded_rectangle"
         android:src="@drawable/ic_placeholder_qr_code"
-        app:layout_constraintBottom_toTopOf="@+id/card_guideline_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/card_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +41,7 @@
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/card_guideline_horizontal"
+        app:layout_constraintTop_toTopOf="@id/card_guideline_horizontal"
         tools:text="@tools:sample/lorem" />
 
     <TextView
@@ -51,15 +51,15 @@
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_title_text"
+        app:layout_constraintTop_toBottomOf="@id/card_title_text"
         tools:text="@tools:sample/lorem" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/card_extended_fab"
+        android:id="@+id/card_edit_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:text="@string/card_edit_fab_text"
+        android:text="@string/card_edit"
         app:icon="@drawable/ic_edit_card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

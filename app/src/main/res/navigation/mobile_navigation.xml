@@ -35,6 +35,19 @@
         <argument
             android:name="card_id"
             app:argType="long" />
+        <action
+            android:id="@+id/from_card_to_card_editor"
+            app:destination="@id/navigation_card_editor" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_card_editor"
+        android:name="my.cardholder.ui.card.editor.CardEditorFragment"
+        android:label="@string/card_edit"
+        tools:layout="@layout/fragment_card_editor">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
     </fragment>
 
 </navigation>

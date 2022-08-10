@@ -18,6 +18,9 @@ class CardFragment : BaseFragment<FragmentCardBinding>(FragmentCardBinding::infl
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
+        binding.cardEditFab.setOnClickListener {
+            viewModel.onEditFabClicked()
+        }
     }
 
     override fun collectData() {

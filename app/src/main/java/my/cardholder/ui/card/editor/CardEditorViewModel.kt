@@ -1,4 +1,4 @@
-package my.cardholder.ui.card
+package my.cardholder.ui.card.editor
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -10,15 +10,13 @@ import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CardViewModel @Inject constructor(
+class CardEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel() {
 
-    private val cardId = CardFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
-
     private val _card = MutableLiveData<Card>().apply {
         value = Card(
-            id = cardId,
+            id = CardEditorFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId,
             title = "Card title",
             text = "b6589fc6ab0dc82cf12099d1c2d40ab994e8410c",
             color = "",
@@ -27,8 +25,4 @@ class CardViewModel @Inject constructor(
         )
     }
     val card: Flow<Card> = _card.asFlow()
-
-    fun onEditFabClicked() {
-        navigate(CardFragmentDirections.fromCardToCardEditor(cardId))
-    }
 }
