@@ -5,4 +5,6 @@
     <string name="title_scanner">Scanner</string>
     <string name="title_settings">Settings</string>
     <string name="card_edit_fab_text">Edit</string>
+    <string name="card_name">Name</string>
+    <string name="card_text">Text</string>
 </resources>
