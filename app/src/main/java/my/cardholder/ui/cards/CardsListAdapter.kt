@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.Card
 import my.cardholder.data.Card.Companion.barcodeTransitionId
 import my.cardholder.data.Card.Companion.textTransitionId
-import my.cardholder.data.Card.Companion.titleTransitionId
+import my.cardholder.data.Card.Companion.nameTransitionId
 import my.cardholder.databinding.ItemCardBinding
 
 class CardsListAdapter(
@@ -34,7 +34,7 @@ class CardsListAdapter(
             itemView.setOnClickListener {
                 val card = getItem(adapterPosition)
                 val sharedElements = mapOf(
-                    binding.itemCardTitleText to card.titleTransitionId(),
+                    binding.itemCardTitleText to card.nameTransitionId(),
                     binding.itemCardSubtitleText to card.textTransitionId(),
                     binding.itemCardBarcodeImage to card.barcodeTransitionId(),
                 ).onEach { entry -> ViewCompat.setTransitionName(entry.key, entry.value) }
@@ -43,7 +43,7 @@ class CardsListAdapter(
         }
 
         fun bind(card: Card) {
-            binding.itemCardTitleText.text = card.title
+            binding.itemCardTitleText.text = card.name
             binding.itemCardSubtitleText.text = card.text
         }
     }

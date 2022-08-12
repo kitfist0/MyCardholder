@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.data.Card.Companion.barcodeTransitionId
 import my.cardholder.data.Card.Companion.textTransitionId
-import my.cardholder.data.Card.Companion.titleTransitionId
+import my.cardholder.data.Card.Companion.nameTransitionId
 import my.cardholder.databinding.FragmentCardViewerBinding
 import my.cardholder.ui.base.BaseFragment
 
@@ -27,10 +27,10 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
 
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
-            ViewCompat.setTransitionName(binding.cardViewerCardNameText, card.titleTransitionId())
+            ViewCompat.setTransitionName(binding.cardViewerCardNameText, card.nameTransitionId())
             ViewCompat.setTransitionName(binding.cardViewerCardTextText, card.textTransitionId())
             ViewCompat.setTransitionName(binding.cardViewerBarcodeImage, card.barcodeTransitionId())
-            binding.cardViewerCardNameText.text = card.title
+            binding.cardViewerCardNameText.text = card.name
             binding.cardViewerCardTextText.text = card.text
         }
     }

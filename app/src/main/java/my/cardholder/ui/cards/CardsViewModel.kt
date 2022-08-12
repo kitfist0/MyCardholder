@@ -16,7 +16,7 @@ class CardsViewModel @Inject constructor(): BaseViewModel() {
         value = listOf(
             Card(
                 id = 0,
-                title = "Card0",
+                name = "Card0",
                 text = "b6589fc6ab0dc82cf12099d1c2d40ab994e8410c",
                 color = "",
                 format = "qr_code",
@@ -24,7 +24,7 @@ class CardsViewModel @Inject constructor(): BaseViewModel() {
             ),
             Card(
                 id = 1,
-                title = "Card1",
+                name = "Card1",
                 text = "356a192b7913b04c54574d18c28d46e6395428ab",
                 color = "",
                 format = "qr_code",

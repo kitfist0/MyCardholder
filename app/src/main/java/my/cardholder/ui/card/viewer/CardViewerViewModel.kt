@@ -19,7 +19,7 @@ class CardViewerViewModel @Inject constructor(
     private val _card = MutableLiveData<Card>().apply {
         value = Card(
             id = cardId,
-            title = "Card title",
+            name = "Card title",
             text = "b6589fc6ab0dc82cf12099d1c2d40ab994e8410c",
             color = "",
             format = "qr_code",

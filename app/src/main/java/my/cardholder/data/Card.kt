@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Card(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val title: String,
+    val name: String,
     val text: String,
     val logo: String = "",
     val color: String,
@@ -15,7 +15,7 @@ data class Card(
     val time: Long,
 ) {
     companion object {
-        fun Card.titleTransitionId() = "trans_title_$id"
+        fun Card.nameTransitionId() = "trans_name_$id"
         fun Card.textTransitionId() = "trans_text_$id"
         fun Card.barcodeTransitionId() = "trans_barcode_$id"
     }
