@@ -17,8 +17,8 @@
         android:label="@string/title_cards"
         tools:layout="@layout/fragment_cards">
         <action
-            android:id="@+id/from_cards_to_card"
-            app:destination="@id/navigation_card" />
+            android:id="@+id/from_cards_to_card_viewer"
+            app:destination="@id/navigation_card_viewer" />
     </fragment>
 
     <fragment
@@ -28,15 +28,15 @@
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/navigation_card"
-        android:name="my.cardholder.ui.card.CardFragment"
+        android:id="@+id/navigation_card_viewer"
+        android:name="my.cardholder.ui.card.viewer.CardViewerFragment"
         android:label="@string/title_card"
-        tools:layout="@layout/fragment_card">
+        tools:layout="@layout/fragment_card_viewer">
         <argument
             android:name="card_id"
             app:argType="long" />
         <action
-            android:id="@+id/from_card_to_card_editor"
+            android:id="@+id/from_card_viewer_to_card_editor"
             app:destination="@id/navigation_card_editor" />
     </fragment>
 

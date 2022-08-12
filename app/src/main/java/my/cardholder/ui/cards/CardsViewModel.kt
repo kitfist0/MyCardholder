@@ -35,6 +35,6 @@ class CardsViewModel @Inject constructor(): BaseViewModel() {
     val cards: Flow<List<Card>> = _cards.asFlow()
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
-        navigate(CardsFragmentDirections.fromCardsToCard(cardId), extras)
+        navigate(CardsFragmentDirections.fromCardsToCardViewer(cardId), extras)
     }
 }

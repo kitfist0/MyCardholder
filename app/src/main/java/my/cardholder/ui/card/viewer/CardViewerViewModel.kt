@@ -1,4 +1,4 @@
-package my.cardholder.ui.card
+package my.cardholder.ui.card.viewer
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -10,11 +10,11 @@ import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CardViewModel @Inject constructor(
+class CardViewerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel() {
 
-    private val cardId = CardFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
+    private val cardId = CardViewerFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
 
     private val _card = MutableLiveData<Card>().apply {
         value = Card(
@@ -29,6 +29,6 @@ class CardViewModel @Inject constructor(
     val card: Flow<Card> = _card.asFlow()
 
     fun onEditFabClicked() {
-        navigate(CardFragmentDirections.fromCardToCardEditor(cardId))
+        navigate(CardViewerFragmentDirections.fromCardViewerToCardEditor(cardId))
     }
 }

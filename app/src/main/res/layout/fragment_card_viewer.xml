@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.card.CardFragment">
+    tools:context=".ui.card.viewer.CardViewerFragment">
 
     <View
         android:id="@+id/card_background_color_view"

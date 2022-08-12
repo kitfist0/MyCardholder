@@ -1,4 +1,4 @@
-package my.cardholder.ui.card
+package my.cardholder.ui.card.viewer
 
 import android.transition.TransitionInflater
 import androidx.core.view.ViewCompat
@@ -7,13 +7,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.data.Card.Companion.barcodeTransitionId
 import my.cardholder.data.Card.Companion.textTransitionId
 import my.cardholder.data.Card.Companion.titleTransitionId
-import my.cardholder.databinding.FragmentCardBinding
+import my.cardholder.databinding.FragmentCardViewerBinding
 import my.cardholder.ui.base.BaseFragment
 
 @AndroidEntryPoint
-class CardFragment : BaseFragment<FragmentCardBinding>(FragmentCardBinding::inflate) {
+class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
+    FragmentCardViewerBinding::inflate
+) {
 
-    override val viewModel: CardViewModel by viewModels()
+    override val viewModel: CardViewerViewModel by viewModels()
 
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)

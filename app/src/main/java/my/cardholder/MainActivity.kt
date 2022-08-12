@@ -41,9 +41,11 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_card, R.id.navigation_card_editor ->
+                R.id.navigation_card_viewer,
+                R.id.navigation_card_editor, ->
                     binding.mainBottomNavView.isVisible = false
-                else -> binding.mainBottomNavView.isVisible = true
+                else ->
+                    binding.mainBottomNavView.isVisible = true
             }
         }
     }
