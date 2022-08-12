@@ -7,55 +7,55 @@
     tools:context=".ui.card.viewer.CardViewerFragment">
 
     <View
-        android:id="@+id/card_background_color_view"
+        android:id="@+id/card_viewer_background_color_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="?colorSecondary"
-        app:layout_constraintBottom_toTopOf="@id/card_guideline_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/card_viewer_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/card_barcode_image"
+        android:id="@+id/card_viewer_barcode_image"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:background="@drawable/white_rounded_rectangle"
         android:src="@drawable/ic_placeholder_qr_code"
-        app:layout_constraintBottom_toTopOf="@id/card_guideline_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/card_viewer_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/card_guideline_horizontal"
+        android:id="@+id/card_viewer_guideline_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
     <TextView
-        android:id="@+id/card_title_text"
+        android:id="@+id/card_viewer_card_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/card_guideline_horizontal"
+        app:layout_constraintTop_toTopOf="@id/card_viewer_guideline_horizontal"
         tools:text="@tools:sample/lorem" />
 
     <TextView
-        android:id="@+id/card_subtitle_text"
+        android:id="@+id/card_viewer_card_text_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_title_text"
+        app:layout_constraintTop_toBottomOf="@id/card_viewer_card_name_text"
         tools:text="@tools:sample/lorem" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/card_edit_fab"
+        android:id="@+id/card_viewer_edit_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"

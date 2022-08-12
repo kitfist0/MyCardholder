@@ -20,18 +20,18 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
-        binding.cardEditFab.setOnClickListener {
+        binding.cardViewerEditFab.setOnClickListener {
             viewModel.onEditFabClicked()
         }
     }
 
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
-            ViewCompat.setTransitionName(binding.cardTitleText, card.titleTransitionId())
-            ViewCompat.setTransitionName(binding.cardSubtitleText, card.textTransitionId())
-            ViewCompat.setTransitionName(binding.cardBarcodeImage, card.barcodeTransitionId())
-            binding.cardTitleText.text = card.title
-            binding.cardSubtitleText.text = card.text
+            ViewCompat.setTransitionName(binding.cardViewerCardNameText, card.titleTransitionId())
+            ViewCompat.setTransitionName(binding.cardViewerCardTextText, card.textTransitionId())
+            ViewCompat.setTransitionName(binding.cardViewerBarcodeImage, card.barcodeTransitionId())
+            binding.cardViewerCardNameText.text = card.title
+            binding.cardViewerCardTextText.text = card.text
         }
     }
 }
