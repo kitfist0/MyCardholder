@@ -25,4 +25,8 @@ class CardEditorViewModel @Inject constructor(
         )
     }
     val card: Flow<Card> = _card.asFlow()
+
+    fun onOkFabClicked() {
+        navigateBack()
+    }
 }
