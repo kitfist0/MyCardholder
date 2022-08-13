@@ -54,6 +54,8 @@ abstract class BaseFragment<out VB : ViewBinding>(
                 is Navigate -> event.extras
                     ?.let { extras -> findNavController().navigate(event.direction, extras) }
                     ?: findNavController().navigate(event.direction)
+                is NavigateBack ->
+                    findNavController().popBackStack()
             }
         }
     }

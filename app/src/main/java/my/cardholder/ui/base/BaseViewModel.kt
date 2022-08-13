@@ -11,11 +11,15 @@ abstract class BaseViewModel : ViewModel() {
     private val eventChannel = Channel<BaseEvent>(Channel.BUFFERED)
     val baseEvents = eventChannel.receiveAsFlow()
 
-    fun navigate(direction: NavDirections, extras: Navigator.Extras? = null) {
+    protected fun navigate(direction: NavDirections, extras: Navigator.Extras? = null) {
         eventChannel.trySend(Navigate(direction, extras))
     }
 
-    fun showSnack(message: String) {
+    protected fun navigateBack() {
+        eventChannel.trySend(NavigateBack)
+    }
+
+    protected fun showSnack(message: String) {
         eventChannel.trySend(SnackMessage(message))
     }
 }

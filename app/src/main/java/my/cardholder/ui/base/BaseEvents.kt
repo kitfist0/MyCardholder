@@ -8,3 +8,5 @@ interface BaseEvent
 data class SnackMessage(val message: String) : BaseEvent
 
 data class Navigate(val direction: NavDirections, val extras: Navigator.Extras? = null) : BaseEvent
+
+object NavigateBack : BaseEvent
