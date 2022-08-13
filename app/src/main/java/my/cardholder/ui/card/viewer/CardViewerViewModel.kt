@@ -3,6 +3,7 @@ package my.cardholder.ui.card.viewer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
+import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import my.cardholder.data.Card
@@ -28,7 +29,7 @@ class CardViewerViewModel @Inject constructor(
     }
     val card: Flow<Card> = _card.asFlow()
 
-    fun onEditFabClicked() {
-        navigate(CardViewerFragmentDirections.fromCardViewerToCardEditor(cardId))
+    fun onEditFabClicked(extras: Navigator.Extras) {
+        navigate(CardViewerFragmentDirections.fromCardViewerToCardEditor(cardId), extras)
     }
 }
