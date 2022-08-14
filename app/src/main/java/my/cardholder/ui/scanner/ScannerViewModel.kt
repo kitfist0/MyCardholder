@@ -24,6 +24,7 @@ class ScannerViewModel @Inject constructor(
         surfaceProvider: Preview.SurfaceProvider,
     ) {
         cameraProviderFuture.addListener({
+            val cameraProvider = cameraProviderFuture.get()
             val cameraSelector = CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build()
@@ -35,9 +36,13 @@ class ScannerViewModel @Inject constructor(
                 .build()
             imageAnalysis.setAnalyzer(appExecutors.analysisExecutor(), BarcodeAnalyzer { result ->
                 Log.d("SCANNER_VIEW_MODEL", "Result: ${result.text}")
+                appExecutors.mainExecutor().execute {
+                    imageAnalysis.clearAnalyzer()
+                    cameraProvider.unbindAll()
+                    navigate(ScannerFragmentDirections.fromScannerToCardEditor(0))
+                }
             })
-            cameraProviderFuture.get()
-                .bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
+            cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
         }, appExecutors.mainExecutor())
     }
 }

@@ -9,7 +9,11 @@
         android:id="@+id/navigation_scanner"
         android:name="my.cardholder.ui.scanner.ScannerFragment"
         android:label="@string/title_scanner"
-        tools:layout="@layout/fragment_scanner" />
+        tools:layout="@layout/fragment_scanner" >
+        <action
+            android:id="@+id/from_scanner_to_card_editor"
+            app:destination="@id/navigation_card_editor" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_cards"
