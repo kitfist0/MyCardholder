@@ -9,10 +9,9 @@ data class Card(
     val id: Long = 0,
     val name: String,
     val text: String,
-    val logo: String = "",
     val color: String,
     val format: String,
-    val time: Long,
+    val timestamp: Long,
 ) {
     companion object {
         fun Card.fabTransitionId() = "trans_fab_$id"

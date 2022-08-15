@@ -24,7 +24,7 @@ class CardViewerViewModel @Inject constructor(
             text = "b6589fc6ab0dc82cf12099d1c2d40ab994e8410c",
             color = "",
             format = "qr_code",
-            time = 0L,
+            timestamp = 0L,
         )
     }
     val card: Flow<Card> = _card.asFlow()

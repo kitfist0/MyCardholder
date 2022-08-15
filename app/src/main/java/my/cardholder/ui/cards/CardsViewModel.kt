@@ -20,7 +20,7 @@ class CardsViewModel @Inject constructor(): BaseViewModel() {
                 text = "b6589fc6ab0dc82cf12099d1c2d40ab994e8410c",
                 color = "",
                 format = "qr_code",
-                time = 0L,
+                timestamp = 0L,
             ),
             Card(
                 id = 1,
@@ -28,7 +28,7 @@ class CardsViewModel @Inject constructor(): BaseViewModel() {
                 text = "356a192b7913b04c54574d18c28d46e6395428ab",
                 color = "",
                 format = "qr_code",
-                time = 0L,
+                timestamp = 0L,
             ),
         )
     }
