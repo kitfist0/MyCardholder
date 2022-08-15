@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
     private val appBarConfiguration by lazy {
         AppBarConfiguration(
             setOf(
-                R.id.navigation_scanner,
-                R.id.navigation_cards,
-                R.id.navigation_settings,
+                R.id.scanner_fragment,
+                R.id.cards_fragment,
+                R.id.settings_fragment,
             )
         )
     }
@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_card_viewer,
-                R.id.navigation_card_editor, ->
+                R.id.card_viewer_fragment,
+                R.id.card_editor_fragment, ->
                     binding.mainBottomNavView.isVisible = false
                 else ->
                     binding.mainBottomNavView.isVisible = true

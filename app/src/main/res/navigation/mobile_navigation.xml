@@ -3,36 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_cards">
+    app:startDestination="@id/cards_fragment">
 
     <fragment
-        android:id="@+id/navigation_scanner"
+        android:id="@+id/scanner_fragment"
         android:name="my.cardholder.ui.scanner.ScannerFragment"
         android:label="@string/title_scanner"
         tools:layout="@layout/fragment_scanner" >
         <action
             android:id="@+id/from_scanner_to_card_editor"
-            app:destination="@id/navigation_card_editor" />
+            app:destination="@id/card_editor_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_cards"
+        android:id="@+id/cards_fragment"
         android:name="my.cardholder.ui.cards.CardsFragment"
         android:label="@string/title_cards"
         tools:layout="@layout/fragment_cards">
         <action
             android:id="@+id/from_cards_to_card_viewer"
-            app:destination="@id/navigation_card_viewer" />
+            app:destination="@id/card_viewer_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_settings"
+        android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/navigation_card_viewer"
+        android:id="@+id/card_viewer_fragment"
         android:name="my.cardholder.ui.card.viewer.CardViewerFragment"
         android:label="@string/title_card"
         tools:layout="@layout/fragment_card_viewer">
@@ -41,11 +41,11 @@
             app:argType="long" />
         <action
             android:id="@+id/from_card_viewer_to_card_editor"
-            app:destination="@id/navigation_card_editor" />
+            app:destination="@id/card_editor_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_card_editor"
+        android:id="@+id/card_editor_fragment"
         android:name="my.cardholder.ui.card.editor.CardEditorFragment"
         android:label="@string/card_edit"
         tools:layout="@layout/fragment_card_editor">
