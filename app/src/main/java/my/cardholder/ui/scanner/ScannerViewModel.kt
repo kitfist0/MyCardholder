@@ -1,23 +1,33 @@
 package my.cardholder.ui.scanner
 
-import android.util.Log
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.viewModelScope
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.zxing.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import my.cardholder.AppExecutors
 import my.cardholder.analyzer.BarcodeAnalyzer
+import my.cardholder.data.Card
+import my.cardholder.data.CardDao
 import my.cardholder.ui.base.BaseViewModel
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @HiltViewModel
 class ScannerViewModel @Inject constructor(
     private val appExecutors: AppExecutors,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
+    private val cardDao: CardDao,
 ) : BaseViewModel() {
+
+    companion object {
+        private const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
+    }
 
     fun bindCamera(
         lifecycleOwner: LifecycleOwner,
@@ -35,14 +45,28 @@ class ScannerViewModel @Inject constructor(
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
             imageAnalysis.setAnalyzer(appExecutors.analysisExecutor(), BarcodeAnalyzer { result ->
-                Log.d("SCANNER_VIEW_MODEL", "Result: ${result.text}")
                 appExecutors.mainExecutor().execute {
                     imageAnalysis.clearAnalyzer()
                     cameraProvider.unbindAll()
-                    navigate(ScannerFragmentDirections.fromScannerToCardEditor(0))
+                    onZxingResult(result)
                 }
             })
             cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
         }, appExecutors.mainExecutor())
+    }
+
+    private fun onZxingResult(result: Result) {
+        viewModelScope.launch {
+            val cardId = cardDao.insert(
+                Card(
+                    name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT).format(result.timestamp)}",
+                    text = result.text,
+                    color = "",
+                    format = result.barcodeFormat.toString(),
+                    timestamp = result.timestamp,
+                )
+            )
+            navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))
+        }
     }
 }
