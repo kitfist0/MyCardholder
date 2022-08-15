@@ -10,17 +10,18 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.google.zxing.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import my.cardholder.AppExecutors
 import my.cardholder.analyzer.BarcodeAnalyzer
 import my.cardholder.data.Card
 import my.cardholder.data.CardDao
 import my.cardholder.ui.base.BaseViewModel
 import java.text.SimpleDateFormat
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltViewModel
 class ScannerViewModel @Inject constructor(
-    private val appExecutors: AppExecutors,
+    private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     private val cardDao: CardDao,
 ) : BaseViewModel() {
@@ -44,15 +45,18 @@ class ScannerViewModel @Inject constructor(
             val imageAnalysis = ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
-            imageAnalysis.setAnalyzer(appExecutors.analysisExecutor(), BarcodeAnalyzer { result ->
-                appExecutors.mainExecutor().execute {
-                    imageAnalysis.clearAnalyzer()
-                    cameraProvider.unbindAll()
-                    onZxingResult(result)
+            imageAnalysis.setAnalyzer(
+                Executors.newSingleThreadExecutor(),
+                BarcodeAnalyzer { result ->
+                    mainExecutor.execute {
+                        imageAnalysis.clearAnalyzer()
+                        cameraProvider.unbindAll()
+                        onZxingResult(result)
+                    }
                 }
-            })
+            )
             cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
-        }, appExecutors.mainExecutor())
+        }, mainExecutor)
     }
 
     private fun onZxingResult(result: Result) {

@@ -3,6 +3,7 @@ package my.cardholder.di
 import android.app.Application
 import android.content.Context
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import androidx.room.Room
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.Module
@@ -11,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.data.AppDatabase
 import my.cardholder.data.CardDao
+import java.util.concurrent.Executor
 import javax.inject.Singleton
 
 @Module
@@ -26,6 +28,11 @@ class AppModule {
     @Provides
     fun provideCameraProviderFuture(context: Context): ListenableFuture<ProcessCameraProvider> {
         return ProcessCameraProvider.getInstance(context)
+    }
+
+    @Provides
+    fun provideMainExecutor(context: Context): Executor {
+        return ContextCompat.getMainExecutor(context)
     }
 
     @Provides
