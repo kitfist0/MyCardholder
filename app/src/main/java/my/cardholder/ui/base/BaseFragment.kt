@@ -1,10 +1,11 @@
 package my.cardholder.ui.base
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
@@ -17,9 +18,11 @@ typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
 abstract class BaseFragment<out VB : ViewBinding>(
     private val inflate: Inflate<VB>,
-) : Fragment() {
+) : Fragment(), MenuProvider {
 
     abstract val viewModel: BaseViewModel
+
+    open val menuRes: Int? = null
 
     abstract fun initViews()
 
@@ -35,7 +38,21 @@ abstract class BaseFragment<out VB : ViewBinding>(
         savedInstanceState: Bundle?
     ): View? {
         _binding = inflate.invoke(inflater, container, false)
+        menuRes?.let {
+            val menuHost: MenuHost = requireActivity()
+            menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
         return binding.root
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuRes?.let {
+            menuInflater.inflate(it, menu)
+        }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return viewModel.onMenuItemSelected(menuItem)
     }
 
     override fun onDestroyView() {
