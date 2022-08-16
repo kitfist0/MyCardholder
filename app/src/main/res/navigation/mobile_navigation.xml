@@ -9,7 +9,7 @@
         android:id="@+id/scanner_fragment"
         android:name="my.cardholder.ui.scanner.ScannerFragment"
         android:label="@string/title_scanner"
-        tools:layout="@layout/fragment_scanner" >
+        tools:layout="@layout/fragment_scanner">
         <action
             android:id="@+id/from_scanner_to_card_editor"
             app:destination="@id/card_editor_fragment" />
