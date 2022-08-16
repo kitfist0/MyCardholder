@@ -1,6 +1,7 @@
 package my.cardholder.data
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CardDao {
@@ -8,7 +9,7 @@ interface CardDao {
     suspend fun getCard(id: Long): Card
 
     @Query("SELECT * FROM cards")
-    suspend fun getCards(): List<Card>
+    fun getCards(): Flow<List<Card>>
 
     @Query("DELETE FROM cards WHERE id = :id")
     suspend fun deleteCard(id: Long)
