@@ -6,6 +6,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.R
 import my.cardholder.data.Card.Companion.barcodeTransitionId
 import my.cardholder.data.Card.Companion.fabTransitionId
 import my.cardholder.data.Card.Companion.textTransitionId
@@ -19,6 +20,8 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
 ) {
 
     private var sharedElementsMap = emptyMap<View, String>()
+
+    override val menuRes = R.menu.menu_card_viewer
 
     override val viewModel: CardViewerViewModel by viewModels()
 
