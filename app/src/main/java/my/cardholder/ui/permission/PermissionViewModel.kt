@@ -6,4 +6,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PermissionViewModel @Inject constructor() : BaseViewModel() {
+    fun onGrantFabClicked() {
+        navigate(PermissionFragmentDirections.fromPermissionToScanner())
+    }
 }

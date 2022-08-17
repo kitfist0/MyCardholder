@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val appBarConfiguration by lazy {
         AppBarConfiguration(
             setOf(
-                R.id.scanner_fragment,
+                R.id.scanner_navigation,
                 R.id.cards_fragment,
                 R.id.settings_fragment,
             )
