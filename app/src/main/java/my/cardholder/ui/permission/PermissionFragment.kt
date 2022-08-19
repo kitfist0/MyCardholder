@@ -2,6 +2,7 @@ package my.cardholder.ui.permission
 
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentPermissionBinding
@@ -39,6 +40,9 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
     }
 
     override fun collectData() {
+        viewModel.uiVisibilityState.collectWhenStarted { isVisible ->
+            binding.permissionConstraintLayout.isVisible = isVisible
+        }
         viewModel.requestPermissions.collectWhenStarted { permissions ->
             permissionsRequestHandler.launch(permissions)
         }
