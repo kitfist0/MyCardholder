@@ -5,15 +5,33 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/cards_fragment">
 
-    <fragment
-        android:id="@+id/scanner_fragment"
-        android:name="my.cardholder.ui.scanner.ScannerFragment"
-        android:label="@string/title_scanner"
-        tools:layout="@layout/fragment_scanner">
-        <action
-            android:id="@+id/from_scanner_to_card_editor"
-            app:destination="@id/card_editor_fragment" />
-    </fragment>
+    <navigation
+        android:id="@+id/scanner_navigation"
+        app:startDestination="@id/permission_fragment">
+
+        <fragment
+            android:id="@+id/permission_fragment"
+            android:name="my.cardholder.ui.permission.PermissionFragment"
+            android:label="@string/permission_request"
+            tools:layout="@layout/fragment_permission">
+            <action
+                android:id="@+id/from_permission_to_scanner"
+                app:destination="@id/scanner_fragment"
+                app:popUpTo="@id/scanner_navigation"
+                app:popUpToInclusive="false" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/scanner_fragment"
+            android:name="my.cardholder.ui.scanner.ScannerFragment"
+            android:label="@string/title_scanner"
+            tools:layout="@layout/fragment_scanner">
+            <action
+                android:id="@+id/from_scanner_to_card_editor"
+                app:destination="@id/card_editor_fragment" />
+        </fragment>
+
+    </navigation>
 
     <fragment
         android:id="@+id/cards_fragment"

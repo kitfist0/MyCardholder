@@ -8,4 +8,8 @@
     <string name="card_edit">Edit</string>
     <string name="card_name">Name</string>
     <string name="card_text">Text</string>
+    <string name="permission_grant">Grant</string>
+    <string name="permission_rationale">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>
+    <string name="permission_request">Permission request</string>
+    <string name="permission_toast">Please grant camera permission!</string>
 </resources>
