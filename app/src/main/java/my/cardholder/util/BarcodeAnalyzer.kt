@@ -1,4 +1,4 @@
-package my.cardholder.analyzer
+package my.cardholder.util
 
 import android.graphics.ImageFormat.*
 import android.util.Log

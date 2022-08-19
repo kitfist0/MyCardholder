@@ -10,7 +10,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.google.zxing.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import my.cardholder.analyzer.BarcodeAnalyzer
+import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.data.Card
 import my.cardholder.data.CardDao
 import my.cardholder.ui.base.BaseViewModel
