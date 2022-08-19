@@ -1,5 +1,7 @@
 package my.cardholder.ui.permission
 
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentPermissionBinding
@@ -10,6 +12,19 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
     FragmentPermissionBinding::inflate
 ) {
 
+    private val permissionsRequestHandler = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        permissions.entries.forEach {
+            val shouldShow = ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), it.key)
+            viewModel.onPermissionRequestResult(
+                permission = it.key,
+                isGranted = it.value,
+                shouldShowRationale = shouldShow,
+            )
+        }
+    }
+
     override val viewModel: PermissionViewModel by viewModels()
 
     override fun initViews() {
@@ -19,5 +34,8 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
     }
 
     override fun collectData() {
+        viewModel.requestPermissions.collectWhenStarted { permissions ->
+            permissionsRequestHandler.launch(permissions)
+        }
     }
 }
