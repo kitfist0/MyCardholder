@@ -22,7 +22,7 @@ class PermissionViewModel @Inject constructor(
     private val _requestPermissions = MutableSharedFlow<Array<String>>()
     val requestPermissions = _requestPermissions.asSharedFlow()
 
-    init {
+    fun onResume() {
         if (permissionHelper.isPermissionGranted(PERMISSION)) {
             navigate(PermissionFragmentDirections.fromPermissionToScanner())
         }
@@ -39,9 +39,7 @@ class PermissionViewModel @Inject constructor(
         isGranted: Boolean,
         shouldShowRationale: Boolean,
     ) {
-        if (isGranted) {
-            navigate(PermissionFragmentDirections.fromPermissionToScanner())
-        } else {
+        if (!isGranted) {
             permissionHelper.onPermissionIsNotGranted(
                 permission = permission,
                 shouldShowRationale = shouldShowRationale,

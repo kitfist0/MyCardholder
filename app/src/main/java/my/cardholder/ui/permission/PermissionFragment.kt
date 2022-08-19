@@ -27,6 +27,11 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
 
     override val viewModel: PermissionViewModel by viewModels()
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
     override fun initViews() {
         binding.permissionGrantFab.setOnClickListener {
             viewModel.onGrantFabClicked()
