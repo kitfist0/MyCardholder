@@ -6,7 +6,9 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import my.cardholder.R
 import javax.inject.Inject
 
 class PermissionHelper @Inject constructor(
@@ -48,6 +50,7 @@ class PermissionHelper @Inject constructor(
             Uri.parse("package:" + context.packageName)
         )
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        Toast.makeText(context, R.string.permission_toast, Toast.LENGTH_LONG).show()
         context.startActivity(intent)
     }
 }
