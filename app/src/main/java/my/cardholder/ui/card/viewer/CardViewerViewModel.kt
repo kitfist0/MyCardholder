@@ -1,27 +1,24 @@
 package my.cardholder.ui.card.viewer
 
 import android.view.MenuItem
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.Card
 import my.cardholder.data.CardDao
 import my.cardholder.ui.base.BaseViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class CardViewerViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+class CardViewerViewModel @AssistedInject constructor(
+    @Assisted("card_id") private val cardId: Long,
     private val cardDao: CardDao,
 ) : BaseViewModel() {
-
-    private val cardId = CardViewerFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
 
     private val _card = liveData {
         emit(cardDao.getCard(cardId))
@@ -46,4 +43,11 @@ class CardViewerViewModel @Inject constructor(
             navigateBack()
         }
     }
+}
+
+@AssistedFactory
+interface CardViewerViewModelFactory {
+    fun create(
+        @Assisted("card_id") cardId: Long,
+    ): CardViewerViewModel
 }

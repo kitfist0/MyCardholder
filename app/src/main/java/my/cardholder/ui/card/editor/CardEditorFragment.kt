@@ -3,7 +3,7 @@ package my.cardholder.ui.card.editor
 import android.text.Editable
 import android.transition.TransitionInflater
 import androidx.core.view.ViewCompat
-import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.data.Card.Companion.barcodeTransitionId
 import my.cardholder.data.Card.Companion.fabTransitionId
@@ -11,13 +11,22 @@ import my.cardholder.data.Card.Companion.nameTransitionId
 import my.cardholder.data.Card.Companion.textTransitionId
 import my.cardholder.databinding.FragmentCardEditorBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.assistedViewModels
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
     FragmentCardEditorBinding::inflate
 ) {
 
-    override val viewModel: CardEditorViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: CardEditorViewModelFactory
+
+    private val args: CardEditorFragmentArgs by navArgs()
+
+    override val viewModel: CardEditorViewModel by assistedViewModels {
+        viewModelFactory.create(args.cardId)
+    }
 
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
