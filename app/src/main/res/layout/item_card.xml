@@ -16,7 +16,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/item_card_title_text"
+            android:id="@+id/item_card_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -27,14 +27,14 @@
             tools:text="@tools:sample/lorem" />
 
         <TextView
-            android:id="@+id/item_card_subtitle_text"
+            android:id="@+id/item_card_text_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_card_title_text"
+            app:layout_constraintTop_toBottomOf="@+id/item_card_name_text"
             tools:text="@tools:sample/lorem" />
 
         <ImageView
@@ -45,7 +45,7 @@
             android:src="@drawable/ic_placeholder_qr_code"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_card_subtitle_text" />
+            app:layout_constraintTop_toBottomOf="@+id/item_card_text_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

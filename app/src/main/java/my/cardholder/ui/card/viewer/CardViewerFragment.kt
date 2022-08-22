@@ -1,16 +1,11 @@
 package my.cardholder.ui.card.viewer
 
 import android.transition.TransitionInflater
-import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
-import my.cardholder.data.Card.Companion.barcodeTransitionId
-import my.cardholder.data.Card.Companion.fabTransitionId
-import my.cardholder.data.Card.Companion.textTransitionId
-import my.cardholder.data.Card.Companion.nameTransitionId
 import my.cardholder.databinding.FragmentCardViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
@@ -26,8 +21,6 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
 
     private val args: CardViewerFragmentArgs by navArgs()
 
-    private var sharedElementsMap = emptyMap<View, String>()
-
     override val menuRes = R.menu.menu_card_viewer
 
     override val viewModel: CardViewerViewModel by assistedViewModels {
@@ -37,6 +30,14 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
+        val sharedElementsMap = mapOf(
+            binding.cardViewerCardNameText to "trans_name_${args.cardId}",
+            binding.cardViewerCardTextText to "trans_text_${args.cardId}",
+            binding.cardViewerBarcodeImage to "trans_barcode_${args.cardId}",
+            binding.cardViewerEditFab to "trans_fab_${args.cardId}",
+        ).onEach { entry ->
+            ViewCompat.setTransitionName(entry.key, entry.value)
+        }
         binding.cardViewerEditFab.setOnClickListener {
             val extras = FragmentNavigator.Extras.Builder()
                 .addSharedElements(sharedElementsMap)
@@ -47,14 +48,6 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
 
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
-            sharedElementsMap = mapOf(
-                binding.cardViewerEditFab to card.fabTransitionId(),
-                binding.cardViewerCardNameText to card.nameTransitionId(),
-                binding.cardViewerCardTextText to card.textTransitionId(),
-                binding.cardViewerBarcodeImage to card.barcodeTransitionId(),
-            ).onEach { entry -> ViewCompat.setTransitionName(entry.key, entry.value) }
-            sharedElementEnterTransition = TransitionInflater.from(context)
-                .inflateTransition(android.R.transition.move)
             binding.cardViewerCardNameText.text = card.name
             binding.cardViewerCardTextText.text = card.text
         }

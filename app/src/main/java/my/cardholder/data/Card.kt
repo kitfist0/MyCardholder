@@ -12,11 +12,4 @@ data class Card(
     val color: String,
     val format: String,
     val timestamp: Long,
-) {
-    companion object {
-        fun Card.fabTransitionId() = "trans_fab_$id"
-        fun Card.nameTransitionId() = "trans_name_$id"
-        fun Card.textTransitionId() = "trans_text_$id"
-        fun Card.barcodeTransitionId() = "trans_barcode_$id"
-    }
-}
+)
