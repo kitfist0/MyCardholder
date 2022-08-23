@@ -29,7 +29,7 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         binding.setupUniqueTransitionNamesAndReturnSharedElements(
-            uniqueId = args.cardId,
+            uniqueSuffix = args.cardId,
             R.id.card_editor_card_name_input_layout,
             R.id.card_editor_card_text_input_layout,
             R.id.card_editor_barcode_image,

@@ -5,13 +5,13 @@ import androidx.core.view.ViewCompat
 import androidx.viewbinding.ViewBinding
 
 fun ViewBinding.setupUniqueTransitionNamesAndReturnSharedElements(
-    uniqueId: Long,
+    uniqueSuffix: Long,
     vararg viewIds: Int,
 ): Map<View, String> {
     val sharedElements = mutableMapOf<View, String>()
     viewIds.onEach { viewId ->
         val view = root.findViewById<View>(viewId)
-        val uniqueName = view.transitionName.format(uniqueId)
+        val uniqueName = view.transitionName.format(uniqueSuffix)
         ViewCompat.setTransitionName(view, uniqueName)
         sharedElements[view] = uniqueName
     }

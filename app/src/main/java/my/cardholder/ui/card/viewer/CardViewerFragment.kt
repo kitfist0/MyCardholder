@@ -31,7 +31,7 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         val sharedElements = binding.setupUniqueTransitionNamesAndReturnSharedElements(
-            uniqueId = args.cardId,
+            uniqueSuffix = args.cardId,
             R.id.card_viewer_card_name_text,
             R.id.card_viewer_card_text_text,
             R.id.card_viewer_barcode_image,

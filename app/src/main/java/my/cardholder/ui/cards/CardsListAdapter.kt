@@ -32,7 +32,7 @@ class CardsListAdapter(
             itemView.setOnClickListener {
                 val card = getItem(adapterPosition)
                 val sharedElements = binding.setupUniqueTransitionNamesAndReturnSharedElements(
-                    uniqueId = card.id,
+                    uniqueSuffix = card.id,
                     R.id.item_card_name_text,
                     R.id.item_card_text_text,
                     R.id.item_card_barcode_image,
