@@ -22,6 +22,7 @@
         android:layout_height="220dp"
         android:background="@drawable/white_rounded_rectangle"
         android:src="@drawable/ic_placeholder_qr_code"
+        android:transitionName="@string/transition_card_barcode"
         app:layout_constraintBottom_toTopOf="@id/card_editor_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:transitionName="@string/transition_card_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/card_editor_guideline_horizontal">
@@ -71,6 +73,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:transitionName="@string/transition_card_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_editor_card_name_input_layout">
@@ -90,6 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
+        android:transitionName="@string/transition_card_fab"
         app:icon="@drawable/ic_done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

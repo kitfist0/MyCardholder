@@ -3,15 +3,16 @@ package my.cardholder.ui.cards
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import my.cardholder.R
 import my.cardholder.data.Card
 import my.cardholder.databinding.ItemCardBinding
+import my.cardholder.util.setupUniqueTransitionNamesAndReturnSharedElements
 
 class CardsListAdapter(
-    private val onItemClick: (cardId: Long, sharedElementsMap: Map<View, String>) -> Unit,
+    private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
 ) : ListAdapter<Card, CardsListAdapter.CardViewHolder>(CardDiffCallback) {
 
     companion object {
@@ -30,13 +31,12 @@ class CardsListAdapter(
         init {
             itemView.setOnClickListener {
                 val card = getItem(adapterPosition)
-                val sharedElements = mapOf(
-                    binding.itemCardNameText to "trans_name_${card.id}",
-                    binding.itemCardTextText to "trans_text_${card.id}",
-                    binding.itemCardBarcodeImage to "trans_barcode_${card.id}",
-                ).onEach { entry ->
-                    ViewCompat.setTransitionName(entry.key, entry.value)
-                }
+                val sharedElements = binding.setupUniqueTransitionNamesAndReturnSharedElements(
+                    uniqueId = card.id,
+                    R.id.item_card_name_text,
+                    R.id.item_card_text_text,
+                    R.id.item_card_barcode_image,
+                )
                 onItemClick.invoke(card.id, sharedElements)
             }
         }

@@ -1,7 +1,6 @@
 package my.cardholder.ui.card.viewer
 
 import android.transition.TransitionInflater
-import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -9,6 +8,7 @@ import my.cardholder.R
 import my.cardholder.databinding.FragmentCardViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
+import my.cardholder.util.setupUniqueTransitionNamesAndReturnSharedElements
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,17 +30,16 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
-        val sharedElementsMap = mapOf(
-            binding.cardViewerCardNameText to "trans_name_${args.cardId}",
-            binding.cardViewerCardTextText to "trans_text_${args.cardId}",
-            binding.cardViewerBarcodeImage to "trans_barcode_${args.cardId}",
-            binding.cardViewerEditFab to "trans_fab_${args.cardId}",
-        ).onEach { entry ->
-            ViewCompat.setTransitionName(entry.key, entry.value)
-        }
+        val sharedElements = binding.setupUniqueTransitionNamesAndReturnSharedElements(
+            uniqueId = args.cardId,
+            R.id.card_viewer_card_name_text,
+            R.id.card_viewer_card_text_text,
+            R.id.card_viewer_barcode_image,
+            R.id.card_viewer_edit_fab,
+        )
         binding.cardViewerEditFab.setOnClickListener {
             val extras = FragmentNavigator.Extras.Builder()
-                .addSharedElements(sharedElementsMap)
+                .addSharedElements(sharedElements)
                 .build()
             viewModel.onEditFabClicked(extras)
         }

@@ -14,9 +14,9 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(FragmentCardsBinding::i
 
     private val listAdapter by lazy {
         CardsListAdapter(
-            onItemClick = { cardId, sharedElementsMap ->
+            onItemClick = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
-                    .addSharedElements(sharedElementsMap)
+                    .addSharedElements(sharedElements)
                     .build()
                 viewModel.onCardClicked(cardId, extras)
             }

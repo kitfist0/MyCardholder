@@ -22,6 +22,7 @@
         android:layout_height="200dp"
         android:background="@drawable/white_rounded_rectangle"
         android:src="@drawable/ic_placeholder_qr_code"
+        android:transitionName="@string/transition_card_barcode"
         app:layout_constraintBottom_toTopOf="@id/card_viewer_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:transitionName="@string/transition_card_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/card_viewer_guideline_horizontal"
         tools:text="@tools:sample/lorem" />
@@ -50,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:transitionName="@string/transition_card_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_viewer_card_name_text"
         tools:text="@tools:sample/lorem" />
@@ -60,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:text="@string/card_edit"
+        android:transitionName="@string/transition_card_fab"
         app:icon="@drawable/ic_edit_card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
