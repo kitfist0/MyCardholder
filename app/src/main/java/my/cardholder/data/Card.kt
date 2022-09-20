@@ -10,6 +10,6 @@ data class Card(
     val name: String,
     val text: String,
     val color: String,
-    val format: String,
     val timestamp: Long,
+    val format: SupportedFormat,
 )
