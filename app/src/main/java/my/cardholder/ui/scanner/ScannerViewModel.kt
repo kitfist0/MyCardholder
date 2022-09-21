@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.data.Card
 import my.cardholder.data.CardDao
+import my.cardholder.data.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import java.text.SimpleDateFormat
 import java.util.concurrent.Executor
@@ -60,17 +61,25 @@ class ScannerViewModel @Inject constructor(
     }
 
     private fun onZxingResult(result: Result) {
-        viewModelScope.launch {
-            val cardId = cardDao.insert(
-                Card(
-                    name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT).format(result.timestamp)}",
-                    text = result.text,
-                    color = "",
-                    format = result.barcodeFormat.toString(),
-                    timestamp = result.timestamp,
-                )
-            )
-            navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))
-        }
+        runCatching { SupportedFormat.valueOf(result.barcodeFormat.toString()) }
+            .onFailure {
+                showSnack("Barcode format not supported!")
+            }
+            .onSuccess { supportedFormat ->
+                viewModelScope.launch {
+                    CARD_NAME_FORMAT.format()
+                    val name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT).format(result.timestamp)}"
+                    val cardId = cardDao.insert(
+                        Card(
+                            name = name,
+                            text = result.text,
+                            color = "",
+                            timestamp = result.timestamp,
+                            format = supportedFormat,
+                        )
+                    )
+                    navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))
+                }
+            }
     }
 }
