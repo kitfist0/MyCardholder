@@ -50,5 +50,8 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
             binding.cardViewerCardNameText.text = card.name
             binding.cardViewerCardTextText.text = card.text
         }
+        viewModel.barcodeBitmap.collectWhenStarted { bitmap ->
+            binding.cardViewerBarcodeImage.setImageBitmap(bitmap)
+        }
     }
 }
