@@ -2,7 +2,6 @@ package my.cardholder.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
@@ -15,16 +14,17 @@ import com.google.zxing.oned.*
 import com.google.zxing.pdf417.PDF417Writer
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-import java.io.ByteArrayOutputStream
+import my.cardholder.data.Card.Companion.getBarcodeFile
+import my.cardholder.util.writeBitmap
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BarcodeImageRepository @Inject constructor(
+class CardRepository @Inject constructor(
+    private val cardDao: CardDao,
     private val context: Context,
 ) {
 
@@ -32,27 +32,39 @@ class BarcodeImageRepository @Inject constructor(
         private const val BARCODE_HEIGHT = 300
         private const val BARCODE_WIDTH = 600
         private const val BARCODE_SIZE = 500
+        private const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
     }
 
-    fun getBarcodeBitmap(
-        cardId: Long,
-        codeData: String,
-        codeFormat: SupportedFormat,
-    ): Bitmap? {
-        val fileName = "${cardId}_$codeFormat.jpeg"
-        val file = getImageFile(fileName)
-        return if (file.exists() && file.canRead()) {
-            BitmapFactory.decodeFile(file.path)
-        } else {
-            saveBitmap(codeData, codeFormat, fileName)
-        }
+    suspend fun insertCard(
+        text: String,
+        timestamp: Long,
+        supportedFormat: SupportedFormat,
+    ): Long {
+        val card = Card(
+            name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT).format(timestamp)}",
+            text = text,
+            color = "",
+            timestamp = timestamp,
+            format = supportedFormat,
+        )
+        writeBarcodeFile(
+            file = card.getBarcodeFile(context),
+            codeData = text,
+            codeFormat = supportedFormat,
+        )
+        return cardDao.insert(card)
     }
 
-    private fun saveBitmap(
+    suspend fun deleteCard(card: Card) {
+        card.getBarcodeFile(context).delete()
+        cardDao.deleteCard(card.id)
+    }
+
+    private fun writeBarcodeFile(
+        file: File,
         codeData: String,
         codeFormat: SupportedFormat,
-        fileName: String,
-    ): Bitmap? {
+    ): File? {
         return try {
             val hintMap = Hashtable<EncodeHintType, ErrorCorrectionLevel>()
             hintMap[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
@@ -74,8 +86,7 @@ class BarcodeImageRepository @Inject constructor(
                     bitmap.setPixel(i, j, if (bitMatrix[i, j]) Color.BLACK else Color.WHITE)
                 }
             }
-            bitmap?.writeToFile(fileName)
-            bitmap
+            file.writeBitmap(bitmap)
         } catch (e: WriterException) {
             null
         }
@@ -97,25 +108,5 @@ class BarcodeImageRepository @Inject constructor(
             SupportedFormat.AZTEC -> AztecWriter()
             SupportedFormat.PDF_417 -> PDF417Writer()
         }
-    }
-
-    private fun Bitmap.writeToFile(fileName: String): File? {
-        val file = getImageFile(fileName)
-        return try {
-            file.createNewFile()
-            val bos = ByteArrayOutputStream()
-            compress(Bitmap.CompressFormat.JPEG, 0, bos)
-            val fos = FileOutputStream(file)
-            fos.write(bos.toByteArray())
-            fos.flush()
-            fos.close()
-            file
-        } catch (e: IOException) {
-            null
-        }
-    }
-
-    private fun getImageFile(fileName: String): File {
-        return File(context.getExternalFilesDir("images"), fileName)
     }
 }
