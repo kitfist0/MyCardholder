@@ -3,4 +3,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="cards_list_item_height">220dp</dimen>
+    <dimen name="barcode_mage_padding">8dp</dimen>
 </resources>
