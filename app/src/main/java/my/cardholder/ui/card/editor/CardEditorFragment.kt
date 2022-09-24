@@ -3,8 +3,10 @@ package my.cardholder.ui.card.editor
 import android.text.Editable
 import android.transition.TransitionInflater
 import androidx.navigation.fragment.navArgs
+import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
+import my.cardholder.data.Card.Companion.getBarcodeFile
 import my.cardholder.databinding.FragmentCardEditorBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
@@ -42,6 +44,7 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
 
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
+            binding.cardEditorBarcodeImage.load(card.getBarcodeFile(requireContext()))
             binding.cardEditorNameEditText.text = Editable.Factory.getInstance().newEditable(card.name)
             binding.cardEditorCardTextEditText.text = Editable.Factory.getInstance().newEditable(card.text)
         }

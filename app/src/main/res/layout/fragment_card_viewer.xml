@@ -21,12 +21,13 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:background="@drawable/white_rounded_rectangle"
-        android:src="@drawable/ic_placeholder_qr_code"
+        android:padding="@dimen/barcode_mage_padding"
         android:transitionName="@string/transition_card_barcode"
         app:layout_constraintBottom_toTopOf="@id/card_viewer_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_placeholder_qr_code" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_viewer_guideline_horizontal"

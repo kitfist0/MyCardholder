@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import my.cardholder.R
 import my.cardholder.data.Card
+import my.cardholder.data.Card.Companion.getBarcodeFile
 import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.setupUniqueTransitionNamesAndReturnSharedElements
 
@@ -44,6 +46,9 @@ class CardsListAdapter(
         fun bind(card: Card) {
             binding.itemCardNameText.text = card.name
             binding.itemCardTextText.text = card.text
+            binding.itemCardBarcodeImage.apply {
+                load(card.getBarcodeFile(context))
+            }
         }
     }
 
