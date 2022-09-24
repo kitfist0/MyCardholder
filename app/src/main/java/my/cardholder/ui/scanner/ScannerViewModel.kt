@@ -11,11 +11,9 @@ import com.google.zxing.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import my.cardholder.util.BarcodeAnalyzer
-import my.cardholder.data.Card
-import my.cardholder.data.CardDao
+import my.cardholder.data.CardRepository
 import my.cardholder.data.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
-import java.text.SimpleDateFormat
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -24,12 +22,8 @@ import javax.inject.Inject
 class ScannerViewModel @Inject constructor(
     private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
-    private val cardDao: CardDao,
+    private val cardRepository: CardRepository,
 ) : BaseViewModel() {
-
-    companion object {
-        private const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
-    }
 
     fun bindCamera(
         lifecycleOwner: LifecycleOwner,
@@ -67,16 +61,10 @@ class ScannerViewModel @Inject constructor(
             }
             .onSuccess { supportedFormat ->
                 viewModelScope.launch {
-                    CARD_NAME_FORMAT.format()
-                    val name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT).format(result.timestamp)}"
-                    val cardId = cardDao.insert(
-                        Card(
-                            name = name,
-                            text = result.text,
-                            color = "",
-                            timestamp = result.timestamp,
-                            format = supportedFormat,
-                        )
+                    val cardId = cardRepository.insertCard(
+                        text = result.text,
+                        timestamp = result.timestamp,
+                        supportedFormat = supportedFormat,
                     )
                     navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))
                 }

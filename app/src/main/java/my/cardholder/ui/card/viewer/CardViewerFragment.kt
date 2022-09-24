@@ -3,8 +3,10 @@ package my.cardholder.ui.card.viewer
 import android.transition.TransitionInflater
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
+import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
+import my.cardholder.data.Card.Companion.getBarcodeFile
 import my.cardholder.databinding.FragmentCardViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
@@ -47,11 +49,9 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
 
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
+            binding.cardViewerBarcodeImage.load(card.getBarcodeFile(requireContext()))
             binding.cardViewerCardNameText.text = card.name
             binding.cardViewerCardTextText.text = card.text
-        }
-        viewModel.barcodeBitmap.collectWhenStarted { bitmap ->
-            binding.cardViewerBarcodeImage.setImageBitmap(bitmap)
         }
     }
 }
