@@ -56,6 +56,8 @@ dependencies {
     implementation 'io.coil-kt:coil:2.2.1'
     // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
+    // Ml Kit
+    implementation 'com.google.mlkit:barcode-scanning:17.0.2'
     // Navigation
     def nav_version = '2.5.2'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
