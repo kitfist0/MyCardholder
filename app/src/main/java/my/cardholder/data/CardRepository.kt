@@ -15,7 +15,9 @@ import com.google.zxing.pdf417.PDF417Writer
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import kotlinx.coroutines.flow.Flow
-import my.cardholder.data.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.Card
+import my.cardholder.data.model.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.SupportedFormat
 import my.cardholder.util.writeBitmap
 import java.io.File
 import java.text.SimpleDateFormat

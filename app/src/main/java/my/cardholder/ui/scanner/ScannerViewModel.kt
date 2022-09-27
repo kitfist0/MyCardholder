@@ -12,7 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.data.CardRepository
-import my.cardholder.data.toSupportedFormat
+import my.cardholder.data.model.toSupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors

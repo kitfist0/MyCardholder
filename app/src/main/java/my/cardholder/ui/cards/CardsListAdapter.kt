@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import my.cardholder.R
-import my.cardholder.data.Card
-import my.cardholder.data.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.Card
+import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.setupUniqueTransitionNamesAndReturnSharedElements
 

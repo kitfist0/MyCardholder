@@ -1,4 +1,4 @@
-package my.cardholder.data
+package my.cardholder.data.model
 
 import com.google.mlkit.vision.barcode.common.Barcode
 
