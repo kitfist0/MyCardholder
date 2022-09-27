@@ -7,13 +7,13 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.mlkit.vision.barcode.common.Barcode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.data.CardRepository
-import my.cardholder.data.SupportedFormat
+import my.cardholder.data.toSupportedFormat
 import my.cardholder.ui.base.BaseViewModel
-import my.cardholder.util.BarcodeResult
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -42,11 +42,11 @@ class ScannerViewModel @Inject constructor(
                 .build()
             imageAnalysis.setAnalyzer(
                 Executors.newSingleThreadExecutor(),
-                BarcodeAnalyzer { barcodeResult ->
+                BarcodeAnalyzer { barcode ->
                     mainExecutor.execute {
                         imageAnalysis.clearAnalyzer()
                         cameraProvider.unbindAll()
-                        onBarcodeResult(barcodeResult)
+                        onBarcodeResult(barcode)
                     }
                 }
             )
@@ -54,20 +54,18 @@ class ScannerViewModel @Inject constructor(
         }, mainExecutor)
     }
 
-    private fun onBarcodeResult(barcodeResult: BarcodeResult) {
-        runCatching { SupportedFormat.valueOf(barcodeResult.codeFormat) }
-            .onSuccess { supportedFormat ->
+    private fun onBarcodeResult(barcode: Barcode?) {
+        barcode?.toSupportedFormat()
+            ?.let { supportedFormat ->
                 viewModelScope.launch {
                     val cardId = cardRepository.insertCard(
-                        text = barcodeResult.codeData,
+                        text = barcode.rawBytes.toString(),
                         timestamp = System.currentTimeMillis(),
                         supportedFormat = supportedFormat,
                     )
                     navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))
                 }
             }
-            .onFailure {
-                showSnack("Barcode format not supported!")
-            }
+            ?: showSnack("Barcode format not supported!")
     }
 }
