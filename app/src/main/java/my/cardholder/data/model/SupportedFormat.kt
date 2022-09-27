@@ -23,7 +23,7 @@ enum class SupportedFormat {
     UPC_E,
 }
 
-fun Barcode.toSupportedFormat(): SupportedFormat? {
+fun Barcode.getSupportedFormat(): SupportedFormat? {
     return when (format) {
         Barcode.FORMAT_AZTEC -> SupportedFormat.AZTEC
         Barcode.FORMAT_CODABAR -> SupportedFormat.CODABAR

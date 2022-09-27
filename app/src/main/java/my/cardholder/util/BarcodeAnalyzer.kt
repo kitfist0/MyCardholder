@@ -9,7 +9,7 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
 class BarcodeAnalyzer(
-    private val onResult: (barcode: Barcode?) -> Unit,
+    private val onResult: (barcode: Barcode) -> Unit,
 ) : ImageAnalysis.Analyzer {
 
     private val scanner by lazy {
@@ -26,7 +26,9 @@ class BarcodeAnalyzer(
             scanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
                     imageProxy.close()
-                    onResult.invoke(barcodes.firstOrNull())
+                    if (barcodes.isNotEmpty()) {
+                        onResult.invoke(barcodes.first())
+                    }
                 }
                 .addOnFailureListener {
                     imageProxy.close()
