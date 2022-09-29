@@ -32,9 +32,9 @@ class CardRepository @Inject constructor(
 ) {
 
     companion object {
-        private const val BARCODE_HEIGHT = 300
-        private const val BARCODE_WIDTH = 600
-        private const val BARCODE_SIZE = 500
+        private const val BARCODE_1X1_SIZE = 700
+        private const val BARCODE_3X1_HEIGHT = 300
+        private const val BARCODE_3X1_WIDTH = 900
         private const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
     }
 
@@ -76,18 +76,8 @@ class CardRepository @Inject constructor(
         codeFormat: SupportedFormat,
     ): File? {
         return try {
-            val hintMap = Hashtable<EncodeHintType, ErrorCorrectionLevel>()
-            hintMap[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
-            val writer = getWriter(codeFormat)
-            val isSquare = codeFormat == SupportedFormat.QR_CODE ||
-                    codeFormat == SupportedFormat.DATA_MATRIX
-            val bitMatrix: BitMatrix = writer.encode(
-                codeData,
-                BarcodeFormat.valueOf(codeFormat.toString()),
-                if (isSquare) BARCODE_SIZE else BARCODE_WIDTH,
-                if (isSquare) BARCODE_SIZE else BARCODE_HEIGHT,
-                hintMap
-            )
+            val bitMatrix = getWriter(codeFormat)
+                .encode(codeData, codeFormat)
             val width = bitMatrix.width
             val height = bitMatrix.height
             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -118,5 +108,23 @@ class CardRepository @Inject constructor(
             SupportedFormat.AZTEC -> AztecWriter()
             SupportedFormat.PDF_417 -> PDF417Writer()
         }
+    }
+
+    private fun Writer.encode(
+        codeData: String,
+        codeFormat: SupportedFormat,
+    ): BitMatrix {
+        val isSquare = codeFormat == SupportedFormat.AZTEC ||
+                codeFormat == SupportedFormat.DATA_MATRIX ||
+                codeFormat == SupportedFormat.QR_CODE
+        val hints = Hashtable<EncodeHintType, ErrorCorrectionLevel>()
+        hints[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
+        return encode(
+            codeData,
+            BarcodeFormat.valueOf(codeFormat.toString()),
+            if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_WIDTH,
+            if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_HEIGHT,
+            hints,
+        )
     }
 }
