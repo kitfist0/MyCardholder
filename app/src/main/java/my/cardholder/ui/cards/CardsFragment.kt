@@ -25,7 +25,6 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(FragmentCardsBinding::i
 
     override fun initViews() {
         binding.cardsRecyclerView.apply {
-            addItemDecoration(CardsOverlapDecoration())
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listAdapter
         }
