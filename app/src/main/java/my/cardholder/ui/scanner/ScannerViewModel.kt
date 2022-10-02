@@ -7,12 +7,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import com.google.common.util.concurrent.ListenableFuture
-import com.google.zxing.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.data.CardRepository
-import my.cardholder.data.SupportedFormat
+import my.cardholder.data.model.SupportedFormat
+import my.cardholder.data.model.getSupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -42,11 +42,16 @@ class ScannerViewModel @Inject constructor(
                 .build()
             imageAnalysis.setAnalyzer(
                 Executors.newSingleThreadExecutor(),
-                BarcodeAnalyzer { result ->
-                    mainExecutor.execute {
-                        imageAnalysis.clearAnalyzer()
-                        cameraProvider.unbindAll()
-                        onZxingResult(result)
+                BarcodeAnalyzer { barcode ->
+                    barcode.getSupportedFormat()?.let { supportedFormat ->
+                        mainExecutor.execute {
+                            imageAnalysis.clearAnalyzer()
+                            cameraProvider.unbindAll()
+                            insertCardAndNavigateToEditor(
+                                text = barcode.displayValue.toString(),
+                                supportedFormat = supportedFormat,
+                            )
+                        }
                     }
                 }
             )
@@ -54,20 +59,14 @@ class ScannerViewModel @Inject constructor(
         }, mainExecutor)
     }
 
-    private fun onZxingResult(result: Result) {
-        runCatching { SupportedFormat.valueOf(result.barcodeFormat.toString()) }
-            .onFailure {
-                showSnack("Barcode format not supported!")
-            }
-            .onSuccess { supportedFormat ->
-                viewModelScope.launch {
-                    val cardId = cardRepository.insertCard(
-                        text = result.text,
-                        timestamp = result.timestamp,
-                        supportedFormat = supportedFormat,
-                    )
-                    navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))
-                }
-            }
+    private fun insertCardAndNavigateToEditor(text: String, supportedFormat: SupportedFormat) {
+        viewModelScope.launch {
+            val cardId = cardRepository.insertCard(
+                text = text,
+                timestamp = System.currentTimeMillis(),
+                supportedFormat = supportedFormat,
+            )
+            navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))
+        }
     }
 }

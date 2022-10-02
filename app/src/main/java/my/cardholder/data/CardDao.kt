@@ -2,6 +2,7 @@ package my.cardholder.data
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import my.cardholder.data.model.Card
 
 @Dao
 interface CardDao {

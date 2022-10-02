@@ -15,30 +15,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/item_card_name_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:transitionName="@string/transition_card_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/lorem" />
-
-        <TextView
-            android:id="@+id/item_card_text_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:transitionName="@string/transition_card_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_card_name_text"
-            tools:text="@tools:sample/lorem" />
-
         <ImageView
             android:id="@+id/item_card_barcode_image"
             android:layout_width="100dp"
@@ -46,10 +22,35 @@
             android:background="@drawable/white_rounded_rectangle"
             android:padding="@dimen/barcode_mage_padding"
             android:transitionName="@string/transition_card_barcode"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_card_text_text"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_placeholder_qr_code" />
+
+        <TextView
+            android:id="@+id/item_card_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:paddingTop="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:transitionName="@string/transition_card_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_card_barcode_image"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/item_card_text_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:transitionName="@string/transition_card_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_card_name_text"
+            tools:text="@tools:sample/lorem" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

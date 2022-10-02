@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import com.google.zxing.BarcodeFormat
-import com.google.zxing.EncodeHintType
 import com.google.zxing.Writer
 import com.google.zxing.WriterException
 import com.google.zxing.aztec.AztecWriter
@@ -13,13 +12,13 @@ import com.google.zxing.datamatrix.DataMatrixWriter
 import com.google.zxing.oned.*
 import com.google.zxing.pdf417.PDF417Writer
 import com.google.zxing.qrcode.QRCodeWriter
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import kotlinx.coroutines.flow.Flow
-import my.cardholder.data.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.Card
+import my.cardholder.data.model.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.SupportedFormat
 import my.cardholder.util.writeBitmap
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,9 +29,9 @@ class CardRepository @Inject constructor(
 ) {
 
     companion object {
-        private const val BARCODE_HEIGHT = 300
-        private const val BARCODE_WIDTH = 600
-        private const val BARCODE_SIZE = 500
+        private const val BARCODE_1X1_SIZE = 700
+        private const val BARCODE_3X1_HEIGHT = 300
+        private const val BARCODE_3X1_WIDTH = 900
         private const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
     }
 
@@ -74,18 +73,8 @@ class CardRepository @Inject constructor(
         codeFormat: SupportedFormat,
     ): File? {
         return try {
-            val hintMap = Hashtable<EncodeHintType, ErrorCorrectionLevel>()
-            hintMap[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.L
-            val writer = getWriter(codeFormat)
-            val isSquare = codeFormat == SupportedFormat.QR_CODE ||
-                    codeFormat == SupportedFormat.DATA_MATRIX
-            val bitMatrix: BitMatrix = writer.encode(
-                codeData,
-                BarcodeFormat.valueOf(codeFormat.toString()),
-                if (isSquare) BARCODE_SIZE else BARCODE_WIDTH,
-                if (isSquare) BARCODE_SIZE else BARCODE_HEIGHT,
-                hintMap
-            )
+            val bitMatrix = getWriter(codeFormat)
+                .encode(codeData, codeFormat)
             val width = bitMatrix.width
             val height = bitMatrix.height
             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -116,5 +105,20 @@ class CardRepository @Inject constructor(
             SupportedFormat.AZTEC -> AztecWriter()
             SupportedFormat.PDF_417 -> PDF417Writer()
         }
+    }
+
+    private fun Writer.encode(
+        codeData: String,
+        codeFormat: SupportedFormat,
+    ): BitMatrix {
+        val isSquare = codeFormat == SupportedFormat.AZTEC ||
+                codeFormat == SupportedFormat.DATA_MATRIX ||
+                codeFormat == SupportedFormat.QR_CODE
+        return encode(
+            codeData,
+            BarcodeFormat.valueOf(codeFormat.toString()),
+            if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_WIDTH,
+            if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_HEIGHT,
+        )
     }
 }

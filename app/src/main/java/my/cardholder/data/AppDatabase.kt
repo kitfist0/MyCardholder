@@ -2,6 +2,7 @@ package my.cardholder.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import my.cardholder.data.model.Card
 
 @Database(
     entities = [Card::class],

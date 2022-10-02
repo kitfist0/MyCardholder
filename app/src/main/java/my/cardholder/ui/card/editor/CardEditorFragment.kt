@@ -6,7 +6,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
-import my.cardholder.data.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.databinding.FragmentCardEditorBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels

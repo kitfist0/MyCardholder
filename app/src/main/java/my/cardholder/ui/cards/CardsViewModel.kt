@@ -3,7 +3,7 @@ package my.cardholder.ui.cards
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import my.cardholder.data.Card
+import my.cardholder.data.model.Card
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package my.cardholder.data
+package my.cardholder.data.model
 
 import android.content.Context
 import androidx.room.Entity
