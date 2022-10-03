@@ -15,7 +15,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     override fun collectData() {
         viewModel.text.collectWhenStarted {
-            binding.settingsTitleText.text = it
         }
     }
 }

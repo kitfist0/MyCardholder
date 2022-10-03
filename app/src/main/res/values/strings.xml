@@ -12,4 +12,8 @@
     <string name="permission_rationale">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>
     <string name="permission_request">Permission request</string>
     <string name="permission_toast">Please grant the required permissions</string>
+    <string name="settings_about_app_title">About app</string>
+    <string name="settings_coffee_for_developers">Coffee for developers</string>
+    <string name="settings_switch_to_light_mode">Switch to light mode</string>
+    <string name="settings_switch_to_dark_mode">Switch to dark mode</string>
 </resources>
