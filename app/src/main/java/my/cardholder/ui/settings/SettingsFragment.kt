@@ -20,17 +20,21 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 
     override fun collectData() {
-        viewModel.setDefaultNightMode.collectWhenStarted { mode ->
+        viewModel.defaultNightMode.collectWhenStarted { mode ->
             AppCompatDelegate.setDefaultNightMode(mode)
-            binding.settingsColorThemeButton.apply {
-                if (mode == AppCompatDelegate.MODE_NIGHT_YES) {
-                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_light_mode)
-                    text = getString(R.string.settings_switch_to_light_mode)
-                } else {
-                    icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_dark_mode)
-                    text = getString(R.string.settings_switch_to_dark_mode)
-                }
-            }
+            setupColorThemeButtonState(mode == AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }
+
+    private fun setupColorThemeButtonState(nightYes: Boolean) {
+        binding.settingsColorThemeButton.apply {
+            icon = ContextCompat.getDrawable(
+                requireContext(),
+                if (nightYes) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
+            )
+            text = getString(
+                if (nightYes) R.string.settings_switch_to_light_mode else R.string.settings_switch_to_dark_mode
+            )
         }
     }
 }
