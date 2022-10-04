@@ -1,12 +1,12 @@
 package my.cardholder.ui.settings
 
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentSettingsBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.contextCompatDrawable
 
 @AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {
@@ -28,8 +28,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     private fun setupColorThemeButtonState(nightYes: Boolean) {
         binding.settingsColorThemeButton.apply {
-            icon = ContextCompat.getDrawable(
-                requireContext(),
+            icon = contextCompatDrawable(
                 if (nightYes) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
             )
             text = getString(
