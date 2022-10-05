@@ -2,6 +2,7 @@ package my.cardholder.ui.settings
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import my.cardholder.BuildConfig
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -17,5 +18,9 @@ class SettingsViewModel @Inject constructor(
     fun onColorThemeButtonClicked() {
         val mode = settingsRepository.reverseDefaultNightMode()
         _defaultNightMode.value = mode
+    }
+
+    fun onAboutAppButtonClicked() {
+        showSnack("ver.${BuildConfig.VERSION_NAME}")
     }
 }

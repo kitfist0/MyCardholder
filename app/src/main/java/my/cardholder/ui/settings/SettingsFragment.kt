@@ -17,6 +17,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         binding.settingsColorThemeButton.setOnClickListener {
             viewModel.onColorThemeButtonClicked()
         }
+        binding.settingsAboutAppButton.setOnClickListener {
+            viewModel.onAboutAppButtonClicked()
+        }
     }
 
     override fun collectData() {
