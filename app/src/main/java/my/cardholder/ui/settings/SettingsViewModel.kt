@@ -12,12 +12,12 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
-    private val _defaultNightMode = MutableStateFlow(settingsRepository.defaultNightMode)
-    val defaultNightMode = _defaultNightMode.asStateFlow()
+    private val _nightModeEnabled = MutableStateFlow(settingsRepository.isNightModeEnabled)
+    val nightModeEnabled = _nightModeEnabled.asStateFlow()
 
     fun onColorThemeButtonClicked() {
-        val mode = settingsRepository.reverseDefaultNightMode()
-        _defaultNightMode.value = mode
+        val isEnabled = settingsRepository.reverseDefaultNightMode()
+        _nightModeEnabled.value = isEnabled
     }
 
     fun onAboutAppButtonClicked() {

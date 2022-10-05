@@ -1,6 +1,5 @@
 package my.cardholder.ui.settings
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
@@ -23,19 +22,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 
     override fun collectData() {
-        viewModel.defaultNightMode.collectWhenStarted { mode ->
-            AppCompatDelegate.setDefaultNightMode(mode)
-            setupColorThemeButtonState(mode == AppCompatDelegate.MODE_NIGHT_YES)
+        viewModel.nightModeEnabled.collectWhenStarted { isEnabled ->
+            setupColorThemeButtonState(isEnabled)
         }
     }
 
-    private fun setupColorThemeButtonState(nightYes: Boolean) {
+    private fun setupColorThemeButtonState(isEnabled: Boolean) {
         binding.settingsColorThemeButton.apply {
             icon = contextCompatDrawable(
-                if (nightYes) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
+                if (isEnabled) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
             )
             text = getString(
-                if (nightYes) R.string.settings_switch_to_light_mode else R.string.settings_switch_to_dark_mode
+                if (isEnabled) R.string.settings_switch_to_light_mode else R.string.settings_switch_to_dark_mode
             )
         }
     }

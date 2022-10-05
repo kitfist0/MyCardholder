@@ -14,19 +14,22 @@ class SettingsRepository @Inject constructor(
         private const val NIGHT_MODE_KEY = "night_mode"
     }
 
-    val defaultNightMode = isDarkModeEnabled.toNightModeInt()
+    val isNightModeEnabled get() = preferences.getBoolean(NIGHT_MODE_KEY, false)
 
-    fun reverseDefaultNightMode(): Int {
-        val newValue = isDarkModeEnabled.not()
-        preferences.edit().putBoolean(NIGHT_MODE_KEY, newValue).apply()
-        return newValue.toNightModeInt()
+    fun reverseDefaultNightMode(): Boolean {
+        val isEnabled = !isNightModeEnabled
+        preferences.edit().putBoolean(NIGHT_MODE_KEY, isEnabled).apply()
+        setDefaultNightMode()
+        return isEnabled
     }
 
-    private val isDarkModeEnabled get() = preferences.getBoolean(NIGHT_MODE_KEY, false)
-
-    private fun Boolean.toNightModeInt() = if (this) {
-        AppCompatDelegate.MODE_NIGHT_YES
-    } else {
-        AppCompatDelegate.MODE_NIGHT_NO
+    private fun setDefaultNightMode() {
+        AppCompatDelegate.setDefaultNightMode(
+            if (isNightModeEnabled) {
+                AppCompatDelegate.MODE_NIGHT_YES
+            } else {
+                AppCompatDelegate.MODE_NIGHT_NO
+            }
+        )
     }
 }
