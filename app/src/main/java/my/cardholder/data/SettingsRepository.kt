@@ -23,7 +23,7 @@ class SettingsRepository @Inject constructor(
         return isEnabled
     }
 
-    private fun setDefaultNightMode() {
+    fun setDefaultNightMode() {
         AppCompatDelegate.setDefaultNightMode(
             if (isNightModeEnabled) {
                 AppCompatDelegate.MODE_NIGHT_YES
