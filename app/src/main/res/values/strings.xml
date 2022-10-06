@@ -16,4 +16,5 @@
     <string name="settings_coffee_for_developers">Coffee for developers</string>
     <string name="settings_switch_to_light_mode">Switch to light mode</string>
     <string name="settings_switch_to_dark_mode">Switch to dark mode</string>
+    <string name="settings_supported_formats">Supported formats</string>
 </resources>
