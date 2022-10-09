@@ -1,5 +1,7 @@
 package my.cardholder.ui.base
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
@@ -73,6 +75,9 @@ abstract class BaseFragment<out VB : ViewBinding>(
                     ?: findNavController().navigate(event.direction)
                 is NavigateBack ->
                     findNavController().popBackStack()
+                is StartActivity -> event.uriString
+                    ?.let { uriString -> startActivity(Intent(event.action, Uri.parse(uriString))) }
+                    ?: startActivity(Intent(event.action))
             }
         }
     }

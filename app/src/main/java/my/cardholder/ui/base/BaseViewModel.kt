@@ -24,6 +24,10 @@ abstract class BaseViewModel : ViewModel() {
         eventChannel.trySend(NavigateBack)
     }
 
+    protected fun startActivity(action: String, uriString: String? = null) {
+        eventChannel.trySend(StartActivity(action, uriString))
+    }
+
     protected fun showSnack(message: String) {
         eventChannel.trySend(SnackMessage(message))
     }
