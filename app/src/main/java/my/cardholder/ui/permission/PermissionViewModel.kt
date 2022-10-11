@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import my.cardholder.BuildConfig
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.PermissionHelper
 import javax.inject.Inject
@@ -50,11 +51,10 @@ class PermissionViewModel @Inject constructor(
         isGranted: Boolean,
         shouldShowRationale: Boolean,
     ) {
-        if (!isGranted) {
-            permissionHelper.onPermissionIsNotGranted(
-                permission = permission,
-                shouldShowRationale = shouldShowRationale,
-                openAppInfoIfNeverAskChecked = true,
+        if (!isGranted && permissionHelper.isNeverAskAgainChecked(permission, shouldShowRationale)) {
+            startActivity(
+                action = "android.settings.APPLICATION_DETAILS_SETTINGS",
+                uriString = "package:${BuildConfig.APPLICATION_ID}",
             )
         }
     }
