@@ -16,6 +16,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
         binding.settingsColorThemeButton.setOnClickListener {
             viewModel.onColorThemeButtonClicked()
         }
+        binding.settingsSupportedFormatsButton.setOnClickListener {
+            viewModel.onSupportedFormatsClicked()
+        }
         binding.settingsAboutAppButton.setOnClickListener {
             viewModel.onAboutAppButtonClicked()
         }

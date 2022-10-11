@@ -12,12 +12,20 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
+    companion object {
+        private const val WEB_PAGE = "https://github.com/kitfist0/MyCardholder"
+    }
+
     private val _nightModeEnabled = MutableStateFlow(settingsRepository.isNightModeEnabled)
     val nightModeEnabled = _nightModeEnabled.asStateFlow()
 
     fun onColorThemeButtonClicked() {
         val isEnabled = settingsRepository.reverseDefaultNightMode()
         _nightModeEnabled.value = isEnabled
+    }
+
+    fun onSupportedFormatsClicked() {
+        startActivity("android.intent.action.VIEW", WEB_PAGE)
     }
 
     fun onAboutAppButtonClicked() {
