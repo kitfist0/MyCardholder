@@ -63,7 +63,6 @@ class ScannerViewModel @Inject constructor(
         viewModelScope.launch {
             val cardId = cardRepository.insertCard(
                 text = text,
-                timestamp = System.currentTimeMillis(),
                 supportedFormat = supportedFormat,
             )
             navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))

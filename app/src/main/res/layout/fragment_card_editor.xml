@@ -59,7 +59,7 @@
         app:layout_constraintTop_toTopOf="@id/card_editor_guideline_horizontal">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/card_editor_name_edit_text"
+            android:id="@+id/card_editor_card_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/card_name"

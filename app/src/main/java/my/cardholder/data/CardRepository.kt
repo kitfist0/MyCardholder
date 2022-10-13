@@ -41,11 +41,8 @@ class CardRepository @Inject constructor(
         return cardDao.getCard(cardId)
     }
 
-    suspend fun insertCard(
-        text: String,
-        timestamp: Long,
-        supportedFormat: SupportedFormat,
-    ): Long {
+    suspend fun insertCard(text: String, supportedFormat: SupportedFormat): Long {
+        val timestamp = System.currentTimeMillis()
         val card = Card(
             name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT).format(timestamp)}",
             text = text,
@@ -59,6 +56,22 @@ class CardRepository @Inject constructor(
             codeFormat = supportedFormat,
         )
         return cardDao.insert(card)
+    }
+
+    suspend fun updateCard(cardId: Long, name: String?, text: String?) {
+        val oldCard = getCard(cardId)
+        oldCard.getBarcodeFile(context).delete()
+        val newCard = oldCard.copy(
+            name = name ?: oldCard.name,
+            text = text ?: oldCard.text,
+            timestamp = System.currentTimeMillis(),
+        )
+        writeBarcodeFile(
+            file = newCard.getBarcodeFile(context),
+            codeData = newCard.text,
+            codeFormat = newCard.format,
+        )
+        cardDao.update(newCard)
     }
 
     suspend fun deleteCard(cardId: Long) {

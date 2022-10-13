@@ -2,6 +2,7 @@ package my.cardholder.ui.card.editor
 
 import android.text.Editable
 import android.transition.TransitionInflater
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,12 +41,18 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
         binding.cardEditorOkFab.setOnClickListener {
             viewModel.onOkFabClicked()
         }
+        binding.cardEditorCardNameEditText.doAfterTextChanged {
+            viewModel.onCardNameChanged(it?.toString())
+        }
+        binding.cardEditorCardTextEditText.doAfterTextChanged {
+            viewModel.onCardTextChanged(it?.toString())
+        }
     }
 
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
             binding.cardEditorBarcodeImage.load(card.getBarcodeFile(requireContext()))
-            binding.cardEditorNameEditText.text = Editable.Factory.getInstance().newEditable(card.name)
+            binding.cardEditorCardNameEditText.text = Editable.Factory.getInstance().newEditable(card.name)
             binding.cardEditorCardTextEditText.text = Editable.Factory.getInstance().newEditable(card.text)
         }
     }
