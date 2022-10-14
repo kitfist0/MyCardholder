@@ -1,8 +1,8 @@
 package my.cardholder.ui.card.viewer
 
 import android.view.MenuItem
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
 import dagger.assisted.Assisted
@@ -20,9 +20,7 @@ class CardViewerViewModel @AssistedInject constructor(
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
 
-    private val _card = liveData {
-        emit(cardRepository.getCard(cardId))
-    }
+    private val _card = MutableLiveData<Card>()
     val card: Flow<Card> = _card.asFlow()
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -31,6 +29,13 @@ class CardViewerViewModel @AssistedInject constructor(
             return true
         }
         return super.onMenuItemSelected(menuItem)
+    }
+
+    fun onViewCreated() {
+        viewModelScope.launch {
+            val card = cardRepository.getCard(cardId)
+            _card.value = card
+        }
     }
 
     fun onEditFabClicked(extras: Navigator.Extras) {

@@ -1,6 +1,8 @@
 package my.cardholder.ui.card.viewer
 
+import android.os.Bundle
 import android.transition.TransitionInflater
+import android.view.View
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -53,5 +55,10 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
             binding.cardViewerCardNameText.text = card.name
             binding.cardViewerCardTextText.text = card.text
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.onViewCreated()
     }
 }
