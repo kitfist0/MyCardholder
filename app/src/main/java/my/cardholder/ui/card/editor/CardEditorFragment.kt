@@ -40,6 +40,9 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
         binding.cardEditorOkFab.setOnClickListener {
             viewModel.onOkFabClicked()
         }
+        binding.cardEditorColorPickerButton.setOnClickListener {
+            viewModel.onColorPickerButtonClicked()
+        }
         binding.cardEditorCardNameEditText.doAfterTextChanged {
             viewModel.onCardNameChanged(it?.toString())
         }

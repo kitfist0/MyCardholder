@@ -36,6 +36,9 @@ class CardEditorViewModel @AssistedInject constructor(
         }
     }
 
+    fun onColorPickerButtonClicked() {
+    }
+
     fun onCardNameChanged(cardName: String?) {
         updatedCardName = cardName
     }
