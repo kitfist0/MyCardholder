@@ -36,7 +36,8 @@ class CardEditorViewModel @AssistedInject constructor(
         }
     }
 
-    fun onColorPickerButtonClicked() {
+    fun onColorPickerResult(hexColor: String) {
+        showSnack(hexColor)
     }
 
     fun onCardNameChanged(cardName: String?) {
