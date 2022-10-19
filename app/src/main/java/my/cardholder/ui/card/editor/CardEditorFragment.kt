@@ -9,6 +9,7 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardEditorBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
@@ -55,9 +56,12 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
 
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
-            binding.cardEditorBarcodeImage.load(card.getBarcodeFile(requireContext()))
-            binding.cardEditorCardNameEditText.setText(card.name)
-            binding.cardEditorCardTextEditText.setText(card.text)
+            with(binding) {
+                cardEditorBarcodeImage.load(card.getBarcodeFile(requireContext()))
+                cardEditorCardNameEditText.setText(card.name)
+                cardEditorCardTextEditText.setText(card.text)
+                cardEditorBackgroundColorView.setBackgroundColor(card.getColorInt(requireContext()))
+            }
         }
     }
 

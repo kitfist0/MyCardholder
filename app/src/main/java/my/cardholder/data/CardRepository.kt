@@ -59,7 +59,15 @@ class CardRepository @Inject constructor(
         return cardDao.insert(card)
     }
 
-    suspend fun updateCard(cardId: Long, name: String?, text: String?) {
+    suspend fun updateCardColor(cardId: Long, color: String) {
+        val oldCard = getCard(cardId).first()
+        val newCard = oldCard.copy(
+            color = color,
+        )
+        cardDao.update(newCard)
+    }
+
+    suspend fun updateCardNameAndText(cardId: Long, name: String?, text: String?) {
         val oldCard = getCard(cardId).first()
         oldCard.getBarcodeFile(context).delete()
         val newCard = oldCard.copy(

@@ -25,14 +25,16 @@ class CardEditorViewModel @AssistedInject constructor(
             updatedCardName.isNullOrEmpty() -> showSnack("Empty card name!")
             updatedCardText.isNullOrEmpty() -> showSnack("Empty card text!")
             else -> viewModelScope.launch {
-                cardRepository.updateCard(cardId, updatedCardName, updatedCardText)
+                cardRepository.updateCardNameAndText(cardId, updatedCardName, updatedCardText)
                 navigateBack()
             }
         }
     }
 
     fun onColorPickerResult(hexColor: String) {
-        showSnack(hexColor)
+        viewModelScope.launch {
+            cardRepository.updateCardColor(cardId, "#$hexColor")
+        }
     }
 
     fun onCardNameChanged(cardName: String?) {
