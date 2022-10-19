@@ -7,6 +7,7 @@ import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
@@ -49,9 +50,12 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
 
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
-            binding.cardViewerBarcodeImage.load(card.getBarcodeFile(requireContext()))
-            binding.cardViewerCardNameText.text = card.name
-            binding.cardViewerCardTextText.text = card.text
+            with(binding) {
+                cardViewerBackgroundColorView.setBackgroundColor(card.getColorInt(requireContext()))
+                cardViewerBarcodeImage.load(card.getBarcodeFile(requireContext()))
+                cardViewerCardNameText.text = card.name
+                cardViewerCardTextText.text = card.text
+            }
         }
     }
 }
