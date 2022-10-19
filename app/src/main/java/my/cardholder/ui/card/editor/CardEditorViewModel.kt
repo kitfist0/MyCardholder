@@ -1,7 +1,5 @@
 package my.cardholder.ui.card.editor
 
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,10 +18,7 @@ class CardEditorViewModel @AssistedInject constructor(
     private var updatedCardName: String? = null
     private var updatedCardText: String? = null
 
-    private val _card = liveData {
-        emit(cardRepository.getCard(cardId))
-    }
-    val card: Flow<Card> = _card.asFlow()
+    val card: Flow<Card> = cardRepository.getCard(cardId)
 
     fun onOkFabClicked() {
         when {
