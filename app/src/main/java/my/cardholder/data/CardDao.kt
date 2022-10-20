@@ -9,7 +9,7 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE id LIKE :id LIMIT 1")
     fun getCard(id: Long): Flow<Card>
 
-    @Query("SELECT * FROM cards")
+    @Query("SELECT * FROM cards ORDER BY id DESC")
     fun getCards(): Flow<List<Card>>
 
     @Query("DELETE FROM cards WHERE id = :id")
