@@ -13,6 +13,7 @@ import com.google.zxing.oned.*
 import com.google.zxing.pdf417.PDF417Writer
 import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.SupportedFormat
@@ -37,7 +38,7 @@ class CardRepository @Inject constructor(
 
     val cards: Flow<List<Card>> = cardDao.getCards()
 
-    suspend fun getCard(cardId: Long): Card {
+    fun getCard(cardId: Long): Flow<Card> {
         return cardDao.getCard(cardId)
     }
 
@@ -58,8 +59,16 @@ class CardRepository @Inject constructor(
         return cardDao.insert(card)
     }
 
-    suspend fun updateCard(cardId: Long, name: String?, text: String?) {
-        val oldCard = getCard(cardId)
+    suspend fun updateCardColor(cardId: Long, color: String) {
+        val oldCard = getCard(cardId).first()
+        val newCard = oldCard.copy(
+            color = color,
+        )
+        cardDao.update(newCard)
+    }
+
+    suspend fun updateCardNameAndText(cardId: Long, name: String?, text: String?) {
+        val oldCard = getCard(cardId).first()
         oldCard.getBarcodeFile(context).delete()
         val newCard = oldCard.copy(
             name = name ?: oldCard.name,
@@ -75,7 +84,7 @@ class CardRepository @Inject constructor(
     }
 
     suspend fun deleteCard(cardId: Long) {
-        val card = getCard(cardId)
+        val card = getCard(cardId).first()
         card.getBarcodeFile(context).delete()
         cardDao.deleteCard(card.id)
     }

@@ -10,6 +10,7 @@ import coil.load
 import my.cardholder.R
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
+import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.setupUniqueTransitionNamesAndReturnSharedElements
 
@@ -44,10 +45,11 @@ class CardsListAdapter(
         }
 
         fun bind(card: Card) {
-            binding.itemCardNameText.text = card.name
-            binding.itemCardTextText.text = card.text
-            binding.itemCardBarcodeImage.apply {
-                load(card.getBarcodeFile(context))
+            with(binding) {
+                itemCardLayout.setBackgroundColor(card.getColorInt(root.context))
+                itemCardBarcodeImage.load(card.getBarcodeFile(root.context))
+                itemCardNameText.text = card.name
+                itemCardTextText.text = card.text
             }
         }
     }

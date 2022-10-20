@@ -1,8 +1,11 @@
 package my.cardholder.data.model
 
 import android.content.Context
+import android.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.R
 import java.io.File
 
 @Entity(tableName = "cards")
@@ -18,6 +21,14 @@ data class Card(
     companion object {
         fun Card.getBarcodeFile(context: Context): File {
             return File(context.getExternalFilesDir("images"), "$timestamp.jpeg")
+        }
+
+        fun Card.getColorInt(context: Context): Int {
+            return try {
+                Color.parseColor(color)
+            } catch (e: Exception) {
+                MaterialColors.getColor(context, R.attr.colorSecondary, Color.WHITE)
+            }
         }
     }
 }

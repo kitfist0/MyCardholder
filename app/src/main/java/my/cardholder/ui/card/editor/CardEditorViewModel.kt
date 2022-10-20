@@ -1,7 +1,5 @@
 package my.cardholder.ui.card.editor
 
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,19 +18,22 @@ class CardEditorViewModel @AssistedInject constructor(
     private var updatedCardName: String? = null
     private var updatedCardText: String? = null
 
-    private val _card = liveData {
-        emit(cardRepository.getCard(cardId))
-    }
-    val card: Flow<Card> = _card.asFlow()
+    val card: Flow<Card> = cardRepository.getCard(cardId)
 
     fun onOkFabClicked() {
         when {
             updatedCardName.isNullOrEmpty() -> showSnack("Empty card name!")
             updatedCardText.isNullOrEmpty() -> showSnack("Empty card text!")
             else -> viewModelScope.launch {
-                cardRepository.updateCard(cardId, updatedCardName, updatedCardText)
+                cardRepository.updateCardNameAndText(cardId, updatedCardName, updatedCardText)
                 navigateBack()
             }
+        }
+    }
+
+    fun onColorPickerResult(hexColor: String) {
+        viewModelScope.launch {
+            cardRepository.updateCardColor(cardId, "#$hexColor")
         }
     }
 

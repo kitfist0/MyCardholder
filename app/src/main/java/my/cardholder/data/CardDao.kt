@@ -7,7 +7,7 @@ import my.cardholder.data.model.Card
 @Dao
 interface CardDao {
     @Query("SELECT * FROM cards WHERE id LIKE :id LIMIT 1")
-    suspend fun getCard(id: Long): Card
+    fun getCard(id: Long): Flow<Card>
 
     @Query("SELECT * FROM cards")
     fun getCards(): Flow<List<Card>>

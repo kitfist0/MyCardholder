@@ -30,7 +30,7 @@
         tools:src="@drawable/ic_placeholder_qr_code" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/card_editor_palette_button"
+        android:id="@+id/card_editor_color_picker_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_palette"
