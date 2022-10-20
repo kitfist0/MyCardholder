@@ -78,7 +78,7 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
                 dialogInterface.dismiss()
             }
             .attachAlphaSlideBar(false)
-            .attachBrightnessSlideBar(false)
+            .attachBrightnessSlideBar(true)
             .show()
     }
 }
