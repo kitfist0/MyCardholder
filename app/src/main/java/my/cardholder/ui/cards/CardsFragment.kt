@@ -30,6 +30,11 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(FragmentCardsBinding::i
         binding.cardsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listAdapter
+            postponeEnterTransition()
+            viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
         }
     }
 
