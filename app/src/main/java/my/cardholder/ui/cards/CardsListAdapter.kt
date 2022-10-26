@@ -7,12 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import my.cardholder.R
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.ItemCardBinding
-import my.cardholder.util.setupUniqueTransitionNamesAndReturnSharedElements
+import my.cardholder.util.setupUniqueTransitionNames
 
 class CardsListAdapter(
     private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
@@ -34,18 +33,25 @@ class CardsListAdapter(
         init {
             itemView.setOnClickListener {
                 val card = getItem(adapterPosition)
-                val sharedElements = binding.setupUniqueTransitionNamesAndReturnSharedElements(
-                    uniqueSuffix = card.id,
-                    R.id.item_card_name_text,
-                    R.id.item_card_text_text,
-                    R.id.item_card_barcode_image,
-                )
+                val sharedElements = with(binding) {
+                    mapOf(
+                        itemCardBarcodeImage to itemCardBarcodeImage.transitionName,
+                        itemCardNameText to itemCardNameText.transitionName,
+                        itemCardTextText to itemCardTextText.transitionName,
+                    )
+                }
                 onItemClick.invoke(card.id, sharedElements)
             }
         }
 
         fun bind(card: Card) {
             with(binding) {
+                setupUniqueTransitionNames(
+                    uniqueSuffix = card.id,
+                    itemCardBarcodeImage,
+                    itemCardNameText,
+                    itemCardTextText,
+                )
                 itemCardLayout.setBackgroundColor(card.getColorInt(root.context))
                 itemCardBarcodeImage.load(card.getBarcodeFile(root.context))
                 itemCardNameText.text = card.name

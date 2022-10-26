@@ -1,5 +1,6 @@
 package my.cardholder.ui.cards
 
+import android.transition.TransitionInflater
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,8 @@ class CardsFragment : BaseFragment<FragmentCardsBinding>(FragmentCardsBinding::i
     }
 
     override fun initViews() {
+        sharedElementEnterTransition = TransitionInflater.from(context)
+            .inflateTransition(android.R.transition.move)
         binding.cardsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listAdapter

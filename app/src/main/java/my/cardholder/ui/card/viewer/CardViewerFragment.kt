@@ -11,7 +11,7 @@ import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
-import my.cardholder.util.setupUniqueTransitionNamesAndReturnSharedElements
+import my.cardholder.util.setupUniqueTransitionNames
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,18 +33,28 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
-        val sharedElements = binding.setupUniqueTransitionNamesAndReturnSharedElements(
-            uniqueSuffix = args.cardId,
-            R.id.card_viewer_card_name_text,
-            R.id.card_viewer_card_text_text,
-            R.id.card_viewer_barcode_image,
-            R.id.card_viewer_edit_fab,
-        )
-        binding.cardViewerEditFab.setOnClickListener {
-            val extras = FragmentNavigator.Extras.Builder()
-                .addSharedElements(sharedElements)
-                .build()
-            viewModel.onEditFabClicked(extras)
+        with(binding) {
+            setupUniqueTransitionNames(
+                uniqueSuffix = args.cardId,
+                cardViewerBarcodeImage,
+                cardViewerCardNameText,
+                cardViewerCardTextText,
+                cardViewerEditFab,
+            )
+            cardViewerEditFab.setOnClickListener {
+                val sharedElements = with(binding) {
+                    mapOf(
+                        cardViewerBarcodeImage to cardViewerBarcodeImage.transitionName,
+                        cardViewerCardNameText to cardViewerCardNameText.transitionName,
+                        cardViewerCardTextText to cardViewerCardTextText.transitionName,
+                        cardViewerEditFab to cardViewerEditFab.transitionName,
+                    )
+                }
+                val extras = FragmentNavigator.Extras.Builder()
+                    .addSharedElements(sharedElements)
+                    .build()
+                viewModel.onEditFabClicked(extras)
+            }
         }
     }
 

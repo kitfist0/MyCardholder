@@ -13,7 +13,7 @@ import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardEditorBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
-import my.cardholder.util.setupUniqueTransitionNamesAndReturnSharedElements
+import my.cardholder.util.setupUniqueTransitionNames
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,24 +33,26 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
-        binding.setupUniqueTransitionNamesAndReturnSharedElements(
-            uniqueSuffix = args.cardId,
-            R.id.card_editor_card_name_input_layout,
-            R.id.card_editor_card_text_input_layout,
-            R.id.card_editor_barcode_image,
-            R.id.card_editor_ok_fab,
-        )
-        binding.cardEditorOkFab.setOnClickListener {
-            viewModel.onOkFabClicked()
-        }
-        binding.cardEditorColorPickerButton.setOnClickListener {
-            showColorPickerDialog()
-        }
-        binding.cardEditorCardNameEditText.doAfterTextChanged {
-            viewModel.onCardNameChanged(it?.toString())
-        }
-        binding.cardEditorCardTextEditText.doAfterTextChanged {
-            viewModel.onCardTextChanged(it?.toString())
+        with(binding) {
+            setupUniqueTransitionNames(
+                uniqueSuffix = args.cardId,
+                cardEditorBarcodeImage,
+                cardEditorCardNameInputLayout,
+                cardEditorCardTextInputLayout,
+                cardEditorOkFab,
+            )
+            cardEditorOkFab.setOnClickListener {
+                viewModel.onOkFabClicked()
+            }
+            cardEditorColorPickerButton.setOnClickListener {
+                showColorPickerDialog()
+            }
+            cardEditorCardNameEditText.doAfterTextChanged {
+                viewModel.onCardNameChanged(it?.toString())
+            }
+            cardEditorCardTextEditText.doAfterTextChanged {
+                viewModel.onCardTextChanged(it?.toString())
+            }
         }
     }
 
