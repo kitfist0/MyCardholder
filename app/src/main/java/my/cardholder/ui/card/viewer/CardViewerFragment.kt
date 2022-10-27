@@ -11,7 +11,7 @@ import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
-import my.cardholder.util.setupUniqueTransitionNames
+import my.cardholder.util.setupUniqueTransitionName
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,13 +34,11 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
-            setupUniqueTransitionNames(
-                uniqueSuffix = args.cardId,
-                cardViewerBarcodeImage,
-                cardViewerCardNameText,
-                cardViewerCardTextText,
-                cardViewerEditFab,
-            )
+            val uniqueNameSuffix = args.cardId
+            cardViewerBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
+            cardViewerCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
+            cardViewerCardTextText.setupUniqueTransitionName(uniqueNameSuffix)
+            cardViewerEditFab.setupUniqueTransitionName(uniqueNameSuffix)
             cardViewerEditFab.setOnClickListener {
                 val sharedElements = with(binding) {
                     mapOf(

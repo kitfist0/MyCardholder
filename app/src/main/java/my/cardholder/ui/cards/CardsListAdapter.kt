@@ -11,7 +11,7 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.ItemCardBinding
-import my.cardholder.util.setupUniqueTransitionNames
+import my.cardholder.util.setupUniqueTransitionName
 
 class CardsListAdapter(
     private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
@@ -46,16 +46,20 @@ class CardsListAdapter(
 
         fun bind(card: Card) {
             with(binding) {
-                setupUniqueTransitionNames(
-                    uniqueSuffix = card.id,
-                    itemCardBarcodeImage,
-                    itemCardNameText,
-                    itemCardTextText,
-                )
+                val uniqueNameSuffix = card.id
                 itemCardLayout.setBackgroundColor(card.getColorInt(root.context))
-                itemCardBarcodeImage.load(card.getBarcodeFile(root.context))
-                itemCardNameText.text = card.name
-                itemCardTextText.text = card.text
+                itemCardBarcodeImage.apply {
+                    setupUniqueTransitionName(uniqueNameSuffix)
+                    load(card.getBarcodeFile(root.context))
+                }
+                itemCardNameText.apply {
+                    setupUniqueTransitionName(uniqueNameSuffix)
+                    text = card.name
+                }
+                itemCardTextText.apply {
+                    setupUniqueTransitionName(uniqueNameSuffix)
+                    text = card.text
+                }
             }
         }
     }

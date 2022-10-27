@@ -13,7 +13,7 @@ import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardEditorBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
-import my.cardholder.util.setupUniqueTransitionNames
+import my.cardholder.util.setupUniqueTransitionName
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,24 +34,22 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
-            setupUniqueTransitionNames(
-                uniqueSuffix = args.cardId,
-                cardEditorBarcodeImage,
-                cardEditorCardNameInputLayout,
-                cardEditorCardTextInputLayout,
-                cardEditorOkFab,
-            )
-            cardEditorOkFab.setOnClickListener {
-                viewModel.onOkFabClicked()
+            val uniqueNameSuffix = args.cardId
+            cardEditorBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
+            cardEditorCardNameEditText.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
+            }
+            cardEditorCardTextEditText.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                doAfterTextChanged { viewModel.onCardTextChanged(it?.toString()) }
+            }
+            cardEditorOkFab.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                setOnClickListener { viewModel.onOkFabClicked() }
             }
             cardEditorColorPickerButton.setOnClickListener {
                 showColorPickerDialog()
-            }
-            cardEditorCardNameEditText.doAfterTextChanged {
-                viewModel.onCardNameChanged(it?.toString())
-            }
-            cardEditorCardTextEditText.doAfterTextChanged {
-                viewModel.onCardTextChanged(it?.toString())
             }
         }
     }
