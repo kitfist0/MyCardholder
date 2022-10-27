@@ -36,20 +36,20 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
         with(binding) {
             val uniqueNameSuffix = args.cardId
             cardEditorBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
-            cardEditorCardNameEditText.apply {
-                setupUniqueTransitionName(uniqueNameSuffix)
-                doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
-            }
-            cardEditorCardTextEditText.apply {
-                setupUniqueTransitionName(uniqueNameSuffix)
-                doAfterTextChanged { viewModel.onCardTextChanged(it?.toString()) }
-            }
+            cardEditorCardNameInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
+            cardEditorCardTextInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
             cardEditorOkFab.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
             cardEditorColorPickerButton.setOnClickListener {
                 showColorPickerDialog()
+            }
+            cardEditorCardNameEditText.doAfterTextChanged {
+                viewModel.onCardNameChanged(it?.toString())
+            }
+            cardEditorCardTextEditText.doAfterTextChanged {
+                viewModel.onCardTextChanged(it?.toString())
             }
         }
     }
