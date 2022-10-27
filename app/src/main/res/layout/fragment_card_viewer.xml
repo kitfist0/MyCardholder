@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/card_viewer_card_name_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
@@ -49,7 +49,7 @@
 
     <TextView
         android:id="@+id/card_viewer_card_text_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
