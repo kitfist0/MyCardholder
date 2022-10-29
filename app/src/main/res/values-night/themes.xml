@@ -7,7 +7,7 @@
         <!-- Secondary brand color -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Alert dialog theme  -->
+        <!-- Alert dialog theme -->
         <item name="alertDialogTheme">@style/Theme.Material3.Dark.Dialog.Alert</item>
     </style>
 </resources>

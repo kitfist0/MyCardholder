@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.elevation.SurfaceColors
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
@@ -49,9 +50,18 @@ class MainActivity : AppCompatActivity() {
                     binding.mainBottomNavView.isVisible = true
             }
         }
+        setStatusBarAndNavBarColors()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
+    }
+
+    private fun setStatusBarAndNavBarColors() {
+        val color = SurfaceColors.SURFACE_5.getColor(this)
+        // Set color of system statusBar same as ActionBar
+        window.statusBarColor = color
+        // Set color of system navigationBar same as BottomNavigationView
+        window.navigationBarColor = color
     }
 }
