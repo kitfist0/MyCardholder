@@ -4,8 +4,6 @@ import android.transition.TransitionInflater
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.skydoves.colorpickerview.ColorPickerDialog
-import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
@@ -44,9 +42,6 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
-            cardEditorColorPickerButton.setOnClickListener {
-                showColorPickerDialog()
-            }
             cardEditorCardNameEditText.doAfterTextChanged {
                 viewModel.onCardNameChanged(it?.toString())
             }
@@ -65,22 +60,5 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
                 cardEditorCardTextEditText.setText(card.text)
             }
         }
-    }
-
-    private fun showColorPickerDialog() {
-        ColorPickerDialog.Builder(requireContext())
-            .setTitle(R.string.card_color)
-            .setPositiveButton(
-                android.R.string.ok,
-                ColorEnvelopeListener { envelope, _ ->
-                    viewModel.onColorPickerResult(envelope.hexCode)
-                }
-            )
-            .setNegativeButton(android.R.string.cancel) { dialogInterface, _ ->
-                dialogInterface.dismiss()
-            }
-            .attachAlphaSlideBar(false)
-            .attachBrightnessSlideBar(true)
-            .show()
     }
 }

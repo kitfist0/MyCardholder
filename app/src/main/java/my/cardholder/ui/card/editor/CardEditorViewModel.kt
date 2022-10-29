@@ -41,12 +41,6 @@ class CardEditorViewModel @AssistedInject constructor(
         }
     }
 
-    fun onColorPickerResult(hexColor: String) {
-        viewModelScope.launch {
-            cardRepository.updateCardColor(cardId, "#$hexColor")
-        }
-    }
-
     fun onCardNameChanged(cardName: String?) {
         updatedCardName = cardName
     }
