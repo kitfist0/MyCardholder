@@ -26,6 +26,8 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
 
     private val args: CardEditorFragmentArgs by navArgs()
 
+    override val menuRes = R.menu.menu_card_editor
+
     override val viewModel: CardEditorViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
