@@ -1,13 +1,8 @@
 <resources>
 
     <style name="Theme.MyWallet" parent="Theme.Material3.DayNight">
-        <!-- Primary brand color -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <!-- Primary color -->
+        <item name="colorPrimary">@color/blue_grey_200</item>
         <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Alert dialog theme -->
-        <item name="alertDialogTheme">@style/Theme.Material3.Dark.Dialog.Alert</item>
     </style>
 </resources>
