@@ -29,21 +29,14 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.card_viewer_fragment,
-                R.id.card_editor_fragment, ->
+                R.id.card_viewer_fragment, R.id.card_editor_fragment ->
                     binding.mainBottomNavView.isVisible = false
                 else ->
                     binding.mainBottomNavView.isVisible = true
             }
         }
-        setStatusBarAndNavBarColors()
-    }
 
-    private fun setStatusBarAndNavBarColors() {
-        val color = SurfaceColors.SURFACE_5.getColor(this)
-        // Set color of system statusBar same as ActionBar
-        window.statusBarColor = color
         // Set color of system navigationBar same as BottomNavigationView
-        window.navigationBarColor = color
+        window.navigationBarColor = SurfaceColors.SURFACE_5.getColor(this)
     }
 }
