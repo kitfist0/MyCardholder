@@ -1,11 +1,13 @@
 package my.cardholder.ui.card.editor
 
+import android.view.MenuItem
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.data.model.Card
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
@@ -20,6 +22,14 @@ class CardEditorViewModel @AssistedInject constructor(
 
     val card: Flow<Card> = cardRepository.getCard(cardId)
 
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.itemId == R.id.card_editor_action_color_picker) {
+            showSnack("Navigate to color picker")
+            return true
+        }
+        return super.onMenuItemSelected(menuItem)
+    }
+
     fun onOkFabClicked() {
         when {
             updatedCardName.isNullOrEmpty() -> showSnack("Empty card name!")
@@ -28,12 +38,6 @@ class CardEditorViewModel @AssistedInject constructor(
                 cardRepository.updateCardNameAndText(cardId, updatedCardName, updatedCardText)
                 navigateBack()
             }
-        }
-    }
-
-    fun onColorPickerResult(hexColor: String) {
-        viewModelScope.launch {
-            cardRepository.updateCardColor(cardId, "#$hexColor")
         }
     }
 

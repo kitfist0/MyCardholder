@@ -29,17 +29,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_placeholder_qr_code" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/card_editor_color_picker_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_palette"
-        app:backgroundTint="?colorSecondaryVariant"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@id/card_editor_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:useCompatPadding="true" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_editor_guideline_horizontal"
         android:layout_width="wrap_content"
@@ -49,7 +38,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/card_editor_card_name_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -63,14 +51,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/card_name"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             tools:text="@tools:sample/lorem" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/card_editor_card_text_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -84,7 +70,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/card_text"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             tools:text="@tools:sample/lorem" />
 
     </com.google.android.material.textfield.TextInputLayout>
