@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Theme.MyWallet" parent="Theme.Material3.DayNight">
+    <style name="Theme.MyWallet" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary color -->
         <item name="colorPrimary">@color/blue_grey_200</item>
         <item name="colorOnPrimary">@color/black</item>
