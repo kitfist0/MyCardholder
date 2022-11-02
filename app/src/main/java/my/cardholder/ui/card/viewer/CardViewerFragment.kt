@@ -5,7 +5,6 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.R
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardViewerBinding
@@ -23,8 +22,6 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
     lateinit var viewModelFactory: CardViewerViewModelFactory
 
     private val args: CardViewerFragmentArgs by navArgs()
-
-    override val menuRes = R.menu.menu_card_viewer
 
     override val viewModel: CardViewerViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
@@ -52,6 +49,9 @@ class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
                     .addSharedElements(sharedElements)
                     .build()
                 viewModel.onEditFabClicked(extras)
+            }
+            cardViewerDeleteCardButton.setOnClickListener {
+                viewModel.onDeleteCardButtonClicked()
             }
         }
     }

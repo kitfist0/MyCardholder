@@ -5,7 +5,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.R
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardEditorBinding
@@ -23,8 +22,6 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
     lateinit var viewModelFactory: CardEditorViewModelFactory
 
     private val args: CardEditorFragmentArgs by navArgs()
-
-    override val menuRes = R.menu.menu_card_editor
 
     override val viewModel: CardEditorViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
@@ -47,6 +44,9 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
             }
             cardEditorCardTextEditText.doAfterTextChanged {
                 viewModel.onCardTextChanged(it?.toString())
+            }
+            cardEditorColorPickerButton.setOnClickListener {
+                viewModel.onColorPickerButtonClicked()
             }
         }
     }

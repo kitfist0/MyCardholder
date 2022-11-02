@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/card_editor_action_color_picker"
-        android:icon="@drawable/ic_action_color_picker"
+        android:icon="@drawable/ic_palette"
         android:title="@string/card_delete"
         app:showAsAction="always" />
 

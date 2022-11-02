@@ -1,6 +1,5 @@
 package my.cardholder.ui.card.viewer
 
-import android.view.MenuItem
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
 import dagger.assisted.Assisted
@@ -8,7 +7,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import my.cardholder.R
 import my.cardholder.data.model.Card
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
@@ -20,19 +18,11 @@ class CardViewerViewModel @AssistedInject constructor(
 
     val card: Flow<Card> = cardRepository.getCard(cardId)
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        if (menuItem.itemId == R.id.card_viewer_action_delete) {
-            deleteCard()
-            return true
-        }
-        return super.onMenuItemSelected(menuItem)
-    }
-
     fun onEditFabClicked(extras: Navigator.Extras) {
         navigate(CardViewerFragmentDirections.fromCardViewerToCardEditor(cardId), extras)
     }
 
-    private fun deleteCard() {
+    fun onDeleteCardButtonClicked() {
         viewModelScope.launch {
             cardRepository.deleteCard(cardId)
             navigateBack()
