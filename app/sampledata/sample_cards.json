@@ -1,0 +1,9 @@
+{
+  "cards" : [
+    {"id" : 0, "name" : "Card 0", "text" : "Card 0 text", "color" : "#66BB6A"},
+    {"id" : 1, "name" : "Card 1", "text" : "Card 1 text", "color" : "#42A5F5"},
+    {"id" : 2, "name" : "Card 2", "text" : "Card 2 text", "color" : "#EF5350"},
+    {"id" : 3, "name" : "Card 3", "text" : "Card 3 text", "color" : "#FFCA28"},
+    {"id" : 4, "name" : "Card 4", "text" : "Card 4 text", "color" : "#8D6E63"}
+  ]
+}

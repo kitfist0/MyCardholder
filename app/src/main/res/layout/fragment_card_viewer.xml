@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="?colorSecondary" />
+        tools:background="@sample/sample_cards.json/cards/color" />
 
     <ImageView
         android:id="@+id/card_viewer_barcode_image"
@@ -45,7 +45,7 @@
         android:transitionName="@string/transition_card_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/card_viewer_guideline_horizontal"
-        tools:text="@tools:sample/lorem" />
+        tools:text="@sample/sample_cards.json/cards/name" />
 
     <TextView
         android:id="@+id/card_viewer_card_text_text"
@@ -56,7 +56,7 @@
         android:transitionName="@string/transition_card_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_viewer_card_name_text"
-        tools:text="@tools:sample/lorem" />
+        tools:text="@sample/sample_cards.json/cards/text" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_viewer_edit_fab"
