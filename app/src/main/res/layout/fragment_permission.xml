@@ -33,7 +33,7 @@
         android:layout_margin="16dp"
         android:text="@string/permission_rationale"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
         app:layout_constraintBottom_toTopOf="@id/permission_grant_fab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

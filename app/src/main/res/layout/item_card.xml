@@ -7,7 +7,8 @@
     android:layout_margin="4dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
-    app:strokeWidth="0dp">
+    app:strokeWidth="0dp"
+    tools:cardBackgroundColor="?colorSecondary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_card_layout"
@@ -34,7 +35,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:paddingTop="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
             android:transitionName="@string/transition_card_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_card_barcode_image"
@@ -46,7 +47,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="2"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:transitionName="@string/transition_card_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
