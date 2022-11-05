@@ -32,7 +32,7 @@ class CardEditorViewModel @AssistedInject constructor(
     }
 
     fun onColorPickerButtonClicked() {
-        showSnack("Navigate to color picker")
+        navigate(CardEditorFragmentDirections.fromCardEditorToCardColorPicker(cardId))
     }
 
     fun onCardNameChanged(cardName: String?) {

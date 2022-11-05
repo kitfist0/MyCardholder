@@ -70,6 +70,19 @@
         <argument
             android:name="card_id"
             app:argType="long" />
+        <action
+            android:id="@+id/from_card_editor_to_card_color_picker"
+            app:destination="@id/card_color_picker" />
     </fragment>
+
+    <dialog
+        android:id="@+id/card_color_picker"
+        android:name="my.cardholder.ui.picker.PickerDialogFragment"
+        android:label="@string/card_color"
+        tools:layout="@layout/fragment_color_picker">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
+    </dialog>
 
 </navigation>
