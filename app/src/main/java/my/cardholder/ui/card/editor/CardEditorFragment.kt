@@ -54,7 +54,7 @@ class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
             with(binding) {
-                cardEditorBackgroundColorView.setBackgroundColor(card.getColorInt(requireContext()))
+                cardEditorBackgroundColorView.setBackgroundColor(card.getColorInt())
                 cardEditorBarcodeImage.load(card.getBarcodeFile(requireContext()))
                 cardEditorCardNameEditText.setText(card.name)
                 cardEditorCardTextEditText.setText(card.text)

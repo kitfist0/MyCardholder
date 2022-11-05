@@ -47,7 +47,7 @@ class CardsListAdapter(
         fun bind(card: Card) {
             with(binding) {
                 val uniqueNameSuffix = card.id
-                itemCardLayout.setBackgroundColor(card.getColorInt(root.context))
+                itemCardLayout.setBackgroundColor(card.getColorInt())
                 itemCardBarcodeImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     load(card.getBarcodeFile(root.context))
