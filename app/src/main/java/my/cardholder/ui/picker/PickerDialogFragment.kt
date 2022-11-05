@@ -44,11 +44,12 @@ class PickerDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val listAdapter = PickerListAdapter { color ->
-            viewModel.onColorClicked(color)
+        with(binding) {
+            pickerRecyclerView.adapter = PickerListAdapter(viewModel.colors) { color ->
+                viewModel.onColorClicked(color)
+            }
+            pickerRecyclerView.setHasFixedSize(true)
         }
-        binding.pickerRecyclerView.adapter = listAdapter
-        listAdapter.submitList(viewModel.colors)
     }
 
     override fun onDestroyView() {

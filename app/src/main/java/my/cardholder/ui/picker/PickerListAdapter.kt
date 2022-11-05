@@ -3,23 +3,13 @@ package my.cardholder.ui.picker
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.graphics.toColorInt
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.databinding.ItemColorBinding
 
 class PickerListAdapter(
+    private val colors: List<String>,
     private val onItemClick: (color: String) -> Unit,
-) : ListAdapter<String, PickerListAdapter.ColorViewHolder>(ColorDiffCallback) {
-
-    companion object {
-        object ColorDiffCallback : DiffUtil.ItemCallback<String>() {
-            override fun areItemsTheSame(oldItem: String, newItem: String) =
-                oldItem.length == newItem.length
-            override fun areContentsTheSame(oldItem: String, newItem: String) =
-                oldItem == newItem
-        }
-    }
+) : RecyclerView.Adapter<PickerListAdapter.ColorViewHolder>() {
 
     inner class ColorViewHolder(
         private val binding: ItemColorBinding,
@@ -27,7 +17,7 @@ class PickerListAdapter(
 
         init {
             itemView.setOnClickListener {
-                val color = getItem(adapterPosition)
+                val color = colors[adapterPosition]
                 onItemClick.invoke(color)
             }
         }
@@ -46,6 +36,10 @@ class PickerListAdapter(
     }
 
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(colors[position])
+    }
+
+    override fun getItemCount(): Int {
+        return colors.size
     }
 }
