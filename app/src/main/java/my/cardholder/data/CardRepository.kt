@@ -20,6 +20,7 @@ import my.cardholder.data.model.SupportedFormat
 import my.cardholder.util.writeBitmap
 import java.io.File
 import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,9 +46,8 @@ class CardRepository @Inject constructor(
     suspend fun insertCard(text: String, supportedFormat: SupportedFormat): Long {
         val timestamp = System.currentTimeMillis()
         val card = Card(
-            name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT).format(timestamp)}",
+            name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT, Locale.US).format(timestamp)}",
             text = text,
-            color = "",
             timestamp = timestamp,
             format = supportedFormat,
         )
