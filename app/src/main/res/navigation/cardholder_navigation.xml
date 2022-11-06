@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardholder_navigation"
+    app:startDestination="@id/cards_fragment">
+
+    <fragment
+        android:id="@+id/cards_fragment"
+        android:name="my.cardholder.ui.cardholder.cards.CardholderCardsFragment"
+        android:label="@string/title_cards"
+        tools:layout="@layout/fragment_cardholder_cards">
+        <action
+            android:id="@+id/from_cards_to_viewer"
+            app:destination="@id/viewer_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/viewer_fragment"
+        android:name="my.cardholder.ui.cardholder.viewer.CardholderViewerFragment"
+        android:label="@string/title_card"
+        tools:layout="@layout/fragment_cardholder_viewer">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
+        <action
+            android:id="@+id/from_viewer_to_editor"
+            app:destination="@id/editor_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editor_fragment"
+        android:name="my.cardholder.ui.cardholder.editor.CardholderEditorFragment"
+        android:label="@string/card_edit"
+        tools:layout="@layout/fragment_cardholder_editor">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
+        <action
+            android:id="@+id/from_editor_to_colors"
+            app:destination="@id/colors_fragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/colors_fragment"
+        android:name="my.cardholder.ui.cardholder.colors.CardholderColorsFragment"
+        android:label="@string/card_color"
+        tools:layout="@layout/fragment_cardholder_colors">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
+    </dialog>
+
+</navigation>
