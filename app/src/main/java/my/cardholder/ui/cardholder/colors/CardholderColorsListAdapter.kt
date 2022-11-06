@@ -1,4 +1,4 @@
-package my.cardholder.ui.picker
+package my.cardholder.ui.cardholder.colors
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,10 +6,10 @@ import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.databinding.ItemColorBinding
 
-class PickerListAdapter(
+class CardholderColorsListAdapter(
     private val colors: List<String>,
     private val onItemClick: (color: String) -> Unit,
-) : RecyclerView.Adapter<PickerListAdapter.ColorViewHolder>() {
+) : RecyclerView.Adapter<CardholderColorsListAdapter.ColorViewHolder>() {
 
     inner class ColorViewHolder(
         private val binding: ItemColorBinding,

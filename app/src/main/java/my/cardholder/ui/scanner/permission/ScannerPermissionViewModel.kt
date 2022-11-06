@@ -34,7 +34,7 @@ class ScannerPermissionViewModel @Inject constructor(
 
     fun onResume() {
         if (permissionHelper.isPermissionGranted(PERMISSION)) {
-            navigate(ScannerPermissionFragmentDirections.fromScannerPermissionToScannerPreview())
+            navigate(ScannerPermissionFragmentDirections.fromPermissionToPreview())
         } else {
             _uiVisibilityState.value = true
         }

@@ -1,4 +1,4 @@
-package my.cardholder.ui.card.viewer
+package my.cardholder.ui.cardholder.viewer
 
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
@@ -11,7 +11,7 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 
-class CardViewerViewModel @AssistedInject constructor(
+class CardholderViewerViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
@@ -19,7 +19,7 @@ class CardViewerViewModel @AssistedInject constructor(
     val card: Flow<Card> = cardRepository.getCard(cardId)
 
     fun onEditFabClicked(extras: Navigator.Extras) {
-        navigate(CardViewerFragmentDirections.fromCardViewerToCardEditor(cardId), extras)
+        navigate(CardholderViewerFragmentDirections.fromViewerToEditor(cardId), extras)
     }
 
     fun onDeleteCardButtonClicked() {
@@ -31,8 +31,8 @@ class CardViewerViewModel @AssistedInject constructor(
 }
 
 @AssistedFactory
-interface CardViewerViewModelFactory {
+interface CardholderViewerViewModelFactory {
     fun create(
         @Assisted("card_id") cardId: Long,
-    ): CardViewerViewModel
+    ): CardholderViewerViewModel
 }

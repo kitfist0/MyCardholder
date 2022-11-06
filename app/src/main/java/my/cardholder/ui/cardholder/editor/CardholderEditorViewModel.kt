@@ -1,4 +1,4 @@
-package my.cardholder.ui.card.editor
+package my.cardholder.ui.cardholder.editor
 
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
@@ -10,7 +10,7 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 
-class CardEditorViewModel @AssistedInject constructor(
+class CardholderEditorViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
@@ -32,7 +32,7 @@ class CardEditorViewModel @AssistedInject constructor(
     }
 
     fun onColorPickerButtonClicked() {
-        navigate(CardEditorFragmentDirections.fromCardEditorToCardColorPicker(cardId))
+        navigate(CardholderEditorFragmentDirections.fromEditorToColors(cardId))
     }
 
     fun onCardNameChanged(cardName: String?) {
@@ -45,8 +45,8 @@ class CardEditorViewModel @AssistedInject constructor(
 }
 
 @AssistedFactory
-interface CardEditorViewModelFactory {
+interface CardholderEditorViewModelFactory {
     fun create(
         @Assisted("card_id") cardId: Long,
-    ): CardEditorViewModel
+    ): CardholderEditorViewModel
 }

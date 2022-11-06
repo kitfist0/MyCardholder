@@ -1,4 +1,4 @@
-package my.cardholder.ui.card.editor
+package my.cardholder.ui.cardholder.editor
 
 import android.transition.TransitionInflater
 import androidx.core.widget.doAfterTextChanged
@@ -7,23 +7,23 @@ import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
-import my.cardholder.databinding.FragmentCardEditorBinding
+import my.cardholder.databinding.FragmentCardholderEditorBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
 import my.cardholder.util.setupUniqueTransitionName
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CardEditorFragment : BaseFragment<FragmentCardEditorBinding>(
-    FragmentCardEditorBinding::inflate
+class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
+    FragmentCardholderEditorBinding::inflate
 ) {
 
     @Inject
-    lateinit var viewModelFactory: CardEditorViewModelFactory
+    lateinit var viewModelFactory: CardholderEditorViewModelFactory
 
-    private val args: CardEditorFragmentArgs by navArgs()
+    private val args: CardholderEditorFragmentArgs by navArgs()
 
-    override val viewModel: CardEditorViewModel by assistedViewModels {
+    override val viewModel: CardholderEditorViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
 

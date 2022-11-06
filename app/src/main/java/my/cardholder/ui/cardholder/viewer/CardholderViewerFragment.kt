@@ -1,4 +1,4 @@
-package my.cardholder.ui.card.viewer
+package my.cardholder.ui.cardholder.viewer
 
 import android.transition.TransitionInflater
 import androidx.navigation.fragment.FragmentNavigator
@@ -7,23 +7,23 @@ import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
-import my.cardholder.databinding.FragmentCardViewerBinding
+import my.cardholder.databinding.FragmentCardholderViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
 import my.cardholder.util.setupUniqueTransitionName
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CardViewerFragment : BaseFragment<FragmentCardViewerBinding>(
-    FragmentCardViewerBinding::inflate
+class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
+    FragmentCardholderViewerBinding::inflate
 ) {
 
     @Inject
-    lateinit var viewModelFactory: CardViewerViewModelFactory
+    lateinit var viewModelFactory: CardholderViewerViewModelFactory
 
-    private val args: CardViewerFragmentArgs by navArgs()
+    private val args: CardholderViewerFragmentArgs by navArgs()
 
-    override val viewModel: CardViewerViewModel by assistedViewModels {
+    override val viewModel: CardholderViewerViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
 

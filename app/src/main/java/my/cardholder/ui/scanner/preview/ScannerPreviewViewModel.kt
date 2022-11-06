@@ -61,11 +61,11 @@ class ScannerPreviewViewModel @Inject constructor(
 
     private fun insertCardAndNavigateToEditor(text: String, supportedFormat: SupportedFormat) {
         viewModelScope.launch {
-            val cardId = cardRepository.insertCard(
+            cardRepository.insertCard(
                 text = text,
                 supportedFormat = supportedFormat,
             )
-            navigate(ScannerPreviewFragmentDirections.fromScannerPreviewToCardEditor(cardId))
+            navigate(ScannerPreviewFragmentDirections.fromPreviewToCardholder())
         }
     }
 }

@@ -1,4 +1,4 @@
-package my.cardholder.ui.cards
+package my.cardholder.ui.cardholder.cards
 
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,13 +9,13 @@ import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CardsViewModel @Inject constructor(
+class CardholderCardsViewModel @Inject constructor(
     cardRepository: CardRepository,
 ): BaseViewModel() {
 
     val cards: Flow<List<Card>> = cardRepository.cards
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
-        navigate(CardsFragmentDirections.fromCardsToCardViewer(cardId), extras)
+        navigate(CardholderCardsFragmentDirections.fromCardsToViewer(cardId), extras)
     }
 }

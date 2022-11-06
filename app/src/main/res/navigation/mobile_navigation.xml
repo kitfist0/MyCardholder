@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/cards_fragment">
+    app:startDestination="@id/cardholder_navigation">
 
     <navigation
         android:id="@+id/scanner_navigation"
@@ -15,7 +15,7 @@
             android:label="@string/permission_request"
             tools:layout="@layout/fragment_scanner_permission">
             <action
-                android:id="@+id/from_scanner_permission_to_scanner_preview"
+                android:id="@+id/from_permission_to_preview"
                 app:destination="@id/preview_fragment"
                 app:popUpTo="@id/scanner_navigation"
                 app:popUpToInclusive="false" />
@@ -27,62 +27,68 @@
             android:label="@string/title_scanner"
             tools:layout="@layout/fragment_scanner_preview">
             <action
-                android:id="@+id/from_scanner_preview_to_card_editor"
-                app:destination="@id/card_editor_fragment" />
+                android:id="@+id/from_preview_to_cardholder"
+                app:destination="@id/cardholder_navigation" />
         </fragment>
 
     </navigation>
 
-    <fragment
-        android:id="@+id/cards_fragment"
-        android:name="my.cardholder.ui.cards.CardsFragment"
-        android:label="@string/title_cards"
-        tools:layout="@layout/fragment_cards">
-        <action
-            android:id="@+id/from_cards_to_card_viewer"
-            app:destination="@id/card_viewer_fragment" />
-    </fragment>
+    <navigation
+        android:id="@+id/cardholder_navigation"
+        app:startDestination="@id/cards_fragment">
+
+        <fragment
+            android:id="@+id/cards_fragment"
+            android:name="my.cardholder.ui.cardholder.cards.CardholderCardsFragment"
+            android:label="@string/title_cards"
+            tools:layout="@layout/fragment_cardholder_cards">
+            <action
+                android:id="@+id/from_cards_to_viewer"
+                app:destination="@id/viewer_fragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/viewer_fragment"
+            android:name="my.cardholder.ui.cardholder.viewer.CardholderViewerFragment"
+            android:label="@string/title_card"
+            tools:layout="@layout/fragment_cardholder_viewer">
+            <argument
+                android:name="card_id"
+                app:argType="long" />
+            <action
+                android:id="@+id/from_viewer_to_editor"
+                app:destination="@id/editor_fragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/editor_fragment"
+            android:name="my.cardholder.ui.cardholder.editor.CardholderEditorFragment"
+            android:label="@string/card_edit"
+            tools:layout="@layout/fragment_cardholder_editor">
+            <argument
+                android:name="card_id"
+                app:argType="long" />
+            <action
+                android:id="@+id/from_editor_to_colors"
+                app:destination="@id/colors_fragment" />
+        </fragment>
+
+        <dialog
+            android:id="@+id/colors_fragment"
+            android:name="my.cardholder.ui.cardholder.colors.CardholderColorsFragment"
+            android:label="@string/card_color"
+            tools:layout="@layout/fragment_cardholder_colors">
+            <argument
+                android:name="card_id"
+                app:argType="long" />
+        </dialog>
+
+    </navigation>
 
     <fragment
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
-
-    <fragment
-        android:id="@+id/card_viewer_fragment"
-        android:name="my.cardholder.ui.card.viewer.CardViewerFragment"
-        android:label="@string/title_card"
-        tools:layout="@layout/fragment_card_viewer">
-        <argument
-            android:name="card_id"
-            app:argType="long" />
-        <action
-            android:id="@+id/from_card_viewer_to_card_editor"
-            app:destination="@id/card_editor_fragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/card_editor_fragment"
-        android:name="my.cardholder.ui.card.editor.CardEditorFragment"
-        android:label="@string/card_edit"
-        tools:layout="@layout/fragment_card_editor">
-        <argument
-            android:name="card_id"
-            app:argType="long" />
-        <action
-            android:id="@+id/from_card_editor_to_card_color_picker"
-            app:destination="@id/card_color_picker" />
-    </fragment>
-
-    <dialog
-        android:id="@+id/card_color_picker"
-        android:name="my.cardholder.ui.picker.PickerDialogFragment"
-        android:label="@string/card_color"
-        tools:layout="@layout/fragment_color_picker">
-        <argument
-            android:name="card_id"
-            app:argType="long" />
-    </dialog>
 
 </navigation>

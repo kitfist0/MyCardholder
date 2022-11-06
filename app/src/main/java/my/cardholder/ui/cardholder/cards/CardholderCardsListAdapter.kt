@@ -1,4 +1,4 @@
-package my.cardholder.ui.cards
+package my.cardholder.ui.cardholder.cards
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +13,9 @@ import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.setupUniqueTransitionName
 
-class CardsListAdapter(
+class CardholderCardsListAdapter(
     private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
-) : ListAdapter<Card, CardsListAdapter.CardViewHolder>(CardDiffCallback) {
+) : ListAdapter<Card, CardholderCardsListAdapter.CardViewHolder>(CardDiffCallback) {
 
     companion object {
         object CardDiffCallback : DiffUtil.ItemCallback<Card>() {

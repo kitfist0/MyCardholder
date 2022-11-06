@@ -1,4 +1,4 @@
-package my.cardholder.ui.picker
+package my.cardholder.ui.cardholder.colors
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.Card
 
-class PickerViewModel @AssistedInject constructor(
+class CardholderColorsViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
 ) : ViewModel() {
@@ -24,8 +24,8 @@ class PickerViewModel @AssistedInject constructor(
 }
 
 @AssistedFactory
-interface PickerViewModelFactory {
+interface CardholderColorsViewModelFactory {
     fun create(
         @Assisted("card_id") cardId: Long,
-    ): PickerViewModel
+    ): CardholderColorsViewModel
 }

@@ -7,7 +7,7 @@
         android:title="@string/title_scanner" />
 
     <item
-        android:id="@+id/cards_fragment"
+        android:id="@+id/cardholder_navigation"
         android:icon="@drawable/ic_menu_cards"
         android:title="@string/title_cards" />
 

@@ -1,20 +1,22 @@
-package my.cardholder.ui.cards
+package my.cardholder.ui.cardholder.cards
 
 import android.transition.TransitionInflater
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.databinding.FragmentCardsBinding
+import my.cardholder.databinding.FragmentCardholderCardsBinding
 import my.cardholder.ui.base.BaseFragment
 
 @AndroidEntryPoint
-class CardsFragment : BaseFragment<FragmentCardsBinding>(FragmentCardsBinding::inflate) {
+class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
+    FragmentCardholderCardsBinding::inflate
+) {
 
-    override val viewModel: CardsViewModel by viewModels()
+    override val viewModel: CardholderCardsViewModel by viewModels()
 
     private val listAdapter by lazy {
-        CardsListAdapter(
+        CardholderCardsListAdapter(
             onItemClick = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)
