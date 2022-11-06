@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.card_viewer_fragment, R.id.card_editor_fragment ->
+                R.id.card_viewer_fragment, R.id.card_editor_fragment, R.id.card_color_picker ->
                     binding.mainBottomNavView.isVisible = false
                 else ->
                     binding.mainBottomNavView.isVisible = true
