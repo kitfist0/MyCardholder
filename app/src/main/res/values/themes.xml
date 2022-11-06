@@ -4,9 +4,11 @@
         <!-- Primary color -->
         <item name="colorPrimary">@color/blue_grey_500</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Status bar and navigation bar -->
+        <!-- Status bar -->
         <item name="android:statusBarColor">?android:windowBackground</item>
         <item name="android:windowLightStatusBar">true</item>
+        <!-- Navigation bar -->
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor">@color/blue_grey_100</item>
     </style>
 </resources>

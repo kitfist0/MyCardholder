@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.elevation.SurfaceColors
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
@@ -29,14 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.card_viewer_fragment, R.id.card_editor_fragment ->
+                R.id.card_viewer_fragment, R.id.card_editor_fragment, R.id.card_color_picker ->
                     binding.mainBottomNavView.isVisible = false
                 else ->
                     binding.mainBottomNavView.isVisible = true
             }
         }
-
-        // Set color of system navigationBar same as BottomNavigationView
-        window.navigationBarColor = SurfaceColors.SURFACE_5.getColor(this)
     }
 }

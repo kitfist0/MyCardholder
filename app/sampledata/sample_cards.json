@@ -1,9 +1,12 @@
 {
   "cards" : [
-    {"id" : 0, "name" : "Card 0", "text" : "Card 0 text", "color" : "#66BB6A"},
-    {"id" : 1, "name" : "Card 1", "text" : "Card 1 text", "color" : "#42A5F5"},
-    {"id" : 2, "name" : "Card 2", "text" : "Card 2 text", "color" : "#EF5350"},
-    {"id" : 3, "name" : "Card 3", "text" : "Card 3 text", "color" : "#FFCA28"},
-    {"id" : 4, "name" : "Card 4", "text" : "Card 4 text", "color" : "#8D6E63"}
+    {"id" : 0, "name" : "Card 0", "text" : "Card 0 text", "color" : "#EF5350"},
+    {"id" : 1, "name" : "Card 1", "text" : "Card 1 text", "color" : "#7E57C2"},
+    {"id" : 2, "name" : "Card 2", "text" : "Card 2 text", "color" : "#5C6BC0"},
+    {"id" : 3, "name" : "Card 3", "text" : "Card 3 text", "color" : "#26A69A"},
+    {"id" : 4, "name" : "Card 4", "text" : "Card 4 text", "color" : "#66BB6A"},
+    {"id" : 5, "name" : "Card 5", "text" : "Card 5 text", "color" : "#FFCA28"},
+    {"id" : 6, "name" : "Card 6", "text" : "Card 6 text", "color" : "#FF7043"},
+    {"id" : 7, "name" : "Card 7", "text" : "Card 7 text", "color" : "#8D6E63"}
   ]
 }
