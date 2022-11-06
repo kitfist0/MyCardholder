@@ -1,4 +1,4 @@
-package my.cardholder.ui.permission
+package my.cardholder.ui.scanner.permission
 
 import android.Manifest
 import androidx.lifecycle.viewModelScope
@@ -14,7 +14,7 @@ import my.cardholder.util.PermissionHelper
 import javax.inject.Inject
 
 @HiltViewModel
-class PermissionViewModel @Inject constructor(
+class ScannerPermissionViewModel @Inject constructor(
     private val permissionHelper: PermissionHelper,
 ) : BaseViewModel() {
 
@@ -34,7 +34,7 @@ class PermissionViewModel @Inject constructor(
 
     fun onResume() {
         if (permissionHelper.isPermissionGranted(PERMISSION)) {
-            navigate(PermissionFragmentDirections.fromPermissionToScanner())
+            navigate(ScannerPermissionFragmentDirections.fromScannerPermissionToScannerPreview())
         } else {
             _uiVisibilityState.value = true
         }

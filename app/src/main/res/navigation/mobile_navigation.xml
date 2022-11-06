@@ -11,23 +11,23 @@
 
         <fragment
             android:id="@+id/permission_fragment"
-            android:name="my.cardholder.ui.permission.PermissionFragment"
+            android:name="my.cardholder.ui.scanner.permission.ScannerPermissionFragment"
             android:label="@string/permission_request"
-            tools:layout="@layout/fragment_permission">
+            tools:layout="@layout/fragment_scanner_permission">
             <action
-                android:id="@+id/from_permission_to_scanner"
-                app:destination="@id/scanner_fragment"
+                android:id="@+id/from_scanner_permission_to_scanner_preview"
+                app:destination="@id/preview_fragment"
                 app:popUpTo="@id/scanner_navigation"
                 app:popUpToInclusive="false" />
         </fragment>
 
         <fragment
-            android:id="@+id/scanner_fragment"
-            android:name="my.cardholder.ui.scanner.ScannerFragment"
+            android:id="@+id/preview_fragment"
+            android:name="my.cardholder.ui.scanner.preview.ScannerPreviewFragment"
             android:label="@string/title_scanner"
-            tools:layout="@layout/fragment_scanner">
+            tools:layout="@layout/fragment_scanner_preview">
             <action
-                android:id="@+id/from_scanner_to_card_editor"
+                android:id="@+id/from_scanner_preview_to_card_editor"
                 app:destination="@id/card_editor_fragment" />
         </fragment>
 

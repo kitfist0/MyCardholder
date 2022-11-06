@@ -1,4 +1,4 @@
-package my.cardholder.ui.scanner
+package my.cardholder.ui.scanner.preview
 
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -19,7 +19,7 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltViewModel
-class ScannerViewModel @Inject constructor(
+class ScannerPreviewViewModel @Inject constructor(
     private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     private val cardRepository: CardRepository,
@@ -65,7 +65,7 @@ class ScannerViewModel @Inject constructor(
                 text = text,
                 supportedFormat = supportedFormat,
             )
-            navigate(ScannerFragmentDirections.fromScannerToCardEditor(cardId))
+            navigate(ScannerPreviewFragmentDirections.fromScannerPreviewToCardEditor(cardId))
         }
     }
 }

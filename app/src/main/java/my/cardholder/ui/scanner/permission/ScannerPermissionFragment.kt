@@ -1,16 +1,16 @@
-package my.cardholder.ui.permission
+package my.cardholder.ui.scanner.permission
 
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.databinding.FragmentPermissionBinding
+import my.cardholder.databinding.FragmentScannerPermissionBinding
 import my.cardholder.ui.base.BaseFragment
 
 @AndroidEntryPoint
-class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
-    FragmentPermissionBinding::inflate
+class ScannerPermissionFragment : BaseFragment<FragmentScannerPermissionBinding>(
+    FragmentScannerPermissionBinding::inflate
 ) {
 
     private val permissionsRequestHandler = registerForActivityResult(
@@ -26,7 +26,7 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
         }
     }
 
-    override val viewModel: PermissionViewModel by viewModels()
+    override val viewModel: ScannerPermissionViewModel by viewModels()
 
     override fun onResume() {
         super.onResume()
