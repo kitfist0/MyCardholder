@@ -10,7 +10,7 @@ fun File.writeBitmap(bitmap: Bitmap): File? {
     return try {
         createNewFile()
         val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         val fos = FileOutputStream(this)
         fos.write(bos.toByteArray())
         fos.flush()
