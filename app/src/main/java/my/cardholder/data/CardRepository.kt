@@ -31,9 +31,9 @@ class CardRepository @Inject constructor(
 ) {
 
     companion object {
-        private const val BARCODE_1X1_SIZE = 700
-        private const val BARCODE_3X1_HEIGHT = 300
-        private const val BARCODE_3X1_WIDTH = 900
+        private const val BARCODE_1X1_SIZE = 650
+        private const val BARCODE_3X1_HEIGHT = 325
+        private const val BARCODE_3X1_WIDTH = 975
         private const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
     }
 
