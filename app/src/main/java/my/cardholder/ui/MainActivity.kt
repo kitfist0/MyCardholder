@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.viewer_fragment, R.id.editor_fragment, R.id.colors_fragment ->
+                R.id.viewer_fragment, R.id.editor_fragment ->
                     binding.mainBottomNavView.isVisible = false
                 else ->
                     binding.mainBottomNavView.isVisible = true

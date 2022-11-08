@@ -36,19 +36,6 @@
         <argument
             android:name="card_id"
             app:argType="long" />
-        <action
-            android:id="@+id/from_editor_to_colors"
-            app:destination="@id/colors_fragment" />
     </fragment>
-
-    <dialog
-        android:id="@+id/colors_fragment"
-        android:name="my.cardholder.ui.cardholder.colors.CardholderColorsFragment"
-        android:label="@string/card_color"
-        tools:layout="@layout/fragment_cardholder_colors">
-        <argument
-            android:name="card_id"
-            app:argType="long" />
-    </dialog>
 
 </navigation>
