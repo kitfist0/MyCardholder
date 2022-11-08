@@ -29,17 +29,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_placeholder_qr_code" />
 
-    <Button
-        android:id="@+id/card_editor_color_picker_button"
-        style="?attr/materialIconButtonFilledTonalStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:alpha="0.7"
-        app:icon="@drawable/ic_palette"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_editor_guideline_horizontal"
         android:layout_width="wrap_content"
@@ -85,6 +74,20 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/card_editor_colors_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_editor_card_text_input_layout"
+        app:spanCount="4"
+        tools:itemCount="8"
+        tools:listitem="@layout/item_color" />
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_editor_ok_fab"
         android:layout_width="wrap_content"
@@ -93,7 +96,6 @@
         android:transitionName="@string/transition_card_fab"
         app:icon="@drawable/ic_done"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:useCompatPadding="true" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

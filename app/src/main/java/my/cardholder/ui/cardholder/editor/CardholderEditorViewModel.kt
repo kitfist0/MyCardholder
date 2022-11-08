@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import my.cardholder.data.model.Card
 import my.cardholder.data.CardRepository
@@ -19,6 +20,7 @@ class CardholderEditorViewModel @AssistedInject constructor(
     private var updatedCardText: String? = null
 
     val card: Flow<Card> = cardRepository.getCard(cardId)
+    val cardColors = flowOf(Card.COLORS.toList())
 
     fun onOkFabClicked() {
         when {
@@ -31,8 +33,10 @@ class CardholderEditorViewModel @AssistedInject constructor(
         }
     }
 
-    fun onColorPickerButtonClicked() {
-        navigate(CardholderEditorFragmentDirections.fromEditorToColors(cardId))
+    fun onColorItemClicked(color: String) {
+        viewModelScope.launch {
+            cardRepository.updateCardColor(cardId, color)
+        }
     }
 
     fun onCardNameChanged(cardName: String?) {

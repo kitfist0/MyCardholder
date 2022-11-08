@@ -23,6 +23,12 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
 
     private val args: CardholderEditorFragmentArgs by navArgs()
 
+    private val listAdapter by lazy {
+        CardholderEditorColorsAdapter { color ->
+            viewModel.onColorItemClicked(color)
+        }
+    }
+
     override val viewModel: CardholderEditorViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
@@ -45,13 +51,14 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
             cardEditorCardTextEditText.doAfterTextChanged {
                 viewModel.onCardTextChanged(it?.toString())
             }
-            cardEditorColorPickerButton.setOnClickListener {
-                viewModel.onColorPickerButtonClicked()
-            }
+            cardEditorColorsRecyclerView.adapter = listAdapter
         }
     }
 
     override fun collectData() {
+        viewModel.cardColors.collectWhenStarted { colors ->
+            listAdapter.submitList(colors)
+        }
         viewModel.card.collectWhenStarted { card ->
             with(binding) {
                 cardEditorBackgroundColorView.setBackgroundColor(card.getColorInt())
