@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class BaseViewModel : ViewModel() {
 
-    private val eventChannel = Channel<BaseEvent>(Channel.BUFFERED)
+    private val eventChannel = Channel<BaseEvent>()
     val baseEvents = eventChannel.receiveAsFlow()
 
     protected fun navigate(direction: NavDirections, extras: Navigator.Extras? = null) {
