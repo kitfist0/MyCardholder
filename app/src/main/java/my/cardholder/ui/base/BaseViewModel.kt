@@ -1,10 +1,12 @@
 package my.cardholder.ui.base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -12,18 +14,24 @@ abstract class BaseViewModel : ViewModel() {
     val baseEvents = eventChannel.receiveAsFlow()
 
     protected fun navigate(direction: NavDirections, extras: Navigator.Extras? = null) {
-        eventChannel.trySend(Navigate(direction, extras))
+        sendEvent(BaseEvent.Navigate(direction, extras))
     }
 
-    protected fun navigateBack() {
-        eventChannel.trySend(NavigateBack)
-    }
-
-    protected fun startActivity(action: String, uriString: String? = null) {
-        eventChannel.trySend(StartActivity(action, uriString))
+    protected fun navigateUp() {
+        sendEvent(BaseEvent.NavigateUp)
     }
 
     protected fun showSnack(message: String) {
-        eventChannel.trySend(SnackMessage(message))
+        sendEvent(BaseEvent.SnackMessage(message))
+    }
+
+    protected fun startActivity(action: String, uriString: String? = null) {
+        sendEvent(BaseEvent.StartActivity(action, uriString))
+    }
+
+    private fun sendEvent(event: BaseEvent) {
+        viewModelScope.launch {
+            eventChannel.send(event)
+        }
     }
 }

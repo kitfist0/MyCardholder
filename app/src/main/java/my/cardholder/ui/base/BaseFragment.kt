@@ -51,21 +51,21 @@ abstract class BaseFragment<out VB : ViewBinding>(
         collectData()
         viewModel.baseEvents.collectWhenStarted { event ->
             when (event) {
-                is SnackMessage ->
-                    Snackbar.make(requireView(), event.message, Snackbar.LENGTH_LONG).show()
-                is Navigate -> event.extras
+                is BaseEvent.Navigate -> event.extras
                     ?.let { extras -> findNavController().navigate(event.direction, extras) }
                     ?: findNavController().navigate(event.direction)
-                is NavigateBack ->
-                    findNavController().popBackStack()
-                is StartActivity -> event.uriString
+                is BaseEvent.NavigateUp ->
+                    findNavController().navigateUp()
+                is BaseEvent.SnackMessage ->
+                    Snackbar.make(requireView(), event.message, Snackbar.LENGTH_LONG).show()
+                is BaseEvent.StartActivity -> event.uriString
                     ?.let { uriString -> startActivity(Intent(event.action, Uri.parse(uriString))) }
                     ?: startActivity(Intent(event.action))
             }
         }
     }
 
-    protected fun <T> Flow<T>.collectWhenStarted(action: (T) -> Unit) {
+    protected inline fun <T> Flow<T>.collectWhenStarted(crossinline action: (T) -> Unit) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             this@collectWhenStarted
                 .onEach { action.invoke(it) }

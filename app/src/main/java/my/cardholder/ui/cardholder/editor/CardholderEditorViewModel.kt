@@ -28,7 +28,7 @@ class CardholderEditorViewModel @AssistedInject constructor(
             updatedCardText.isNullOrEmpty() -> showSnack("Empty card text!")
             else -> viewModelScope.launch {
                 cardRepository.updateCardNameAndText(cardId, updatedCardName, updatedCardText)
-                navigateBack()
+                navigateUp()
             }
         }
     }
