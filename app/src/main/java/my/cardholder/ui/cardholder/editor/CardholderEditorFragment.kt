@@ -1,6 +1,8 @@
 package my.cardholder.ui.cardholder.editor
 
 import android.transition.TransitionInflater
+import android.transition.TransitionSet
+import androidx.core.transition.doOnEnd
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -17,6 +19,10 @@ import javax.inject.Inject
 class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
     FragmentCardholderEditorBinding::inflate
 ) {
+
+    private companion object {
+        const val COLOR_PICKER_ANIM_DURATION = 300L
+    }
 
     @Inject
     lateinit var viewModelFactory: CardholderEditorViewModelFactory
@@ -52,6 +58,12 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 viewModel.onCardTextChanged(it?.toString())
             }
             cardEditorColorsRecyclerView.adapter = listAdapter
+            (sharedElementEnterTransition as TransitionSet).doOnEnd {
+                cardEditorColorsRecyclerView.animate()
+                    .setDuration(COLOR_PICKER_ANIM_DURATION)
+                    .alpha(1f)
+                    .start()
+            }
         }
     }
 
