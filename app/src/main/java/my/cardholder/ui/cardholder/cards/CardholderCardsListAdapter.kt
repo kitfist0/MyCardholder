@@ -17,7 +17,7 @@ class CardholderCardsListAdapter(
     private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
 ) : ListAdapter<Card, CardholderCardsListAdapter.CardViewHolder>(CardDiffCallback) {
 
-    companion object {
+    private companion object {
         object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
             override fun areItemsTheSame(oldItem: Card, newItem: Card) =
                 oldItem.id == newItem.id

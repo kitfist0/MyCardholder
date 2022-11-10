@@ -10,8 +10,8 @@ class SettingsRepository @Inject constructor(
     private val preferences: SharedPreferences,
 ) {
 
-    companion object {
-        private const val NIGHT_MODE_KEY = "night_mode"
+    private companion object {
+        const val NIGHT_MODE_KEY = "night_mode"
     }
 
     val isNightModeEnabled get() = preferences.getBoolean(NIGHT_MODE_KEY, false)

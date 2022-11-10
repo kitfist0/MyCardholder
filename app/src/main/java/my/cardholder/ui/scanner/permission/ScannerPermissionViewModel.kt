@@ -18,7 +18,7 @@ class ScannerPermissionViewModel @Inject constructor(
     private val permissionHelper: PermissionHelper,
 ) : BaseViewModel() {
 
-    companion object {
+    private companion object {
         const val PERMISSION = Manifest.permission.CAMERA
     }
 

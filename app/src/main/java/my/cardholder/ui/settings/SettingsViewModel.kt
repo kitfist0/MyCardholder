@@ -12,8 +12,8 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
-    companion object {
-        private const val WEB_PAGE = "https://github.com/kitfist0/MyCardholder"
+    private companion object {
+        const val WEB_PAGE = "https://github.com/kitfist0/MyCardholder"
     }
 
     private val _nightModeEnabled = MutableStateFlow(settingsRepository.isNightModeEnabled)
