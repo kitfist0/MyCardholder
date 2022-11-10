@@ -5,7 +5,7 @@
     android:id="@+id/item_color_card"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="8dp"
     app:contentPadding="16dp"
     app:strokeWidth="0dp"
     tools:cardBackgroundColor="@sample/sample_cards.json/cards/color">

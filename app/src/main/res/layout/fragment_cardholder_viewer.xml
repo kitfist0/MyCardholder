@@ -18,8 +18,8 @@
 
     <ImageView
         android:id="@+id/card_viewer_barcode_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
         android:background="@drawable/white_rounded_rectangle"
         android:padding="@dimen/barcode_mage_padding"
         android:transitionName="@string/transition_card_barcode"

@@ -45,17 +45,17 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
         with(binding) {
             val uniqueNameSuffix = args.cardId
             cardEditorBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
-            cardEditorCardNameInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
-            cardEditorCardTextInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
+            cardEditorCardNameInputLayout.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                editText?.doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
+            }
+            cardEditorCardTextInputLayout.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                editText?.doAfterTextChanged { viewModel.onCardTextChanged(it?.toString()) }
+            }
             cardEditorOkFab.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
-            }
-            cardEditorCardNameEditText.doAfterTextChanged {
-                viewModel.onCardNameChanged(it?.toString())
-            }
-            cardEditorCardTextEditText.doAfterTextChanged {
-                viewModel.onCardTextChanged(it?.toString())
             }
             cardEditorColorsRecyclerView.adapter = listAdapter
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
@@ -75,8 +75,8 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
             with(binding) {
                 cardEditorBackgroundColorView.setBackgroundColor(card.getColorInt())
                 cardEditorBarcodeImage.load(card.getBarcodeFile(requireContext()))
-                cardEditorCardNameEditText.setText(card.name)
-                cardEditorCardTextEditText.setText(card.text)
+                cardEditorCardNameInputLayout.editText?.setText(card.name)
+                cardEditorCardTextInputLayout.editText?.setText(card.text)
             }
         }
     }

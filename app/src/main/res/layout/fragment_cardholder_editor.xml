@@ -18,8 +18,8 @@
 
     <ImageView
         android:id="@+id/card_editor_barcode_image"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:background="@drawable/white_rounded_rectangle"
         android:padding="@dimen/barcode_mage_padding"
         android:transitionName="@string/transition_card_barcode"
@@ -41,16 +41,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:hint="@string/card_name"
         android:transitionName="@string/transition_card_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/card_editor_guideline_horizontal">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/card_editor_card_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/card_name"
             tools:text="@sample/sample_cards.json/cards/name" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -60,13 +59,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:hint="@string/card_text"
         android:transitionName="@string/transition_card_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_editor_card_name_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/card_editor_card_text_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/card_text"
