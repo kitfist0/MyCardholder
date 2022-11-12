@@ -23,6 +23,12 @@ enum class SupportedFormat {
     UPC_E,
 }
 
+fun SupportedFormat.isSquare(): Boolean {
+    return this == SupportedFormat.AZTEC ||
+            this == SupportedFormat.DATA_MATRIX ||
+            this == SupportedFormat.QR_CODE
+}
+
 fun Barcode.getSupportedFormat(): SupportedFormat? {
     return when (format) {
         Barcode.FORMAT_AZTEC -> SupportedFormat.AZTEC

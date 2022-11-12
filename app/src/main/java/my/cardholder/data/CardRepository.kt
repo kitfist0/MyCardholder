@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.SupportedFormat
+import my.cardholder.data.model.isSquare
 import my.cardholder.util.writeBitmap
 import java.io.File
 import java.text.SimpleDateFormat
@@ -132,9 +133,7 @@ class CardRepository @Inject constructor(
         codeData: String,
         codeFormat: SupportedFormat,
     ): BitMatrix {
-        val isSquare = codeFormat == SupportedFormat.AZTEC ||
-                codeFormat == SupportedFormat.DATA_MATRIX ||
-                codeFormat == SupportedFormat.QR_CODE
+        val isSquare = codeFormat.isSquare()
         return encode(
             codeData,
             BarcodeFormat.valueOf(codeFormat.toString()),
