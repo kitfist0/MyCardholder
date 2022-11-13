@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/cards_list_item_height"
-    android:layout_margin="4dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="4dp"
+    android:layout_height="@dimen/card_item_height"
+    android:layout_margin="@dimen/card_item_layout_margin"
+    app:cardCornerRadius="@dimen/card_item_corner_radius"
+    app:cardElevation="0dp"
     app:strokeWidth="0dp"
     tools:cardBackgroundColor="@sample/sample_cards.json/cards/color">
 
@@ -15,14 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/card_item_content_padding">
 
         <ImageView
             android:id="@+id/item_card_barcode_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/card_item_square_barcode_height"
             android:background="@drawable/white_rounded_rectangle"
-            android:padding="@dimen/barcode_mage_padding"
+            android:maxWidth="@dimen/card_item_rectangle_barcode_width"
+            android:minWidth="@dimen/card_item_square_barcode_width"
+            android:padding="@dimen/barcode_image_padding"
             android:transitionName="@string/transition_card_barcode"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

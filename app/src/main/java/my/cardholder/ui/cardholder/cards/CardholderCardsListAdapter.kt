@@ -21,6 +21,7 @@ class CardholderCardsListAdapter(
         object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
             override fun areItemsTheSame(oldItem: Card, newItem: Card) =
                 oldItem.id == newItem.id
+
             override fun areContentsTheSame(oldItem: Card, newItem: Card) =
                 oldItem == newItem
         }
@@ -50,7 +51,7 @@ class CardholderCardsListAdapter(
                 itemCardLayout.setBackgroundColor(card.getColorInt())
                 itemCardBarcodeImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
-                    load(card.getBarcodeFile(root.context))
+                    load(card.getBarcodeFile(context))
                 }
                 itemCardNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)

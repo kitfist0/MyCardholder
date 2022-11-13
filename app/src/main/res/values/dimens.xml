@@ -1,7 +1,15 @@
 <resources>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="barcode_image_padding">8dp</dimen>
 
-    <dimen name="cards_list_item_height">220dp</dimen>
-    <dimen name="barcode_mage_padding">8dp</dimen>
+    <!--region Card item-->
+    <dimen name="card_item_content_padding">16dp</dimen>
+    <dimen name="card_item_corner_radius">16dp</dimen>
+    <dimen name="card_item_height">220dp</dimen>
+    <dimen name="card_item_layout_margin">4dp</dimen>
+    <dimen name="card_item_rectangle_barcode_height">100dp</dimen>
+    <dimen name="card_item_rectangle_barcode_width">250dp</dimen>
+    <dimen name="card_item_square_barcode_height">100dp</dimen>
+    <dimen name="card_item_square_barcode_width">100dp</dimen>
+    <!--endregion-->
+
 </resources>
