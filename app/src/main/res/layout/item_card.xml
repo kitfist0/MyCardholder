@@ -21,14 +21,13 @@
             android:id="@+id/item_card_barcode_image"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/card_item_square_barcode_height"
-            android:background="@drawable/white_rounded_rectangle"
             android:maxWidth="@dimen/card_item_rectangle_barcode_width"
             android:minWidth="@dimen/card_item_square_barcode_width"
-            android:padding="@dimen/barcode_image_padding"
             android:transitionName="@string/transition_card_barcode"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_placeholder_qr_code" />
+            tools:background="@android:color/white"
+            tools:src="@drawable/ic_qr_code" />
 
         <TextView
             android:id="@+id/item_card_name_text"

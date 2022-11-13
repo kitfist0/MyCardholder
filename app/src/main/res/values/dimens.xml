@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="barcode_image_padding">8dp</dimen>
+    <dimen name="barcode_image_corners">8dp</dimen>
 
     <!--region Card item-->
     <dimen name="card_item_content_padding">16dp</dimen>
@@ -11,5 +11,4 @@
     <dimen name="card_item_square_barcode_height">100dp</dimen>
     <dimen name="card_item_square_barcode_width">100dp</dimen>
     <!--endregion-->
-
 </resources>

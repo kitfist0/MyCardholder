@@ -5,13 +5,13 @@ import android.transition.TransitionSet
 import androidx.core.transition.doOnEnd
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
-import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardholderEditorBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
+import my.cardholder.util.loadBarcodeImage
 import my.cardholder.util.setupUniqueTransitionName
 import javax.inject.Inject
 
@@ -75,7 +75,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
             with(binding) {
                 cardEditorBarcodeImage.apply {
                     setBackgroundColor(card.getColorInt())
-                    load(card.getBarcodeFile(requireContext()))
+                    loadBarcodeImage(card.getBarcodeFile(context))
                 }
                 cardEditorCardNameInputLayout.editText?.setText(card.name)
                 cardEditorCardTextInputLayout.editText?.setText(card.text)

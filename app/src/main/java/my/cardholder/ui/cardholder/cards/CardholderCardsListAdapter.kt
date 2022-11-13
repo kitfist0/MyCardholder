@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.ItemCardBinding
+import my.cardholder.util.loadBarcodeImage
 import my.cardholder.util.setupUniqueTransitionName
 
 class CardholderCardsListAdapter(
@@ -51,7 +51,10 @@ class CardholderCardsListAdapter(
                 itemCardLayout.setBackgroundColor(card.getColorInt())
                 itemCardBarcodeImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
-                    load(card.getBarcodeFile(context))
+                    loadBarcodeImage(
+                        barcodeFile = card.getBarcodeFile(context),
+                        originalSize = false,
+                    )
                 }
                 itemCardNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)

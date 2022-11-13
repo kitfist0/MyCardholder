@@ -3,13 +3,13 @@ package my.cardholder.ui.cardholder.viewer
 import android.transition.TransitionInflater
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
-import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardholderViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.assistedViewModels
+import my.cardholder.util.loadBarcodeImage
 import my.cardholder.util.setupUniqueTransitionName
 import javax.inject.Inject
 
@@ -61,7 +61,7 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
             with(binding) {
                 cardViewerBarcodeImage.apply {
                     setBackgroundColor(card.getColorInt())
-                    load(card.getBarcodeFile(requireContext()))
+                    loadBarcodeImage(card.getBarcodeFile(context))
                 }
                 cardViewerCardNameText.text = card.name
                 cardViewerCardTextText.text = card.text
