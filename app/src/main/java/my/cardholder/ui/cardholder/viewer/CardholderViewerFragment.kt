@@ -59,8 +59,10 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
     override fun collectData() {
         viewModel.card.collectWhenStarted { card ->
             with(binding) {
-                cardViewerBackgroundColorView.setBackgroundColor(card.getColorInt())
-                cardViewerBarcodeImage.load(card.getBarcodeFile(requireContext()))
+                cardViewerBarcodeImage.apply {
+                    setBackgroundColor(card.getColorInt())
+                    load(card.getBarcodeFile(requireContext()))
+                }
                 cardViewerCardNameText.text = card.name
                 cardViewerCardTextText.text = card.text
             }

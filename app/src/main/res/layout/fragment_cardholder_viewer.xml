@@ -6,27 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.cardholder.viewer.CardholderViewerFragment">
 
-    <View
-        android:id="@+id/card_viewer_background_color_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/card_viewer_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@sample/sample_cards.json/cards/color" />
-
     <ImageView
         android:id="@+id/card_viewer_barcode_image"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:background="@drawable/white_rounded_rectangle"
-        android:padding="@dimen/barcode_mage_padding"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="32dp"
+        android:scaleType="fitCenter"
         android:transitionName="@string/transition_card_barcode"
         app:layout_constraintBottom_toTopOf="@id/card_viewer_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:background="@sample/sample_cards.json/cards/color"
         tools:src="@drawable/ic_placeholder_qr_code" />
 
     <Button

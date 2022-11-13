@@ -73,8 +73,10 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
         }
         viewModel.card.collectWhenStarted { card ->
             with(binding) {
-                cardEditorBackgroundColorView.setBackgroundColor(card.getColorInt())
-                cardEditorBarcodeImage.load(card.getBarcodeFile(requireContext()))
+                cardEditorBarcodeImage.apply {
+                    setBackgroundColor(card.getColorInt())
+                    load(card.getBarcodeFile(requireContext()))
+                }
                 cardEditorCardNameInputLayout.editText?.setText(card.name)
                 cardEditorCardTextInputLayout.editText?.setText(card.text)
             }
