@@ -1,6 +1,7 @@
 package my.cardholder.ui.cardholder.viewer
 
 import android.transition.TransitionInflater
+import android.view.View
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,8 +39,7 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
             cardViewerEditFab.setupUniqueTransitionName(uniqueNameSuffix)
             cardViewerEditFab.setOnClickListener {
                 val sharedElements = with(binding) {
-                    mapOf(
-                        cardViewerBarcodeImage to cardViewerBarcodeImage.transitionName,
+                    mapOf<View, String>(
                         cardViewerCardNameText to cardViewerCardNameText.transitionName,
                         cardViewerCardTextText to cardViewerCardTextText.transitionName,
                         cardViewerEditFab to cardViewerEditFab.transitionName,

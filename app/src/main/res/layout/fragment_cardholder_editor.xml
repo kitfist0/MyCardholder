@@ -12,7 +12,6 @@
         android:layout_height="0dp"
         android:padding="32dp"
         android:scaleType="fitCenter"
-        android:transitionName="@string/transition_card_barcode"
         app:layout_constraintBottom_toTopOf="@id/card_editor_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -44,7 +44,6 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
             .inflateTransition(android.R.transition.move)
         with(binding) {
             val uniqueNameSuffix = args.cardId
-            cardEditorBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
             cardEditorCardNameInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
