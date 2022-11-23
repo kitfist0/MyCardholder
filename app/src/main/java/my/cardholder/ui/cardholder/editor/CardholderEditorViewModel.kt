@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import my.cardholder.data.model.Card
@@ -19,7 +20,7 @@ class CardholderEditorViewModel @AssistedInject constructor(
     private var updatedCardName: String? = null
     private var updatedCardText: String? = null
 
-    val card: Flow<Card> = cardRepository.getCard(cardId)
+    val card: Flow<Card> = cardRepository.getCard(cardId).filterNotNull()
     val cardColors = flowOf(Card.COLORS.toList())
 
     fun onOkFabClicked() {

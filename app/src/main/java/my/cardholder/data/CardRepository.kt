@@ -40,7 +40,7 @@ class CardRepository @Inject constructor(
 
     val cards: Flow<List<Card>> = cardDao.getCards()
 
-    fun getCard(cardId: Long): Flow<Card> {
+    fun getCard(cardId: Long): Flow<Card?> {
         return cardDao.getCard(cardId)
     }
 
@@ -62,32 +62,32 @@ class CardRepository @Inject constructor(
 
     suspend fun updateCardColor(cardId: Long, color: String) {
         val oldCard = getCard(cardId).first()
-        val newCard = oldCard.copy(
-            color = color,
-        )
-        cardDao.update(newCard)
+        oldCard?.copy(color = color)
+            ?.let { newCard -> cardDao.update(newCard) }
     }
 
     suspend fun updateCardNameAndText(cardId: Long, name: String?, text: String?) {
-        val oldCard = getCard(cardId).first()
-        oldCard.getBarcodeFile(context).delete()
-        val newCard = oldCard.copy(
-            name = name ?: oldCard.name,
-            text = text ?: oldCard.text,
-            timestamp = System.currentTimeMillis(),
-        )
-        writeBarcodeFile(
-            file = newCard.getBarcodeFile(context),
-            codeData = newCard.text,
-            codeFormat = newCard.format,
-        )
-        cardDao.update(newCard)
+        getCard(cardId).first()?.let { oldCard ->
+            oldCard.getBarcodeFile(context).delete()
+            val newCard = oldCard.copy(
+                name = name ?: oldCard.name,
+                text = text ?: oldCard.text,
+                timestamp = System.currentTimeMillis(),
+            )
+            writeBarcodeFile(
+                file = newCard.getBarcodeFile(context),
+                codeData = newCard.text,
+                codeFormat = newCard.format,
+            )
+            cardDao.update(newCard)
+        }
     }
 
     suspend fun deleteCard(cardId: Long) {
-        val card = getCard(cardId).first()
-        card.getBarcodeFile(context).delete()
-        cardDao.deleteCard(card.id)
+        getCard(cardId).first()?.let { card ->
+            card.getBarcodeFile(context).delete()
+            cardDao.deleteCard(card.id)
+        }
     }
 
     private fun writeBarcodeFile(

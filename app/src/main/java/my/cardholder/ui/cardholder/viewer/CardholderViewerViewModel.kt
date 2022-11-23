@@ -6,6 +6,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import my.cardholder.data.model.Card
 import my.cardholder.data.CardRepository
@@ -16,7 +17,7 @@ class CardholderViewerViewModel @AssistedInject constructor(
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
 
-    val card: Flow<Card> = cardRepository.getCard(cardId)
+    val card: Flow<Card> = cardRepository.getCard(cardId).filterNotNull()
 
     fun onEditFabClicked(extras: Navigator.Extras) {
         navigate(CardholderViewerFragmentDirections.fromViewerToEditor(cardId), extras)
