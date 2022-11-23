@@ -5,9 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Writer
-import com.google.zxing.WriterException
 import com.google.zxing.aztec.AztecWriter
-import com.google.zxing.common.BitMatrix
 import com.google.zxing.datamatrix.DataMatrixWriter
 import com.google.zxing.oned.*
 import com.google.zxing.pdf417.PDF417Writer
@@ -19,7 +17,6 @@ import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.model.isSquare
 import my.cardholder.util.writeBitmap
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -52,11 +49,7 @@ class CardRepository @Inject constructor(
             timestamp = timestamp,
             format = supportedFormat,
         )
-        writeBarcodeFile(
-            file = card.getBarcodeFile(context),
-            codeData = text,
-            codeFormat = supportedFormat,
-        )
+        card.writeNewBarcodeFile()
         return cardDao.insert(card)
     }
 
@@ -68,35 +61,37 @@ class CardRepository @Inject constructor(
 
     suspend fun updateCardNameAndText(cardId: Long, name: String?, text: String?) {
         getCard(cardId).first()?.let { oldCard ->
-            oldCard.getBarcodeFile(context).delete()
+            oldCard.deleteBarcodeFile()
             val newCard = oldCard.copy(
                 name = name ?: oldCard.name,
                 text = text ?: oldCard.text,
                 timestamp = System.currentTimeMillis(),
             )
-            writeBarcodeFile(
-                file = newCard.getBarcodeFile(context),
-                codeData = newCard.text,
-                codeFormat = newCard.format,
-            )
+            newCard.writeNewBarcodeFile()
             cardDao.update(newCard)
         }
     }
 
     suspend fun deleteCard(cardId: Long) {
         getCard(cardId).first()?.let { card ->
-            card.getBarcodeFile(context).delete()
+            card.deleteBarcodeFile()
             cardDao.deleteCard(card.id)
         }
     }
 
-    private fun writeBarcodeFile(
-        file: File,
-        codeData: String,
-        codeFormat: SupportedFormat,
-    ): File? {
-        return try {
-            val bitMatrix = getWriter(codeFormat).encode(codeData, codeFormat)
+    private fun Card.deleteBarcodeFile() {
+        getBarcodeFile(context).delete()
+    }
+
+    private fun Card.writeNewBarcodeFile() {
+        val isSquare = format.isSquare()
+        runCatching {
+            val bitMatrix = getWriter(format).encode(
+                text,
+                BarcodeFormat.valueOf(format.toString()),
+                if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_WIDTH,
+                if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_HEIGHT,
+            )
             val width = bitMatrix.width
             val height = bitMatrix.height
             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -105,9 +100,7 @@ class CardRepository @Inject constructor(
                     bitmap.setPixel(i, j, if (bitMatrix[i, j]) Color.BLACK else Color.WHITE)
                 }
             }
-            file.writeBitmap(bitmap)
-        } catch (e: WriterException) {
-            null
+            getBarcodeFile(context).writeBitmap(bitmap)
         }
     }
 
@@ -127,18 +120,5 @@ class CardRepository @Inject constructor(
             SupportedFormat.AZTEC -> AztecWriter()
             SupportedFormat.PDF_417 -> PDF417Writer()
         }
-    }
-
-    private fun Writer.encode(
-        codeData: String,
-        codeFormat: SupportedFormat,
-    ): BitMatrix {
-        val isSquare = codeFormat.isSquare()
-        return encode(
-            codeData,
-            BarcodeFormat.valueOf(codeFormat.toString()),
-            if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_WIDTH,
-            if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_HEIGHT,
-        )
     }
 }
