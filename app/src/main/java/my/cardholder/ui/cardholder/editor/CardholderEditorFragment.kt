@@ -39,6 +39,11 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
         viewModelFactory.create(args.cardId)
     }
 
+    override fun onStop() {
+        viewModel.onStop()
+        super.onStop()
+    }
+
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
@@ -76,8 +81,14 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                     setBackgroundColor(card.getColorInt())
                     loadBarcodeImage(card.getBarcodeFile(context))
                 }
-                cardEditorCardNameInputLayout.editText?.setText(card.name)
-                cardEditorCardTextInputLayout.editText?.setText(card.text)
+                cardEditorCardNameInputLayout.editText?.apply {
+                    setText(card.name)
+                    setSelection(card.name.length)
+                }
+                cardEditorCardTextInputLayout.editText?.apply {
+                    setText(card.text)
+                    setSelection(card.text.length)
+                }
             }
         }
     }
