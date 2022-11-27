@@ -59,23 +59,27 @@ class CardRepository @Inject constructor(
             ?.let { newCard -> cardDao.update(newCard) }
     }
 
-    suspend fun updateCardNameAndText(cardId: Long, name: String?, text: String?) {
-        getCard(cardId).first()?.let { oldCard ->
-            val newCard = if (oldCard.text != text) {
-                oldCard.deleteBarcodeFile()
-                oldCard.copy(
-                    name = name ?: oldCard.name,
-                    text = text ?: oldCard.text,
-                    timestamp = System.currentTimeMillis(),
-                ).also { card -> card.writeNewBarcodeFile() }
-            } else {
-                oldCard.copy(
-                    name = name ?: oldCard.name,
-                    text = text,
-                )
-            }
-            cardDao.update(newCard)
+    suspend fun updateCardDataIfItChanges(cardId: Long, name: String?, text: String?) {
+        val oldCard = getCard(cardId).first() ?: return
+        val oldCardName = oldCard.name
+        val oldCardText = oldCard.text
+        if (oldCardName == name && oldCardText == text) {
+            return
         }
+        val newCard = if (oldCardText != text) {
+            oldCard.deleteBarcodeFile()
+            oldCard.copy(
+                name = name ?: oldCardName,
+                text = text ?: oldCardText,
+                timestamp = System.currentTimeMillis(),
+            ).also { card -> card.writeNewBarcodeFile() }
+        } else {
+            oldCard.copy(
+                name = name ?: oldCardName,
+                text = text,
+            )
+        }
+        cardDao.update(newCard)
     }
 
     suspend fun deleteCard(cardId: Long) {

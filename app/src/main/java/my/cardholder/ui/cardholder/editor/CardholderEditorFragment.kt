@@ -39,11 +39,6 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
         viewModelFactory.create(args.cardId)
     }
 
-    override fun onStop() {
-        viewModel.onStop()
-        super.onStop()
-    }
-
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
