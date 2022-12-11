@@ -54,20 +54,18 @@ dependencies {
     implementation "androidx.camera:camera-view:$camerax_version"
     // Coil
     implementation 'io.coil-kt:coil:2.2.1'
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
     // Ml Kit
     implementation 'com.google.mlkit:barcode-scanning:17.0.3'
     // Navigation
-    def nav_version = '2.5.3'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Preference
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    // Hilt
-    def hilt_version = '2.44.2'
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // Room
     def room_version = '2.4.3'
     implementation "androidx.room:room-runtime:$room_version"
