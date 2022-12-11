@@ -16,7 +16,7 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.model.isSquare
-import my.cardholder.util.writeBitmap
+import my.cardholder.util.ext.writeBitmap
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject

@@ -9,9 +9,9 @@ import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardholderViewerBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.util.assistedViewModels
-import my.cardholder.util.loadBarcodeImage
-import my.cardholder.util.setupUniqueTransitionName
+import my.cardholder.util.ext.assistedViewModels
+import my.cardholder.util.ext.loadBarcodeImage
+import my.cardholder.util.ext.setupUniqueTransitionName
 import javax.inject.Inject
 
 @AndroidEntryPoint

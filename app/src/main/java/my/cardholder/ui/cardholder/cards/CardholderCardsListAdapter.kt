@@ -10,8 +10,8 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.ItemCardBinding
-import my.cardholder.util.loadBarcodeImage
-import my.cardholder.util.setupUniqueTransitionName
+import my.cardholder.util.ext.loadBarcodeImage
+import my.cardholder.util.ext.setupUniqueTransitionName
 
 class CardholderCardsListAdapter(
     private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,

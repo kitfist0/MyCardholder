@@ -1,4 +1,4 @@
-package my.cardholder.util
+package my.cardholder.util.ext
 
 import android.view.View
 import android.widget.ImageView
