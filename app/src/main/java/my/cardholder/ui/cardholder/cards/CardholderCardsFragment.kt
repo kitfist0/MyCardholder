@@ -1,6 +1,7 @@
 package my.cardholder.ui.cardholder.cards
 
 import android.transition.TransitionInflater
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +42,9 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
     }
 
     override fun collectData() {
-        viewModel.cards.collectWhenStarted { cards -> listAdapter.submitList(cards) }
+        viewModel.cards.collectWhenStarted { cards ->
+            listAdapter.submitList(cards)
+            binding.cardsEmptyListText.isVisible = cards.isEmpty()
+        }
     }
 }
