@@ -26,3 +26,24 @@ fun SupportedFormat.isSquare(): Boolean {
             this == SupportedFormat.DATA_MATRIX ||
             this == SupportedFormat.QR_CODE
 }
+
+fun SupportedFormat.getValidCharacters(): String {
+    // https://www.activebarcode.com/codes
+    return when (this) {
+        SupportedFormat.CODABAR ->
+            "0123456789-\$:/.+"
+        SupportedFormat.CODE_39 ->
+            "0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ-.\$/+%"
+        SupportedFormat.CODE_93 ->
+            "0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ-.\$/+%"
+        SupportedFormat.CODE_128 ->
+            "0123456789!\"#\$%&''()*+,-./:;<=>?@[\\]^_`{|} ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+        SupportedFormat.EAN_8,
+        SupportedFormat.EAN_13,
+        SupportedFormat.ITF,
+        SupportedFormat.UPC_A,
+        SupportedFormat.UPC_E ->
+            "0123456789"
+        else -> "*"
+    }
+}
