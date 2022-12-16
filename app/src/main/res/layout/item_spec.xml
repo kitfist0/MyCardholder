@@ -1,62 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/card_item_content_padding">
+    android:layout_margin="@dimen/spec_item_layout_margin"
+    app:cardCornerRadius="@dimen/spec_item_content_padding"
+    app:strokeWidth="0dp">
 
-    <TextView
-        android:id="@+id/item_spec_barcode_name_text"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="8dp"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@sample/sample_barcode_format_names" />
+        android:orientation="vertical"
+        android:padding="@dimen/card_item_content_padding">
 
-    <ImageView
-        android:id="@+id/item_spec_barcode_image"
-        android:layout_width="0dp"
-        android:layout_height="90dp"
-        android:scaleType="fitStart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_spec_barcode_name_text"
-        tools:src="@drawable/ic_qr_code" />
+        <TextView
+            android:id="@+id/item_spec_barcode_name_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@sample/sample_barcode_format_names" />
 
-    <TextView
-        android:id="@+id/item_spec_barcode_characters_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingVertical="4dp"
-        android:text="@string/format_valid_characters"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_spec_barcode_image"
-        tools:text="Valid characters: 0123456789" />
+        <ImageView
+            android:id="@+id/item_spec_barcode_image"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/spec_item_image_height"
+            android:scaleType="fitStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_spec_barcode_name_text"
+            tools:src="@drawable/ic_qr_code" />
 
-    <TextView
-        android:id="@+id/item_spec_barcode_length_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingVertical="4dp"
-        android:text="@string/format_length"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_spec_barcode_characters_text"
-        tools:text="Length: 13" />
+        <TextView
+            android:id="@+id/item_spec_barcode_characters_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:text="@string/format_spec_valid_characters"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_spec_barcode_image"
+            tools:text="Valid characters: 0123456789" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/item_spec_expanded_views_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="item_spec_barcode_image,item_spec_barcode_characters_text,item_spec_barcode_length_text" />
+        <TextView
+            android:id="@+id/item_spec_barcode_length_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:text="@string/format_spec_length"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_spec_barcode_characters_text"
+            tools:text="Length: 13" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/item_spec_expanded_views_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="item_spec_barcode_image,item_spec_barcode_characters_text,item_spec_barcode_length_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
