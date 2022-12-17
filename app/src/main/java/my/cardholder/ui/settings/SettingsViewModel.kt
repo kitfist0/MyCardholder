@@ -1,7 +1,8 @@
 package my.cardholder.ui.settings
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import my.cardholder.BuildConfig
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
@@ -12,10 +13,6 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
-    private companion object {
-        const val WEB_PAGE = "https://github.com/kitfist0/MyCardholder"
-    }
-
     private val _nightModeEnabled = MutableStateFlow(settingsRepository.isNightModeEnabled)
     val nightModeEnabled = _nightModeEnabled.asStateFlow()
 
@@ -25,7 +22,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onSupportedFormatsClicked() {
-        startActivity("android.intent.action.VIEW", WEB_PAGE)
+        navigate(SettingsFragmentDirections.fromSettingsToSpecs())
     }
 
     fun onAboutAppButtonClicked() {
