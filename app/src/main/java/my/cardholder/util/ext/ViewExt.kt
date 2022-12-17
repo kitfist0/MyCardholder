@@ -1,5 +1,6 @@
 package my.cardholder.util.ext
 
+import android.graphics.BitmapFactory
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.ViewCompat
@@ -11,6 +12,15 @@ import java.io.File
 
 fun View.setupUniqueTransitionName(uniqueSuffix: Long) {
     ViewCompat.setTransitionName(this, transitionName.format(uniqueSuffix))
+}
+
+fun ImageView.setBitmapFromAssets(fileName: String) {
+    runCatching {
+        val inputStream = context.assets.open(fileName)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+        inputStream.close()
+        setImageBitmap(bitmap)
+    }
 }
 
 fun ImageView.loadBarcodeImage(

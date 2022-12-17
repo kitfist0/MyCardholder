@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:itemCount="13"
-        tools:listitem="@layout/item_spec" />
+        tools:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        tools:listitem="@layout/item_spec"
+        tools:spanCount="2" />
 
 </FrameLayout>
