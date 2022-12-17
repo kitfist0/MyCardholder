@@ -5,6 +5,7 @@ import android.transition.TransitionSet
 import androidx.core.transition.doOnEnd
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
@@ -56,7 +57,10 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
-            cardEditorColorsRecyclerView.adapter = listAdapter
+            cardEditorColorsRecyclerView.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = listAdapter
+            }
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
                 cardEditorColorsRecyclerView.animate()
                     .setDuration(COLOR_PICKER_ANIM_DURATION)
