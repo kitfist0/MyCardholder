@@ -18,7 +18,7 @@
             android:id="@+id/item_spec_barcode_name_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
+            android:gravity="center"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,11 +28,13 @@
         <ImageView
             android:id="@+id/item_spec_barcode_image"
             android:layout_width="0dp"
-            android:layout_height="@dimen/spec_item_image_height"
-            android:scaleType="fitStart"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_spec_barcode_name_text"
+            tools:ignore="ContentDescription"
             tools:src="@drawable/ic_qr_code" />
 
         <TextView
@@ -64,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="item_spec_barcode_image,item_spec_barcode_characters_text,item_spec_barcode_length_text" />
+            app:constraint_referenced_ids="item_spec_barcode_characters_text,item_spec_barcode_length_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
