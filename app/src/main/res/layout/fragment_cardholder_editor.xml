@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@sample/sample_cards.json/cards/color"
+        tools:ignore="ContentDescription"
         tools:src="@drawable/ic_qr_code" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -68,16 +69,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:alpha="0"
-        android:orientation="horizontal"
         android:paddingVertical="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_editor_card_text_input_layout"
-        app:spanCount="4"
         tools:alpha="1"
         tools:itemCount="8"
-        tools:listitem="@layout/item_color" />
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_color"
+        tools:orientation="horizontal" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_editor_ok_fab"

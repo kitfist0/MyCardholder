@@ -31,7 +31,7 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         binding.cardsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(context)
             adapter = listAdapter
             postponeEnterTransition()
             viewTreeObserver.addOnPreDrawListener {
