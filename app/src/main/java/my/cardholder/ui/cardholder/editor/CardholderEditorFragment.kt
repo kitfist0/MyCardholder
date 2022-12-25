@@ -12,6 +12,7 @@ import my.cardholder.databinding.FragmentCardholderEditorBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.assistedViewModels
 import my.cardholder.util.ext.loadBarcodeImage
+import my.cardholder.util.ext.setTextAndSelectionIfRequired
 import my.cardholder.util.ext.setupUniqueTransitionName
 import javax.inject.Inject
 
@@ -76,14 +77,8 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                     setBackgroundColor(card.getColorInt())
                     loadBarcodeImage(card.getBarcodeFile(context))
                 }
-                cardEditorCardNameInputLayout.editText?.apply {
-                    setText(card.name)
-                    setSelection(card.name.length)
-                }
-                cardEditorCardTextInputLayout.editText?.apply {
-                    setText(card.text)
-                    setSelection(card.text.length)
-                }
+                cardEditorCardNameInputLayout.editText?.setTextAndSelectionIfRequired(card.name)
+                cardEditorCardTextInputLayout.editText?.setTextAndSelectionIfRequired(card.text)
             }
         }
     }

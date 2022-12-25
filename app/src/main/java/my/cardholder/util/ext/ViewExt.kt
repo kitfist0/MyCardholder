@@ -1,6 +1,7 @@
 package my.cardholder.util.ext
 
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.view.ViewCompat
 import coil.load
@@ -26,5 +27,12 @@ fun ImageView.loadBarcodeImage(
                 resources.getDimensionPixelSize(R.dimen.barcode_image_corners).toFloat()
             )
         )
+    }
+}
+
+fun EditText.setTextAndSelectionIfRequired(text: String) {
+    if (this.text.toString() != text) {
+        setText(text)
+        setSelection(text.length)
     }
 }
