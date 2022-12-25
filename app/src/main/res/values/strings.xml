@@ -9,6 +9,8 @@
     <string name="card_edit">Edit</string>
     <string name="card_name">Name</string>
     <string name="card_text">Text</string>
+    <string name="format_spec_valid_characters">Valid characters: %s</string>
+    <string name="format_spec_length">Length: %s</string>
     <string name="no_cards">No scanned cards</string>
     <string name="permission_grant">Grant</string>
     <string name="permission_rationale">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>

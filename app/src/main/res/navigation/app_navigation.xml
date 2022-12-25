@@ -13,6 +13,16 @@
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/from_settings_to_specs"
+            app:destination="@id/specs_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/specs_fragment"
+        android:name="my.cardholder.ui.specs.SpecsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_specs" />
 
 </navigation>

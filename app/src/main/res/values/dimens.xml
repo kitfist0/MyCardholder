@@ -11,4 +11,10 @@
     <dimen name="card_item_square_barcode_height">100dp</dimen>
     <dimen name="card_item_square_barcode_width">100dp</dimen>
     <!--endregion-->
+
+    <!--region Spec item-->
+    <dimen name="spec_item_content_padding">16dp</dimen>
+    <dimen name="spec_item_layout_margin">4dp</dimen>
+    <dimen name="spec_item_image_height">75dp</dimen>
+    <!--endregion-->
 </resources>

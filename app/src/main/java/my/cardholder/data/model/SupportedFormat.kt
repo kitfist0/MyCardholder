@@ -1,10 +1,5 @@
 package my.cardholder.data.model
 
-/**
- * Supported barcode formats (https://zxing.org):
- * UPC-A, UPC-E, EAN-8, EAN-13, Code 39, Code 93, Code 128, ITF, Codabar, R̶S̶S̶-̶1̶4̶, R̶S̶S̶ ̶E̶x̶p̶a̶n̶d̶e̶d̶,
- * QR Code, Data Matrix, Aztec, PDF 417, M̶a̶x̶i̶C̶o̶d̶e̶
- * */
 enum class SupportedFormat {
     AZTEC,
     CODABAR,
@@ -27,23 +22,33 @@ fun SupportedFormat.isSquare(): Boolean {
             this == SupportedFormat.QR_CODE
 }
 
-fun SupportedFormat.getValidCharacters(): String {
-    // https://www.activebarcode.com/codes
+fun SupportedFormat.toSpec(): FormatSpec {
     return when (this) {
+        SupportedFormat.AZTEC ->
+            FormatSpec("Aztec", "ASCII 1-255")
         SupportedFormat.CODABAR ->
-            "0123456789-\$:/.+"
+            FormatSpec("Codabar", "0123456789-\$:/.+")
         SupportedFormat.CODE_39 ->
-            "0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ-.\$/+%"
+            FormatSpec("Code 39", "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.\$/+%")
         SupportedFormat.CODE_93 ->
-            "0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ-.\$/+%"
+            FormatSpec("Code 93", "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.\$/+%")
         SupportedFormat.CODE_128 ->
-            "0123456789!\"#\$%&''()*+,-./:;<=>?@[\\]^_`{|} ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-        SupportedFormat.EAN_8,
-        SupportedFormat.EAN_13,
-        SupportedFormat.ITF,
-        SupportedFormat.UPC_A,
+            FormatSpec("Code 128", "ASCII 1-128")
+        SupportedFormat.DATA_MATRIX ->
+            FormatSpec("DataMatrix", "ASCII 1-255")
+        SupportedFormat.EAN_8 ->
+            FormatSpec("EAN-8", "0123456789", "8")
+        SupportedFormat.EAN_13 ->
+            FormatSpec("EAN-13", "0123456789", "13")
+        SupportedFormat.ITF ->
+            FormatSpec("ITF", "0123456789", "even value")
+        SupportedFormat.PDF_417 ->
+            FormatSpec("PDF417","ASCII 1-255")
+        SupportedFormat.QR_CODE ->
+            FormatSpec("QR code", "ASCII 1-255")
+        SupportedFormat.UPC_A ->
+            FormatSpec("UPC-A", "0123456789", "12")
         SupportedFormat.UPC_E ->
-            "0123456789"
-        else -> "*"
+            FormatSpec("UPC-E", "0123456789", "8")
     }
 }
