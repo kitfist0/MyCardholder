@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_navigation"
+    app:startDestination="@id/settings_fragment">
+
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="my.cardholder.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/from_settings_to_specs"
+            app:destination="@id/specs_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/specs_fragment"
+        android:name="my.cardholder.ui.specs.SpecsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_specs" />
+
+</navigation>
