@@ -12,7 +12,7 @@
         android:title="@string/title_cards" />
 
     <item
-        android:id="@+id/settings_fragment"
+        android:id="@+id/settings_navigation"
         android:icon="@drawable/ic_menu_settings"
         android:title="@string/title_settings" />
 
