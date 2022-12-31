@@ -1,4 +1,4 @@
-package my.cardholder.ui.settings
+package my.cardholder.ui.settings.main
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,7 +9,7 @@ import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingsMainViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
@@ -22,7 +22,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onSupportedFormatsClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToSpecs())
+        navigate(SettingsMainFragmentDirections.fromSettingsToSpecs())
     }
 
     fun onAboutAppButtonClicked() {

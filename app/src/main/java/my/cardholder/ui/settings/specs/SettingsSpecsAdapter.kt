@@ -1,4 +1,4 @@
-package my.cardholder.ui.specs
+package my.cardholder.ui.settings.specs
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,9 +10,9 @@ import my.cardholder.data.model.FormatSpec.Companion.getFileName
 import my.cardholder.databinding.ItemSpecBinding
 import my.cardholder.util.ext.setBitmapFromAssets
 
-class SpecsAdapter(
+class SettingsSpecsAdapter(
     private val items: List<FormatSpec>,
-) : RecyclerView.Adapter<SpecsAdapter.SpecViewHolder>() {
+) : RecyclerView.Adapter<SettingsSpecsAdapter.SpecViewHolder>() {
 
     inner class SpecViewHolder(
         private val binding: ItemSpecBinding,

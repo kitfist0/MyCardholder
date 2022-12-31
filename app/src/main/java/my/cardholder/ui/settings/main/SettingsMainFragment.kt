@@ -1,16 +1,18 @@
-package my.cardholder.ui.settings
+package my.cardholder.ui.settings.main
 
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
-import my.cardholder.databinding.FragmentSettingsBinding
+import my.cardholder.databinding.FragmentSettingsMainBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.contextCompatDrawable
 
 @AndroidEntryPoint
-class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {
+class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
+    FragmentSettingsMainBinding::inflate
+) {
 
-    override val viewModel: SettingsViewModel by viewModels()
+    override val viewModel: SettingsMainViewModel by viewModels()
 
     override fun initViews() {
         binding.settingsColorThemeButton.setOnClickListener {

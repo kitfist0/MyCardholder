@@ -1,17 +1,19 @@
-package my.cardholder.ui.specs
+package my.cardholder.ui.settings.specs
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
-import my.cardholder.databinding.FragmentSpecsBinding
+import my.cardholder.databinding.FragmentSettingsSpecsBinding
 import my.cardholder.ui.base.BaseFragment
 
 @AndroidEntryPoint
-class SpecsFragment : BaseFragment<FragmentSpecsBinding>(FragmentSpecsBinding::inflate) {
+class SettingsSpecsFragment : BaseFragment<FragmentSettingsSpecsBinding>(
+    FragmentSettingsSpecsBinding::inflate
+) {
 
-    override val viewModel: SpecsViewModel by viewModels()
+    override val viewModel: SettingsSpecsViewModel by viewModels()
 
     override fun initViews() {
         binding.specsRecyclerView.layoutManager =
@@ -21,7 +23,7 @@ class SpecsFragment : BaseFragment<FragmentSpecsBinding>(FragmentSpecsBinding::i
     override fun collectData() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             val specs = viewModel.specs.first()
-            binding.specsRecyclerView.adapter = SpecsAdapter(specs)
+            binding.specsRecyclerView.adapter = SettingsSpecsAdapter(specs)
         }
     }
 }

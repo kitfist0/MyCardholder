@@ -5,20 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.cardholder.cards.CardholderCardsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cards_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_card" />
-
     <TextView
         android:id="@+id/cards_empty_list_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/no_cards"
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-        android:visibility="gone" />
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cards_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_card" />
 
 </FrameLayout>
