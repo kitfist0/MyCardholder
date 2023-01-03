@@ -3,6 +3,7 @@ package my.cardholder.ui.cardholder.editor
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import androidx.core.transition.doOnEnd
+import androidx.core.view.isInvisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,6 +62,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
             cardEditorColorsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = listAdapter
+                alpha = 0f
             }
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
                 cardEditorColorsRecyclerView.animate()
@@ -72,17 +74,29 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
     }
 
     override fun collectData() {
-        viewModel.cardColors.collectWhenStarted { colors ->
-            listAdapter.submitList(colors)
-        }
-        viewModel.card.collectWhenStarted { card ->
-            with(binding) {
-                cardEditorBarcodeImage.apply {
-                    setBackgroundColor(card.getColorInt())
-                    loadBarcodeImage(card.getBarcodeFile(context))
+        viewModel.state.collectWhenStarted { state ->
+            when (state) {
+                is CardholderEditorState.Loading -> with(binding) {
+                    cardEditorCardNameInputLayout.isEnabled = false
+                    cardEditorCardTextInputLayout.isEnabled = false
+                    cardEditorColorsRecyclerView.isInvisible = true
                 }
-                cardEditorCardNameInputLayout.editText?.setTextAndSelectionIfRequired(card.name)
-                cardEditorCardTextInputLayout.editText?.setTextAndSelectionIfRequired(card.text)
+                is CardholderEditorState.Success -> with(binding) {
+                    cardEditorBarcodeImage.apply {
+                        setBackgroundColor(state.card.getColorInt())
+                        loadBarcodeImage(state.card.getBarcodeFile(context))
+                    }
+                    cardEditorCardNameInputLayout.apply {
+                        isEnabled = true
+                        editText?.setTextAndSelectionIfRequired(state.card.name)
+                    }
+                    cardEditorCardTextInputLayout.apply {
+                        isEnabled = true
+                        editText?.setTextAndSelectionIfRequired(state.card.text)
+                    }
+                    cardEditorColorsRecyclerView.isInvisible = false
+                    listAdapter.submitList(state.cardColors)
+                }
             }
         }
     }

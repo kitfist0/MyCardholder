@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import my.cardholder.data.model.Card
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 
@@ -24,8 +23,8 @@ class CardholderEditorViewModel @AssistedInject constructor(
     private var updatedCardText: String? = null
     private var updatedCardColor: String? = null
 
-    val card: Flow<Card> = cardRepository.getCard(cardId).filterNotNull()
-    val cardColors = flowOf(Card.COLORS.toList())
+    private val _state = MutableStateFlow<CardholderEditorState>(CardholderEditorState.Loading)
+    val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -34,6 +33,10 @@ class CardholderEditorViewModel @AssistedInject constructor(
                 cardRepository.updateCardDataIfItChanges(cardId, updatedCardName, updatedCardText)
             }
         }
+        cardRepository.getCard(cardId)
+            .filterNotNull()
+            .onEach { card -> _state.value = CardholderEditorState.Success(card) }
+            .launchIn(viewModelScope)
     }
 
     fun onOkFabClicked() {
