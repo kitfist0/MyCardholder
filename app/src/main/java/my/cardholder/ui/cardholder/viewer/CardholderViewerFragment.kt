@@ -57,14 +57,21 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
     }
 
     override fun collectData() {
-        viewModel.card.collectWhenStarted { card ->
-            with(binding) {
-                cardViewerBarcodeImage.apply {
-                    setBackgroundColor(card.getColorInt())
-                    loadBarcodeImage(card.getBarcodeFile(context))
+        viewModel.state.collectWhenStarted { state ->
+            when (state) {
+                CardholderViewerState.Loading -> with(binding) {
+                    cardViewerEditFab.isClickable = false
                 }
-                cardViewerCardNameText.text = card.name
-                cardViewerCardTextText.text = card.text
+                is CardholderViewerState.Success -> with(binding) {
+                    val card = state.card
+                    cardViewerBarcodeImage.apply {
+                        setBackgroundColor(card.getColorInt())
+                        loadBarcodeImage(card.getBarcodeFile(context))
+                    }
+                    cardViewerCardNameText.text = card.name
+                    cardViewerCardTextText.text = card.text
+                    cardViewerEditFab.isClickable = true
+                }
             }
         }
     }
