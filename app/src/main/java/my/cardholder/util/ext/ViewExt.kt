@@ -9,7 +9,6 @@ import coil.load
 import coil.size.Size
 import coil.transform.RoundedCornersTransformation
 import my.cardholder.R
-import java.io.File
 
 fun View.setupUniqueTransitionName(uniqueSuffix: Long) {
     ViewCompat.setTransitionName(this, transitionName.format(uniqueSuffix))
@@ -25,9 +24,10 @@ fun ImageView.setBitmapFromAssets(fileName: String) {
 }
 
 fun ImageView.loadBarcodeImage(
-    barcodeFile: File,
+    barcodeFileName: String,
     originalSize: Boolean = true,
 ) {
+    val barcodeFile = context.getFileFromExternalDir(barcodeFileName)
     load(barcodeFile) {
         if (originalSize) {
             size(Size.ORIGINAL)

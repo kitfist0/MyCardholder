@@ -1,11 +1,9 @@
 package my.cardholder.data.model
 
-import android.content.Context
-import android.graphics.Color
 import androidx.core.graphics.toColorInt
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import java.io.File
 
 @Entity(tableName = "cards")
 data class Card(
@@ -17,6 +15,9 @@ data class Card(
     val timestamp: Long,
     val format: SupportedFormat,
 ) {
+    @Ignore
+    val barcodeFileName = "$timestamp.jpeg"
+
     companion object {
         val COLORS = arrayOf(
             "#EF5350",
@@ -29,16 +30,10 @@ data class Card(
             "#8D6E63",
         )
 
-        fun Card.getBarcodeFile(context: Context): File {
-            return File(context.getExternalFilesDir("images"), "$timestamp.jpeg")
-        }
-
-        fun Card.getColorInt(): Int {
-            return try {
-                color.toColorInt()
-            } catch (e: IllegalArgumentException) {
-                Color.MAGENTA
-            }
+        fun Card.getColorInt() = try {
+            color.toColorInt()
+        } catch (e: IllegalArgumentException) {
+            0
         }
     }
 }

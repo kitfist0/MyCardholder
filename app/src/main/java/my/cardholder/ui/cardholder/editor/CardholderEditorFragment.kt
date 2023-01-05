@@ -8,14 +8,10 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardholderEditorBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.util.ext.assistedViewModels
-import my.cardholder.util.ext.loadBarcodeImage
-import my.cardholder.util.ext.setTextAndSelectionIfRequired
-import my.cardholder.util.ext.setupUniqueTransitionName
+import my.cardholder.util.ext.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -84,7 +80,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 is CardholderEditorState.Success -> with(binding) {
                     cardEditorBarcodeImage.apply {
                         setBackgroundColor(state.card.getColorInt())
-                        loadBarcodeImage(state.card.getBarcodeFile(context))
+                        loadBarcodeImage(state.card.barcodeFileName)
                     }
                     cardEditorCardNameInputLayout.apply {
                         isEnabled = true

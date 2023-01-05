@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.model.Card
-import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.ext.loadBarcodeImage
@@ -52,7 +51,7 @@ class CardholderCardsListAdapter(
                 itemCardBarcodeImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     loadBarcodeImage(
-                        barcodeFile = card.getBarcodeFile(context),
+                        barcodeFileName = card.barcodeFileName,
                         originalSize = false,
                     )
                 }

@@ -13,10 +13,11 @@ import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
-import my.cardholder.data.model.Card.Companion.getBarcodeFile
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.model.isSquare
+import my.cardholder.util.ext.getFileFromExternalDir
 import my.cardholder.util.ext.writeBitmap
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -89,8 +90,12 @@ class CardRepository @Inject constructor(
         }
     }
 
+    private fun Card.getBarcodeFile(): File {
+        return context.getFileFromExternalDir(barcodeFileName)
+    }
+
     private fun Card.deleteBarcodeFile() {
-        getBarcodeFile(context).delete()
+        getBarcodeFile().delete()
     }
 
     private fun Card.writeNewBarcodeFile() {
@@ -110,7 +115,7 @@ class CardRepository @Inject constructor(
                     bitmap.setPixel(i, j, if (bitMatrix[i, j]) Color.BLACK else Color.WHITE)
                 }
             }
-            getBarcodeFile(context).writeBitmap(bitmap)
+            getBarcodeFile().writeBitmap(bitmap)
         }
     }
 
