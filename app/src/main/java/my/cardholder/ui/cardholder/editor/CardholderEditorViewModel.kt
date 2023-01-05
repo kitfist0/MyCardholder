@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
+import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.ui.base.BaseViewModel
 
 class CardholderEditorViewModel @AssistedInject constructor(
@@ -35,7 +36,14 @@ class CardholderEditorViewModel @AssistedInject constructor(
         }
         cardRepository.getCard(cardId)
             .filterNotNull()
-            .onEach { card -> _state.value = CardholderEditorState.Success(card) }
+            .onEach { card ->
+                _state.value = CardholderEditorState.Success(
+                    cardName = card.name,
+                    cardText = card.text,
+                    cardColor = card.getColorInt(),
+                    barcodeFileName = card.barcodeFileName,
+                )
+            }
             .launchIn(viewModelScope)
     }
 

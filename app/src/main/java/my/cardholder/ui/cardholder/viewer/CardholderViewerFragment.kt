@@ -5,7 +5,6 @@ import android.view.View
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.databinding.FragmentCardholderViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.assistedViewModels
@@ -60,13 +59,12 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
                     cardViewerEditFab.isClickable = false
                 }
                 is CardholderViewerState.Success -> with(binding) {
-                    val card = state.card
                     cardViewerBarcodeImage.apply {
-                        setBackgroundColor(card.getColorInt())
-                        loadBarcodeImage(card.barcodeFileName)
+                        setBackgroundColor(state.cardColor)
+                        loadBarcodeImage(state.barcodeFileName)
                     }
-                    cardViewerCardNameText.text = card.name
-                    cardViewerCardTextText.text = card.text
+                    cardViewerCardNameText.text = state.cardName
+                    cardViewerCardTextText.text = state.cardText
                     cardViewerEditFab.isClickable = true
                 }
             }

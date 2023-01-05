@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
+import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.ui.base.BaseViewModel
 
 class CardholderViewerViewModel @AssistedInject constructor(
@@ -21,7 +22,14 @@ class CardholderViewerViewModel @AssistedInject constructor(
     init {
         cardRepository.getCard(cardId)
             .filterNotNull()
-            .onEach { card -> _state.value = CardholderViewerState.Success(card) }
+            .onEach { card ->
+                _state.value = CardholderViewerState.Success(
+                    cardName = card.name,
+                    cardText = card.text,
+                    cardColor = card.getColorInt(),
+                    barcodeFileName = card.barcodeFileName,
+                )
+            }
             .launchIn(viewModelScope)
     }
 
