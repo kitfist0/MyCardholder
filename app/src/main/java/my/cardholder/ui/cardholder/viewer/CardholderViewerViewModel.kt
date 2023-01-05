@@ -22,6 +22,7 @@ class CardholderViewerViewModel @AssistedInject constructor(
         cardRepository.getCard(cardId)
             .filterNotNull()
             .onEach { card -> _state.value = CardholderViewerState.Success(card) }
+            .launchIn(viewModelScope)
     }
 
     fun onEditFabClicked(extras: Navigator.Extras) {
