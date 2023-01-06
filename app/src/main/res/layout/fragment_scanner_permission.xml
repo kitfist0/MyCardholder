@@ -2,13 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/permission_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.scanner.permission.ScannerPermissionFragment">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/permission_animation_text"
+        android:id="@+id/permission_animation_view"
         android:layout_width="256dp"
         android:layout_height="256dp"
         app:layout_constraintBottom_toTopOf="@id/permission_guideline_horizontal"

@@ -13,17 +13,17 @@ class ScannerPermissionFragment : BaseFragment<FragmentScannerPermissionBinding>
     FragmentScannerPermissionBinding::inflate
 ) {
 
-    private val permissionsRequestHandler = registerForActivityResult(
+    private val permissionRequestHandler = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        permissions.entries.forEach {
-            val shouldShow = ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), it.key)
-            viewModel.onPermissionRequestResult(
-                permission = it.key,
-                isGranted = it.value,
-                shouldShowRationale = shouldShow,
-            )
-        }
+    ) { resultMap ->
+        val entry = resultMap.entries.first()
+        val shouldShow =
+            ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), entry.key)
+        viewModel.onPermissionRequestResult(
+            permission = entry.key,
+            isGranted = entry.value,
+            shouldShowRationale = shouldShow,
+        )
     }
 
     override val viewModel: ScannerPermissionViewModel by viewModels()
@@ -40,11 +40,22 @@ class ScannerPermissionFragment : BaseFragment<FragmentScannerPermissionBinding>
     }
 
     override fun collectData() {
-        viewModel.uiVisibilityState.collectWhenStarted { isVisible ->
-            binding.permissionConstraintLayout.isVisible = isVisible
-        }
-        viewModel.requestPermissions.collectWhenStarted { permissions ->
-            permissionsRequestHandler.launch(permissions)
+        viewModel.state.collectWhenStarted { state ->
+            when (state) {
+                is ScannerPermissionState.Loading -> with(binding) {
+                    permissionAnimationView.isVisible = false
+                    permissionRationaleText.text = null
+                    permissionGrantFab.isVisible = false
+                }
+                is ScannerPermissionState.PermissionRequired -> with(binding) {
+                    permissionAnimationView.isVisible = true
+                    permissionRationaleText.text = getString(state.rationaleTextStringRes)
+                    permissionGrantFab.isVisible = true
+                    if (state.requestPermission) {
+                        permissionRequestHandler.launch(arrayOf(state.requiredPermission))
+                    }
+                }
+            }
         }
     }
 }

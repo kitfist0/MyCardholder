@@ -1,14 +1,10 @@
 package my.cardholder.ui.scanner.permission
 
-import android.Manifest
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import my.cardholder.BuildConfig
+import my.cardholder.R
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.PermissionHelper
 import javax.inject.Inject
@@ -19,31 +15,19 @@ class ScannerPermissionViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private companion object {
-        const val PERMISSION = Manifest.permission.CAMERA
+        const val CAMERA_PERMISSION = "android.permission.CAMERA"
+        const val APPLICATION_DETAILS_ACTION = "android.settings.APPLICATION_DETAILS_SETTINGS"
     }
 
-    private val _uiVisibilityState = MutableStateFlow(false)
-    val uiVisibilityState = _uiVisibilityState.asStateFlow()
-
-    private val _requestPermissions = MutableSharedFlow<Array<String>>()
-    val requestPermissions = _requestPermissions.asSharedFlow()
-
-    init {
-        _uiVisibilityState.value = false
-    }
+    private val _state = MutableStateFlow<ScannerPermissionState>(ScannerPermissionState.Loading)
+    val state = _state.asStateFlow()
 
     fun onResume() {
-        if (permissionHelper.isPermissionGranted(PERMISSION)) {
-            navigate(ScannerPermissionFragmentDirections.fromPermissionToPreview())
-        } else {
-            _uiVisibilityState.value = true
-        }
+        checkPermission(requestPermission = false)
     }
 
     fun onGrantFabClicked() {
-        viewModelScope.launch {
-            _requestPermissions.emit(arrayOf(PERMISSION))
-        }
+        checkPermission(requestPermission = true)
     }
 
     fun onPermissionRequestResult(
@@ -53,9 +37,21 @@ class ScannerPermissionViewModel @Inject constructor(
     ) {
         if (!isGranted && permissionHelper.isNeverAskAgainChecked(permission, shouldShowRationale)) {
             startActivity(
-                action = "android.settings.APPLICATION_DETAILS_SETTINGS",
+                action = APPLICATION_DETAILS_ACTION,
                 uriString = "package:${BuildConfig.APPLICATION_ID}",
             )
+        }
+    }
+
+    private fun checkPermission(requestPermission: Boolean) {
+        if (!permissionHelper.isPermissionGranted(CAMERA_PERMISSION)) {
+            _state.value = ScannerPermissionState.PermissionRequired(
+                requiredPermission = CAMERA_PERMISSION,
+                rationaleTextStringRes = R.string.permission_rationale,
+                requestPermission = requestPermission,
+            )
+        } else {
+            navigate(ScannerPermissionFragmentDirections.fromPermissionToPreview())
         }
     }
 }
