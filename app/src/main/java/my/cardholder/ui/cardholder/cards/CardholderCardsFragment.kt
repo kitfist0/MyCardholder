@@ -1,6 +1,7 @@
 package my.cardholder.ui.cardholder.cards
 
 import android.transition.TransitionInflater
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,10 +46,12 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
             when (state) {
                 is CardholderCardsState.Empty -> {
                     listAdapter.submitList(null)
+                    binding.cardsFilterFab.isVisible = false
                     binding.cardsEmptyListText.setText(state.messageRes)
                 }
                 is CardholderCardsState.Success -> {
                     listAdapter.submitList(state.cards)
+                    binding.cardsFilterFab.isVisible = true
                     binding.cardsEmptyListText.text = null
                 }
             }
