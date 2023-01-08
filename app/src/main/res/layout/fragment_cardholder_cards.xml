@@ -28,6 +28,7 @@
         android:layout_gravity="bottom|end"
         android:contentDescription="@string/card_search"
         android:src="@drawable/ic_search"
+        android:transitionName="@string/transition_search"
         app:useCompatPadding="true" />
 
 </FrameLayout>

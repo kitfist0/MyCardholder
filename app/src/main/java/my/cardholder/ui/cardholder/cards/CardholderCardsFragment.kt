@@ -1,6 +1,7 @@
 package my.cardholder.ui.cardholder.cards
 
 import android.transition.TransitionInflater
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
@@ -30,17 +31,25 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
-        binding.cardsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = listAdapter
-            postponeEnterTransition()
-            viewTreeObserver.addOnPreDrawListener {
-                startPostponedEnterTransition()
-                true
+        with(binding) {
+            cardsRecyclerView.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = listAdapter
+                postponeEnterTransition()
+                viewTreeObserver.addOnPreDrawListener {
+                    startPostponedEnterTransition()
+                    true
+                }
             }
-        }
-        binding.cardsSearchFab.setOnClickListener {
-            viewModel.onSearchFabClicked()
+            cardsSearchFab.setOnClickListener {
+                val sharedElements = mapOf<View, String>(
+                    cardsSearchFab to cardsSearchFab.transitionName,
+                )
+                val extras = FragmentNavigator.Extras.Builder()
+                    .addSharedElements(sharedElements)
+                    .build()
+                viewModel.onSearchFabClicked(extras)
+            }
         }
     }
 
