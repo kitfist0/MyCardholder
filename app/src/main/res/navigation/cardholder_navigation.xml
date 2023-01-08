@@ -13,7 +13,16 @@
         <action
             android:id="@+id/from_cards_to_viewer"
             app:destination="@id/viewer_fragment" />
+        <action
+            android:id="@+id/from_cards_to_search"
+            app:destination="@id/search_fragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="my.cardholder.ui.cardholder.search.CardholderSearchFragment"
+        android:label="@string/card_search"
+        tools:layout="@layout/fragment_cardholder_search" />
 
     <fragment
         android:id="@+id/viewer_fragment"

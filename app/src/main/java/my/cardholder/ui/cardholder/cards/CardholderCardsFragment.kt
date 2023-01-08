@@ -39,6 +39,9 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
                 true
             }
         }
+        binding.cardsSearchFab.setOnClickListener {
+            viewModel.onSearchFabClicked()
+        }
     }
 
     override fun collectData() {

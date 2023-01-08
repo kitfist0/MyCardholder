@@ -31,4 +31,8 @@ class CardholderCardsViewModel @Inject constructor(
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
         navigate(CardholderCardsFragmentDirections.fromCardsToViewer(cardId), extras)
     }
+
+    fun onSearchFabClicked() {
+        navigate(CardholderCardsFragmentDirections.fromCardsToSearch())
+    }
 }
