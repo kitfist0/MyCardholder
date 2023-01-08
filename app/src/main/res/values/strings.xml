@@ -8,7 +8,7 @@
     <string name="card_color">Card color</string>
     <string name="card_delete">Delete</string>
     <string name="card_edit">Edit</string>
-    <string name="card_filter">Filter</string>
+    <string name="card_search">Search</string>
     <string name="card_name">Name</string>
     <string name="card_text">Text</string>
     <string name="format_spec_valid_characters">Valid characters: %s</string>

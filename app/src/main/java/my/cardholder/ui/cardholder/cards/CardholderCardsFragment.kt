@@ -46,12 +46,12 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
             when (state) {
                 is CardholderCardsState.Empty -> {
                     listAdapter.submitList(null)
-                    binding.cardsFilterFab.isVisible = false
+                    binding.cardsSearchFab.isVisible = false
                     binding.cardsEmptyListText.setText(state.messageRes)
                 }
                 is CardholderCardsState.Success -> {
                     listAdapter.submitList(state.cards)
-                    binding.cardsFilterFab.isVisible = true
+                    binding.cardsSearchFab.isVisible = true
                     binding.cardsEmptyListText.text = null
                 }
             }

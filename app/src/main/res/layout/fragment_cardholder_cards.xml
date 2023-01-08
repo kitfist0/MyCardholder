@@ -22,12 +22,12 @@
         tools:listitem="@layout/item_card" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cards_filter_fab"
+        android:id="@+id/cards_search_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="32dp"
-        android:contentDescription="@string/card_filter"
-        android:src="@drawable/ic_filter_list" />
+        android:contentDescription="@string/card_search"
+        android:src="@drawable/ic_search"
+        app:useCompatPadding="true" />
 
 </FrameLayout>
