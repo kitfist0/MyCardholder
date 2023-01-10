@@ -54,6 +54,10 @@ class CardRepository @Inject constructor(
         return cardDao.insert(card)
     }
 
+    suspend fun searchCardsBy(name: String): List<Card> {
+        return cardDao.searchCardsBy(name)
+    }
+
     suspend fun updateCardColor(cardId: Long, color: String) {
         val oldCard = getCard(cardId).first()
         oldCard?.copy(color = color)
