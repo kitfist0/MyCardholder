@@ -18,6 +18,13 @@
     <string name="permission_rationale">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>
     <string name="permission_request">Permission request</string>
     <string name="permission_toast">Please grant the required permissions</string>
+
+    <!-- region Search -->
+    <string name="search_nothing_found_message">Nothing found</string>
+    <string name="search_welcome_message">Search your cards</string>
+    <string name="search_edit_text_hint">Search</string>
+    <!-- endregion -->
+
     <string name="settings_about_app_title">About app</string>
     <string name="settings_coffee_for_developers">Coffee for developers</string>
     <string name="settings_switch_to_light_mode">Switch to light mode</string>
