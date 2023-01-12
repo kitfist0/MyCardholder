@@ -13,7 +13,7 @@ interface CardDao {
     fun getCards(): Flow<List<Card>>
 
     @Query("SELECT * FROM cards WHERE name LIKE :name")
-    suspend fun searchCardsBy(name: String): List<Card>
+    suspend fun getCardsWithNamesLike(name: String): List<Card>
 
     @Query("DELETE FROM cards WHERE id = :id")
     suspend fun deleteCard(id: Long)

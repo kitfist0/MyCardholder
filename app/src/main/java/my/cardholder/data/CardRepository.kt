@@ -54,8 +54,12 @@ class CardRepository @Inject constructor(
         return cardDao.insert(card)
     }
 
-    suspend fun searchCardsBy(name: String): List<Card> {
-        return cardDao.searchCardsBy(name)
+    suspend fun searchForCardsWithNamesLike(name: String): List<Card> {
+        return if (name.isNotBlank()) {
+            cardDao.getCardsWithNamesLike("%$name%")
+        } else {
+            emptyList()
+        }
     }
 
     suspend fun updateCardColor(cardId: Long, color: String) {
