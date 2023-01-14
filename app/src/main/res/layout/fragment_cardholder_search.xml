@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?colorPrimaryContainer"
-    android:orientation="vertical"
     android:transitionName="@string/transition_search"
     tools:context=".ui.cardholder.search.CardholderSearchFragment">
 
@@ -13,8 +12,9 @@
         android:id="@+id/search_text_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         app:boxBackgroundMode="filled"
+        app:boxCornerRadiusTopEnd="0dp"
+        app:boxCornerRadiusTopStart="0dp"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
