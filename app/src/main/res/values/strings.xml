@@ -8,6 +8,7 @@
     <string name="card_color">Card color</string>
     <string name="card_delete">Delete</string>
     <string name="card_edit">Edit</string>
+    <string name="card_search">Search</string>
     <string name="card_name">Name</string>
     <string name="card_text">Text</string>
     <string name="format_spec_valid_characters">Valid characters: %s</string>
@@ -17,6 +18,13 @@
     <string name="permission_rationale">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>
     <string name="permission_request">Permission request</string>
     <string name="permission_toast">Please grant the required permissions</string>
+
+    <!-- region Search -->
+    <string name="search_nothing_found_message">Nothing found</string>
+    <string name="search_blank_message">\u00A0</string>
+    <string name="search_edit_text_hint">Search your cards</string>
+    <!-- endregion -->
+
     <string name="settings_about_app_title">About app</string>
     <string name="settings_coffee_for_developers">Coffee for developers</string>
     <string name="settings_switch_to_light_mode">Switch to light mode</string>

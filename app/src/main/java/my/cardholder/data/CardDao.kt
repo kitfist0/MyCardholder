@@ -12,6 +12,9 @@ interface CardDao {
     @Query("SELECT * FROM cards ORDER BY id DESC")
     fun getCards(): Flow<List<Card>>
 
+    @Query("SELECT * FROM cards WHERE name LIKE :name")
+    suspend fun getCardsWithNamesLike(name: String): List<Card>
+
     @Query("DELETE FROM cards WHERE id = :id")
     suspend fun deleteCard(id: Long)
 

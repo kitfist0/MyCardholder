@@ -4,4 +4,5 @@
     <string name="transition_card_text">trans_text_%s</string>
     <string name="transition_card_barcode">trans_barcode_%s</string>
     <string name="transition_card_fab">trans_fab_%s</string>
+    <string name="transition_search">trans_search</string>
 </resources>
