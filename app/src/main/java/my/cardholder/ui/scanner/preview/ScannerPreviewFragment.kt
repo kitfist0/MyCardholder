@@ -1,7 +1,9 @@
 package my.cardholder.ui.scanner.preview
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import my.cardholder.databinding.FragmentScannerPreviewBinding
 import my.cardholder.ui.base.BaseFragment
 
@@ -13,10 +15,10 @@ class ScannerPreviewFragment : BaseFragment<FragmentScannerPreviewBinding>(
     override val viewModel: ScannerPreviewViewModel by viewModels()
 
     override fun initViews() {
-        binding.scannerPreview.apply {
-            viewModel.bindCamera(
+        lifecycleScope.launch {
+            viewModel.startCamera(
                 lifecycleOwner = this@ScannerPreviewFragment,
-                surfaceProvider = surfaceProvider,
+                surfaceProvider = binding.scannerPreview.surfaceProvider,
             )
         }
     }
