@@ -19,6 +19,12 @@
     <string name="permission_request">Permission request</string>
     <string name="permission_toast">Please grant the required permissions</string>
 
+    <!-- region DeleteCard -->
+    <string name="delete_card_dialog_button_text">Delete permanently</string>
+    <string name="delete_card_dialog_title">Delete? The card will be permanently deleted</string>
+    <string name="delete_card_dialog_label">Delete</string>
+    <!-- endregion -->
+
     <!-- region Search -->
     <string name="search_nothing_found_message">Nothing found</string>
     <string name="search_blank_message">\u00A0</string>
