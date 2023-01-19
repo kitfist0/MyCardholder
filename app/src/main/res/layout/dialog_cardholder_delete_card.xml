@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingVertical="@dimen/bottom_sheet_root_vertical_padding"
     tools:context=".ui.cardholder.cards.CardholderCardsFragment">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/bottom_sheet_view_padding"
         android:text="@string/delete_card_dialog_title"
-        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +23,7 @@
         android:id="@+id/delete_card_delete_text_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_sheet_button_height"
-        android:background="?selectableItemBackgroundBorderless"
+        android:background="?selectableItemBackground"
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
         android:padding="@dimen/bottom_sheet_view_padding"
