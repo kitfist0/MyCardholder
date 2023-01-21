@@ -16,7 +16,7 @@ class CardholderDeleteCardViewModel @AssistedInject constructor(
     fun onDeleteButtonClicked() {
         viewModelScope.launch {
             cardRepository.deleteCard(cardId)
-            navigateUp()
+            navigate(CardholderDeleteCardDialogDirections.fromDeleteCardToCards())
         }
     }
 }
