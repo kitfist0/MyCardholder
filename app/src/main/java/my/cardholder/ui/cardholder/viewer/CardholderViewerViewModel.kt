@@ -6,14 +6,13 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.ui.base.BaseViewModel
 
 class CardholderViewerViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
-    private val cardRepository: CardRepository,
+    cardRepository: CardRepository,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow<CardholderViewerState>(CardholderViewerState.Loading)
@@ -38,10 +37,7 @@ class CardholderViewerViewModel @AssistedInject constructor(
     }
 
     fun onDeleteCardButtonClicked() {
-        viewModelScope.launch {
-            cardRepository.deleteCard(cardId)
-            navigateUp()
-        }
+        navigate(CardholderViewerFragmentDirections.fromViewerToDeleteCard(cardId))
     }
 }
 
