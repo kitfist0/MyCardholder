@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderCardsBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
 class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
@@ -76,7 +77,7 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
     }
 
     override fun collectData() {
-        viewModel.state.collectWhenStarted { state ->
+        collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardholderCardsState.Empty -> {
                     listAdapter.submitList(null)

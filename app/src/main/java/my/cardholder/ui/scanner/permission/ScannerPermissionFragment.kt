@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentScannerPermissionBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
 class ScannerPermissionFragment : BaseFragment<FragmentScannerPermissionBinding>(
@@ -40,7 +41,7 @@ class ScannerPermissionFragment : BaseFragment<FragmentScannerPermissionBinding>
     }
 
     override fun collectData() {
-        viewModel.state.collectWhenStarted { state ->
+        collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is ScannerPermissionState.Loading -> with(binding) {
                     permissionAnimationView.isVisible = false

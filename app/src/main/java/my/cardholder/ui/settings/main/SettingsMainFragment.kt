@@ -5,6 +5,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentSettingsMainBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.contextCompatDrawable
 
 @AndroidEntryPoint
@@ -27,7 +28,7 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
     }
 
     override fun collectData() {
-        viewModel.nightModeEnabled.collectWhenStarted { isEnabled ->
+        collectWhenStarted(viewModel.nightModeEnabled) { isEnabled ->
             setupColorThemeButtonState(isEnabled)
         }
     }
