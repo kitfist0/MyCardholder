@@ -8,6 +8,22 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+sealed class BaseEvent {
+    data class Navigate(
+        val direction: NavDirections,
+        val extras: Navigator.Extras? = null,
+    ) : BaseEvent()
+
+    object NavigateUp : BaseEvent()
+
+    data class SnackMessage(val message: String) : BaseEvent()
+
+    data class StartActivity(
+        val action: String,
+        val uriString: String? = null,
+    ) : BaseEvent()
+}
+
 abstract class BaseViewModel : ViewModel() {
 
     private val eventChannel = Channel<BaseEvent>()
