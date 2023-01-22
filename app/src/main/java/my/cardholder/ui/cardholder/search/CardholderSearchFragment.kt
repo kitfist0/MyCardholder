@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderSearchBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.cardholder.cards.CardholderCardsListAdapter
+import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
 class CardholderSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
@@ -50,7 +51,7 @@ class CardholderSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
     }
 
     override fun collectData() {
-        viewModel.state.collectWhenStarted { state ->
+        collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardholderSearchState.Empty -> {
                     binding.searchEmptyMessageText.text = getString(state.messageRes)

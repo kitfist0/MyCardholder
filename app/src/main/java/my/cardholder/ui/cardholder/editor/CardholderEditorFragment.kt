@@ -69,7 +69,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
     }
 
     override fun collectData() {
-        viewModel.state.collectWhenStarted { state ->
+        collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardholderEditorState.Loading -> with(binding) {
                     cardEditorCardNameInputLayout.isEnabled = false

@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderViewerBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.assistedViewModels
+import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.loadBarcodeImage
 import my.cardholder.util.ext.setupUniqueTransitionName
 import javax.inject.Inject
@@ -53,7 +54,7 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
     }
 
     override fun collectData() {
-        viewModel.state.collectWhenStarted { state ->
+        collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 CardholderViewerState.Loading -> with(binding) {
                     cardViewerEditFab.isClickable = false

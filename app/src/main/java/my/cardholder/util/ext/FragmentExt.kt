@@ -7,9 +7,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
-fun Fragment.contextCompatDrawable(@DrawableRes drawableRes: Int): Drawable? {
-    return ContextCompat.getDrawable(requireContext(), drawableRes)
+inline fun <T> Fragment.collectWhenStarted(
+    flow: Flow<T>,
+    crossinline action: (T) -> Unit,
+) {
+    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        flow.onEach { action.invoke(it) }
+            .collect()
+    }
 }
 
 inline fun <reified T : ViewModel> Fragment.assistedViewModels(
@@ -23,4 +33,8 @@ inline fun <reified T : ViewModel> Fragment.assistedViewModels(
             }
         }
     }
+}
+
+fun Fragment.contextCompatDrawable(@DrawableRes drawableRes: Int): Drawable? {
+    return ContextCompat.getDrawable(requireContext(), drawableRes)
 }

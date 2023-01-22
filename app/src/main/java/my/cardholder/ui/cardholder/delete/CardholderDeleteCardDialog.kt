@@ -3,12 +3,12 @@ package my.cardholder.ui.cardholder.delete
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogCardholderDeleteCardBinding
-import my.cardholder.ui.base.BaseBottomSheetDialog
+import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.util.ext.assistedViewModels
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CardholderDeleteCardDialog : BaseBottomSheetDialog<DialogCardholderDeleteCardBinding>(
+class CardholderDeleteCardDialog : BaseDialogFragment<DialogCardholderDeleteCardBinding>(
     DialogCardholderDeleteCardBinding::inflate
 ) {
 
