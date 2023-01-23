@@ -11,25 +11,26 @@ import my.cardholder.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val destIdsWithoutBottomNav = hashMapOf(
+        R.id.viewer_fragment to null,
+        R.id.editor_fragment to null,
+        R.id.search_fragment to null,
+        R.id.delete_card_dialog to null,
+        R.id.specs_fragment to null,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navController = binding.mainNavHost.getFragment<NavHostFragment>().navController
-        binding.mainBottomNavView.setupWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.viewer_fragment,
-                R.id.editor_fragment,
-                R.id.search_fragment,
-                R.id.delete_card_dialog,
-                R.id.specs_fragment ->
-                    binding.mainBottomNavView.isVisible = false
-                else ->
-                    binding.mainBottomNavView.isVisible = true
+        with(binding) {
+            val navController = mainNavHost.getFragment<NavHostFragment>().navController
+            mainBottomNavView.setupWithNavController(navController)
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                mainBottomNavView.isVisible = !destIdsWithoutBottomNav.containsKey(destination.id)
             }
         }
     }
