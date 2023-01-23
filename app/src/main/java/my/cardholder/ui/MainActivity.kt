@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.viewer_fragment,
                 R.id.editor_fragment,
                 R.id.search_fragment,
+                R.id.delete_card_dialog,
                 R.id.specs_fragment ->
                     binding.mainBottomNavView.isVisible = false
                 else ->
