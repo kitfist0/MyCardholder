@@ -31,9 +31,13 @@
     <string name="search_edit_text_hint">Search your cards</string>
     <!-- endregion -->
 
+    <!-- region Settings -->
     <string name="settings_about_app_title">About app</string>
     <string name="settings_coffee_for_developers">Coffee for developers</string>
-    <string name="settings_switch_to_light_mode">Switch to light mode</string>
     <string name="settings_switch_to_dark_mode">Switch to dark mode</string>
+    <string name="settings_switch_to_light_mode">Switch to light mode</string>
+    <string name="settings_switch_to_multi_column_cards">Switch to multi-column list of cards</string>
+    <string name="settings_switch_to_single_column_cards">Switch to single-column list of cards</string>
     <string name="settings_supported_formats">Supported formats</string>
+    <!-- endregion -->
 </resources>
