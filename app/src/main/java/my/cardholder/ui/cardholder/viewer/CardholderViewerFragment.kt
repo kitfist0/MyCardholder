@@ -1,7 +1,9 @@
 package my.cardholder.ui.cardholder.viewer
 
 import android.transition.TransitionInflater
+import android.transition.TransitionSet
 import android.view.View
+import androidx.core.transition.doOnEnd
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +19,10 @@ import javax.inject.Inject
 class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
     FragmentCardholderViewerBinding::inflate
 ) {
+
+    private companion object {
+        const val DELETE_BUTTON_ANIM_DURATION = 300L
+    }
 
     @Inject
     lateinit var viewModelFactory: CardholderViewerViewModelFactory
@@ -47,8 +53,15 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
                     .build()
                 viewModel.onEditFabClicked(extras)
             }
-            cardViewerDeleteCardButton.setOnClickListener {
-                viewModel.onDeleteCardButtonClicked()
+            cardViewerDeleteCardButton.alpha = 0f
+            (sharedElementEnterTransition as TransitionSet).doOnEnd {
+                cardViewerDeleteCardButton.animate()
+                    .setDuration(DELETE_BUTTON_ANIM_DURATION)
+                    .alpha(1f)
+                    .start()
+                cardViewerDeleteCardButton.setOnClickListener {
+                    viewModel.onDeleteCardButtonClicked()
+                }
             }
         }
     }
