@@ -12,7 +12,7 @@ import my.cardholder.databinding.ActivityMainBinding
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val destIdsWithoutBottomNav = hashMapOf(
+    private val destIdsWithoutBottomNav = mapOf(
         R.id.viewer_fragment to null,
         R.id.editor_fragment to null,
         R.id.search_fragment to null,
