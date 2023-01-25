@@ -23,7 +23,7 @@ class SettingsRepository @Inject constructor(
         MutableStateFlow(preferences.getBoolean(MULTI_COLUMN_LIST_KEY, false))
     val multiColumnListEnabled = _multiColumnListEnabled.asStateFlow()
 
-    fun reverseDefaultNightMode(): Boolean {
+    fun reverseNightModePref(): Boolean {
         val b = !isNightModeEnabled
         preferences.edit().putBoolean(NIGHT_MODE_KEY, b).apply()
         setDefaultNightMode()
@@ -41,7 +41,7 @@ class SettingsRepository @Inject constructor(
     }
 
     fun reverseMultiColumnListPref() {
-        val b = !_multiColumnListEnabled.value
+        val b = _multiColumnListEnabled.value.not()
         preferences.edit().putBoolean(MULTI_COLUMN_LIST_KEY, b).apply()
         _multiColumnListEnabled.value = b
     }

@@ -19,7 +19,7 @@ class SettingsMainViewModel @Inject constructor(
     val multiColumnListOfCards = settingsRepository.multiColumnListEnabled
 
     fun onColorThemeButtonClicked() {
-        val isEnabled = settingsRepository.reverseDefaultNightMode()
+        val isEnabled = settingsRepository.reverseNightModePref()
         _nightModeEnabled.value = isEnabled
     }
 
