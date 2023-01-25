@@ -16,9 +16,15 @@ class SettingsMainViewModel @Inject constructor(
     private val _nightModeEnabled = MutableStateFlow(settingsRepository.isNightModeEnabled)
     val nightModeEnabled = _nightModeEnabled.asStateFlow()
 
+    val multiColumnListOfCards = settingsRepository.multiColumnListEnabled
+
     fun onColorThemeButtonClicked() {
         val isEnabled = settingsRepository.reverseDefaultNightMode()
         _nightModeEnabled.value = isEnabled
+    }
+
+    fun onCardListViewButtonClicked() {
+        settingsRepository.reverseMultiColumnListPref()
     }
 
     fun onSupportedFormatsClicked() {
