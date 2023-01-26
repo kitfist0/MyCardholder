@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderCardsBinding
@@ -39,7 +39,7 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
             .inflateTransition(android.R.transition.move)
         with(binding) {
             cardsRecyclerView.apply {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = GridLayoutManager(context, 1)
                 adapter = listAdapter
                 postponeEnterTransition()
                 viewTreeObserver.addOnPreDrawListener {
@@ -80,14 +80,18 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardholderCardsState.Empty -> {
-                    listAdapter.submitList(null)
                     binding.cardsSearchFab.isVisible = false
                     binding.cardsEmptyListText.setText(state.messageRes)
+                    listAdapter.submitList(null)
                 }
                 is CardholderCardsState.Success -> {
-                    listAdapter.submitList(state.cards)
+                    (binding.cardsRecyclerView.layoutManager as GridLayoutManager).apply {
+                        val count = state.spanCount
+                        if (spanCount != count) spanCount = count
+                    }
                     binding.cardsSearchFab.isVisible = true
                     binding.cardsEmptyListText.text = null
+                    listAdapter.submitList(state.cards)
                 }
             }
         }

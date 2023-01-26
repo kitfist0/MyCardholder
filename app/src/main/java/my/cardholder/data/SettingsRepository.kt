@@ -2,6 +2,8 @@ package my.cardholder.data
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,15 +14,20 @@ class SettingsRepository @Inject constructor(
 
     private companion object {
         const val NIGHT_MODE_KEY = "night_mode"
+        const val MULTI_COLUMN_LIST_KEY = "multi_column_list"
     }
 
     val isNightModeEnabled get() = preferences.getBoolean(NIGHT_MODE_KEY, false)
 
-    fun reverseDefaultNightMode(): Boolean {
-        val isEnabled = !isNightModeEnabled
-        preferences.edit().putBoolean(NIGHT_MODE_KEY, isEnabled).apply()
+    private val _multiColumnListEnabled =
+        MutableStateFlow(preferences.getBoolean(MULTI_COLUMN_LIST_KEY, false))
+    val multiColumnListEnabled = _multiColumnListEnabled.asStateFlow()
+
+    fun reverseNightModePref(): Boolean {
+        val b = !isNightModeEnabled
+        preferences.edit().putBoolean(NIGHT_MODE_KEY, b).apply()
         setDefaultNightMode()
-        return isEnabled
+        return b
     }
 
     fun setDefaultNightMode() {
@@ -31,5 +38,11 @@ class SettingsRepository @Inject constructor(
                 AppCompatDelegate.MODE_NIGHT_NO
             }
         )
+    }
+
+    fun reverseMultiColumnListPref() {
+        val b = _multiColumnListEnabled.value.not()
+        preferences.edit().putBoolean(MULTI_COLUMN_LIST_KEY, b).apply()
+        _multiColumnListEnabled.value = b
     }
 }

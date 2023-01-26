@@ -16,20 +16,28 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
     override val viewModel: SettingsMainViewModel by viewModels()
 
     override fun initViews() {
-        binding.settingsColorThemeButton.setOnClickListener {
-            viewModel.onColorThemeButtonClicked()
-        }
-        binding.settingsSupportedFormatsButton.setOnClickListener {
-            viewModel.onSupportedFormatsClicked()
-        }
-        binding.settingsAboutAppButton.setOnClickListener {
-            viewModel.onAboutAppButtonClicked()
+        with(binding) {
+            settingsColorThemeButton.setOnClickListener {
+                viewModel.onColorThemeButtonClicked()
+            }
+            settingsCardListViewButton.setOnClickListener {
+                viewModel.onCardListViewButtonClicked()
+            }
+            settingsSupportedFormatsButton.setOnClickListener {
+                viewModel.onSupportedFormatsClicked()
+            }
+            settingsAboutAppButton.setOnClickListener {
+                viewModel.onAboutAppButtonClicked()
+            }
         }
     }
 
     override fun collectData() {
         collectWhenStarted(viewModel.nightModeEnabled) { isEnabled ->
             setupColorThemeButtonState(isEnabled)
+        }
+        collectWhenStarted(viewModel.multiColumnListOfCards) { isMultiColumn ->
+            setupCardListViewButtonState(isMultiColumn)
         }
     }
 
@@ -41,6 +49,26 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
             )
             text = getString(
                 if (isEnabled) R.string.settings_switch_to_light_mode else R.string.settings_switch_to_dark_mode
+            )
+        }
+    }
+
+    private fun setupCardListViewButtonState(isMultiColumn: Boolean) {
+        binding.settingsCardListViewButton.apply {
+            icon = ContextCompat.getDrawable(
+                context,
+                if (isMultiColumn) {
+                    R.drawable.ic_list_single_column
+                } else {
+                    R.drawable.ic_list_multi_column
+                }
+            )
+            text = getString(
+                if (isMultiColumn) {
+                    R.string.settings_switch_to_single_column_cards
+                } else {
+                    R.string.settings_switch_to_multi_column_cards
+                }
             )
         }
     }
