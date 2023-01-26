@@ -80,18 +80,18 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardholderCardsState.Empty -> {
-                    listAdapter.submitList(null)
                     binding.cardsSearchFab.isVisible = false
                     binding.cardsEmptyListText.setText(state.messageRes)
+                    listAdapter.submitList(null)
                 }
                 is CardholderCardsState.Success -> {
                     (binding.cardsRecyclerView.layoutManager as GridLayoutManager).apply {
                         val count = state.spanCount
                         if (spanCount != count) spanCount = count
                     }
-                    listAdapter.submitList(state.cards)
                     binding.cardsSearchFab.isVisible = true
                     binding.cardsEmptyListText.text = null
+                    listAdapter.submitList(state.cards)
                 }
             }
         }
