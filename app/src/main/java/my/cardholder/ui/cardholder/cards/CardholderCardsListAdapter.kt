@@ -1,8 +1,11 @@
 package my.cardholder.ui.cardholder.cards
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -47,7 +50,7 @@ class CardholderCardsListAdapter(
         fun bind(card: Card) {
             with(binding) {
                 val uniqueNameSuffix = card.id
-                itemCardLayout.setBackgroundColor(card.getColorInt())
+                itemCardLayout.background = getCardGradientDrawable(card.getColorInt())
                 itemCardBarcodeImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     loadBarcodeImage(
@@ -64,6 +67,11 @@ class CardholderCardsListAdapter(
                     text = card.text
                 }
             }
+        }
+
+        private fun getCardGradientDrawable(colorInt: Int): GradientDrawable {
+            val bottomLeftColor = ColorUtils.blendARGB(colorInt, Color.TRANSPARENT, 0.2f)
+            return GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(bottomLeftColor, colorInt))
         }
     }
 
