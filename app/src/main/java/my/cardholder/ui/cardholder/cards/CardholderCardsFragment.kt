@@ -24,7 +24,7 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
     override val viewModel: CardholderCardsViewModel by viewModels()
 
     private val listAdapter by lazy {
-        CardholderCardsListAdapter(
+        CardholderCardsAdapter(
             onItemClick = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)
