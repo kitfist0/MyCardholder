@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderSearchBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.cardholder.cards.CardholderCardsAdapter
+import my.cardholder.ui.cardholder.adapter.CardholderAdapter
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
@@ -23,7 +23,7 @@ class CardholderSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
     override val viewModel: CardholderSearchViewModel by viewModels()
 
     private val listAdapter by lazy {
-        CardholderCardsAdapter(
+        CardholderAdapter(
             onItemClick = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)

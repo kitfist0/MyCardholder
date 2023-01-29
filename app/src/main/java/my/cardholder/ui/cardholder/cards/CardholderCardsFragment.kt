@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderCardsBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.ui.cardholder.adapter.CardholderAdapter
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
@@ -24,7 +25,7 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
     override val viewModel: CardholderCardsViewModel by viewModels()
 
     private val listAdapter by lazy {
-        CardholderCardsAdapter(
+        CardholderAdapter(
             onItemClick = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)
