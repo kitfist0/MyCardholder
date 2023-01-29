@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
@@ -16,10 +15,6 @@ class CardholderEditorViewModel @AssistedInject constructor(
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
 
-    private companion object {
-        const val CARD_DATA_MIN_UPDATE_INTERVAL_MILLIS = 250L
-    }
-
     private var updatedCardName: String? = null
     private var updatedCardText: String? = null
     private var updatedCardColor: String? = null
@@ -28,12 +23,6 @@ class CardholderEditorViewModel @AssistedInject constructor(
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            while (true) {
-                delay(CARD_DATA_MIN_UPDATE_INTERVAL_MILLIS)
-                cardRepository.updateCardDataIfItChanges(cardId, updatedCardName, updatedCardText)
-            }
-        }
         cardRepository.getCard(cardId)
             .filterNotNull()
             .onEach { card ->
@@ -62,10 +51,18 @@ class CardholderEditorViewModel @AssistedInject constructor(
 
     fun onCardNameChanged(cardName: String?) {
         updatedCardName = cardName
+        updateCardData()
     }
 
     fun onCardTextChanged(cardText: String?) {
         updatedCardText = cardText
+        updateCardData()
+    }
+
+    private fun updateCardData() {
+        viewModelScope.launch {
+            cardRepository.updateCardDataIfItChanges(cardId, updatedCardName, updatedCardText)
+        }
     }
 }
 
