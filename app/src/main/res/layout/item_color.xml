@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_color_card"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:id="@+id/item_color_image"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
     android:layout_margin="8dp"
-    app:contentPadding="16dp"
-    app:strokeWidth="0dp"
-    tools:cardBackgroundColor="@sample/sample_cards.json/cards/color">
-
-    <TextView
-        android:id="@+id/item_color_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingVertical="8dp"
-        android:singleLine="true"
-        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-        android:textColor="@android:color/black"
-        tools:text="@sample/sample_cards.json/cards/color" />
-
-</com.google.android.material.card.MaterialCardView>
+    android:background="?selectableItemBackgroundBorderless"
+    android:src="@drawable/shape_oval"
+    tools:ignore="ContentDescription"
+    tools:tint="@sample/sample_cards.json/cards/color" />

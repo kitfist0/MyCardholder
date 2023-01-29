@@ -32,10 +32,7 @@ class CardholderEditorColorsAdapter(
         }
 
         fun bind(color: String) {
-            with(binding) {
-                itemColorText.text = color
-                itemColorCard.setCardBackgroundColor(color.toColorInt())
-            }
+            binding.itemColorImage.setColorFilter(color.toColorInt())
         }
     }
 
