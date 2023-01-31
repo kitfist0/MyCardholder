@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/blue_grey_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Status bar -->
-        <item name="android:statusBarColor">?android:windowBackground</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Navigation bar -->
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
