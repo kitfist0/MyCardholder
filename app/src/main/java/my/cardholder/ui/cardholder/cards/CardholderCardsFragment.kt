@@ -12,6 +12,7 @@ import my.cardholder.databinding.FragmentCardholderCardsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.cardholder.adapter.CardholderAdapter
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
 class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
@@ -40,6 +41,8 @@ class CardholderCardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
             .inflateTransition(android.R.transition.move)
         with(binding) {
             cardsRecyclerView.apply {
+                clipToPadding = false
+                updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
                 layoutManager = GridLayoutManager(context, 1)
                 adapter = listAdapter
                 postponeEnterTransition()

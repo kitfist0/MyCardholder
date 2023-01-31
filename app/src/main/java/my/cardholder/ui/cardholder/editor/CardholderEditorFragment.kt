@@ -59,6 +59,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 adapter = listAdapter
                 alpha = 0f
             }
+            root.updateVerticalPaddingAfterApplyingWindowInsets()
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
                 cardEditorColorsRecyclerView.animate()
                     .setDuration(COLOR_PICKER_ANIM_DURATION)

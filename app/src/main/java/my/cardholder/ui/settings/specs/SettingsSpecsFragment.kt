@@ -7,6 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import my.cardholder.databinding.FragmentSettingsSpecsBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
 class SettingsSpecsFragment : BaseFragment<FragmentSettingsSpecsBinding>(
@@ -16,8 +17,11 @@ class SettingsSpecsFragment : BaseFragment<FragmentSettingsSpecsBinding>(
     override val viewModel: SettingsSpecsViewModel by viewModels()
 
     override fun initViews() {
-        binding.specsRecyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets()
+            specsRecyclerView.layoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        }
     }
 
     override fun collectData() {

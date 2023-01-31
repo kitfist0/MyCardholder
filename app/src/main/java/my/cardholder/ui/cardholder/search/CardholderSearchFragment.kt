@@ -14,6 +14,7 @@ import my.cardholder.databinding.FragmentCardholderSearchBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.cardholder.adapter.CardholderAdapter
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
 class CardholderSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
@@ -36,17 +37,19 @@ class CardholderSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
-        binding.searchTextInputLayout.apply {
-            editText?.doAfterTextChanged { viewModel.onSearchTextChanged(it?.toString()) }
-        }
-        binding.searchResultsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = listAdapter
-        }
-        binding.searchTextInputLayout.requestFocus()
-        (sharedElementEnterTransition as TransitionSet).doOnEnd {
-            (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
-                ?.showSoftInput(binding.searchTextInputLayout.editText, 1)
+        with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets()
+            searchTextInputLayout.editText
+                ?.doAfterTextChanged { viewModel.onSearchTextChanged(it?.toString()) }
+            searchResultsRecyclerView.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = listAdapter
+            }
+            searchTextInputLayout.requestFocus()
+            (sharedElementEnterTransition as TransitionSet).doOnEnd {
+                (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
+                    ?.showSoftInput(searchTextInputLayout.editText, 1)
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentScannerPermissionBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
 class ScannerPermissionFragment : BaseFragment<FragmentScannerPermissionBinding>(
@@ -35,8 +36,11 @@ class ScannerPermissionFragment : BaseFragment<FragmentScannerPermissionBinding>
     }
 
     override fun initViews() {
-        binding.permissionGrantFab.setOnClickListener {
-            viewModel.onGrantFabClicked()
+        with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets()
+            permissionGrantFab.setOnClickListener {
+                viewModel.onGrantFabClicked()
+            }
         }
     }
 

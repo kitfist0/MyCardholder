@@ -7,6 +7,7 @@ import my.cardholder.R
 import my.cardholder.databinding.FragmentSettingsMainBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
 class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
@@ -17,6 +18,7 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
 
     override fun initViews() {
         with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets()
             settingsColorThemeButton.setOnClickListener {
                 viewModel.onColorThemeButtonClicked()
             }

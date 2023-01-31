@@ -9,10 +9,7 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderViewerBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.util.ext.assistedViewModels
-import my.cardholder.util.ext.collectWhenStarted
-import my.cardholder.util.ext.loadBarcodeImage
-import my.cardholder.util.ext.setupUniqueTransitionName
+import my.cardholder.util.ext.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -53,6 +50,7 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
                     .build()
                 viewModel.onEditFabClicked(extras)
             }
+            root.updateVerticalPaddingAfterApplyingWindowInsets()
             cardViewerDeleteCardButton.alpha = 0f
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
                 cardViewerDeleteCardButton.animate()

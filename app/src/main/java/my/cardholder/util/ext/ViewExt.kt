@@ -1,10 +1,13 @@
 package my.cardholder.util.ext
 
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.view.View
+import android.view.WindowInsets
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
 import coil.load
 import coil.size.Size
 import coil.transform.RoundedCornersTransformation
@@ -12,6 +15,28 @@ import my.cardholder.R
 
 fun View.setupUniqueTransitionName(uniqueSuffix: Long) {
     ViewCompat.setTransitionName(this, transitionName.format(uniqueSuffix))
+}
+
+fun View.updateVerticalPaddingAfterApplyingWindowInsets(
+    top: Boolean = true,
+    bottom: Boolean = true,
+) {
+    setOnApplyWindowInsetsListener { view, windowInsets ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val systemWindowInsets = windowInsets.getInsets(WindowInsets.Type.systemBars())
+            view.updatePadding(
+                top = if (top) systemWindowInsets.top else 0,
+                bottom = if (bottom) systemWindowInsets.bottom else 0,
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            view.updatePadding(
+                top = if (top) windowInsets.systemWindowInsetTop else 0,
+                bottom = if (bottom) windowInsets.systemWindowInsetBottom else 0,
+            )
+        }
+        windowInsets
+    }
 }
 
 fun ImageView.setBitmapFromAssets(fileName: String) {
