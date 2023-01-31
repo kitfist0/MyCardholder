@@ -2,6 +2,7 @@ package my.cardholder.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -33,5 +34,7 @@ class MainActivity : AppCompatActivity() {
                 mainBottomNavView.isVisible = !destIdsWithoutBottomNav.containsKey(destination.id)
             }
         }
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 }
