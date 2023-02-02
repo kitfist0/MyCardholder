@@ -11,7 +11,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.data.AppDatabase
 import my.cardholder.data.CardDao
-import my.cardholder.data.SettingsDataStore
 import javax.inject.Singleton
 
 @Module
@@ -28,12 +27,6 @@ class AppModule {
     @Singleton
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSettingsDataStore(context: Context): SettingsDataStore {
-        return SettingsDataStore(context)
     }
 
     @Provides
