@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:splitMotionEvents="false"
+    tools:context=".ui.settings.about.SettingsAboutFragment">
+
+    <TextView
+        android:id="@+id/about_dev_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
+        android:gravity="center_vertical"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="MyCardholder ver. 1.0.1\nMidnightDev, 2023"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+        app:drawableStartCompat="@mipmap/ic_midnight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/about_rate_app_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_sheet_button_height"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
+        android:gravity="center_vertical"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="Rate the app"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:drawableStartCompat="@drawable/ic_star"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_dev_title_text" />
+
+    <TextView
+        android:id="@+id/about_source_code_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_sheet_button_height"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
+        android:gravity="center_vertical"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="Source code"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:drawableStartCompat="@drawable/ic_source_code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_rate_app_button" />
+
+    <TextView
+        android:id="@+id/about_copyright_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_sheet_button_height"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
+        android:gravity="center_vertical"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="Copyright"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:drawableStartCompat="@drawable/ic_copyright"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/about_source_code_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
