@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import my.cardholder.BuildConfig
 import my.cardholder.data.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -37,6 +36,6 @@ class SettingsMainViewModel @Inject constructor(
     }
 
     fun onAboutAppButtonClicked() {
-        showSnack("ver.${BuildConfig.VERSION_NAME}")
+        navigate(SettingsMainFragmentDirections.fromSettingsToAbout())
     }
 }

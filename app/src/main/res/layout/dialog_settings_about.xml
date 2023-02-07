@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:splitMotionEvents="false"
-    tools:context=".ui.settings.about.SettingsAboutFragment">
+    tools:context=".ui.settings.about.SettingsAboutDialog">
 
     <TextView
         android:id="@+id/about_dev_title_text"
