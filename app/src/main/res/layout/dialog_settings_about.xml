@@ -23,16 +23,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/about_rate_app_button"
+        android:id="@+id/about_policy_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/bottom_sheet_button_height"
         android:background="?selectableItemBackground"
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="Rate the app"
+        android:text="Privacy policy"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        app:drawableStartCompat="@drawable/ic_star"
+        app:drawableStartCompat="@drawable/ic_policy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/about_dev_title_text" />
@@ -50,7 +50,7 @@
         app:drawableStartCompat="@drawable/ic_source_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/about_rate_app_button" />
+        app:layout_constraintTop_toBottomOf="@id/about_policy_button" />
 
     <TextView
         android:id="@+id/about_copyright_button"
