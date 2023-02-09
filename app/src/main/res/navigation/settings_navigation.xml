@@ -9,10 +9,13 @@
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.main.SettingsMainFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings_main" >
+        tools:layout="@layout/fragment_settings_main">
         <action
             android:id="@+id/from_settings_to_specs"
             app:destination="@id/specs_fragment" />
+        <action
+            android:id="@+id/from_settings_to_about"
+            app:destination="@id/about_dialog" />
     </fragment>
 
     <fragment
@@ -20,5 +23,11 @@
         android:name="my.cardholder.ui.settings.specs.SettingsSpecsFragment"
         android:label="@string/title_specs"
         tools:layout="@layout/fragment_settings_specs" />
+
+    <dialog
+        android:id="@+id/about_dialog"
+        android:name="my.cardholder.ui.settings.about.SettingsAboutDialog"
+        android:label="@string/about_app_dialog_label"
+        tools:layout="@layout/dialog_settings_about" />
 
 </navigation>

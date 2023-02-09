@@ -1,6 +1,10 @@
 <resources>
     <dimen name="barcode_image_corners">8dp</dimen>
 
+    <!--region About-->
+    <dimen name="about_app_dev_image_size">90dp</dimen>
+    <!--endregion-->
+
     <!--region BottomSheet-->
     <dimen name="bottom_sheet_root_vertical_padding">16dp</dimen>
     <dimen name="bottom_sheet_view_padding">16dp</dimen>

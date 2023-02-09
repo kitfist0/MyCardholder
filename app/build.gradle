@@ -14,8 +14,13 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "v1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "APP_NAME", "\"MyCardholder\"")
+        buildConfigField("String", "DEV_NAME", "\"MidnightDev\"")
+        buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://github.com/kitfist0/MyCardholder/blob/master/LICENSE\"")
+        buildConfigField("String", "WEB_PAGE_POLICY", "\"https://github.com/kitfist0/MyCardholder/blob/master/POLICY.md\"")
+        buildConfigField("String", "WEB_PAGE_GITHUB", "\"https://github.com/kitfist0/MyCardholder\"")
     }
 
     buildTypes {

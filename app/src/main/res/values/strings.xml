@@ -19,6 +19,13 @@
     <string name="permission_request">Permission request</string>
     <string name="permission_toast">Please grant the required permissions</string>
 
+    <!-- region About -->
+    <string name="about_app_dialog_copyright_button_text">Copyright</string>
+    <string name="about_app_dialog_label">About</string>
+    <string name="about_app_dialog_policy_button_text">Privacy policy</string>
+    <string name="about_app_dialog_source_code_button_text">Source code</string>
+    <!-- endregion -->
+
     <!-- region DeleteCard -->
     <string name="delete_card_dialog_button_text">Delete permanently</string>
     <string name="delete_card_dialog_title">Delete? The card will be permanently deleted</string>
