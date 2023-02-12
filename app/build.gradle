@@ -52,6 +52,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    // Billing
+    implementation 'com.android.billingclient:billing-ktx:5.1.0'
     // CameraX
     def camerax_version = '1.2.1'
     implementation "androidx.camera:camera-core:$camerax_version"
