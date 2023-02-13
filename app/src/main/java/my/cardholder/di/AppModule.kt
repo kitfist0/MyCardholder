@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
+import com.android.billingclient.api.BillingClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,5 +43,10 @@ class AppModule {
     @Singleton
     fun provideCardDao(database: AppDatabase): CardDao {
         return database.cardDao()
+    }
+
+    @Provides
+    fun provideBillingClientBuilder(app: Application): BillingClient.Builder {
+        return BillingClient.newBuilder(app)
     }
 }
