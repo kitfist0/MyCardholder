@@ -26,6 +26,10 @@
     <string name="about_app_dialog_source_code_button_text">Source code</string>
     <!-- endregion -->
 
+    <!-- region Coffee -->
+    <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>
+    <!-- endregion -->
+
     <!-- region DeleteCard -->
     <string name="delete_card_dialog_button_text">Delete permanently</string>
     <string name="delete_card_dialog_title">Delete? The card will be permanently deleted</string>
