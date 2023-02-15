@@ -27,6 +27,7 @@
     <!-- endregion -->
 
     <!-- region Coffee -->
+    <string name="coffee_dialog_label">Coffee</string>
     <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>
     <!-- endregion -->
 

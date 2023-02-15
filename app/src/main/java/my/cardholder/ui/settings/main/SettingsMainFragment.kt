@@ -25,8 +25,11 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
             settingsCardListViewButton.setOnClickListener {
                 viewModel.onCardListViewButtonClicked()
             }
+            settingsCoffeeButton.setOnClickListener {
+                viewModel.onCoffeeButtonClicked()
+            }
             settingsSupportedFormatsButton.setOnClickListener {
-                viewModel.onSupportedFormatsClicked()
+                viewModel.onSupportedFormatsButtonClicked()
             }
             settingsAboutAppButton.setOnClickListener {
                 viewModel.onAboutAppButtonClicked()
