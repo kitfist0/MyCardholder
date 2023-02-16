@@ -4,7 +4,6 @@ import android.app.Activity
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import my.cardholder.BuildConfig
 import my.cardholder.data.CoffeeDao
 import my.cardholder.data.PlayBillingClient
 import my.cardholder.data.model.Coffee
@@ -22,7 +21,7 @@ class SettingsCoffeeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             if (coffeeDao.isEmpty()) {
-                BuildConfig.PRODUCT_IDS.onEach { productId ->
+                playBillingClient.productIds.onEach { productId ->
                     coffeeDao.insert(
                         Coffee(id = productId, isPurchased = false)
                     )

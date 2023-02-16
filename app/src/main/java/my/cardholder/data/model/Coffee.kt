@@ -11,5 +11,5 @@ data class Coffee(
     val isPurchased: Boolean,
 ) {
     @Ignore
-    val name: String = id.split(".")[1].replaceFirstChar(Char::titlecase)
+    val name: String = id.split(".").last().replaceFirstChar(Char::titlecase)
 }

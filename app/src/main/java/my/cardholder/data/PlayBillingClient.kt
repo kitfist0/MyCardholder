@@ -5,7 +5,6 @@ import com.android.billingclient.api.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import my.cardholder.BuildConfig
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -29,6 +28,8 @@ class PlayBillingClient @Inject constructor(
         .build()
 
     private val billingConnectionMutex = Mutex()
+
+    val productIds = listOf("coffee.espresso", "coffee.cappuccino", "coffee.latte")
 
     suspend fun purchaseProduct(activity: Activity, productId: String): Result<String> {
         billingClient.ensureReady().exceptionOrNull()?.let { exception ->
@@ -74,7 +75,7 @@ class PlayBillingClient @Inject constructor(
     }
 
     private suspend fun queryNonConsumableProductDetails(): ProductDetailsResult {
-        val productList = BuildConfig.PRODUCT_IDS.map { productId ->
+        val productList = productIds.map { productId ->
             QueryProductDetailsParams.Product.newBuilder()
                 .setProductId(productId)
                 .setProductType(BillingClient.ProductType.INAPP)

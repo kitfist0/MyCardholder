@@ -18,7 +18,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "APP_NAME", "\"MyCardholder\"")
         buildConfigField("String", "DEV_NAME", "\"MidnightDev\"")
-        buildConfigField "String[]", "PRODUCT_IDS", '{"coffee.espresso", "coffee.cappuccino", "coffee.latte"}'
         buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://github.com/kitfist0/MyCardholder/blob/master/LICENSE\"")
         buildConfigField("String", "WEB_PAGE_POLICY", "\"https://github.com/kitfist0/MyCardholder/blob/master/POLICY.md\"")
         buildConfigField("String", "WEB_PAGE_GITHUB", "\"https://github.com/kitfist0/MyCardholder\"")
