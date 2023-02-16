@@ -23,7 +23,9 @@ class SettingsCoffeeViewModel @Inject constructor(
         viewModelScope.launch {
             if (coffeeDao.isEmpty()) {
                 BuildConfig.PRODUCT_IDS.onEach { productId ->
-                    coffeeDao.insert(Coffee(productId, productId.split(".")[1].capitalize(), false))
+                    coffeeDao.insert(
+                        Coffee(id = productId, isPurchased = false)
+                    )
                 }
             }
             playBillingClient.getIdsOfPurchasedProducts()
@@ -42,6 +44,8 @@ class SettingsCoffeeViewModel @Inject constructor(
     }
 
     private suspend fun onCoffeePurchased(productId: String) {
-        coffeeDao.insert(Coffee(productId, productId.split(".")[1].capitalize(), true))
+        coffeeDao.insert(
+            Coffee(id = productId, isPurchased = true)
+        )
     }
 }
