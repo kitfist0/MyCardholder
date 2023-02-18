@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
+import com.android.billingclient.api.BillingClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.data.AppDatabase
 import my.cardholder.data.CardDao
+import my.cardholder.data.CoffeeDao
 import javax.inject.Singleton
 
 @Module
@@ -42,5 +44,16 @@ class AppModule {
     @Singleton
     fun provideCardDao(database: AppDatabase): CardDao {
         return database.cardDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoffeeDao(database: AppDatabase): CoffeeDao {
+        return database.coffeeDao()
+    }
+
+    @Provides
+    fun provideBillingClientBuilder(app: Application): BillingClient.Builder {
+        return BillingClient.newBuilder(app)
     }
 }

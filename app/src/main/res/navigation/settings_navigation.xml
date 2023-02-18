@@ -16,6 +16,9 @@
         <action
             android:id="@+id/from_settings_to_about"
             app:destination="@id/about_dialog" />
+        <action
+            android:id="@+id/from_settings_to_coffee"
+            app:destination="@id/coffee_dialog" />
     </fragment>
 
     <fragment
@@ -29,5 +32,11 @@
         android:name="my.cardholder.ui.settings.about.SettingsAboutDialog"
         android:label="@string/about_app_dialog_label"
         tools:layout="@layout/dialog_settings_about" />
+
+    <dialog
+        android:id="@+id/coffee_dialog"
+        android:name="my.cardholder.ui.settings.coffee.SettingsCoffeeDialog"
+        android:label="@string/coffee_dialog_label"
+        tools:layout="@layout/dialog_settings_coffee" />
 
 </navigation>

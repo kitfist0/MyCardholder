@@ -31,7 +31,11 @@ class SettingsMainViewModel @Inject constructor(
         }
     }
 
-    fun onSupportedFormatsClicked() {
+    fun onCoffeeButtonClicked() {
+        navigate(SettingsMainFragmentDirections.fromSettingsToCoffee())
+    }
+
+    fun onSupportedFormatsButtonClicked() {
         navigate(SettingsMainFragmentDirections.fromSettingsToSpecs())
     }
 
