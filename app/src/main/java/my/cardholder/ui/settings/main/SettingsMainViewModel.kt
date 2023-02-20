@@ -31,6 +31,14 @@ class SettingsMainViewModel @Inject constructor(
         }
     }
 
+    fun onExportCardsButtonClicked() {
+        showSnack("Export cards")
+    }
+
+    fun onImportCardsButtonClicked() {
+        showSnack("Import cards")
+    }
+
     fun onCoffeeButtonClicked() {
         navigate(SettingsMainFragmentDirections.fromSettingsToCoffee())
     }
