@@ -3,6 +3,7 @@ package my.cardholder.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Writer
 import com.google.zxing.aztec.AztecWriter
@@ -95,6 +96,15 @@ class CardRepository @Inject constructor(
         getCard(cardId).first()?.let { card ->
             card.deleteBarcodeFile()
             cardDao.deleteCard(card.id)
+        }
+    }
+
+    suspend fun exportCards() {
+        val exportedFile = context.getFileFromExternalDir("exported.csv")
+        csvWriter().openAsync(exportedFile) {
+            cardDao.getCards().first().forEach { card ->
+                writeRow(listOf(card.name, card.text, card.color, card.timestamp, card.format))
+            }
         }
     }
 

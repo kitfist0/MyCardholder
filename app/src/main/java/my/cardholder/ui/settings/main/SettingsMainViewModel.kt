@@ -4,12 +4,14 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsMainViewModel @Inject constructor(
+    private val cardRepository: CardRepository,
     private val settingsDataStore: SettingsDataStore,
 ) : BaseViewModel() {
 
@@ -32,7 +34,9 @@ class SettingsMainViewModel @Inject constructor(
     }
 
     fun onExportCardsButtonClicked() {
-        showSnack("Export cards")
+        viewModelScope.launch {
+            cardRepository.exportCards()
+        }
     }
 
     fun onImportCardsButtonClicked() {
