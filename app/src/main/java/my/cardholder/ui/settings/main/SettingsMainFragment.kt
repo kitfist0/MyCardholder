@@ -36,7 +36,7 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
                 viewModel.onExportCardsButtonClicked()
             }
             settingsImportCardsButton.setOnClickListener {
-                importCards.launch("*/*")
+                viewModel.onImportCardsButtonClicked()
             }
             settingsCoffeeButton.setOnClickListener {
                 viewModel.onCoffeeButtonClicked()
@@ -51,22 +51,26 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
     }
 
     override fun collectData() {
-        collectWhenStarted(viewModel.nightModeEnabled) { isEnabled ->
-            setupColorThemeButtonState(isEnabled)
-        }
-        collectWhenStarted(viewModel.multiColumnListOfCards) { isMultiColumn ->
-            setupCardListViewButtonState(isMultiColumn)
+        collectWhenStarted(viewModel.state) { state ->
+            with(state) {
+                setupColorThemeButtonState(nightModeEnabled)
+                setupCardListViewButtonState(multiColumnListEnabled)
+                if (launchCardsImport) {
+                    importCards.launch("*/*")
+                    viewModel.onImportCardsLaunched()
+                }
+            }
         }
     }
 
-    private fun setupColorThemeButtonState(isEnabled: Boolean) {
+    private fun setupColorThemeButtonState(isNightMode: Boolean) {
         binding.settingsColorThemeButton.apply {
             icon = ContextCompat.getDrawable(
                 context,
-                if (isEnabled) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
+                if (isNightMode) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
             )
             text = getString(
-                if (isEnabled) R.string.settings_switch_to_light_mode else R.string.settings_switch_to_dark_mode
+                if (isNightMode) R.string.settings_switch_to_light_mode else R.string.settings_switch_to_dark_mode
             )
         }
     }
