@@ -1,5 +1,6 @@
 package my.cardholder.ui.settings.main
 
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,6 +14,12 @@ import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
     FragmentSettingsMainBinding::inflate
 ) {
+
+    private val importCards =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            val inputStream = uri?.let { requireActivity().contentResolver.openInputStream(it) }
+            viewModel.onImportCardsResult(inputStream)
+        }
 
     override val viewModel: SettingsMainViewModel by viewModels()
 
@@ -29,7 +36,7 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
                 viewModel.onExportCardsButtonClicked()
             }
             settingsImportCardsButton.setOnClickListener {
-                viewModel.onImportCardsButtonClicked()
+                importCards.launch("*/*")
             }
             settingsCoffeeButton.setOnClickListener {
                 viewModel.onCoffeeButtonClicked()

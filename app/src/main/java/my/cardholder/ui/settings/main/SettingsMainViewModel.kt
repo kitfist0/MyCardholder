@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
+import java.io.InputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,8 +40,12 @@ class SettingsMainViewModel @Inject constructor(
         }
     }
 
-    fun onImportCardsButtonClicked() {
-        showSnack("Import cards")
+    fun onImportCardsResult(inputStream: InputStream?) {
+        inputStream?.let {
+            viewModelScope.launch {
+                cardRepository.importCards(inputStream)
+            }
+        }
     }
 
     fun onCoffeeButtonClicked() {

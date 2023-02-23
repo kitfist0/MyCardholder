@@ -3,6 +3,7 @@ package my.cardholder.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Writer
@@ -19,6 +20,7 @@ import my.cardholder.data.model.isSquare
 import my.cardholder.util.ext.getFileFromExternalDir
 import my.cardholder.util.ext.writeBitmap
 import java.io.File
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -104,6 +106,24 @@ class CardRepository @Inject constructor(
         csvWriter().openAsync(exportedFile) {
             cardDao.getCards().first().forEach { card ->
                 writeRow(listOf(card.name, card.text, card.color, card.timestamp, card.format))
+            }
+        }
+    }
+
+    suspend fun importCards(inputStream: InputStream) {
+        csvReader().openAsync(inputStream) {
+            readAllAsSequence().forEach { row ->
+                runCatching {
+                    val card = Card(
+                        name = row[0],
+                        text = row[1],
+                        color = row[2],
+                        timestamp = row[3].toLong(),
+                        format = SupportedFormat.valueOf(row[4]),
+                    )
+                    cardDao.insert(card)
+                    card.writeNewBarcodeFile()
+                }
             }
         }
     }
