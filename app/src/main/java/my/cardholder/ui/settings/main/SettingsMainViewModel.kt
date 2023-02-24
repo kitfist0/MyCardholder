@@ -8,6 +8,7 @@ import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
 import java.io.InputStream
+import java.io.OutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +21,7 @@ class SettingsMainViewModel @Inject constructor(
         SettingsMainState(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
+            launchCardsExport = false,
             launchCardsImport = false,
         )
     )
@@ -49,8 +51,18 @@ class SettingsMainViewModel @Inject constructor(
     }
 
     fun onExportCardsButtonClicked() {
-        viewModelScope.launch {
-            cardRepository.exportCards()
+        _state.value = _state.value.copy(launchCardsExport = true)
+    }
+
+    fun onExportCardsLaunched() {
+        _state.value = _state.value.copy(launchCardsExport = false)
+    }
+
+    fun onExportCardsResult(outputStream: OutputStream?) {
+        outputStream?.let {
+            viewModelScope.launch {
+                cardRepository.exportCards(it)
+            }
         }
     }
 
@@ -65,7 +77,7 @@ class SettingsMainViewModel @Inject constructor(
     fun onImportCardsResult(inputStream: InputStream?) {
         inputStream?.let {
             viewModelScope.launch {
-                cardRepository.importCards(inputStream)
+                cardRepository.importCards(it)
             }
         }
     }

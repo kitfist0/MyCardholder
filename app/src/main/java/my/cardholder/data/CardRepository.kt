@@ -21,6 +21,7 @@ import my.cardholder.util.ext.getFileFromExternalDir
 import my.cardholder.util.ext.writeBitmap
 import java.io.File
 import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -101,9 +102,8 @@ class CardRepository @Inject constructor(
         }
     }
 
-    suspend fun exportCards() {
-        val exportedFile = context.getFileFromExternalDir("exported.csv")
-        csvWriter().openAsync(exportedFile) {
+    suspend fun exportCards(outputStream: OutputStream) {
+        csvWriter().openAsync(outputStream) {
             cardDao.getCards().first().forEach { card ->
                 writeRow(listOf(card.name, card.text, card.color, card.timestamp, card.format))
             }

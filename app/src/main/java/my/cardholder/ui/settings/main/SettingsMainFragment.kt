@@ -15,6 +15,17 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
     FragmentSettingsMainBinding::inflate
 ) {
 
+    private companion object {
+        const val EXPORTED_FILE_NAME = "exported.csv"
+        const val MIME_TYPE = "*/*"
+    }
+
+    private val exportCards =
+        registerForActivityResult(ActivityResultContracts.CreateDocument(MIME_TYPE)) { uri ->
+            val outputStream = uri?.let { requireActivity().contentResolver.openOutputStream(it) }
+            viewModel.onExportCardsResult(outputStream)
+        }
+
     private val importCards =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             val inputStream = uri?.let { requireActivity().contentResolver.openInputStream(it) }
@@ -55,8 +66,12 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
             with(state) {
                 setupColorThemeButtonState(nightModeEnabled)
                 setupCardListViewButtonState(multiColumnListEnabled)
+                if (launchCardsExport) {
+                    exportCards.launch(EXPORTED_FILE_NAME)
+                    viewModel.onExportCardsLaunched()
+                }
                 if (launchCardsImport) {
-                    importCards.launch("*/*")
+                    importCards.launch(MIME_TYPE)
                     viewModel.onImportCardsLaunched()
                 }
             }
