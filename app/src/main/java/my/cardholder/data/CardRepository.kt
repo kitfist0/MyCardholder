@@ -3,6 +3,7 @@ package my.cardholder.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import com.github.doyaaaaaken.kotlincsv.dsl.context.InsufficientFieldsRowBehaviour
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import com.google.zxing.BarcodeFormat
@@ -38,6 +39,7 @@ class CardRepository @Inject constructor(
         const val BARCODE_3X1_HEIGHT = 325
         const val BARCODE_3X1_WIDTH = 975
         const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
+        const val CSV_SCHEME_VERSION = 1
     }
 
     val cards: Flow<List<Card>> = cardDao.getCards()
@@ -104,6 +106,7 @@ class CardRepository @Inject constructor(
 
     suspend fun exportCards(outputStream: OutputStream) {
         csvWriter().openAsync(outputStream) {
+            writeRow(CSV_SCHEME_VERSION)
             cardDao.getCards().first().forEach { card ->
                 writeRow(listOf(card.name, card.text, card.color, card.timestamp, card.format))
             }
@@ -111,9 +114,13 @@ class CardRepository @Inject constructor(
     }
 
     suspend fun importCards(inputStream: InputStream) {
-        csvReader().openAsync(inputStream) {
-            readAllAsSequence().forEach { row ->
-                runCatching {
+        val reader = csvReader {
+            insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.IGNORE
+        }
+        reader.openAsync(inputStream) {
+            val version = readLine()?.toInt()
+            if (version == 1) {
+                readAllAsSequence(fieldsNum = 5).forEach { row ->
                     val card = Card(
                         name = row[0],
                         text = row[1],
