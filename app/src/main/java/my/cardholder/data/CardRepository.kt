@@ -118,7 +118,7 @@ class CardRepository @Inject constructor(
             insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.IGNORE
         }
         reader.openAsync(inputStream) {
-            val version = readLine()?.toInt()
+            val version = readNext()?.first()?.toInt()
             if (version == 1) {
                 readAllAsSequence(fieldsNum = 5).forEach { row ->
                     val card = Card(
