@@ -62,6 +62,8 @@ class SettingsMainViewModel @Inject constructor(
         outputStream?.let {
             viewModelScope.launch {
                 cardRepository.exportCards(it)
+                    .onSuccess { showSnack("Export completed") }
+                    .onFailure { showSnack(it.message.orEmpty()) }
             }
         }
     }
@@ -78,6 +80,8 @@ class SettingsMainViewModel @Inject constructor(
         inputStream?.let {
             viewModelScope.launch {
                 cardRepository.importCards(it)
+                    .onSuccess { showSnack("Import completed") }
+                    .onFailure { showSnack(it.message.orEmpty()) }
             }
         }
     }

@@ -104,34 +104,40 @@ class CardRepository @Inject constructor(
         }
     }
 
-    suspend fun exportCards(outputStream: OutputStream) {
-        csvWriter().openAsync(outputStream) {
-            writeRow(CSV_SCHEME_VERSION)
-            cardDao.getCards().first().forEach { card ->
-                writeRow(listOf(card.name, card.text, card.color, card.timestamp, card.format))
+    suspend fun exportCards(outputStream: OutputStream): Result<Boolean> {
+        return runCatching {
+            csvWriter().openAsync(outputStream) {
+                writeRow(CSV_SCHEME_VERSION)
+                cardDao.getCards().first().forEach { card ->
+                    writeRow(listOf(card.name, card.text, card.color, card.timestamp, card.format))
+                }
             }
+            true
         }
     }
 
-    suspend fun importCards(inputStream: InputStream) {
+    suspend fun importCards(inputStream: InputStream): Result<Boolean> {
         val reader = csvReader {
             insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.IGNORE
         }
-        reader.openAsync(inputStream) {
-            val version = readNext()?.first()?.toInt()
-            if (version == 1) {
-                readAllAsSequence(fieldsNum = 5).forEach { row ->
-                    val card = Card(
-                        name = row[0],
-                        text = row[1],
-                        color = row[2],
-                        timestamp = row[3].toLong(),
-                        format = SupportedFormat.valueOf(row[4]),
-                    )
-                    cardDao.insert(card)
-                    card.writeNewBarcodeFile()
+        return runCatching {
+            reader.openAsync(inputStream) {
+                val version = readNext()?.first()?.toInt()
+                if (version == 1) {
+                    readAllAsSequence(fieldsNum = 5).forEach { row ->
+                        val card = Card(
+                            name = row[0],
+                            text = row[1],
+                            color = row[2],
+                            timestamp = row[3].toLong(),
+                            format = SupportedFormat.valueOf(row[4]),
+                        )
+                        cardDao.insert(card)
+                        card.writeNewBarcodeFile()
+                    }
                 }
             }
+            true
         }
     }
 
