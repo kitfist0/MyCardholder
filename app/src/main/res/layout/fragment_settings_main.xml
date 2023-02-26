@@ -33,6 +33,30 @@
         app:iconSize="24dp" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/settings_export_cards_button"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        android:padding="20dp"
+        android:text="@string/settings_export_cards"
+        app:icon="@drawable/ic_upload"
+        app:iconPadding="16dp"
+        app:iconSize="24dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/settings_import_cards_button"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        android:padding="20dp"
+        android:text="@string/settings_import_cards"
+        app:icon="@drawable/ic_download"
+        app:iconPadding="16dp"
+        app:iconSize="24dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/settings_coffee_button"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"

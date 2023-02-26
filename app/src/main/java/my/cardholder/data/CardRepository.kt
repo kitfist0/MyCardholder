@@ -3,6 +3,9 @@ package my.cardholder.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import com.github.doyaaaaaken.kotlincsv.dsl.context.InsufficientFieldsRowBehaviour
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Writer
 import com.google.zxing.aztec.AztecWriter
@@ -18,6 +21,8 @@ import my.cardholder.data.model.isSquare
 import my.cardholder.util.ext.getFileFromExternalDir
 import my.cardholder.util.ext.writeBitmap
 import java.io.File
+import java.io.InputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -34,6 +39,7 @@ class CardRepository @Inject constructor(
         const val BARCODE_3X1_HEIGHT = 325
         const val BARCODE_3X1_WIDTH = 975
         const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
+        const val CSV_SCHEME_VERSION = 1
     }
 
     val cards: Flow<List<Card>> = cardDao.getCards()
@@ -95,6 +101,43 @@ class CardRepository @Inject constructor(
         getCard(cardId).first()?.let { card ->
             card.deleteBarcodeFile()
             cardDao.deleteCard(card.id)
+        }
+    }
+
+    suspend fun exportCards(outputStream: OutputStream): Result<Boolean> {
+        return runCatching {
+            csvWriter().openAsync(outputStream) {
+                writeRow(CSV_SCHEME_VERSION)
+                cardDao.getCards().first().forEach { card ->
+                    writeRow(listOf(card.name, card.text, card.color, card.timestamp, card.format))
+                }
+            }
+            true
+        }
+    }
+
+    suspend fun importCards(inputStream: InputStream): Result<Boolean> {
+        val reader = csvReader {
+            insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.IGNORE
+        }
+        return runCatching {
+            reader.openAsync(inputStream) {
+                val version = readNext()?.first()?.toInt()
+                if (version == 1) {
+                    readAllAsSequence(fieldsNum = 5).forEach { row ->
+                        val card = Card(
+                            name = row[0],
+                            text = row[1],
+                            color = row[2],
+                            timestamp = row[3].toLong(),
+                            format = SupportedFormat.valueOf(row[4]),
+                        )
+                        cardDao.insert(card)
+                        card.writeNewBarcodeFile()
+                    }
+                }
+            }
+            true
         }
     }
 

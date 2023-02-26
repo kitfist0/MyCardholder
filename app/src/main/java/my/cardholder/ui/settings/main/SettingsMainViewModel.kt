@@ -2,32 +2,93 @@ package my.cardholder.ui.settings.main
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
+import java.io.InputStream
+import java.io.OutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsMainViewModel @Inject constructor(
+    private val cardRepository: CardRepository,
     private val settingsDataStore: SettingsDataStore,
 ) : BaseViewModel() {
 
-    val nightModeEnabled = settingsDataStore.nightModeEnabled
+    private val _state = MutableStateFlow(
+        SettingsMainState(
+            nightModeEnabled = false,
+            multiColumnListEnabled = false,
+            launchCardsExport = false,
+            launchCardsImport = false,
+        )
+    )
+    val state = _state.asStateFlow()
 
-    val multiColumnListOfCards = settingsDataStore.multiColumnListEnabled
+    init {
+        settingsDataStore.nightModeEnabled
+            .onEach { _state.value = _state.value.copy(nightModeEnabled = it) }
+            .launchIn(viewModelScope)
+        settingsDataStore.multiColumnListEnabled
+            .onEach { _state.value = _state.value.copy(multiColumnListEnabled = it) }
+            .launchIn(viewModelScope)
+    }
 
     fun onColorThemeButtonClicked() {
         viewModelScope.launch {
-            val isEnabled = nightModeEnabled.first()
+            val isEnabled = settingsDataStore.nightModeEnabled.first()
             settingsDataStore.setNightModeEnabled(!isEnabled)
         }
     }
 
     fun onCardListViewButtonClicked() {
         viewModelScope.launch {
-            val isEnabled = multiColumnListOfCards.first()
+            val isEnabled = settingsDataStore.multiColumnListEnabled.first()
             settingsDataStore.setMultiColumnListEnabled(!isEnabled)
+        }
+    }
+
+    fun onExportCardsButtonClicked() {
+        viewModelScope.launch {
+            if (cardRepository.cards.first().isNotEmpty()) {
+                _state.value = _state.value.copy(launchCardsExport = true)
+            } else {
+                showSnack("No cards to export")
+            }
+        }
+    }
+
+    fun onExportCardsLaunched() {
+        _state.value = _state.value.copy(launchCardsExport = false)
+    }
+
+    fun onExportCardsResult(outputStream: OutputStream?) {
+        outputStream?.let {
+            viewModelScope.launch {
+                cardRepository.exportCards(it)
+                    .onSuccess { showSnack("Export completed") }
+                    .onFailure { showSnack(it.message.orEmpty()) }
+            }
+        }
+    }
+
+    fun onImportCardsButtonClicked() {
+        _state.value = _state.value.copy(launchCardsImport = true)
+    }
+
+    fun onImportCardsLaunched() {
+        _state.value = _state.value.copy(launchCardsImport = false)
+    }
+
+    fun onImportCardsResult(inputStream: InputStream?) {
+        inputStream?.let {
+            viewModelScope.launch {
+                cardRepository.importCards(it)
+                    .onSuccess { showSnack("Import completed") }
+                    .onFailure { showSnack(it.message.orEmpty()) }
+            }
         }
     }
 

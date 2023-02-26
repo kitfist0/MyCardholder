@@ -68,6 +68,8 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    // Kotlin CSV
+    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.8.0'
     // Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
     // Ml Kit

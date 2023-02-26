@@ -46,6 +46,8 @@
     <!-- region Settings -->
     <string name="settings_about_app_title">About app</string>
     <string name="settings_coffee_for_developers">Coffee for developers</string>
+    <string name="settings_export_cards">Export cards to file</string>
+    <string name="settings_import_cards">Import cards from a file</string>
     <string name="settings_switch_to_dark_mode">Switch to dark mode</string>
     <string name="settings_switch_to_light_mode">Switch to light mode</string>
     <string name="settings_switch_to_multi_column_cards">Switch to multi-column list of cards</string>
