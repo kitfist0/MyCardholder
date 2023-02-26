@@ -51,7 +51,13 @@ class SettingsMainViewModel @Inject constructor(
     }
 
     fun onExportCardsButtonClicked() {
-        _state.value = _state.value.copy(launchCardsExport = true)
+        viewModelScope.launch {
+            if (cardRepository.cards.first().isNotEmpty()) {
+                _state.value = _state.value.copy(launchCardsExport = true)
+            } else {
+                showSnack("No cards to export")
+            }
+        }
     }
 
     fun onExportCardsLaunched() {
