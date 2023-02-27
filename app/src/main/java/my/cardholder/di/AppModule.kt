@@ -13,6 +13,7 @@ import dagger.hilt.components.SingletonComponent
 import my.cardholder.data.AppDatabase
 import my.cardholder.data.CardDao
 import my.cardholder.data.CoffeeDao
+import java.io.File
 import javax.inject.Singleton
 
 @Module
@@ -55,5 +56,10 @@ class AppModule {
     @Provides
     fun provideBillingClientBuilder(app: Application): BillingClient.Builder {
         return BillingClient.newBuilder(app)
+    }
+
+    @Provides
+    fun provideFilesDir(app: Application): File {
+        return app.filesDir
     }
 }

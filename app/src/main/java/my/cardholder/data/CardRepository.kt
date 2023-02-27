@@ -1,8 +1,5 @@
 package my.cardholder.data
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Color
 import com.github.doyaaaaaken.kotlincsv.dsl.context.InsufficientFieldsRowBehaviour
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
@@ -18,11 +15,8 @@ import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.model.isSquare
-import my.cardholder.util.ext.getFileFromExternalDir
-import my.cardholder.util.ext.writeBitmap
-import java.io.File
-import java.io.InputStream
-import java.io.OutputStream
+import my.cardholder.util.ext.writeBarcodeBitmap
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -31,7 +25,7 @@ import javax.inject.Singleton
 @Singleton
 class CardRepository @Inject constructor(
     private val cardDao: CardDao,
-    private val context: Context,
+    private val filesDir: File,
 ) {
 
     private companion object {
@@ -141,10 +135,6 @@ class CardRepository @Inject constructor(
         }
     }
 
-    private fun Card.getBarcodeFile(): File {
-        return context.getFileFromExternalDir(barcodeFileName)
-    }
-
     private fun Card.deleteBarcodeFile() {
         getBarcodeFile().delete()
     }
@@ -158,16 +148,12 @@ class CardRepository @Inject constructor(
                 if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_WIDTH,
                 if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_HEIGHT,
             )
-            val width = bitMatrix.width
-            val height = bitMatrix.height
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            for (i in 0 until width) {
-                for (j in 0 until height) {
-                    bitmap.setPixel(i, j, if (bitMatrix[i, j]) Color.BLACK else Color.WHITE)
-                }
-            }
-            getBarcodeFile().writeBitmap(bitmap)
+            getBarcodeFile().writeBarcodeBitmap(bitMatrix)
         }
+    }
+
+    private fun Card.getBarcodeFile(): File {
+        return File(filesDir, barcodeFileName)
     }
 
     private fun getWriter(supportedFormat: SupportedFormat): Writer {
