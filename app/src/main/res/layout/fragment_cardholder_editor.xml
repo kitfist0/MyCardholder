@@ -46,12 +46,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/card_editor_card_text_input_layout"
+        android:id="@+id/card_editor_card_content_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:hint="@string/card_text"
-        android:transitionName="@string/transition_card_text"
+        android:hint="@string/card_content_hint"
+        android:transitionName="@string/transition_card_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_editor_card_name_input_layout">
@@ -59,8 +59,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/card_text"
-            tools:text="@sample/sample_cards.json/cards/text" />
+            tools:text="@sample/sample_cards.json/cards/content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +71,7 @@
         android:paddingVertical="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_editor_card_text_input_layout"
+        app:layout_constraintTop_toBottomOf="@id/card_editor_card_content_input_layout"
         tools:alpha="1"
         tools:itemCount="8"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

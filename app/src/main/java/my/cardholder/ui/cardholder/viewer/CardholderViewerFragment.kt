@@ -37,12 +37,12 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
             val uniqueNameSuffix = args.cardId
             cardViewerBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
             cardViewerCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
-            cardViewerCardTextText.setupUniqueTransitionName(uniqueNameSuffix)
+            cardViewerCardContentText.setupUniqueTransitionName(uniqueNameSuffix)
             cardViewerEditFab.setupUniqueTransitionName(uniqueNameSuffix)
             cardViewerEditFab.setOnClickListener {
                 val sharedElements = mapOf<View, String>(
                     cardViewerCardNameText to cardViewerCardNameText.transitionName,
-                    cardViewerCardTextText to cardViewerCardTextText.transitionName,
+                    cardViewerCardContentText to cardViewerCardContentText.transitionName,
                     cardViewerEditFab to cardViewerEditFab.transitionName,
                 )
                 val extras = FragmentNavigator.Extras.Builder()
@@ -76,7 +76,7 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
                         loadBarcodeImage(state.barcodeFileName)
                     }
                     cardViewerCardNameText.text = state.cardName
-                    cardViewerCardTextText.text = state.cardText
+                    cardViewerCardContentText.text = state.cardContent
                     cardViewerEditFab.isClickable = true
                 }
             }

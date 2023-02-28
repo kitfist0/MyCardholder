@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="transition_card_name">trans_name_%s</string>
-    <string name="transition_card_text">trans_text_%s</string>
+    <string name="transition_card_content">trans_content_%s</string>
     <string name="transition_card_barcode">trans_barcode_%s</string>
     <string name="transition_card_fab">trans_fab_%s</string>
     <string name="transition_search">trans_search</string>

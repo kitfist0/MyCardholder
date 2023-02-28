@@ -7,7 +7,7 @@ sealed class CardholderEditorState {
 
     data class Success(
         val cardName: String,
-        val cardText: String,
+        val cardContent: String,
         val cardColor: Int,
         val barcodeFileName: String,
         val cardColors: List<String> = Card.COLORS.toList(),

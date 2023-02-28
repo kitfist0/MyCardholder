@@ -40,7 +40,7 @@ class CardholderAdapter(
                     mapOf(
                         itemCardBarcodeImage to itemCardBarcodeImage.transitionName,
                         itemCardNameText to itemCardNameText.transitionName,
-                        itemCardTextText to itemCardTextText.transitionName,
+                        itemCardContentText to itemCardContentText.transitionName,
                     )
                 }
                 onItemClick.invoke(card.id, sharedElements)
@@ -62,9 +62,9 @@ class CardholderAdapter(
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.name
                 }
-                itemCardTextText.apply {
+                itemCardContentText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
-                    text = card.text
+                    text = card.content
                 }
             }
         }

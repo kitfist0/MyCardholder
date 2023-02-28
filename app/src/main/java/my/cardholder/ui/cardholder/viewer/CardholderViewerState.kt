@@ -5,7 +5,7 @@ sealed class CardholderViewerState {
 
     data class Success(
         val cardName: String,
-        val cardText: String,
+        val cardContent: String,
         val cardColor: Int,
         val barcodeFileName: String,
     ) : CardholderViewerState()

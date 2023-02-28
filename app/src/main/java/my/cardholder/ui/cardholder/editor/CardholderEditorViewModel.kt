@@ -28,7 +28,7 @@ class CardholderEditorViewModel @AssistedInject constructor(
             .onEach { card ->
                 _state.value = CardholderEditorState.Success(
                     cardName = card.name,
-                    cardText = card.text,
+                    cardContent = card.content,
                     cardColor = card.getColorInt(),
                     barcodeFileName = card.barcodeFileName,
                 )

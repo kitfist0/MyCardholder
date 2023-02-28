@@ -27,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@android:color/white"
+            tools:ignore="ContentDescription"
             tools:src="@drawable/ic_qr_code" />
 
         <TextView
@@ -43,17 +44,17 @@
             tools:text="@sample/sample_cards.json/cards/name" />
 
         <TextView
-            android:id="@+id/item_card_text_text"
+            android:id="@+id/item_card_content_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="2"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            android:transitionName="@string/transition_card_text"
+            android:transitionName="@string/transition_card_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_card_name_text"
-            tools:text="@sample/sample_cards.json/cards/text" />
+            tools:text="@sample/sample_cards.json/cards/content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,7 +10,7 @@ data class Card(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val name: String,
-    val text: String,
+    val content: String,
     val color: String = COLORS.random(),
     val timestamp: Long,
     val format: SupportedFormat,

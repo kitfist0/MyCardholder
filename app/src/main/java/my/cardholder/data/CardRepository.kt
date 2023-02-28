@@ -42,11 +42,11 @@ class CardRepository @Inject constructor(
         return cardDao.getCard(cardId)
     }
 
-    suspend fun insertCard(text: String, supportedFormat: SupportedFormat): Long {
+    suspend fun insertCard(content: String, supportedFormat: SupportedFormat): Long {
         val timestamp = System.currentTimeMillis()
         val card = Card(
             name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT, Locale.US).format(timestamp)}",
-            text = text,
+            content = content,
             timestamp = timestamp,
             format = supportedFormat,
         )
@@ -68,24 +68,24 @@ class CardRepository @Inject constructor(
             ?.let { newCard -> cardDao.update(newCard) }
     }
 
-    suspend fun updateCardDataIfItChanges(cardId: Long, name: String?, text: String?) {
+    suspend fun updateCardDataIfItChanges(cardId: Long, name: String?, content: String?) {
         val oldCard = getCard(cardId).first() ?: return
         val oldCardName = oldCard.name
-        val oldCardText = oldCard.text
-        if (oldCardName == name && oldCardText == text) {
+        val oldCardContent = oldCard.content
+        if (oldCardName == name && oldCardContent == content) {
             return
         }
-        val newCard = if (oldCardText != text) {
+        val newCard = if (oldCardContent != content) {
             oldCard.deleteBarcodeFile()
             oldCard.copy(
                 name = name ?: oldCardName,
-                text = text ?: oldCardText,
+                content = content ?: oldCardContent,
                 timestamp = System.currentTimeMillis(),
             ).also { card -> card.writeNewBarcodeFile() }
         } else {
             oldCard.copy(
                 name = name ?: oldCardName,
-                text = text,
+                content = content,
             )
         }
         cardDao.update(newCard)
@@ -103,7 +103,7 @@ class CardRepository @Inject constructor(
             csvWriter().openAsync(outputStream) {
                 writeRow(CSV_SCHEME_VERSION)
                 cardDao.getCards().first().forEach { card ->
-                    writeRow(listOf(card.name, card.text, card.color, card.timestamp, card.format))
+                    writeRow(listOf(card.name, card.content, card.color, card.timestamp, card.format))
                 }
             }
             true
@@ -121,7 +121,7 @@ class CardRepository @Inject constructor(
                     readAllAsSequence(fieldsNum = 5).forEach { row ->
                         val card = Card(
                             name = row[0],
-                            text = row[1],
+                            content = row[1],
                             color = row[2],
                             timestamp = row[3].toLong(),
                             format = SupportedFormat.valueOf(row[4]),
@@ -143,7 +143,7 @@ class CardRepository @Inject constructor(
         val isSquare = format.isSquare()
         runCatching {
             val bitMatrix = getWriter(format).encode(
-                text,
+                content,
                 BarcodeFormat.valueOf(format.toString()),
                 if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_WIDTH,
                 if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_HEIGHT,

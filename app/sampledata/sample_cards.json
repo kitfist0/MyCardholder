@@ -3,49 +3,49 @@
     {
       "id": 0,
       "name": "Card 0",
-      "text": "Card 0 text",
+      "content": "Card 0 content",
       "color": "#EF5350"
     },
     {
       "id": 1,
       "name": "Card 1",
-      "text": "Card 1 text",
+      "content": "Card 1 content",
       "color": "#7E57C2"
     },
     {
       "id": 2,
       "name": "Card 2",
-      "text": "Card 2 text",
+      "content": "Card 2 content",
       "color": "#5C6BC0"
     },
     {
       "id": 3,
       "name": "Card 3",
-      "text": "Card 3 text",
+      "content": "Card 3 content",
       "color": "#26A69A"
     },
     {
       "id": 4,
       "name": "Card 4",
-      "text": "Card 4 text",
+      "content": "Card 4 content",
       "color": "#66BB6A"
     },
     {
       "id": 5,
       "name": "Card 5",
-      "text": "Card 5 text",
+      "content": "Card 5 content",
       "color": "#FFCA28"
     },
     {
       "id": 6,
       "name": "Card 6",
-      "text": "Card 6 text",
+      "content": "Card 6 content",
       "color": "#FF7043"
     },
     {
       "id": 7,
       "name": "Card 7",
-      "text": "Card 7 text",
+      "content": "Card 7 content",
       "color": "#8D6E63"
     }
   ]

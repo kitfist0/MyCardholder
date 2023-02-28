@@ -18,6 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@sample/sample_cards.json/cards/color"
+        tools:ignore="ContentDescription"
         tools:src="@drawable/ic_qr_code" />
 
     <Button
@@ -50,15 +51,15 @@
         tools:text="@sample/sample_cards.json/cards/name" />
 
     <TextView
-        android:id="@+id/card_viewer_card_text_text"
+        android:id="@+id/card_viewer_card_content_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        android:transitionName="@string/transition_card_text"
+        android:transitionName="@string/transition_card_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_viewer_card_name_text"
-        tools:text="@sample/sample_cards.json/cards/text" />
+        tools:text="@sample/sample_cards.json/cards/content" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_viewer_edit_fab"

@@ -46,7 +46,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
             }
-            cardEditorCardTextInputLayout.apply {
+            cardEditorCardContentInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardTextChanged(it?.toString()) }
             }
@@ -74,7 +74,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
             when (state) {
                 is CardholderEditorState.Loading -> with(binding) {
                     cardEditorCardNameInputLayout.isEnabled = false
-                    cardEditorCardTextInputLayout.isEnabled = false
+                    cardEditorCardContentInputLayout.isEnabled = false
                     cardEditorColorsRecyclerView.isInvisible = true
                 }
                 is CardholderEditorState.Success -> with(binding) {
@@ -86,9 +86,9 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                         isEnabled = true
                         editText?.setTextAndSelectionIfRequired(state.cardName)
                     }
-                    cardEditorCardTextInputLayout.apply {
+                    cardEditorCardContentInputLayout.apply {
                         isEnabled = true
-                        editText?.setTextAndSelectionIfRequired(state.cardText)
+                        editText?.setTextAndSelectionIfRequired(state.cardContent)
                     }
                     cardEditorColorsRecyclerView.isInvisible = false
                     listAdapter.submitList(state.cardColors)
