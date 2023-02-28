@@ -13,12 +13,11 @@ import my.cardholder.databinding.ActivityMainBinding
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val destIdsWithoutBottomNav = mapOf(
-        R.id.viewer_fragment to null,
-        R.id.editor_fragment to null,
-        R.id.search_fragment to null,
-        R.id.delete_card_dialog to null,
-        R.id.specs_fragment to null,
+    private val destinationIdsWithBottomNav = setOf(
+        R.id.permission_fragment,
+        R.id.preview_fragment,
+        R.id.cards_fragment,
+        R.id.settings_fragment,
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             val navController = mainNavHost.getFragment<NavHostFragment>().navController
             mainBottomNavView.setupWithNavController(navController)
             navController.addOnDestinationChangedListener { _, destination, _ ->
-                mainBottomNavView.isVisible = !destIdsWithoutBottomNav.containsKey(destination.id)
+                mainBottomNavView.isVisible = destinationIdsWithBottomNav.contains(destination.id)
             }
         }
 
