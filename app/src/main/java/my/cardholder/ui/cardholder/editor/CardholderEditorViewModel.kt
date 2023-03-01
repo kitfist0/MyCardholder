@@ -31,6 +31,7 @@ class CardholderEditorViewModel @AssistedInject constructor(
                     cardContent = card.content,
                     cardColor = card.getColorInt(),
                     barcodeFileName = card.barcodeFileName,
+                    barcodeFormatName = card.format.toString(),
                 )
             }
             .launchIn(viewModelScope)
