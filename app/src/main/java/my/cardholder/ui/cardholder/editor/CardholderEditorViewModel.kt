@@ -16,7 +16,7 @@ class CardholderEditorViewModel @AssistedInject constructor(
 ) : BaseViewModel() {
 
     private var updatedCardName: String? = null
-    private var updatedCardText: String? = null
+    private var updatedCardContent: String? = null
     private var updatedCardColor: String? = null
 
     private val _state = MutableStateFlow<CardholderEditorState>(CardholderEditorState.Loading)
@@ -55,14 +55,14 @@ class CardholderEditorViewModel @AssistedInject constructor(
         updateCardData()
     }
 
-    fun onCardTextChanged(cardText: String?) {
-        updatedCardText = cardText
+    fun onCardContentChanged(cardContent: String?) {
+        updatedCardContent = cardContent
         updateCardData()
     }
 
     private fun updateCardData() {
         viewModelScope.launch {
-            cardRepository.updateCardDataIfItChanges(cardId, updatedCardName, updatedCardText)
+            cardRepository.updateCardDataIfItChanges(cardId, updatedCardName, updatedCardContent)
         }
     }
 }

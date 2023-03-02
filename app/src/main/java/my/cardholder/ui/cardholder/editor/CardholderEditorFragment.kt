@@ -48,7 +48,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
             }
             cardEditorCardContentInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
-                editText?.doAfterTextChanged { viewModel.onCardTextChanged(it?.toString()) }
+                editText?.doAfterTextChanged { viewModel.onCardContentChanged(it?.toString()) }
             }
             cardEditorBarcodeFormatInputLayout.alpha = 0f
             cardEditorOkFab.apply {
