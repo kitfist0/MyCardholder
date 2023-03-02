@@ -4,6 +4,8 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.View
 import android.view.WindowInsets
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.view.ViewCompat
@@ -11,6 +13,7 @@ import androidx.core.view.updatePadding
 import coil.load
 import coil.size.Size
 import coil.transform.RoundedCornersTransformation
+import com.google.android.material.textfield.TextInputLayout
 import my.cardholder.R
 import java.io.File
 
@@ -70,5 +73,16 @@ fun EditText.setTextAndSelectionIfRequired(text: String) {
     if (this.text.toString() != text) {
         setText(text)
         setSelection(text.length)
+    }
+}
+
+fun TextInputLayout.setAutocompleteTextIfRequired(items: List<String>, item: String) {
+    (editText as? AutoCompleteTextView)?.apply {
+        if (text.toString() != item) {
+            setText(item)
+        }
+        if (adapter == null) {
+            setAdapter(ArrayAdapter(context, android.R.layout.select_dialog_item, items))
+        }
     }
 }

@@ -19,7 +19,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
 ) {
 
     private companion object {
-        const val COLOR_PICKER_ANIM_DURATION = 300L
+        const val ALPHA_ANIM_DURATION = 300L
     }
 
     @Inject
@@ -50,6 +50,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardTextChanged(it?.toString()) }
             }
+            cardEditorBarcodeFormatInputLayout.alpha = 0f
             cardEditorOkFab.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
@@ -62,7 +63,11 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets()
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
                 cardEditorColorsRecyclerView.animate()
-                    .setDuration(COLOR_PICKER_ANIM_DURATION)
+                    .setDuration(ALPHA_ANIM_DURATION)
+                    .alpha(1f)
+                    .start()
+                cardEditorBarcodeFormatInputLayout.animate()
+                    .setDuration(ALPHA_ANIM_DURATION)
                     .alpha(1f)
                     .start()
             }
@@ -75,6 +80,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 is CardholderEditorState.Loading -> with(binding) {
                     cardEditorCardNameInputLayout.isEnabled = false
                     cardEditorCardContentInputLayout.isEnabled = false
+                    cardEditorBarcodeFormatInputLayout.isEnabled = false
                     cardEditorColorsRecyclerView.isInvisible = true
                 }
                 is CardholderEditorState.Success -> with(binding) {
@@ -89,6 +95,13 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                     cardEditorCardContentInputLayout.apply {
                         isEnabled = true
                         editText?.setTextAndSelectionIfRequired(state.cardContent)
+                    }
+                    cardEditorBarcodeFormatInputLayout.apply {
+                        isEnabled = true
+                        setAutocompleteTextIfRequired(
+                            items = state.barcodeFormatNames,
+                            item = state.barcodeFormatName,
+                        )
                     }
                     cardEditorColorsRecyclerView.isInvisible = false
                     listAdapter.submitList(state.cardColors)
