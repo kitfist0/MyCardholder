@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
+import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 
 class CardholderEditorViewModel @AssistedInject constructor(
@@ -17,6 +18,7 @@ class CardholderEditorViewModel @AssistedInject constructor(
 
     private var updatedCardName: String? = null
     private var updatedCardContent: String? = null
+    private var updatedCardFormat: SupportedFormat? = null
     private var updatedCardColor: String? = null
 
     private val _state = MutableStateFlow<CardholderEditorState>(CardholderEditorState.Loading)
@@ -60,9 +62,19 @@ class CardholderEditorViewModel @AssistedInject constructor(
         updateCardData()
     }
 
+    fun onCardFormatChanged(cardFormat: String?) {
+        updatedCardFormat = cardFormat?.let { SupportedFormat.valueOf(it) }
+        updateCardData()
+    }
+
     private fun updateCardData() {
         viewModelScope.launch {
-            cardRepository.updateCardDataIfItChanges(cardId, updatedCardName, updatedCardContent)
+            cardRepository.updateCardDataIfItChanges(
+                id = cardId,
+                name = updatedCardName,
+                content = updatedCardContent,
+                format = updatedCardFormat,
+            )
         }
     }
 }

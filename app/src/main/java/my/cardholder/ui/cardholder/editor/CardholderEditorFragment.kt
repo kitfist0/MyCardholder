@@ -50,15 +50,18 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardContentChanged(it?.toString()) }
             }
-            cardEditorBarcodeFormatInputLayout.alpha = 0f
-            cardEditorOkFab.apply {
-                setupUniqueTransitionName(uniqueNameSuffix)
-                setOnClickListener { viewModel.onOkFabClicked() }
+            cardEditorBarcodeFormatInputLayout.apply {
+                alpha = 0f
+                editText?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
             }
             cardEditorColorsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = listAdapter
                 alpha = 0f
+            }
+            cardEditorOkFab.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                setOnClickListener { viewModel.onOkFabClicked() }
             }
             root.updateVerticalPaddingAfterApplyingWindowInsets()
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
