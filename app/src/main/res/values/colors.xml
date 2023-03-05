@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_grey_900">#FF263238</color>
-    <color name="blue_grey_500">#FF607D8B</color>
-    <color name="blue_grey_200">#FFB0BEC5</color>
-    <color name="blue_grey_100">#FFCFD8DC</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!--region Day-->
+    <color name="cardholder_color_primary_day">#FF607D8B</color>
+    <color name="cardholder_color_on_primary_day">#FFFFFFFF</color>
+    <color name="cardholder_color_primary_container_day">#FFFFE465</color>
+    <color name="cardholder_color_on_primary_container_day">#FF332B00</color>
+    <color name="cardholder_color_secondary_day">#FFD3C47A</color>
+    <color name="cardholder_color_secondary_container_day">#FFE8E5D6</color>
+    <color name="cardholder_color_on_secondary_container_day">#FF292515</color>
+    <color name="cardholder_color_navigation_bar_day">#FFCFD8DC</color>
+    <!--endregion-->
+
+    <!--region Night-->
+    <color name="cardholder_color_primary_night">#FFB0BEC5</color>
+    <color name="cardholder_color_on_primary_night">#FF000000</color>
+    <color name="cardholder_color_primary_container_night">#FF0E0B00</color>
+    <color name="cardholder_color_on_primary_container_night">#FFFDE46B</color>
+    <color name="cardholder_color_secondary_night">#FFCFC38A</color>
+    <color name="cardholder_color_secondary_container_night">#FF302F2A</color>
+    <color name="cardholder_color_on_secondary_container_night">#FFFFF5C7</color>
+    <color name="cardholder_color_navigation_bar_night">#FF263238</color>
+    <!--endregion-->
+
     <color name="ic_launcher_background">#465B65</color>
 </resources>
