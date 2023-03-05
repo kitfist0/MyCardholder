@@ -26,6 +26,9 @@ class ScannerPreviewViewModel @Inject constructor(
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
 
+    private var prevCardContent: String? = null
+    private var prevSupportedFormat: SupportedFormat? = null
+
     suspend fun startCamera(
         lifecycleOwner: LifecycleOwner,
         surfaceProvider: Preview.SurfaceProvider,
@@ -48,7 +51,7 @@ class ScannerPreviewViewModel @Inject constructor(
                         imageAnalysis.clearAnalyzer()
                         cameraProvider.unbindAll()
                         insertCardAndNavigateToEditor(
-                            text = barcode.displayValue.toString(),
+                            content = barcode.displayValue.toString(),
                             supportedFormat = supportedFormat,
                         )
                     }
@@ -59,9 +62,14 @@ class ScannerPreviewViewModel @Inject constructor(
         cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
     }
 
-    private fun insertCardAndNavigateToEditor(text: String, supportedFormat: SupportedFormat) {
+    private fun insertCardAndNavigateToEditor(content: String, supportedFormat: SupportedFormat) {
+        if (content == prevCardContent && supportedFormat == prevSupportedFormat) {
+            return
+        }
+        prevCardContent = content
+        prevSupportedFormat = supportedFormat
         viewModelScope.launch {
-            cardRepository.insertCard(text, supportedFormat)
+            cardRepository.insertCard(content, supportedFormat)
             navigate(ScannerPreviewFragmentDirections.fromPreviewToCardholder())
         }
     }
