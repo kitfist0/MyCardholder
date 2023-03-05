@@ -32,7 +32,7 @@ class CardRepository @Inject constructor(
         const val BARCODE_1X1_SIZE = 650
         const val BARCODE_3X1_HEIGHT = 325
         const val BARCODE_3X1_WIDTH = 975
-        const val CARD_NAME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
+        const val CARD_NAME_FORMAT = "MMMdd HH:mm:ss"
         const val CSV_SCHEME_VERSION = 1
     }
 
@@ -45,7 +45,7 @@ class CardRepository @Inject constructor(
     suspend fun insertCard(content: String, supportedFormat: SupportedFormat): Long {
         val timestamp = System.currentTimeMillis()
         val card = Card(
-            name = "Card ${SimpleDateFormat(CARD_NAME_FORMAT, Locale.US).format(timestamp)}",
+            name = SimpleDateFormat(CARD_NAME_FORMAT, Locale.US).format(timestamp),
             content = content,
             timestamp = timestamp,
             format = supportedFormat,
