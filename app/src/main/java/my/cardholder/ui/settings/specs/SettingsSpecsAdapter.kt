@@ -31,10 +31,10 @@ class SettingsSpecsAdapter(
                 itemSpecBarcodeNameText.text = spec.name
                 itemSpecBarcodeImage.setBitmapFromAssets(spec.getFileName())
                 itemSpecBarcodeCharactersText.apply {
-                    text = context.getString(R.string.format_spec_valid_characters).format(spec.characters)
+                    text = context.getString(R.string.specs_barcode_valid_characters_text).format(spec.characters)
                 }
                 itemSpecBarcodeLengthText.apply {
-                    text = context.getString(R.string.format_spec_length).format(spec.length)
+                    text = context.getString(R.string.specs_barcode_length_text).format(spec.length)
                 }
             }
         }

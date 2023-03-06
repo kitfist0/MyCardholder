@@ -47,7 +47,7 @@ class ScannerPermissionViewModel @Inject constructor(
         if (!permissionHelper.isPermissionGranted(CAMERA_PERMISSION)) {
             _state.value = ScannerPermissionState.PermissionRequired(
                 requiredPermission = CAMERA_PERMISSION,
-                rationaleTextStringRes = R.string.permission_rationale,
+                rationaleTextStringRes = R.string.permission_rationale_message_text,
                 requestPermission = requestPermission,
             )
         } else {

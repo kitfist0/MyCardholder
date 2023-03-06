@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/permission_fragment"
         android:name="my.cardholder.ui.scanner.permission.ScannerPermissionFragment"
-        android:label="@string/permission_request"
+        android:label="@string/permission_label"
         tools:layout="@layout/fragment_scanner_permission">
         <action
             android:id="@+id/from_permission_to_preview"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/preview_fragment"
         android:name="my.cardholder.ui.scanner.preview.ScannerPreviewFragment"
-        android:label="@string/title_scanner"
+        android:label="@string/scanner_title"
         tools:layout="@layout/fragment_scanner_preview">
         <action
             android:id="@+id/from_preview_to_cardholder"

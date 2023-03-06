@@ -15,7 +15,7 @@
             android:layout_height="?actionBarSize"
             android:background="?android:windowBackground"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:title="@string/settings_supported_formats"
+            app:title="@string/specs_toolbar_title"
             app:titleCentered="true" />
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -4,16 +4,16 @@
     <item
         android:id="@+id/scanner_navigation"
         android:icon="@drawable/ic_menu_scanner"
-        android:title="@string/title_scanner" />
+        android:title="@string/scanner_title" />
 
     <item
         android:id="@+id/cardholder_navigation"
         android:icon="@drawable/ic_menu_cards"
-        android:title="@string/title_cards" />
+        android:title="@string/cards_title" />
 
     <item
         android:id="@+id/settings_navigation"
         android:icon="@drawable/ic_menu_settings"
-        android:title="@string/title_settings" />
+        android:title="@string/settings_title" />
 
 </menu>

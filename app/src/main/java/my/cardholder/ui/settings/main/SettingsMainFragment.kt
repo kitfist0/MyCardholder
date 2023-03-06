@@ -85,7 +85,7 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
                 if (isNightMode) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
             )
             text = getString(
-                if (isNightMode) R.string.settings_switch_to_light_mode else R.string.settings_switch_to_dark_mode
+                if (isNightMode) R.string.settings_switch_to_light_mode_button_text else R.string.settings_switch_to_dark_mode_button_text
             )
         }
     }
@@ -102,9 +102,9 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
             )
             text = getString(
                 if (isMultiColumn) {
-                    R.string.settings_switch_to_single_column_cards
+                    R.string.settings_switch_to_single_column_button_text
                 } else {
-                    R.string.settings_switch_to_multi_column_cards
+                    R.string.settings_switch_to_multi_column_button_text
                 }
             )
         }

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.main.SettingsMainFragment"
-        android:label="@string/title_settings"
+        android:label="@string/settings_title"
         tools:layout="@layout/fragment_settings_main">
         <action
             android:id="@+id/from_settings_to_specs"
@@ -24,13 +24,13 @@
     <fragment
         android:id="@+id/specs_fragment"
         android:name="my.cardholder.ui.settings.specs.SettingsSpecsFragment"
-        android:label="@string/title_specs"
+        android:label="@string/specs_label"
         tools:layout="@layout/fragment_settings_specs" />
 
     <dialog
         android:id="@+id/about_dialog"
         android:name="my.cardholder.ui.settings.about.SettingsAboutDialog"
-        android:label="@string/about_app_dialog_label"
+        android:label="@string/about_dialog_label"
         tools:layout="@layout/dialog_settings_about" />
 
     <dialog

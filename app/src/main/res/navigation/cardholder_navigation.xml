@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/cards_fragment"
         android:name="my.cardholder.ui.cardholder.cards.CardholderCardsFragment"
-        android:label="@string/title_cards"
+        android:label="@string/cards_title"
         tools:layout="@layout/fragment_cardholder_cards">
         <action
             android:id="@+id/from_cards_to_viewer"
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/search_fragment"
         android:name="my.cardholder.ui.cardholder.search.CardholderSearchFragment"
-        android:label="@string/card_search"
+        android:label="@string/search_title"
         tools:layout="@layout/fragment_cardholder_search">
         <action
             android:id="@+id/from_search_to_viewer"
@@ -32,7 +32,7 @@
     <fragment
         android:id="@+id/viewer_fragment"
         android:name="my.cardholder.ui.cardholder.viewer.CardholderViewerFragment"
-        android:label="@string/title_card"
+        android:label="@string/viewer_label"
         tools:layout="@layout/fragment_cardholder_viewer">
         <argument
             android:name="card_id"
@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/editor_fragment"
         android:name="my.cardholder.ui.cardholder.editor.CardholderEditorFragment"
-        android:label="@string/card_edit"
+        android:label="@string/editor_label"
         tools:layout="@layout/fragment_cardholder_editor">
         <argument
             android:name="card_id"
