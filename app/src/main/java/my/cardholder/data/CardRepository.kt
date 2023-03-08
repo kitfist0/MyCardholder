@@ -98,6 +98,10 @@ class CardRepository @Inject constructor(
         cardDao.update(newCard)
     }
 
+    fun isCardBarcodeFileExist(card: Card): Boolean {
+        return card.getBarcodeFile().exists()
+    }
+
     suspend fun deleteCard(cardId: Long) {
         getCard(cardId).first()?.let { card ->
             card.deleteBarcodeFile()
