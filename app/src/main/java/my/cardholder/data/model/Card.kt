@@ -14,7 +14,6 @@ data class Card(
     val name: String,
     val content: String,
     val color: String = COLORS.random(),
-    val timestamp: Long,
     val format: SupportedFormat,
     val barcodeFile: File?,
 ) {

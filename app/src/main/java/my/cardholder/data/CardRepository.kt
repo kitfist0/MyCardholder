@@ -47,7 +47,6 @@ class CardRepository @Inject constructor(
         val card = Card(
             name = SimpleDateFormat(CARD_NAME_FORMAT, Locale.US).format(timestamp),
             content = content,
-            timestamp = timestamp,
             format = supportedFormat,
             barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
         )
@@ -87,7 +86,6 @@ class CardRepository @Inject constructor(
             oldCard.copy(
                 name = name ?: oldCardName,
                 content = content ?: oldCardContent,
-                timestamp = System.currentTimeMillis(),
                 format = format ?: oldCardFormat,
                 barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
             ).also { card -> card.writeBarcodeFile() }
@@ -112,7 +110,7 @@ class CardRepository @Inject constructor(
             csvWriter().openAsync(outputStream) {
                 writeRow(CSV_SCHEME_VERSION)
                 cardDao.getCards().first().forEach { card ->
-                    writeRow(listOf(card.name, card.content, card.color, card.timestamp, card.format))
+                    writeRow(listOf(card.name, card.content, card.color, card.format))
                 }
             }
             true
@@ -127,13 +125,12 @@ class CardRepository @Inject constructor(
             reader.openAsync(inputStream) {
                 val version = readNext()?.first()?.toInt()
                 if (version == 1) {
-                    readAllAsSequence(fieldsNum = 5).forEach { row ->
+                    readAllAsSequence(fieldsNum = 4).forEach { row ->
                         val card = Card(
                             name = row[0],
                             content = row[1],
                             color = row[2],
-                            timestamp = row[3].toLong(),
-                            format = SupportedFormat.valueOf(row[4]),
+                            format = SupportedFormat.valueOf(row[3]),
                             barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
                         )
                         cardDao.insert(card)
