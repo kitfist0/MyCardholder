@@ -1,5 +1,7 @@
 package my.cardholder.ui.cardholder.viewer
 
+import java.io.File
+
 sealed class CardholderViewerState {
     object Loading : CardholderViewerState()
 
@@ -7,6 +9,6 @@ sealed class CardholderViewerState {
         val cardName: String,
         val cardContent: String,
         val cardColor: Int,
-        val barcodeFileName: String,
+        val barcodeFile: File?,
     ) : CardholderViewerState()
 }

@@ -26,7 +26,7 @@ class CardholderViewerViewModel @AssistedInject constructor(
                     cardName = card.name,
                     cardContent = card.content,
                     cardColor = card.getColorInt(),
-                    barcodeFileName = card.barcodeFileName,
+                    barcodeFile = card.barcodeFile,
                 )
             }
             .launchIn(viewModelScope)

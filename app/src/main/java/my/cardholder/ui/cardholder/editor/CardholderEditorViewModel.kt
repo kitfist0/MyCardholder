@@ -32,10 +32,10 @@ class CardholderEditorViewModel @AssistedInject constructor(
                     cardName = card.name,
                     cardContent = card.content,
                     cardColor = card.getColorInt(),
-                    barcodeFileName = card.barcodeFileName,
+                    barcodeFile = card.barcodeFile,
                     barcodeFormatName = card.format.toString(),
                 )
-                if (!cardRepository.isCardBarcodeFileExist(card)) {
+                if (card.barcodeFile?.exists() == false) {
                     showSnack("The value is invalid for the selected barcode type")
                 }
             }

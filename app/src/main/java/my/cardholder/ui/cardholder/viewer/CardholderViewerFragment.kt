@@ -73,7 +73,7 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
                 is CardholderViewerState.Success -> with(binding) {
                     cardViewerBarcodeImage.apply {
                         setBackgroundColor(state.cardColor)
-                        loadBarcodeImage(state.barcodeFileName)
+                        loadBarcodeImage(state.barcodeFile)
                     }
                     cardViewerCardNameText.text = state.cardName
                     cardViewerCardContentText.text = state.cardContent

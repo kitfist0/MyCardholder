@@ -89,7 +89,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 is CardholderEditorState.Success -> with(binding) {
                     cardEditorBarcodeImage.apply {
                         setBackgroundColor(state.cardColor)
-                        loadBarcodeImage(state.barcodeFileName)
+                        loadBarcodeImage(state.barcodeFile)
                     }
                     cardEditorCardNameInputLayout.apply {
                         isEnabled = true

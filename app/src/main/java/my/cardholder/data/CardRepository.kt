@@ -49,8 +49,9 @@ class CardRepository @Inject constructor(
             content = content,
             timestamp = timestamp,
             format = supportedFormat,
+            barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
         )
-        card.writeNewBarcodeFile()
+        card.writeBarcodeFile()
         return cardDao.insert(card)
     }
 
@@ -82,13 +83,14 @@ class CardRepository @Inject constructor(
             return
         }
         val newCard = if (oldCardContent != content || oldCardFormat != format) {
-            oldCard.deleteBarcodeFile()
+            oldCard.barcodeFile?.delete()
             oldCard.copy(
                 name = name ?: oldCardName,
                 content = content ?: oldCardContent,
                 timestamp = System.currentTimeMillis(),
                 format = format ?: oldCardFormat,
-            ).also { card -> card.writeNewBarcodeFile() }
+                barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
+            ).also { card -> card.writeBarcodeFile() }
         } else {
             oldCard.copy(
                 name = name ?: oldCardName,
@@ -98,13 +100,9 @@ class CardRepository @Inject constructor(
         cardDao.update(newCard)
     }
 
-    fun isCardBarcodeFileExist(card: Card): Boolean {
-        return card.getBarcodeFile().exists()
-    }
-
     suspend fun deleteCard(cardId: Long) {
         getCard(cardId).first()?.let { card ->
-            card.deleteBarcodeFile()
+            card.barcodeFile?.delete()
             cardDao.deleteCard(card.id)
         }
     }
@@ -136,9 +134,10 @@ class CardRepository @Inject constructor(
                             color = row[2],
                             timestamp = row[3].toLong(),
                             format = SupportedFormat.valueOf(row[4]),
+                            barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
                         )
                         cardDao.insert(card)
-                        card.writeNewBarcodeFile()
+                        card.writeBarcodeFile()
                     }
                 }
             }
@@ -146,11 +145,7 @@ class CardRepository @Inject constructor(
         }
     }
 
-    private fun Card.deleteBarcodeFile() {
-        getBarcodeFile().delete()
-    }
-
-    private fun Card.writeNewBarcodeFile() {
+    private fun Card.writeBarcodeFile() {
         val isSquare = format.isSquare()
         runCatching {
             val bitMatrix = getWriter(format).encode(
@@ -159,12 +154,8 @@ class CardRepository @Inject constructor(
                 if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_WIDTH,
                 if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_HEIGHT,
             )
-            getBarcodeFile().writeBarcodeBitmap(bitMatrix)
+            barcodeFile?.writeBarcodeBitmap(bitMatrix)
         }
-    }
-
-    private fun Card.getBarcodeFile(): File {
-        return File(filesDir, barcodeFileName)
     }
 
     private fun getWriter(supportedFormat: SupportedFormat): Writer {

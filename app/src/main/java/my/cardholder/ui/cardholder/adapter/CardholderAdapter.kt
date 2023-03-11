@@ -54,7 +54,7 @@ class CardholderAdapter(
                 itemCardBarcodeImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     loadBarcodeImage(
-                        barcodeFileName = card.barcodeFileName,
+                        barcodeFile = card.barcodeFile,
                         originalSize = false,
                     )
                 }

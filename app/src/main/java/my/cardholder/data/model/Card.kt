@@ -2,10 +2,12 @@ package my.cardholder.data.model
 
 import androidx.core.graphics.toColorInt
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import java.io.File
 
 @Entity(tableName = "cards")
+@TypeConverters(BarcodeFileConverter::class)
 data class Card(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
@@ -14,10 +16,8 @@ data class Card(
     val color: String = COLORS.random(),
     val timestamp: Long,
     val format: SupportedFormat,
+    val barcodeFile: File?,
 ) {
-    @Ignore
-    val barcodeFileName = "$timestamp.jpeg"
-
     companion object {
         val COLORS = arrayOf(
             "#EF5350",

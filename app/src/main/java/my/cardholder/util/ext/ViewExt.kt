@@ -53,10 +53,9 @@ fun ImageView.setBitmapFromAssets(fileName: String) {
 }
 
 fun ImageView.loadBarcodeImage(
-    barcodeFileName: String,
+    barcodeFile: File?,
     originalSize: Boolean = true,
 ) {
-    val barcodeFile = File(context.filesDir, barcodeFileName)
     load(barcodeFile) {
         if (originalSize) {
             size(Size.ORIGINAL)
