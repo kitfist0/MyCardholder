@@ -10,10 +10,10 @@ import java.io.File
 @TypeConverters(BarcodeFileConverter::class)
 data class Card(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val id: Long,
     val name: String,
     val content: String,
-    val color: String = COLORS.random(),
+    val color: String,
     val format: SupportedFormat,
     val barcodeFile: File?,
 ) {
