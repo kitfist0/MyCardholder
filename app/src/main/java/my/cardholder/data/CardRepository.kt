@@ -108,7 +108,7 @@ class CardRepository @Inject constructor(
         return runCatching {
             csvWriter().openAsync(outputStream) {
                 writeRow(CSV_SCHEME_VERSION)
-                cardDao.getCards().first().forEach { card ->
+                cardDao.getCards().first().reversed().forEach { card ->
                     writeRow(listOf(card.name, card.content, card.color, card.format))
                 }
             }
