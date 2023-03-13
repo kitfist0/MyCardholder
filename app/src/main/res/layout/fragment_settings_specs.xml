@@ -24,6 +24,7 @@
         android:id="@+id/specs_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:itemCount="13"
         tools:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"

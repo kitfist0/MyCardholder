@@ -1,5 +1,7 @@
 <resources>
     <dimen name="barcode_image_corners">8dp</dimen>
+    <dimen name="cardholder_recycler_view_padding_horizontal">4dp</dimen>
+    <dimen name="cardholder_card_view_layout_margin">4dp</dimen>
 
     <!--region About-->
     <dimen name="about_app_dev_image_size">90dp</dimen>
@@ -12,15 +14,10 @@
     <dimen name="bottom_sheet_button_height">55dp</dimen>
     <!--endregion-->
 
-    <!--region Cards-->
-    <dimen name="cards_padding">16dp</dimen>
-    <!--endregion-->
-
     <!--region CardItem-->
     <dimen name="card_item_content_padding">16dp</dimen>
     <dimen name="card_item_corner_radius">16dp</dimen>
     <dimen name="card_item_height">220dp</dimen>
-    <dimen name="card_item_layout_margin">4dp</dimen>
     <dimen name="card_item_rectangle_barcode_height">100dp</dimen>
     <dimen name="card_item_rectangle_barcode_width">250dp</dimen>
     <dimen name="card_item_square_barcode_height">100dp</dimen>
@@ -29,7 +26,6 @@
 
     <!--region SpecItem-->
     <dimen name="spec_item_content_padding">16dp</dimen>
-    <dimen name="spec_item_layout_margin">4dp</dimen>
     <dimen name="spec_item_image_height">75dp</dimen>
     <!--endregion-->
 </resources>

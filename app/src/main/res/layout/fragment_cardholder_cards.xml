@@ -18,6 +18,7 @@
         android:id="@+id/cards_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
         tools:itemCount="3"
         tools:listitem="@layout/item_card" />
 

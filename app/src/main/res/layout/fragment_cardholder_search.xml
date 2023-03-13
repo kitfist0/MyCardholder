@@ -43,6 +43,7 @@
         android:id="@+id/search_results_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
