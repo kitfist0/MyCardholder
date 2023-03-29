@@ -11,7 +11,6 @@
     android:gravity="center_vertical"
     android:lines="1"
     android:padding="@dimen/bottom_sheet_view_padding"
-    android:text="@{coffeeItem.name}"
     android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
     app:drawableStartCompat="@drawable/ic_product_default"
     tools:text="Coffee" />
