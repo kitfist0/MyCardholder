@@ -50,7 +50,7 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
                     .build()
                 viewModel.onEditFabClicked(extras)
             }
-            root.updateVerticalPaddingAfterApplyingWindowInsets()
+            root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             cardViewerDeleteCardButton.alpha = 0f
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
                 cardViewerDeleteCardButton.animate()

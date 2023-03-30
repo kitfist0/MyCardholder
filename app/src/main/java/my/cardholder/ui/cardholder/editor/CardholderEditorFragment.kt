@@ -63,7 +63,7 @@ class CardholderEditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
-            root.updateVerticalPaddingAfterApplyingWindowInsets()
+            root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
                 cardEditorColorsRecyclerView.animate()
                     .setDuration(ALPHA_ANIM_DURATION)
