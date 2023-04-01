@@ -23,14 +23,14 @@
 
     <Button
         android:id="@+id/card_viewer_delete_card_button"
-        style="?attr/materialIconButtonFilledTonalStyle"
+        style="?attr/materialIconButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:alpha="0.7"
         app:icon="@drawable/ic_delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:iconTint="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/card_viewer_barcode_image"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_viewer_guideline_horizontal"
