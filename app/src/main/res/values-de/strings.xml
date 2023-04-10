@@ -41,6 +41,10 @@
     <string name="permission_rationale_message_text">Bitte gewähren Sie Zugriff auf die Kamera des Geräts. Kamerazugriff ist erforderlich, um Ihre Karten zu scannen</string>
     <!--endregion-->
 
+    <!--region Scanner-->
+    <string name="scanner_add_manually_fab_title">Manuell hinzufügen</string>
+    <!--endregion-->
+
     <!--region Search-->
     <string name="search_blank_message_text">\u00A0</string>
     <string name="search_edit_text_hint">Durchsuchen Sie Ihre Karten</string>
