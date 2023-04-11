@@ -43,6 +43,7 @@
 
     <!--region Scanner-->
     <string name="scanner_add_manually_fab_title">Add manually</string>
+    <string name="scanner_explanation_message">Scan a barcode to automatically add a new card</string>
     <!--endregion-->
 
     <!--region Search-->

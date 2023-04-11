@@ -43,6 +43,7 @@
 
     <!--region Scanner-->
     <string name="scanner_add_manually_fab_title">Manuell hinzufügen</string>
+    <string name="scanner_explanation_message">Scannen Sie einen Barcode, um automatisch eine neue Karte hinzuzufügen</string>
     <!--endregion-->
 
     <!--region Search-->
