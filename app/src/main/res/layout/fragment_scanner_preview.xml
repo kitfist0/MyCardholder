@@ -16,18 +16,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:alpha="0"
         android:clickable="false"
         android:gravity="center"
         android:maxWidth="250dp"
         android:text="@string/scanner_explanation_message"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         android:textColor="@android:color/white"
+        android:visibility="gone"
         app:backgroundTint="#AA000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:alpha="1" />
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/scanner_add_manually_fab"
