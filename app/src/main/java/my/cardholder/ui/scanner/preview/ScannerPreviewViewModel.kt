@@ -49,6 +49,13 @@ class ScannerPreviewViewModel @Inject constructor(
         }
     }
 
+    fun onAddManuallyFabClicked() {
+        viewModelScope.launch {
+            cardRepository.insertRandomCard()
+            navigate(ScannerPreviewFragmentDirections.fromPreviewToCardholder())
+        }
+    }
+
     suspend fun startCamera(
         lifecycleOwner: LifecycleOwner,
         surfaceProvider: Preview.SurfaceProvider,

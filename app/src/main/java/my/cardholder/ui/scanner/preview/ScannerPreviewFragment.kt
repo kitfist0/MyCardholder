@@ -29,6 +29,9 @@ class ScannerPreviewFragment : BaseFragment<FragmentScannerPreviewBinding>(
                 surfaceProvider = binding.scannerPreview.surfaceProvider,
             )
         }
+        binding.scannerAddManuallyFab.setOnClickListener {
+            viewModel.onAddManuallyFabClicked()
+        }
     }
 
     override fun collectData() {
