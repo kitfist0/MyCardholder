@@ -42,6 +42,13 @@ class CardRepository @Inject constructor(
         return cardDao.getCard(cardId)
     }
 
+    suspend fun insertRandomCard(): Long {
+        return insertCard(
+            content = "Sample text",
+            supportedFormat = SupportedFormat.QR_CODE,
+        )
+    }
+
     suspend fun insertCard(content: String, supportedFormat: SupportedFormat): Long {
         val timestamp = System.currentTimeMillis()
         val card = createNewCardAndBarcodeFile(
