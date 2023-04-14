@@ -38,6 +38,9 @@ class ScannerPermissionFragment : BaseFragment<FragmentScannerPermissionBinding>
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
+            permissionAddManuallyButton.setOnClickListener {
+                viewModel.onAddManuallyButtonClicked()
+            }
             permissionGrantFab.setOnClickListener {
                 viewModel.onGrantFabClicked()
             }
