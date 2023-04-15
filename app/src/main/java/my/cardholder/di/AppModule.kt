@@ -13,7 +13,6 @@ import dagger.hilt.components.SingletonComponent
 import my.cardholder.data.AppDatabase
 import my.cardholder.data.CardDao
 import my.cardholder.data.CoffeeDao
-import my.cardholder.data.model.BarcodeFileConverter
 import java.io.File
 import javax.inject.Singleton
 
@@ -35,9 +34,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(context: Context, filesDir: File): AppDatabase {
+    fun provideAppDatabase(context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "cardholder.db")
-            .addTypeConverter(BarcodeFileConverter(filesDir))
             .fallbackToDestructiveMigration()
             .allowMainThreadQueries()
             .build()

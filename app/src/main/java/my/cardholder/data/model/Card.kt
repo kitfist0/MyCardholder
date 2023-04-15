@@ -2,12 +2,13 @@ package my.cardholder.data.model
 
 import androidx.core.graphics.toColorInt
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import java.io.File
 
+typealias BarcodeFilePath = String
+
 @Entity(tableName = "cards")
-@TypeConverters(BarcodeFileConverter::class)
 data class Card(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
@@ -15,8 +16,21 @@ data class Card(
     val content: String,
     val color: String,
     val format: SupportedFormat,
-    val barcodeFile: File?,
+    val path: BarcodeFilePath?,
 ) {
+
+    constructor(
+        id: Long,
+        name: String,
+        content: String,
+        color: String,
+        format: SupportedFormat,
+        barcodeFile: File?,
+    ): this(id, name, content, color, format, barcodeFile?.absolutePath)
+
+    @Ignore
+    val barcodeFile: File? = path?.let { File(it) }
+
     companion object {
         val COLORS = arrayOf(
             "#EF5350",
@@ -33,10 +47,9 @@ data class Card(
             "#E0E0E0",
         )
 
-        fun Card.getColorInt() = try {
-            color.toColorInt()
-        } catch (e: IllegalArgumentException) {
-            0
+        fun Card.getColorInt(): Int {
+            val result = runCatching { color.toColorInt() }
+            return if (result.isSuccess) result.getOrThrow() else 0
         }
     }
 }
