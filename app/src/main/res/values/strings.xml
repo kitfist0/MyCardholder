@@ -36,9 +36,15 @@
     <!--endregion-->
 
     <!--region Permission-->
+    <string name="permission_add_manually_button_text">Add new card manually</string>
     <string name="permission_grant_button_text">Grant</string>
     <string name="permission_label">Permission</string>
     <string name="permission_rationale_message_text">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>
+    <!--endregion-->
+
+    <!--region Scanner-->
+    <string name="scanner_add_manually_fab_title">Add manually</string>
+    <string name="scanner_explanation_message">Scan a barcode to automatically add a new card</string>
     <!--endregion-->
 
     <!--region Search-->

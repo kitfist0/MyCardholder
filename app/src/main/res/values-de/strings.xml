@@ -36,9 +36,15 @@
     <!--endregion-->
 
     <!--region Permission-->
+    <string name="permission_add_manually_button_text">Neue Karte manuell hinzufügen</string>
     <string name="permission_grant_button_text">Erteilen</string>
     <string name="permission_label">Erlaubnis</string>
     <string name="permission_rationale_message_text">Bitte gewähren Sie Zugriff auf die Kamera des Geräts. Kamerazugriff ist erforderlich, um Ihre Karten zu scannen</string>
+    <!--endregion-->
+
+    <!--region Scanner-->
+    <string name="scanner_add_manually_fab_title">Manuell hinzufügen</string>
+    <string name="scanner_explanation_message">Scannen Sie einen Barcode, um automatisch eine neue Karte hinzuzufügen</string>
     <!--endregion-->
 
     <!--region Search-->

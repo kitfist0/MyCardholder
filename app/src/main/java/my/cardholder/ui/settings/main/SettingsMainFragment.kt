@@ -85,7 +85,11 @@ class SettingsMainFragment : BaseFragment<FragmentSettingsMainBinding>(
                 if (isNightMode) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
             )
             text = getString(
-                if (isNightMode) R.string.settings_switch_to_light_mode_button_text else R.string.settings_switch_to_dark_mode_button_text
+                if (isNightMode) {
+                    R.string.settings_switch_to_light_mode_button_text
+                } else {
+                    R.string.settings_switch_to_dark_mode_button_text
+                }
             )
         }
     }

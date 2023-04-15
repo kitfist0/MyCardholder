@@ -15,6 +15,9 @@
             app:destination="@id/preview_fragment"
             app:popUpTo="@id/scanner_navigation"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/from_permission_to_cardholder"
+            app:destination="@id/cardholder_navigation" />
     </fragment>
 
     <fragment

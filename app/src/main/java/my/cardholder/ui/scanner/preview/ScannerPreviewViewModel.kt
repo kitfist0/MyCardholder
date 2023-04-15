@@ -10,6 +10,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.barcode.common.Barcode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.data.CardRepository
@@ -26,8 +30,31 @@ class ScannerPreviewViewModel @Inject constructor(
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
 
+    private companion object {
+        const val EXPLANATION_DURATION_MILLIS = 5000L
+    }
+
     private var prevCardContent: String? = null
     private var prevSupportedFormat: SupportedFormat? = null
+
+    private val _state = MutableStateFlow(
+        ScannerPreviewState(withExplanation = true)
+    )
+    val state = _state.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            delay(EXPLANATION_DURATION_MILLIS)
+            _state.update { it.copy(withExplanation = false) }
+        }
+    }
+
+    fun onAddManuallyFabClicked() {
+        viewModelScope.launch {
+            cardRepository.insertRandomCard()
+            navigate(ScannerPreviewFragmentDirections.fromPreviewToCardholder())
+        }
+    }
 
     suspend fun startCamera(
         lifecycleOwner: LifecycleOwner,
