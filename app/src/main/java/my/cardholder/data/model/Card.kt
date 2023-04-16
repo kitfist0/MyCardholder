@@ -48,8 +48,8 @@ data class Card(
         )
 
         fun Card.getColorInt(): Int {
-            val result = runCatching { color.toColorInt() }
-            return if (result.isSuccess) result.getOrThrow() else 0
+            return runCatching { color.toColorInt() }
+                .getOrDefault(0)
         }
     }
 }
