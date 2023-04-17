@@ -4,6 +4,7 @@ import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.view.View
 import androidx.core.transition.doOnEnd
+import androidx.core.transition.doOnStart
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,12 +52,14 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
                 viewModel.onEditFabClicked(extras)
             }
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
-            cardViewerDeleteCardButton.alpha = 0f
-            (sharedElementEnterTransition as TransitionSet).doOnEnd {
+            val transitionSet = sharedElementEnterTransition as TransitionSet
+            transitionSet.doOnStart {
+                cardViewerDeleteCardButton.alpha = 0f
+            }
+            transitionSet.doOnEnd {
                 cardViewerDeleteCardButton.animate()
                     .setDuration(DELETE_BUTTON_ANIM_DURATION)
                     .alpha(1f)
-                    .start()
                 cardViewerDeleteCardButton.setOnClickListener {
                     viewModel.onDeleteCardButtonClicked()
                 }
@@ -70,6 +73,7 @@ class CardholderViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
                 CardholderViewerState.Loading -> with(binding) {
                     cardViewerEditFab.isClickable = false
                 }
+
                 is CardholderViewerState.Success -> with(binding) {
                     cardViewerBarcodeImage.apply {
                         setBackgroundColor(state.cardColor)
