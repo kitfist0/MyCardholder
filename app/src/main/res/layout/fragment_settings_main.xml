@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:splitMotionEvents="false"
-    tools:context=".ui.settings.main.SettingsMainFragment">
+    tools:context=".ui.settings.SettingsFragment">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/settings_color_theme_button"

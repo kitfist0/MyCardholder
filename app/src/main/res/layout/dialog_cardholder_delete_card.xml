@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingVertical="@dimen/bottom_sheet_root_vertical_padding"
-    tools:context=".ui.cardholder.delete.CardholderDeleteCardDialog">
+    tools:context=".ui.delete.DeleteDialog">
 
     <TextView
         android:id="@+id/delete_card_title_text"
