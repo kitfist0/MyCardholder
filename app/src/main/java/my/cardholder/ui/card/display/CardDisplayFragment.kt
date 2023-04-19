@@ -1,4 +1,4 @@
-package my.cardholder.ui.viewer
+package my.cardholder.ui.card.display
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
@@ -14,7 +14,7 @@ import my.cardholder.util.ext.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
+class CardDisplayFragment : BaseFragment<FragmentCardholderViewerBinding>(
     FragmentCardholderViewerBinding::inflate
 ) {
 
@@ -23,11 +23,11 @@ class ViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
     }
 
     @Inject
-    lateinit var viewModelFactory: ViewerViewModelFactory
+    lateinit var viewModelFactory: CardDisplayViewModelFactory
 
-    private val args: ViewerFragmentArgs by navArgs()
+    private val args: CardDisplayFragmentArgs by navArgs()
 
-    override val viewModel: CardholderViewerViewModel by assistedViewModels {
+    override val viewModel: CardDisplayViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
 
@@ -70,11 +70,11 @@ class ViewerFragment : BaseFragment<FragmentCardholderViewerBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
-                ViewerState.Loading -> with(binding) {
+                CardDisplayState.Loading -> with(binding) {
                     cardViewerEditFab.isClickable = false
                 }
 
-                is ViewerState.Success -> with(binding) {
+                is CardDisplayState.Success -> with(binding) {
                     cardViewerBarcodeImage.apply {
                         setBackgroundColor(state.cardColor)
                         loadBarcodeImage(state.barcodeFile)

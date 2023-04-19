@@ -1,4 +1,4 @@
-package my.cardholder.ui.viewer
+package my.cardholder.ui.card.display
 
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
@@ -10,19 +10,19 @@ import my.cardholder.data.CardRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.ui.base.BaseViewModel
 
-class CardholderViewerViewModel @AssistedInject constructor(
+class CardDisplayViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     cardRepository: CardRepository,
 ) : BaseViewModel() {
 
-    private val _state = MutableStateFlow<ViewerState>(ViewerState.Loading)
+    private val _state = MutableStateFlow<CardDisplayState>(CardDisplayState.Loading)
     val state = _state.asStateFlow()
 
     init {
         cardRepository.getCard(cardId)
             .filterNotNull()
             .onEach { card ->
-                _state.value = ViewerState.Success(
+                _state.value = CardDisplayState.Success(
                     cardName = card.name,
                     cardContent = card.content,
                     cardColor = card.getColorInt(),
@@ -33,17 +33,17 @@ class CardholderViewerViewModel @AssistedInject constructor(
     }
 
     fun onEditFabClicked(extras: Navigator.Extras) {
-        navigate(ViewerFragmentDirections.fromViewerToEditor(cardId), extras)
+        navigate(CardDisplayFragmentDirections.fromViewerToEditor(cardId), extras)
     }
 
     fun onDeleteCardButtonClicked() {
-        navigate(ViewerFragmentDirections.fromViewerToDeleteCard(cardId))
+        navigate(CardDisplayFragmentDirections.fromViewerToDeleteCard(cardId))
     }
 }
 
 @AssistedFactory
-interface ViewerViewModelFactory {
+interface CardDisplayViewModelFactory {
     fun create(
         @Assisted("card_id") cardId: Long,
-    ): CardholderViewerViewModel
+    ): CardDisplayViewModel
 }

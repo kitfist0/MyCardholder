@@ -1,4 +1,4 @@
-package my.cardholder.ui.scanner
+package my.cardholder.ui.card.scan
 
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -24,7 +24,7 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltViewModel
-class ScannerViewModel @Inject constructor(
+class CardScanViewModel @Inject constructor(
     private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     private val cardRepository: CardRepository,
@@ -38,7 +38,7 @@ class ScannerViewModel @Inject constructor(
     private var prevSupportedFormat: SupportedFormat? = null
 
     private val _state = MutableStateFlow(
-        ScannerState(withExplanation = true)
+        CardScanState(withExplanation = true)
     )
     val state = _state.asStateFlow()
 
@@ -52,7 +52,7 @@ class ScannerViewModel @Inject constructor(
     fun onAddManuallyFabClicked() {
         viewModelScope.launch {
             cardRepository.insertRandomCard()
-            navigate(ScannerFragmentDirections.fromPreviewToCardholder())
+            navigate(CardScanFragmentDirections.fromPreviewToCardholder())
         }
     }
 
@@ -97,7 +97,7 @@ class ScannerViewModel @Inject constructor(
         prevSupportedFormat = supportedFormat
         viewModelScope.launch {
             cardRepository.insertCard(content, supportedFormat)
-            navigate(ScannerFragmentDirections.fromPreviewToCardholder())
+            navigate(CardScanFragmentDirections.fromPreviewToCardholder())
         }
     }
 

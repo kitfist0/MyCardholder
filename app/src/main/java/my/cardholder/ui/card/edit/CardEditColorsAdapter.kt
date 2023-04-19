@@ -1,4 +1,4 @@
-package my.cardholder.ui.editor
+package my.cardholder.ui.card.edit
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.databinding.ItemColorBinding
 
-class EditorColorsAdapter(
+class CardEditColorsAdapter(
     private val onItemClick: (color: String) -> Unit,
-) : ListAdapter<String, EditorColorsAdapter.ColorViewHolder>(ColorDiffCallback) {
+) : ListAdapter<String, CardEditColorsAdapter.ColorViewHolder>(ColorDiffCallback) {
 
     private companion object {
         object ColorDiffCallback : DiffUtil.ItemCallback<String>() {

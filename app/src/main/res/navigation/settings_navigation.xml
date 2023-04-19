@@ -29,7 +29,7 @@
 
     <dialog
         android:id="@+id/about_dialog"
-        android:name="my.cardholder.ui.about.AboutDialog"
+        android:name="my.cardholder.ui.info.InfoDialog"
         android:label="@string/about_dialog_label"
         tools:layout="@layout/dialog_settings_about" />
 

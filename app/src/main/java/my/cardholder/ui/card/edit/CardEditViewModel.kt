@@ -1,4 +1,4 @@
-package my.cardholder.ui.editor
+package my.cardholder.ui.card.edit
 
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
@@ -11,7 +11,7 @@ import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 
-class CardholderEditorViewModel @AssistedInject constructor(
+class CardEditViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
@@ -21,14 +21,14 @@ class CardholderEditorViewModel @AssistedInject constructor(
     private var updatedCardFormat: SupportedFormat? = null
     private var updatedCardColor: String? = null
 
-    private val _state = MutableStateFlow<EditorState>(EditorState.Loading)
+    private val _state = MutableStateFlow<CardEditState>(CardEditState.Loading)
     val state = _state.asStateFlow()
 
     init {
         cardRepository.getCard(cardId)
             .filterNotNull()
             .onEach { card ->
-                _state.value = EditorState.Success(
+                _state.value = CardEditState.Success(
                     cardName = card.name,
                     cardContent = card.content,
                     cardColor = card.getColorInt(),
@@ -83,8 +83,8 @@ class CardholderEditorViewModel @AssistedInject constructor(
 }
 
 @AssistedFactory
-interface EditorViewModelFactory {
+interface CardEditViewModelFactory {
     fun create(
         @Assisted("card_id") cardId: Long,
-    ): CardholderEditorViewModel
+    ): CardEditViewModel
 }

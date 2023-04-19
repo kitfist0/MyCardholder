@@ -1,4 +1,4 @@
-package my.cardholder.ui.scanner
+package my.cardholder.ui.card.scan
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -12,7 +12,7 @@ import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
-class ScannerFragment : BaseFragment<FragmentScannerPreviewBinding>(
+class CardScanFragment : BaseFragment<FragmentScannerPreviewBinding>(
     FragmentScannerPreviewBinding::inflate
 ) {
 
@@ -20,12 +20,12 @@ class ScannerFragment : BaseFragment<FragmentScannerPreviewBinding>(
         const val ALPHA_ANIM_DURATION = 300L
     }
 
-    override val viewModel: ScannerViewModel by viewModels()
+    override val viewModel: CardScanViewModel by viewModels()
 
     override fun initViews() {
         lifecycleScope.launch {
             viewModel.startCamera(
-                lifecycleOwner = this@ScannerFragment,
+                lifecycleOwner = this@CardScanFragment,
                 surfaceProvider = binding.scannerPreview.surfaceProvider,
             )
         }

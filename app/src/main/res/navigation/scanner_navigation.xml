@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/preview_fragment"
-        android:name="my.cardholder.ui.scanner.ScannerFragment"
+        android:name="my.cardholder.ui.card.scan.CardScanFragment"
         android:label="@string/scanner_title"
         tools:layout="@layout/fragment_scanner_preview">
         <action

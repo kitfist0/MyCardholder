@@ -1,4 +1,4 @@
-package my.cardholder.ui.search
+package my.cardholder.ui.card.search
 
 import android.content.Context
 import android.transition.TransitionInflater
@@ -12,19 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderSearchBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.adapter.CardholderAdapter
+import my.cardholder.ui.card.adapter.CardsAdapter
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
+class CardSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
     FragmentCardholderSearchBinding::inflate
 ) {
 
-    override val viewModel: SearchViewModel by viewModels()
+    override val viewModel: CardSearchViewModel by viewModels()
 
     private val listAdapter by lazy {
-        CardholderAdapter(
+        CardsAdapter(
             onItemClick = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)
@@ -56,11 +56,11 @@ class SearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
-                is SearchState.Empty -> {
+                is CardSearchState.Empty -> {
                     binding.searchEmptyMessageText.text = getString(state.messageRes)
                     listAdapter.submitList(null)
                 }
-                is SearchState.Success -> {
+                is CardSearchState.Success -> {
                     binding.searchEmptyMessageText.text = null
                     listAdapter.submitList(state.cards)
                 }

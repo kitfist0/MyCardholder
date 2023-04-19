@@ -1,11 +1,11 @@
-package my.cardholder.ui.editor
+package my.cardholder.ui.card.edit
 
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.SupportedFormat
 import java.io.File
 
-sealed class EditorState {
-    object Loading : EditorState()
+sealed class CardEditState {
+    object Loading : CardEditState()
 
     data class Success(
         val cardName: String,
@@ -15,5 +15,5 @@ sealed class EditorState {
         val barcodeFormatName: String,
         val barcodeFormatNames: List<String> = SupportedFormat.values().map { it.toString() },
         val cardColors: List<String> = Card.COLORS.toList(),
-    ) : EditorState()
+    ) : CardEditState()
 }

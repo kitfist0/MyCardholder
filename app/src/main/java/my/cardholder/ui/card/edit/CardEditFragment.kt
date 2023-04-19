@@ -1,4 +1,4 @@
-package my.cardholder.ui.editor
+package my.cardholder.ui.card.edit
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
@@ -14,7 +14,7 @@ import my.cardholder.util.ext.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
+class CardEditFragment : BaseFragment<FragmentCardholderEditorBinding>(
     FragmentCardholderEditorBinding::inflate
 ) {
 
@@ -23,17 +23,17 @@ class EditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
     }
 
     @Inject
-    lateinit var viewModelFactory: EditorViewModelFactory
+    lateinit var viewModelFactory: CardEditViewModelFactory
 
-    private val args: EditorFragmentArgs by navArgs()
+    private val args: CardEditFragmentArgs by navArgs()
 
     private val listAdapter by lazy {
-        EditorColorsAdapter { color ->
+        CardEditColorsAdapter { color ->
             viewModel.onColorItemClicked(color)
         }
     }
 
-    override val viewModel: CardholderEditorViewModel by assistedViewModels {
+    override val viewModel: CardEditViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
 
@@ -80,13 +80,13 @@ class EditorFragment : BaseFragment<FragmentCardholderEditorBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
-                is EditorState.Loading -> with(binding) {
+                is CardEditState.Loading -> with(binding) {
                     cardEditorCardNameInputLayout.isEnabled = false
                     cardEditorCardContentInputLayout.isEnabled = false
                     cardEditorBarcodeFormatInputLayout.isEnabled = false
                     cardEditorColorsRecyclerView.isInvisible = true
                 }
-                is EditorState.Success -> with(binding) {
+                is CardEditState.Success -> with(binding) {
                     cardEditorBarcodeImage.apply {
                         setBackgroundColor(state.cardColor)
                         loadBarcodeImage(state.barcodeFile)

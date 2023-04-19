@@ -1,4 +1,4 @@
-package my.cardholder.ui.delete
+package my.cardholder.ui.card.delete
 
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -8,16 +8,16 @@ import my.cardholder.util.ext.assistedViewModels
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DeleteDialog : BaseDialogFragment<DialogCardholderDeleteCardBinding>(
+class DeleteCardDialog : BaseDialogFragment<DialogCardholderDeleteCardBinding>(
     DialogCardholderDeleteCardBinding::inflate
 ) {
 
     @Inject
-    lateinit var viewModelFactory: DeleteViewModelFactory
+    lateinit var viewModelFactory: DeleteCardViewModelFactory
 
-    private val args: DeleteDialogArgs by navArgs()
+    private val args: DeleteCardDialogArgs by navArgs()
 
-    override val viewModel: CardholderDeleteCardViewModel by assistedViewModels {
+    override val viewModel: DeleteCardViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
 

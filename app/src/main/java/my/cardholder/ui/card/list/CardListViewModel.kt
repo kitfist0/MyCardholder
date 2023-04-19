@@ -1,4 +1,4 @@
-package my.cardholder.ui.cards
+package my.cardholder.ui.card.list
 
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
@@ -10,31 +10,31 @@ import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CardsViewModel @Inject constructor(
+class CardListViewModel @Inject constructor(
     cardRepository: CardRepository,
     settingsDataStore: SettingsDataStore,
 ): BaseViewModel() {
 
-    private val _state = MutableStateFlow<CardsState>(CardsState.Empty())
+    private val _state = MutableStateFlow<CardListState>(CardListState.Empty())
     val state = _state.asStateFlow()
 
     init {
         settingsDataStore.multiColumnListEnabled
             .combine(cardRepository.cards) { isMultiColumn, cards ->
                 _state.value = if (cards.isNotEmpty()) {
-                    CardsState.Success(cards, if (isMultiColumn) 2 else 1)
+                    CardListState.Success(cards, if (isMultiColumn) 2 else 1)
                 } else {
-                    CardsState.Empty()
+                    CardListState.Empty()
                 }
             }
             .launchIn(viewModelScope)
     }
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
-        navigate(CardsFragmentDirections.fromCardsToViewer(cardId), extras)
+        navigate(CardListFragmentDirections.fromCardsToViewer(cardId), extras)
     }
 
     fun onSearchFabClicked(extras: Navigator.Extras) {
-        navigate(CardsFragmentDirections.fromCardsToSearch(), extras)
+        navigate(CardListFragmentDirections.fromCardsToSearch(), extras)
     }
 }

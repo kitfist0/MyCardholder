@@ -1,4 +1,4 @@
-package my.cardholder.ui.search
+package my.cardholder.ui.card.search
 
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
@@ -13,7 +13,7 @@ import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
+class CardSearchViewModel @Inject constructor(
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
 
@@ -23,8 +23,8 @@ class SearchViewModel @Inject constructor(
 
     private var newSearchRequestText: String? = null
 
-    private val _state = MutableStateFlow<SearchState>(
-        SearchState.Empty(R.string.search_blank_message_text)
+    private val _state = MutableStateFlow<CardSearchState>(
+        CardSearchState.Empty(R.string.search_blank_message_text)
     )
     val state = _state.asStateFlow()
 
@@ -35,13 +35,13 @@ class SearchViewModel @Inject constructor(
                 newSearchRequestText?.let { name ->
                     newSearchRequestText = null
                     _state.value = if (name.isBlank()) {
-                        SearchState.Empty(R.string.search_blank_message_text)
+                        CardSearchState.Empty(R.string.search_blank_message_text)
                     } else {
                         val cards = cardRepository.searchForCardsWithNamesLike(name)
                         if (cards.isNotEmpty()) {
-                            SearchState.Success(cards)
+                            CardSearchState.Success(cards)
                         } else {
-                            SearchState.Empty(R.string.search_nothing_found_message_text)
+                            CardSearchState.Empty(R.string.search_nothing_found_message_text)
                         }
                     }
                 }
@@ -54,6 +54,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
-        navigate(SearchFragmentDirections.fromSearchToViewer(cardId), extras)
+        navigate(CardSearchFragmentDirections.fromSearchToViewer(cardId), extras)
     }
 }

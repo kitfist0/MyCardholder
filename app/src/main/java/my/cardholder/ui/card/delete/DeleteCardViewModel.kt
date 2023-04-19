@@ -1,4 +1,4 @@
-package my.cardholder.ui.delete
+package my.cardholder.ui.card.delete
 
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
@@ -9,21 +9,21 @@ import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 
-class CardholderDeleteCardViewModel @AssistedInject constructor(
+class DeleteCardViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
     fun onDeleteButtonClicked() {
         viewModelScope.launch {
             cardRepository.deleteCard(cardId)
-            navigate(DeleteDialogDirections.fromDeleteCardToCards())
+            navigate(DeleteCardDialogDirections.fromDeleteCardToCards())
         }
     }
 }
 
 @AssistedFactory
-interface DeleteViewModelFactory {
+interface DeleteCardViewModelFactory {
     fun create(
         @Assisted("card_id") cardId: Long,
-    ): CardholderDeleteCardViewModel
+    ): DeleteCardViewModel
 }

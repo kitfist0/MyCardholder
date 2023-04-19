@@ -1,4 +1,4 @@
-package my.cardholder.ui.about
+package my.cardholder.ui.info
 
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -7,11 +7,11 @@ import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
-class AboutDialog : BaseDialogFragment<DialogSettingsAboutBinding>(
+class InfoDialog : BaseDialogFragment<DialogSettingsAboutBinding>(
     DialogSettingsAboutBinding::inflate
 ) {
 
-    override val viewModel: AboutViewModel by viewModels()
+    override val viewModel: InfoViewModel by viewModels()
 
     override fun initViews() {
         with(binding) {

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cards_fragment"
-        android:name="my.cardholder.ui.cards.CardsFragment"
+        android:name="my.cardholder.ui.card.list.CardListFragment"
         android:label="@string/cards_title"
         tools:layout="@layout/fragment_cardholder_cards">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/search_fragment"
-        android:name="my.cardholder.ui.search.SearchFragment"
+        android:name="my.cardholder.ui.card.search.CardSearchFragment"
         android:label="@string/search_title"
         tools:layout="@layout/fragment_cardholder_search">
         <action
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/viewer_fragment"
-        android:name="my.cardholder.ui.viewer.ViewerFragment"
+        android:name="my.cardholder.ui.card.display.CardDisplayFragment"
         android:label="@string/viewer_label"
         tools:layout="@layout/fragment_cardholder_viewer">
         <argument
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/editor_fragment"
-        android:name="my.cardholder.ui.editor.EditorFragment"
+        android:name="my.cardholder.ui.card.edit.CardEditFragment"
         android:label="@string/editor_label"
         tools:layout="@layout/fragment_cardholder_editor">
         <argument
@@ -57,7 +57,7 @@
 
     <dialog
         android:id="@+id/delete_card_dialog"
-        android:name="my.cardholder.ui.delete.DeleteDialog"
+        android:name="my.cardholder.ui.card.delete.DeleteCardDialog"
         android:label="@string/delete_card_dialog_label"
         tools:layout="@layout/dialog_cardholder_delete_card">
         <argument

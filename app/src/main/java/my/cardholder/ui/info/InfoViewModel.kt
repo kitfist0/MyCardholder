@@ -1,4 +1,4 @@
-package my.cardholder.ui.about
+package my.cardholder.ui.info
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,7 +8,7 @@ import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AboutViewModel @Inject constructor() : BaseViewModel() {
+class InfoViewModel @Inject constructor() : BaseViewModel() {
 
     private companion object {
         const val ACTION_VIEW = "android.intent.action.VIEW"

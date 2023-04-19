@@ -1,4 +1,4 @@
-package my.cardholder.ui.cards
+package my.cardholder.ui.card.list
 
 import android.transition.TransitionInflater
 import android.view.View
@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardholderCardsBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.adapter.CardholderAdapter
+import my.cardholder.ui.card.adapter.CardsAdapter
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
-class CardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
+class CardListFragment : BaseFragment<FragmentCardholderCardsBinding>(
     FragmentCardholderCardsBinding::inflate
 ) {
 
@@ -23,10 +23,10 @@ class CardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
         const val VERTICAL_SCROLL_THRESHOLD = 10
     }
 
-    override val viewModel: CardsViewModel by viewModels()
+    override val viewModel: CardListViewModel by viewModels()
 
     private val listAdapter by lazy {
-        CardholderAdapter(
+        CardsAdapter(
             onItemClick = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)
@@ -83,12 +83,12 @@ class CardsFragment : BaseFragment<FragmentCardholderCardsBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
-                is CardsState.Empty -> {
+                is CardListState.Empty -> {
                     binding.cardsSearchFab.isVisible = false
                     binding.cardsEmptyListText.setText(state.messageRes)
                     listAdapter.submitList(null)
                 }
-                is CardsState.Success -> {
+                is CardListState.Success -> {
                     (binding.cardsRecyclerView.layoutManager as GridLayoutManager).apply {
                         val count = state.spanCount
                         if (spanCount != count) spanCount = count

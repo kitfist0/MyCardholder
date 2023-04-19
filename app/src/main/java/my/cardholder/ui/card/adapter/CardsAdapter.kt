@@ -1,4 +1,4 @@
-package my.cardholder.ui.adapter
+package my.cardholder.ui.card.adapter
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -15,9 +15,9 @@ import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.ext.loadBarcodeImage
 import my.cardholder.util.ext.setupUniqueTransitionName
 
-class CardholderAdapter(
+class CardsAdapter(
     private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
-) : ListAdapter<Card, CardholderAdapter.CardViewHolder>(CardDiffCallback) {
+) : ListAdapter<Card, CardsAdapter.CardViewHolder>(CardDiffCallback) {
 
     private companion object {
         object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
