@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_cardholder_cards">
         <action
             android:id="@+id/from_cards_to_viewer"
-            app:destination="@id/viewer_fragment" />
+            app:destination="@id/card_display_fragment" />
         <action
             android:id="@+id/from_cards_to_search"
             app:destination="@id/search_fragment" />
@@ -25,23 +25,23 @@
         tools:layout="@layout/fragment_cardholder_search">
         <action
             android:id="@+id/from_search_to_viewer"
-            app:destination="@id/viewer_fragment"
+            app:destination="@id/card_display_fragment"
             app:popUpTo="@id/cards_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/viewer_fragment"
+        android:id="@+id/card_display_fragment"
         android:name="my.cardholder.ui.card.display.CardDisplayFragment"
-        android:label="@string/viewer_label"
-        tools:layout="@layout/fragment_cardholder_viewer">
+        android:label="@string/card_display_label"
+        tools:layout="@layout/fragment_card_display">
         <argument
             android:name="card_id"
             app:argType="long" />
         <action
-            android:id="@+id/from_viewer_to_editor"
+            android:id="@+id/from_card_display_to_card_edit"
             app:destination="@id/editor_fragment" />
         <action
-            android:id="@+id/from_viewer_to_delete_card"
+            android:id="@+id/from_card_display_to_delete_card"
             app:destination="@id/delete_card_dialog" />
     </fragment>
 

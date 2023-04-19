@@ -12,6 +12,11 @@
     <string name="about_dialog_source_code_button_text">Source code</string>
     <!--endregion-->
 
+    <!--region CardDisplay-->
+    <string name="card_display_label">Card display</string>
+    <string name="card_display_edit_fab_title">Edit</string>
+    <!--endregion-->
+
     <!--region Cards-->
     <string name="cards_no_cards_message_text">No scanned cards</string>
     <!--endregion-->
@@ -70,10 +75,5 @@
     <string name="specs_barcode_valid_characters_text">Valid characters: %s</string>
     <string name="specs_label">Specs</string>
     <string name="specs_toolbar_title">Supported formats</string>
-    <!--endregion-->
-
-    <!--region Viewer-->
-    <string name="viewer_label">Viewer</string>
-    <string name="viewer_edit_fab_title">Edit</string>
     <!--endregion-->
 </resources>

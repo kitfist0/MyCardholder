@@ -12,6 +12,11 @@
     <string name="about_dialog_source_code_button_text">Quellcode</string>
     <!--endregion-->
 
+    <!--region CardDisplay-->
+    <string name="card_display_label">Kartenansicht</string>
+    <string name="card_display_edit_fab_title">Bearbeiten</string>
+    <!--endregion-->
+
     <!--region Cards-->
     <string name="cards_no_cards_message_text">Keine gescannten Karten</string>
     <!--endregion-->
@@ -70,10 +75,5 @@
     <string name="specs_barcode_valid_characters_text">Gültige Zeichen: %s</string>
     <string name="specs_label">Spezifikationen</string>
     <string name="specs_toolbar_title">Unterstützte Formate</string>
-    <!--endregion-->
-
-    <!--region Viewer-->
-    <string name="viewer_label">Kartenbetrachter</string>
-    <string name="viewer_edit_fab_title">Bearbeiten</string>
     <!--endregion-->
 </resources>
