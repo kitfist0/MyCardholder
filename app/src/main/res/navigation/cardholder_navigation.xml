@@ -39,17 +39,17 @@
             app:argType="long" />
         <action
             android:id="@+id/from_card_display_to_card_edit"
-            app:destination="@id/editor_fragment" />
+            app:destination="@id/card_edit_fragment" />
         <action
             android:id="@+id/from_card_display_to_delete_card"
             app:destination="@id/delete_card_dialog" />
     </fragment>
 
     <fragment
-        android:id="@+id/editor_fragment"
+        android:id="@+id/card_edit_fragment"
         android:name="my.cardholder.ui.card.edit.CardEditFragment"
-        android:label="@string/editor_label"
-        tools:layout="@layout/fragment_cardholder_editor">
+        android:label="@string/card_edit_label"
+        tools:layout="@layout/fragment_card_edit">
         <argument
             android:name="card_id"
             app:argType="long" />

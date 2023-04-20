@@ -17,6 +17,14 @@
     <string name="card_display_edit_fab_title">Edit</string>
     <!--endregion-->
 
+    <!--region CardEdit-->
+    <string name="card_edit_barcode_format_hint">Format</string>
+    <string name="card_edit_content_hint">Text</string>
+    <string name="card_edit_label">Edit</string>
+    <string name="card_edit_name_hint">Name</string>
+    <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>
+    <!--endregion-->
+
     <!--region Cards-->
     <string name="cards_no_cards_message_text">No scanned cards</string>
     <!--endregion-->
@@ -30,14 +38,6 @@
     <string name="delete_card_dialog_button_text">Delete permanently</string>
     <string name="delete_card_dialog_label">Delete</string>
     <string name="delete_card_dialog_title">Delete? The card will be permanently deleted</string>
-    <!--endregion-->
-
-    <!--region Editor-->
-    <string name="editor_barcode_format_hint">Format</string>
-    <string name="editor_card_content_hint">Text</string>
-    <string name="editor_card_name_hint">Name</string>
-    <string name="editor_label">Editor</string>
-    <string name="editor_invalid_value_error_text">The value is invalid for the selected barcode type</string>
     <!--endregion-->
 
     <!--region Permission-->

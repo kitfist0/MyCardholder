@@ -17,6 +17,14 @@
     <string name="card_display_edit_fab_title">Bearbeiten</string>
     <!--endregion-->
 
+    <!--region CardEdit-->
+    <string name="card_edit_barcode_format_hint">Format</string>
+    <string name="card_edit_content_hint">Text</string>
+    <string name="card_edit_label">Kartenbearbeitung</string>
+    <string name="card_edit_name_hint">Name</string>
+    <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
+    <!--endregion-->
+
     <!--region Cards-->
     <string name="cards_no_cards_message_text">Keine gescannten Karten</string>
     <!--endregion-->
@@ -30,14 +38,6 @@
     <string name="delete_card_dialog_button_text">Dauerhaft löschen</string>
     <string name="delete_card_dialog_label">Löschen</string>
     <string name="delete_card_dialog_title">Löschen? Die Karte wird dauerhaft gelöscht</string>
-    <!--endregion-->
-
-    <!--region Editor-->
-    <string name="editor_barcode_format_hint">Format</string>
-    <string name="editor_card_content_hint">Text</string>
-    <string name="editor_card_name_hint">Name</string>
-    <string name="editor_label">Karteneditor</string>
-    <string name="editor_invalid_value_error_text">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
     <!--endregion-->
 
     <!--region Permission-->
