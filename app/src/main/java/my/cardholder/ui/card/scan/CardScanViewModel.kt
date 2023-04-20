@@ -52,7 +52,7 @@ class CardScanViewModel @Inject constructor(
     fun onAddManuallyFabClicked() {
         viewModelScope.launch {
             cardRepository.insertRandomCard()
-            navigate(CardScanFragmentDirections.fromPreviewToCardholder())
+            navigate(CardScanFragmentDirections.fromCardScanToCardList())
         }
     }
 
@@ -97,7 +97,7 @@ class CardScanViewModel @Inject constructor(
         prevSupportedFormat = supportedFormat
         viewModelScope.launch {
             cardRepository.insertCard(content, supportedFormat)
-            navigate(CardScanFragmentDirections.fromPreviewToCardholder())
+            navigate(CardScanFragmentDirections.fromCardScanToCardList())
         }
     }
 

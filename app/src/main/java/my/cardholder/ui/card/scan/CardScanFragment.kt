@@ -7,13 +7,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import my.cardholder.databinding.FragmentScannerPreviewBinding
+import my.cardholder.databinding.FragmentCardScanBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
-class CardScanFragment : BaseFragment<FragmentScannerPreviewBinding>(
-    FragmentScannerPreviewBinding::inflate
+class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
+    FragmentCardScanBinding::inflate
 ) {
 
     private companion object {
@@ -26,17 +26,17 @@ class CardScanFragment : BaseFragment<FragmentScannerPreviewBinding>(
         lifecycleScope.launch {
             viewModel.startCamera(
                 lifecycleOwner = this@CardScanFragment,
-                surfaceProvider = binding.scannerPreview.surfaceProvider,
+                surfaceProvider = binding.cardScanPreview.surfaceProvider,
             )
         }
-        binding.scannerAddManuallyFab.setOnClickListener {
+        binding.cardScanAddManuallyFab.setOnClickListener {
             viewModel.onAddManuallyFabClicked()
         }
     }
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            binding.scannerExplanationText.apply {
+            binding.cardScanExplanationMessageText.apply {
                 if (!state.withExplanation) {
                     animate()
                         .alpha(0f)

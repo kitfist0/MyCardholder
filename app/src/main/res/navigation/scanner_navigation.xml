@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_scanner_permission">
         <action
             android:id="@+id/from_permission_to_preview"
-            app:destination="@id/preview_fragment"
+            app:destination="@id/card_scan_fragment"
             app:popUpTo="@id/scanner_navigation"
             app:popUpToInclusive="false" />
         <action
@@ -21,12 +21,12 @@
     </fragment>
 
     <fragment
-        android:id="@+id/preview_fragment"
+        android:id="@+id/card_scan_fragment"
         android:name="my.cardholder.ui.card.scan.CardScanFragment"
-        android:label="@string/scanner_title"
-        tools:layout="@layout/fragment_scanner_preview">
+        android:label="@string/card_scan_label"
+        tools:layout="@layout/fragment_card_scan">
         <action
-            android:id="@+id/from_preview_to_cardholder"
+            android:id="@+id/from_card_scan_to_card_list"
             app:destination="@id/cardholder_navigation" />
     </fragment>
 

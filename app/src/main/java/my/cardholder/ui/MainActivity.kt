@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val destinationIdsWithBottomNav = setOf(
         R.id.permission_fragment,
-        R.id.preview_fragment,
+        R.id.card_scan_fragment,
         R.id.card_list_fragment,
         R.id.settings_fragment,
     )
