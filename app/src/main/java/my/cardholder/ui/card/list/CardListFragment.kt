@@ -8,15 +8,15 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.databinding.FragmentCardholderCardsBinding
+import my.cardholder.databinding.FragmentCardListBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.card.adapter.CardsAdapter
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
-class CardListFragment : BaseFragment<FragmentCardholderCardsBinding>(
-    FragmentCardholderCardsBinding::inflate
+class CardListFragment : BaseFragment<FragmentCardListBinding>(
+    FragmentCardListBinding::inflate
 ) {
 
     private companion object {
@@ -25,7 +25,7 @@ class CardListFragment : BaseFragment<FragmentCardholderCardsBinding>(
 
     override val viewModel: CardListViewModel by viewModels()
 
-    private val listAdapter by lazy {
+    private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardsAdapter(
             onItemClick = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
@@ -40,7 +40,7 @@ class CardListFragment : BaseFragment<FragmentCardholderCardsBinding>(
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
-            cardsRecyclerView.apply {
+            cardListRecyclerView.apply {
                 clipToPadding = false
                 updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
                 layoutManager = GridLayoutManager(context, 1)
@@ -56,21 +56,21 @@ class CardListFragment : BaseFragment<FragmentCardholderCardsBinding>(
                             when {
                                 // if the recycler view is at the first item always show the FAB
                                 !recyclerView.canScrollVertically(-1) ->
-                                    cardsSearchFab.show()
+                                    cardListSearchFab.show()
                                 // if the recycler view is scrolled above hide the FAB
-                                dy > VERTICAL_SCROLL_THRESHOLD && cardsSearchFab.isShown ->
-                                    cardsSearchFab.hide()
+                                dy > VERTICAL_SCROLL_THRESHOLD && cardListSearchFab.isShown ->
+                                    cardListSearchFab.hide()
                                 // if the recycler view is scrolled above show the FAB
-                                dy < -VERTICAL_SCROLL_THRESHOLD && !cardsSearchFab.isShown ->
-                                    cardsSearchFab.show()
+                                dy < -VERTICAL_SCROLL_THRESHOLD && !cardListSearchFab.isShown ->
+                                    cardListSearchFab.show()
                             }
                         }
                     }
                 )
             }
-            cardsSearchFab.setOnClickListener {
+            cardListSearchFab.setOnClickListener {
                 val sharedElements = mapOf<View, String>(
-                    cardsSearchFab to cardsSearchFab.transitionName,
+                    cardListSearchFab to cardListSearchFab.transitionName,
                 )
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)
@@ -84,17 +84,17 @@ class CardListFragment : BaseFragment<FragmentCardholderCardsBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardListState.Empty -> {
-                    binding.cardsSearchFab.isVisible = false
-                    binding.cardsEmptyListText.setText(state.messageRes)
+                    binding.cardListSearchFab.isVisible = false
+                    binding.cardListEmptyListMessageText.setText(state.messageRes)
                     listAdapter.submitList(null)
                 }
                 is CardListState.Success -> {
-                    (binding.cardsRecyclerView.layoutManager as GridLayoutManager).apply {
+                    (binding.cardListRecyclerView.layoutManager as GridLayoutManager).apply {
                         val count = state.spanCount
                         if (spanCount != count) spanCount = count
                     }
-                    binding.cardsSearchFab.isVisible = true
-                    binding.cardsEmptyListText.text = null
+                    binding.cardListSearchFab.isVisible = true
+                    binding.cardListEmptyListMessageText.text = null
                     listAdapter.submitList(state.cards)
                 }
             }

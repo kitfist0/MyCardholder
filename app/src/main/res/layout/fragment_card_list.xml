@@ -7,15 +7,15 @@
     tools:context=".ui.card.list.CardListFragment">
 
     <TextView
-        android:id="@+id/cards_empty_list_text"
+        android:id="@+id/card_list_empty_list_message_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/cards_no_cards_message_text"
+        android:text="@string/card_list_no_cards_message"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cards_recycler_view"
+        android:id="@+id/card_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
@@ -23,7 +23,7 @@
         tools:listitem="@layout/item_card" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cards_search_fab"
+        android:id="@+id/card_list_search_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

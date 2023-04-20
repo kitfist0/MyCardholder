@@ -25,8 +25,8 @@
     <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
     <!--endregion-->
 
-    <!--region Cards-->
-    <string name="cards_no_cards_message_text">Keine gescannten Karten</string>
+    <!--region CardList-->
+    <string name="card_list_no_cards_message">Keine gescannten Karten</string>
     <!--endregion-->
 
     <!--region Coffee-->

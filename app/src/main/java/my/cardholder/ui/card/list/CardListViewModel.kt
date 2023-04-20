@@ -31,10 +31,10 @@ class CardListViewModel @Inject constructor(
     }
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
-        navigate(CardListFragmentDirections.fromCardsToViewer(cardId), extras)
+        navigate(CardListFragmentDirections.fromCardListToCardDisplay(cardId), extras)
     }
 
     fun onSearchFabClicked(extras: Navigator.Extras) {
-        navigate(CardListFragmentDirections.fromCardsToSearch(), extras)
+        navigate(CardListFragmentDirections.fromCardListToCardSearch(), extras)
     }
 }

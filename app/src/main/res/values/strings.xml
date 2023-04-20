@@ -25,8 +25,8 @@
     <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>
     <!--endregion-->
 
-    <!--region Cards-->
-    <string name="cards_no_cards_message_text">No scanned cards</string>
+    <!--region CardList-->
+    <string name="card_list_no_cards_message">No scanned cards</string>
     <!--endregion-->
 
     <!--region Coffee-->
