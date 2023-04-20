@@ -2,7 +2,6 @@
     <string name="app_name">MyCardholder</string>
     <string name="cards_title">Karten</string>
     <string name="scanner_title">Scanner</string>
-    <string name="search_title">Suchen</string>
     <string name="settings_title">Einstellungen</string>
 
     <!--region About-->
@@ -29,6 +28,13 @@
     <string name="card_list_no_cards_message">Keine gescannten Karten</string>
     <!--endregion-->
 
+    <!--region CardSearch-->
+    <string name="card_search_blank_message">\u00A0</string>
+    <string name="card_search_edit_text_hint">Durchsuchen Sie Ihre Karten</string>
+    <string name="card_search_label">Suchkarten</string>
+    <string name="card_search_nothing_found_message">Nichts gefunden</string>
+    <!--endregion-->
+
     <!--region CardScan-->
     <string name="card_scan_add_manually_fab_title">Manuell hinzufügen</string>
     <string name="card_scan_explanation_message">Scannen Sie einen Barcode, um automatisch eine neue Karte hinzuzufügen</string>
@@ -51,12 +57,6 @@
     <string name="permission_grant_button_text">Erteilen</string>
     <string name="permission_label">Erlaubnis</string>
     <string name="permission_rationale_message_text">Bitte gewähren Sie Zugriff auf die Kamera des Geräts. Kamerazugriff ist erforderlich, um Ihre Karten zu scannen</string>
-    <!--endregion-->
-
-    <!--region Search-->
-    <string name="search_blank_message_text">\u00A0</string>
-    <string name="search_edit_text_hint">Durchsuchen Sie Ihre Karten</string>
-    <string name="search_nothing_found_message_text">Nichts gefunden</string>
     <!--endregion-->
 
     <!--region Settings-->

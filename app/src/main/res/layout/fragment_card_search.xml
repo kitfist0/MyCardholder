@@ -9,7 +9,7 @@
     tools:context=".ui.card.search.CardSearchFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_text_input_layout"
+        android:id="@+id/card_search_text_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:boxBackgroundMode="filled"
@@ -24,30 +24,30 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_edit_text_hint" />
+            android:hint="@string/card_search_edit_text_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/search_empty_message_text"
+        android:id="@+id/card_search_empty_message_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search_blank_message_text"
+        android:text="@string/card_search_blank_message"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_text_input_layout" />
+        app:layout_constraintTop_toBottomOf="@id/card_search_text_input_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_results_recycler_view"
+        android:id="@+id/card_search_results_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_text_input_layout"
+        app:layout_constraintTop_toBottomOf="@id/card_search_text_input_layout"
         tools:itemCount="1"
         tools:listitem="@layout/item_card" />
 

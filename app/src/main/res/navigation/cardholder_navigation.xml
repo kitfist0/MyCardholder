@@ -15,16 +15,16 @@
             app:destination="@id/card_display_fragment" />
         <action
             android:id="@+id/from_card_list_to_card_search"
-            app:destination="@id/search_fragment" />
+            app:destination="@id/card_search_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/search_fragment"
+        android:id="@+id/card_search_fragment"
         android:name="my.cardholder.ui.card.search.CardSearchFragment"
-        android:label="@string/search_title"
-        tools:layout="@layout/fragment_cardholder_search">
+        android:label="@string/card_search_label"
+        tools:layout="@layout/fragment_card_search">
         <action
-            android:id="@+id/from_search_to_viewer"
+            android:id="@+id/from_card_search_to_card_display"
             app:destination="@id/card_display_fragment"
             app:popUpTo="@id/card_list_fragment" />
     </fragment>

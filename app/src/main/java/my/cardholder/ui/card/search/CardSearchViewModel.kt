@@ -24,7 +24,7 @@ class CardSearchViewModel @Inject constructor(
     private var newSearchRequestText: String? = null
 
     private val _state = MutableStateFlow<CardSearchState>(
-        CardSearchState.Empty(R.string.search_blank_message_text)
+        CardSearchState.Empty(R.string.card_search_blank_message)
     )
     val state = _state.asStateFlow()
 
@@ -35,13 +35,13 @@ class CardSearchViewModel @Inject constructor(
                 newSearchRequestText?.let { name ->
                     newSearchRequestText = null
                     _state.value = if (name.isBlank()) {
-                        CardSearchState.Empty(R.string.search_blank_message_text)
+                        CardSearchState.Empty(R.string.card_search_blank_message)
                     } else {
                         val cards = cardRepository.searchForCardsWithNamesLike(name)
                         if (cards.isNotEmpty()) {
                             CardSearchState.Success(cards)
                         } else {
-                            CardSearchState.Empty(R.string.search_nothing_found_message_text)
+                            CardSearchState.Empty(R.string.card_search_nothing_found_message)
                         }
                     }
                 }
@@ -54,6 +54,6 @@ class CardSearchViewModel @Inject constructor(
     }
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
-        navigate(CardSearchFragmentDirections.fromSearchToViewer(cardId), extras)
+        navigate(CardSearchFragmentDirections.fromCardSearchToCardDisplay(cardId), extras)
     }
 }

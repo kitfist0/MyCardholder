@@ -10,15 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.databinding.FragmentCardholderSearchBinding
+import my.cardholder.databinding.FragmentCardSearchBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.card.adapter.CardsAdapter
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
-class CardSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
-    FragmentCardholderSearchBinding::inflate
+class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
+    FragmentCardSearchBinding::inflate
 ) {
 
     override val viewModel: CardSearchViewModel by viewModels()
@@ -39,16 +39,16 @@ class CardSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
             .inflateTransition(android.R.transition.move)
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
-            searchTextInputLayout.editText
+            cardSearchTextInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onSearchTextChanged(it?.toString()) }
-            searchResultsRecyclerView.apply {
+            cardSearchResultsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = listAdapter
             }
-            searchTextInputLayout.requestFocus()
+            cardSearchTextInputLayout.requestFocus()
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
                 (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
-                    ?.showSoftInput(searchTextInputLayout.editText, 1)
+                    ?.showSoftInput(cardSearchTextInputLayout.editText, 1)
             }
         }
     }
@@ -57,11 +57,11 @@ class CardSearchFragment : BaseFragment<FragmentCardholderSearchBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardSearchState.Empty -> {
-                    binding.searchEmptyMessageText.text = getString(state.messageRes)
+                    binding.cardSearchEmptyMessageText.text = getString(state.messageRes)
                     listAdapter.submitList(null)
                 }
                 is CardSearchState.Success -> {
-                    binding.searchEmptyMessageText.text = null
+                    binding.cardSearchEmptyMessageText.text = null
                     listAdapter.submitList(state.cards)
                 }
             }
