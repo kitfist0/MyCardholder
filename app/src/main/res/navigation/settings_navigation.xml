@@ -37,6 +37,6 @@
         android:id="@+id/coffee_dialog"
         android:name="my.cardholder.ui.coffee.CoffeeDialog"
         android:label="@string/coffee_dialog_label"
-        tools:layout="@layout/dialog_settings_coffee" />
+        tools:layout="@layout/dialog_coffee" />
 
 </navigation>
