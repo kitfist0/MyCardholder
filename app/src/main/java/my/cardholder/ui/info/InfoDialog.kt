@@ -2,26 +2,26 @@ package my.cardholder.ui.info
 
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.databinding.DialogSettingsAboutBinding
+import my.cardholder.databinding.DialogInfoBinding
 import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
-class InfoDialog : BaseDialogFragment<DialogSettingsAboutBinding>(
-    DialogSettingsAboutBinding::inflate
+class InfoDialog : BaseDialogFragment<DialogInfoBinding>(
+    DialogInfoBinding::inflate
 ) {
 
     override val viewModel: InfoViewModel by viewModels()
 
     override fun initViews() {
         with(binding) {
-            aboutPolicyButton.setOnClickListener {
+            infoPolicyButton.setOnClickListener {
                 viewModel.onPrivacyPolicyButtonClicked()
             }
-            aboutSourceCodeButton.setOnClickListener {
+            infoSourceCodeButton.setOnClickListener {
                 viewModel.onSourceCodeButtonClicked()
             }
-            aboutCopyrightButton.setOnClickListener {
+            infoCopyrightButton.setOnClickListener {
                 viewModel.onCopyrightButtonClicked()
             }
         }
@@ -29,7 +29,7 @@ class InfoDialog : BaseDialogFragment<DialogSettingsAboutBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.dialogTitle) { title ->
-            binding.aboutDevTitleText.text = title
+            binding.infoDevTitleText.text = title
         }
     }
 }

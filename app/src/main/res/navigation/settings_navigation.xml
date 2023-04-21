@@ -14,8 +14,8 @@
             android:id="@+id/from_settings_to_specs"
             app:destination="@id/specs_fragment" />
         <action
-            android:id="@+id/from_settings_to_about"
-            app:destination="@id/about_dialog" />
+            android:id="@+id/from_settings_to_info"
+            app:destination="@id/info_dialog" />
         <action
             android:id="@+id/from_settings_to_coffee"
             app:destination="@id/coffee_dialog" />
@@ -28,10 +28,10 @@
         tools:layout="@layout/fragment_settings_specs" />
 
     <dialog
-        android:id="@+id/about_dialog"
+        android:id="@+id/info_dialog"
         android:name="my.cardholder.ui.info.InfoDialog"
-        android:label="@string/about_dialog_label"
-        tools:layout="@layout/dialog_settings_about" />
+        android:label="@string/info_dialog_label"
+        tools:layout="@layout/dialog_info" />
 
     <dialog
         android:id="@+id/coffee_dialog"

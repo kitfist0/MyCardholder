@@ -4,13 +4,6 @@
     <string name="scanner_title">Scanner</string>
     <string name="settings_title">Einstellungen</string>
 
-    <!--region About-->
-    <string name="about_dialog_copyright_button_text">Urheberrechte</string>
-    <string name="about_dialog_label">Über App</string>
-    <string name="about_dialog_policy_button_text">Datenschutz-Bestimmungen</string>
-    <string name="about_dialog_source_code_button_text">Quellcode</string>
-    <!--endregion-->
-
     <!--region CardDisplay-->
     <string name="card_display_label">Kartenansicht</string>
     <string name="card_display_edit_fab_title">Bearbeiten</string>
@@ -50,6 +43,13 @@
     <string name="delete_card_dialog_button_text">Dauerhaft löschen</string>
     <string name="delete_card_dialog_label">Löschen</string>
     <string name="delete_card_dialog_title">Löschen? Die Karte wird dauerhaft gelöscht</string>
+    <!--endregion-->
+
+    <!--region Info-->
+    <string name="info_dialog_copyright_button_text">Urheberrechte</string>
+    <string name="info_dialog_label">Info</string>
+    <string name="info_dialog_policy_button_text">Datenschutz-Bestimmungen</string>
+    <string name="info_dialog_source_code_button_text">Quellcode</string>
     <!--endregion-->
 
     <!--region Permission-->

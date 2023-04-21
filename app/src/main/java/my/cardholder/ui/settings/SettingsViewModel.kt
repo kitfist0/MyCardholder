@@ -101,6 +101,6 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onAboutAppButtonClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToAbout())
+        navigate(SettingsFragmentDirections.fromSettingsToInfo())
     }
 }

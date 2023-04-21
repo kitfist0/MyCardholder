@@ -4,13 +4,6 @@
     <string name="scanner_title">Scanner</string>
     <string name="settings_title">Settings</string>
 
-    <!--region About-->
-    <string name="about_dialog_copyright_button_text">Copyright</string>
-    <string name="about_dialog_label">About</string>
-    <string name="about_dialog_policy_button_text">Privacy policy</string>
-    <string name="about_dialog_source_code_button_text">Source code</string>
-    <!--endregion-->
-
     <!--region CardDisplay-->
     <string name="card_display_label">Card display</string>
     <string name="card_display_edit_fab_title">Edit</string>
@@ -50,6 +43,13 @@
     <string name="delete_card_dialog_button_text">Delete permanently</string>
     <string name="delete_card_dialog_label">Delete</string>
     <string name="delete_card_dialog_title">Delete? The card will be permanently deleted</string>
+    <!--endregion-->
+
+    <!--region Info-->
+    <string name="info_dialog_copyright_button_text">Copyright</string>
+    <string name="info_dialog_label">Info</string>
+    <string name="info_dialog_policy_button_text">Privacy policy</string>
+    <string name="info_dialog_source_code_button_text">Source code</string>
     <!--endregion-->
 
     <!--region Permission-->

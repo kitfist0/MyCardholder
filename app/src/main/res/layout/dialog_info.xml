@@ -9,7 +9,7 @@
     tools:context=".ui.info.InfoDialog">
 
     <TextView
-        android:id="@+id/about_dev_title_text"
+        android:id="@+id/info_dev_title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
@@ -24,48 +24,48 @@
         tools:text="MyCardholder v1.0.0\nMidnightDev, 2023" />
 
     <TextView
-        android:id="@+id/about_policy_button"
+        android:id="@+id/info_policy_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/bottom_sheet_button_height"
         android:background="?selectableItemBackground"
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="@string/about_dialog_policy_button_text"
+        android:text="@string/info_dialog_policy_button_text"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_policy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/about_dev_title_text" />
+        app:layout_constraintTop_toBottomOf="@id/info_dev_title_text" />
 
     <TextView
-        android:id="@+id/about_source_code_button"
+        android:id="@+id/info_source_code_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/bottom_sheet_button_height"
         android:background="?selectableItemBackground"
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="@string/about_dialog_source_code_button_text"
+        android:text="@string/info_dialog_source_code_button_text"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_source_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/about_policy_button" />
+        app:layout_constraintTop_toBottomOf="@id/info_policy_button" />
 
     <TextView
-        android:id="@+id/about_copyright_button"
+        android:id="@+id/info_copyright_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/bottom_sheet_button_height"
         android:background="?selectableItemBackground"
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="@string/about_dialog_copyright_button_text"
+        android:text="@string/info_dialog_copyright_button_text"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_copyright"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/about_source_code_button" />
+        app:layout_constraintTop_toBottomOf="@id/info_source_code_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
