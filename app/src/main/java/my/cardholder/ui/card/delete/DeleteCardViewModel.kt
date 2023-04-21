@@ -13,10 +13,10 @@ class DeleteCardViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
-    fun onDeleteButtonClicked() {
+    fun onDeleteConfirmationButtonClicked() {
         viewModelScope.launch {
             cardRepository.deleteCard(cardId)
-            navigate(DeleteCardDialogDirections.fromDeleteCardToCards())
+            navigate(DeleteCardDialogDirections.fromDeleteCardToCardList())
         }
     }
 }

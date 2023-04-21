@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/delete_card_delete_text_button"
+        android:id="@+id/delete_card_confirmation_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_sheet_button_height"
         android:background="?selectableItemBackground"

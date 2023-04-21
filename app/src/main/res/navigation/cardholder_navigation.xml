@@ -59,12 +59,12 @@
         android:id="@+id/delete_card_dialog"
         android:name="my.cardholder.ui.card.delete.DeleteCardDialog"
         android:label="@string/delete_card_dialog_label"
-        tools:layout="@layout/dialog_cardholder_delete_card">
+        tools:layout="@layout/dialog_delete_card">
         <argument
             android:name="card_id"
             app:argType="long" />
         <action
-            android:id="@+id/from_delete_card_to_cards"
+            android:id="@+id/from_delete_card_to_card_list"
             app:destination="@id/card_list_fragment"
             app:popUpTo="@id/cardholder_navigation" />
     </dialog>
