@@ -33,7 +33,7 @@ class PermissionViewModel @Inject constructor(
     fun onAddManuallyButtonClicked() {
         viewModelScope.launch {
             cardRepository.insertRandomCard()
-            navigate(PermissionFragmentDirections.fromPermissionToCardholder())
+            navigate(PermissionFragmentDirections.fromPermissionToCardList())
         }
     }
 
@@ -62,7 +62,7 @@ class PermissionViewModel @Inject constructor(
                 requestPermission = requestPermission,
             )
         } else {
-            navigate(PermissionFragmentDirections.fromPermissionToPreview())
+            navigate(PermissionFragmentDirections.fromPermissionToCardScan())
         }
     }
 }

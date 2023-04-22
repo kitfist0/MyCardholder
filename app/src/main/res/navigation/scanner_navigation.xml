@@ -9,14 +9,14 @@
         android:id="@+id/permission_fragment"
         android:name="my.cardholder.ui.permission.PermissionFragment"
         android:label="@string/permission_label"
-        tools:layout="@layout/fragment_scanner_permission">
+        tools:layout="@layout/fragment_permission">
         <action
-            android:id="@+id/from_permission_to_preview"
+            android:id="@+id/from_permission_to_card_scan"
             app:destination="@id/card_scan_fragment"
             app:popUpTo="@id/scanner_navigation"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/from_permission_to_cardholder"
+            android:id="@+id/from_permission_to_card_list"
             app:destination="@id/cardholder_navigation" />
     </fragment>
 

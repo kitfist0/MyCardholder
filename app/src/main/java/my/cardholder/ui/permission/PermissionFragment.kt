@@ -5,14 +5,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.databinding.FragmentScannerPermissionBinding
+import my.cardholder.databinding.FragmentPermissionBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
-class PermissionFragment : BaseFragment<FragmentScannerPermissionBinding>(
-    FragmentScannerPermissionBinding::inflate
+class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
+    FragmentPermissionBinding::inflate
 ) {
 
     private val permissionRequestHandler = registerForActivityResult(
