@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/scanner_navigation"
-        android:icon="@drawable/ic_menu_scanner"
-        android:title="@string/scanner_title" />
+        android:id="@+id/card_scan_fragment"
+        android:icon="@drawable/ic_menu_scan"
+        android:title="@string/card_scan_label" />
 
     <item
-        android:id="@+id/cardholder_navigation"
+        android:id="@+id/card_list_fragment"
         android:icon="@drawable/ic_menu_cards"
-        android:title="@string/cards_title" />
+        android:title="@string/card_list_label" />
 
     <item
-        android:id="@+id/settings_navigation"
+        android:id="@+id/settings_fragment"
         android:icon="@drawable/ic_menu_settings"
         android:title="@string/settings_label" />
 

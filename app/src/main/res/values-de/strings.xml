@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">MyCardholder</string>
-    <string name="cards_title">Karten</string>
-    <string name="scanner_title">Scanner</string>
 
     <!--region CardDisplay-->
     <string name="card_display_label">Kartenansicht</string>
@@ -17,6 +15,7 @@
     <!--endregion-->
 
     <!--region CardList-->
+    <string name="card_list_label">Karten</string>
     <string name="card_list_no_cards_message">Keine gescannten Karten</string>
     <!--endregion-->
 
