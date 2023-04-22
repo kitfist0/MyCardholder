@@ -1,18 +1,17 @@
 package my.cardholder.ui.settings
 
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
-import my.cardholder.databinding.FragmentSettingsMainBinding
+import my.cardholder.databinding.FragmentSettingsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
-class SettingsFragment : BaseFragment<FragmentSettingsMainBinding>(
-    FragmentSettingsMainBinding::inflate
+class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
+    FragmentSettingsBinding::inflate
 ) {
 
     private companion object {
@@ -80,11 +79,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsMainBinding>(
 
     private fun setupColorThemeButtonState(isNightMode: Boolean) {
         binding.settingsColorThemeButton.apply {
-            icon = ContextCompat.getDrawable(
-                context,
+            setIconResource(
                 if (isNightMode) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
             )
-            text = getString(
+            setText(
                 if (isNightMode) {
                     R.string.settings_switch_to_light_mode_button_text
                 } else {
@@ -96,15 +94,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsMainBinding>(
 
     private fun setupCardListViewButtonState(isMultiColumn: Boolean) {
         binding.settingsCardListViewButton.apply {
-            icon = ContextCompat.getDrawable(
-                context,
+            setIconResource(
                 if (isMultiColumn) {
                     R.drawable.ic_list_single_column
                 } else {
                     R.drawable.ic_list_multi_column
                 }
             )
-            text = getString(
+            setText(
                 if (isMultiColumn) {
                     R.string.settings_switch_to_single_column_button_text
                 } else {

@@ -53,7 +53,7 @@ class SettingsViewModel @Inject constructor(
     fun onExportCardsButtonClicked() {
         viewModelScope.launch {
             if (cardRepository.cards.first().isNotEmpty()) {
-                _state.value = _state.value.copy(launchCardsExport = true)
+                _state.update { it.copy(launchCardsExport = true) }
             } else {
                 showSnack("No cards to export")
             }
@@ -61,7 +61,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onExportCardsLaunched() {
-        _state.value = _state.value.copy(launchCardsExport = false)
+        _state.update { it.copy(launchCardsExport = false) }
     }
 
     fun onExportCardsResult(outputStream: OutputStream?) {
@@ -75,11 +75,11 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onImportCardsButtonClicked() {
-        _state.value = _state.value.copy(launchCardsImport = true)
+        _state.update { it.copy(launchCardsImport = true) }
     }
 
     fun onImportCardsLaunched() {
-        _state.value = _state.value.copy(launchCardsImport = false)
+        _state.update { it.copy(launchCardsImport = false) }
     }
 
     fun onImportCardsResult(inputStream: InputStream?) {

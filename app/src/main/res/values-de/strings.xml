@@ -2,7 +2,6 @@
     <string name="app_name">MyCardholder</string>
     <string name="cards_title">Karten</string>
     <string name="scanner_title">Scanner</string>
-    <string name="settings_title">Einstellungen</string>
 
     <!--region CardDisplay-->
     <string name="card_display_label">Kartenansicht</string>
@@ -64,6 +63,7 @@
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
     <string name="settings_export_cards_button_text">Exportieren Sie Karten in eine Datei</string>
     <string name="settings_import_cards_button_text">Importieren Sie Karten aus einer Datei</string>
+    <string name="settings_label">Einstellungen</string>
     <string name="settings_switch_to_dark_mode_button_text">Wechseln Sie in den dunklen Modus</string>
     <string name="settings_switch_to_light_mode_button_text">Wechseln Sie in den Lichtmodus</string>
     <string name="settings_switch_to_multi_column_button_text">Zur mehrspaltigen Kartenliste wechseln</string>

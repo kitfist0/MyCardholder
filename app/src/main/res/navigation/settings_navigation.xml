@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.SettingsFragment"
-        android:label="@string/settings_title"
-        tools:layout="@layout/fragment_settings_main">
+        android:label="@string/settings_label"
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/from_settings_to_specs"
             app:destination="@id/specs_fragment" />
