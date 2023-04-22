@@ -25,7 +25,7 @@
         android:id="@+id/specs_fragment"
         android:name="my.cardholder.ui.specs.SpecsFragment"
         android:label="@string/specs_label"
-        tools:layout="@layout/fragment_settings_specs" />
+        tools:layout="@layout/fragment_specs" />
 
     <dialog
         android:id="@+id/info_dialog"

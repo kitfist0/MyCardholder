@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import my.cardholder.databinding.FragmentSettingsSpecsBinding
+import my.cardholder.databinding.FragmentSpecsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
-class SpecsFragment : BaseFragment<FragmentSettingsSpecsBinding>(
-    FragmentSettingsSpecsBinding::inflate
+class SpecsFragment : BaseFragment<FragmentSpecsBinding>(
+    FragmentSpecsBinding::inflate
 ) {
 
     override val viewModel: SpecsViewModel by viewModels()
