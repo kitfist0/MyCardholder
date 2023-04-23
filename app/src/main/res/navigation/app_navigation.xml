@@ -17,7 +17,8 @@
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/from_permission_to_card_list"
-            app:destination="@id/card_list_fragment" />
+            app:destination="@id/card_list_fragment"
+            app:popUpTo="@id/app_navigation" />
     </fragment>
 
     <fragment
@@ -25,6 +26,11 @@
         android:name="my.cardholder.ui.card.scan.CardScanFragment"
         android:label="@string/card_scan_label"
         tools:layout="@layout/fragment_card_scan">
+        <action
+            android:id="@+id/from_card_scan_to_permission"
+            app:destination="@id/permission_fragment"
+            app:popUpTo="@id/card_list_fragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/from_card_scan_to_card_list"
             app:destination="@id/card_list_fragment"

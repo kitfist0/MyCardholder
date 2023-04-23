@@ -19,18 +19,21 @@ import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.PermissionHelper
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltViewModel
 class CardScanViewModel @Inject constructor(
+    permissionHelper: PermissionHelper,
     private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
 
     private companion object {
+        const val CAMERA_PERMISSION = "android.permission.CAMERA"
         const val EXPLANATION_DURATION_MILLIS = 5000L
     }
 
@@ -46,6 +49,9 @@ class CardScanViewModel @Inject constructor(
         viewModelScope.launch {
             delay(EXPLANATION_DURATION_MILLIS)
             _state.update { it.copy(withExplanation = false) }
+        }
+        if (!permissionHelper.isPermissionGranted(CAMERA_PERMISSION)) {
+            navigate(CardScanFragmentDirections.fromCardScanToPermission())
         }
     }
 
