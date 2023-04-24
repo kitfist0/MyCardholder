@@ -9,17 +9,16 @@ import kotlinx.coroutines.launch
 import my.cardholder.BuildConfig
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
-import my.cardholder.util.PermissionHelper
+import my.cardholder.util.CameraPermissionHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class PermissionViewModel @Inject constructor(
+    private val cameraPermissionHelper: CameraPermissionHelper,
     private val cardRepository: CardRepository,
-    private val permissionHelper: PermissionHelper,
 ) : BaseViewModel() {
 
     private companion object {
-        const val CAMERA_PERMISSION = "android.permission.CAMERA"
         const val APPLICATION_DETAILS_ACTION = "android.settings.APPLICATION_DETAILS_SETTINGS"
     }
 
@@ -45,7 +44,7 @@ class PermissionViewModel @Inject constructor(
         isGranted: Boolean,
         shouldShowRationale: Boolean,
     ) {
-        if (!isGranted && permissionHelper.isNeverAskAgainChecked(CAMERA_PERMISSION, shouldShowRationale)) {
+        if (!isGranted && cameraPermissionHelper.isNeverAskAgainChecked(shouldShowRationale)) {
             startActivity(
                 action = APPLICATION_DETAILS_ACTION,
                 uriString = "package:${BuildConfig.APPLICATION_ID}",
@@ -60,7 +59,7 @@ class PermissionViewModel @Inject constructor(
     }
 
     private fun checkCameraPermission(requestPermissionIfNotGranted: Boolean) {
-        if (!permissionHelper.isPermissionGranted(CAMERA_PERMISSION)) {
+        if (!cameraPermissionHelper.isPermissionGranted()) {
             _state.update {
                 PermissionState.PermissionRequired(
                     launchCameraPermissionRequest = requestPermissionIfNotGranted
