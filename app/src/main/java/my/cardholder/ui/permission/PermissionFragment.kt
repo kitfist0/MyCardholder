@@ -1,5 +1,6 @@
 package my.cardholder.ui.permission
 
+import android.Manifest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
@@ -15,15 +16,17 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
     FragmentPermissionBinding::inflate
 ) {
 
-    private val permissionRequestHandler = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { resultMap ->
-        val entry = resultMap.entries.first()
-        val shouldShow =
-            ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), entry.key)
-        viewModel.onPermissionRequestResult(
-            permission = entry.key,
-            isGranted = entry.value,
+    private companion object {
+        const val CAMERA_PERMISSION = Manifest.permission.CAMERA
+    }
+
+    private val cameraPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        val shouldShow = ActivityCompat
+            .shouldShowRequestPermissionRationale(requireActivity(), CAMERA_PERMISSION)
+        viewModel.onCameraPermissionRequestResult(
+            isGranted = isGranted,
             shouldShowRationale = shouldShow,
         )
     }
@@ -59,8 +62,9 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
                     permissionAnimationView.isVisible = true
                     permissionRationaleText.text = getString(state.rationaleTextStringRes)
                     permissionGrantFab.isVisible = true
-                    if (state.requestPermission) {
-                        permissionRequestHandler.launch(arrayOf(state.requiredPermission))
+                    if (state.launchCameraPermissionRequest) {
+                        cameraPermissionRequest.launch(CAMERA_PERMISSION)
+                        viewModel.onCameraPermissionRequestLaunched()
                     }
                 }
             }

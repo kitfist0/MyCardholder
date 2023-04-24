@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import my.cardholder.BuildConfig
-import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.PermissionHelper
@@ -27,7 +27,7 @@ class PermissionViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     fun onResume() {
-        checkPermission(requestPermission = false)
+        checkCameraPermission(requestPermissionIfNotGranted = false)
     }
 
     fun onAddManuallyButtonClicked() {
@@ -38,15 +38,14 @@ class PermissionViewModel @Inject constructor(
     }
 
     fun onGrantFabClicked() {
-        checkPermission(requestPermission = true)
+        checkCameraPermission(requestPermissionIfNotGranted = true)
     }
 
-    fun onPermissionRequestResult(
-        permission: String,
+    fun onCameraPermissionRequestResult(
         isGranted: Boolean,
         shouldShowRationale: Boolean,
     ) {
-        if (!isGranted && permissionHelper.isNeverAskAgainChecked(permission, shouldShowRationale)) {
+        if (!isGranted && permissionHelper.isNeverAskAgainChecked(CAMERA_PERMISSION, shouldShowRationale)) {
             startActivity(
                 action = APPLICATION_DETAILS_ACTION,
                 uriString = "package:${BuildConfig.APPLICATION_ID}",
@@ -54,13 +53,19 @@ class PermissionViewModel @Inject constructor(
         }
     }
 
-    private fun checkPermission(requestPermission: Boolean) {
+    fun onCameraPermissionRequestLaunched() {
+        _state.update {
+            PermissionState.PermissionRequired(launchCameraPermissionRequest = false)
+        }
+    }
+
+    private fun checkCameraPermission(requestPermissionIfNotGranted: Boolean) {
         if (!permissionHelper.isPermissionGranted(CAMERA_PERMISSION)) {
-            _state.value = PermissionState.PermissionRequired(
-                requiredPermission = CAMERA_PERMISSION,
-                rationaleTextStringRes = R.string.permission_rationale_message_text,
-                requestPermission = requestPermission,
-            )
+            _state.update {
+                PermissionState.PermissionRequired(
+                    launchCameraPermissionRequest = requestPermissionIfNotGranted
+                )
+            }
         } else {
             navigate(PermissionFragmentDirections.fromPermissionToCardScan())
         }
