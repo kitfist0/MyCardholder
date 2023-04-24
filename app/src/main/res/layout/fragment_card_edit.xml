@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.card.edit.CardEditFragment">
+
+    <ImageView
+        android:id="@+id/card_edit_barcode_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="32dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@id/card_edit_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@sample/sample_cards.json/cards/color"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_qr_code" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/card_edit_guideline_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/card_edit_card_name_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/card_edit_name_hint"
+        android:transitionName="@string/transition_card_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/card_edit_guideline_horizontal">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@sample/sample_cards.json/cards/name" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/card_edit_card_content_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/card_edit_content_hint"
+        android:transitionName="@string/transition_card_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_edit_card_name_input_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@sample/sample_cards.json/cards/content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/card_edit_barcode_format_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/card_edit_barcode_format_hint"
+        android:labelFor="@id/card_edit_barcode_format_auto_complete_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_edit_card_content_input_layout">
+
+        <AutoCompleteTextView
+            android:id="@+id/card_edit_barcode_format_auto_complete_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            tools:text="QR_CODE" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/card_edit_colors_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_edit_barcode_format_input_layout"
+        tools:alpha="1"
+        tools:itemCount="8"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_color"
+        tools:orientation="horizontal" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/card_edit_ok_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:transitionName="@string/transition_card_fab"
+        app:icon="@drawable/ic_done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

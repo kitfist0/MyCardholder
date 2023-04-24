@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.card.display.CardDisplayFragment">
+
+    <ImageView
+        android:id="@+id/card_display_barcode_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="32dp"
+        android:scaleType="fitCenter"
+        android:transitionName="@string/transition_card_barcode"
+        app:layout_constraintBottom_toTopOf="@id/card_display_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@sample/sample_cards.json/cards/color"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_qr_code" />
+
+    <Button
+        android:id="@+id/card_display_delete_card_button"
+        style="?attr/materialIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:icon="@drawable/ic_delete"
+        app:iconTint="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/card_display_barcode_image"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/card_display_guideline_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <TextView
+        android:id="@+id/card_display_card_name_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+        android:transitionName="@string/transition_card_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/card_display_guideline_horizontal"
+        tools:text="@sample/sample_cards.json/cards/name" />
+
+    <TextView
+        android:id="@+id/card_display_card_content_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        android:transitionName="@string/transition_card_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_display_card_name_text"
+        tools:text="@sample/sample_cards.json/cards/content" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/card_display_edit_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:text="@string/card_display_edit_fab_title"
+        android:transitionName="@string/transition_card_fab"
+        app:icon="@drawable/ic_edit_card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

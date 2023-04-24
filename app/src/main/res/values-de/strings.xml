@@ -1,19 +1,35 @@
 <resources>
     <string name="app_name">MyCardholder</string>
-    <string name="cards_title">Karten</string>
-    <string name="scanner_title">Scanner</string>
-    <string name="search_title">Suchen</string>
-    <string name="settings_title">Einstellungen</string>
 
-    <!--region About-->
-    <string name="about_dialog_copyright_button_text">Urheberrechte</string>
-    <string name="about_dialog_label">Über App</string>
-    <string name="about_dialog_policy_button_text">Datenschutz-Bestimmungen</string>
-    <string name="about_dialog_source_code_button_text">Quellcode</string>
+    <!--region CardDisplay-->
+    <string name="card_display_label">Kartenansicht</string>
+    <string name="card_display_edit_fab_title">Bearbeiten</string>
     <!--endregion-->
 
-    <!--region Cards-->
-    <string name="cards_no_cards_message_text">Keine gescannten Karten</string>
+    <!--region CardEdit-->
+    <string name="card_edit_barcode_format_hint">Format</string>
+    <string name="card_edit_content_hint">Text</string>
+    <string name="card_edit_label">Kartenbearbeitung</string>
+    <string name="card_edit_name_hint">Name</string>
+    <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
+    <!--endregion-->
+
+    <!--region CardList-->
+    <string name="card_list_label">Karten</string>
+    <string name="card_list_no_cards_message">Keine gescannten Karten</string>
+    <!--endregion-->
+
+    <!--region CardSearch-->
+    <string name="card_search_blank_message">\u00A0</string>
+    <string name="card_search_edit_text_hint">Durchsuchen Sie Ihre Karten</string>
+    <string name="card_search_label">Suchkarten</string>
+    <string name="card_search_nothing_found_message">Nichts gefunden</string>
+    <!--endregion-->
+
+    <!--region CardScan-->
+    <string name="card_scan_add_manually_fab_title">Manuell hinzufügen</string>
+    <string name="card_scan_explanation_message">Scannen Sie einen Barcode, um automatisch eine neue Karte hinzuzufügen</string>
+    <string name="card_scan_label">Kartenscan</string>
     <!--endregion-->
 
     <!--region Coffee-->
@@ -27,12 +43,11 @@
     <string name="delete_card_dialog_title">Löschen? Die Karte wird dauerhaft gelöscht</string>
     <!--endregion-->
 
-    <!--region Editor-->
-    <string name="editor_barcode_format_hint">Format</string>
-    <string name="editor_card_content_hint">Text</string>
-    <string name="editor_card_name_hint">Name</string>
-    <string name="editor_label">Karteneditor</string>
-    <string name="editor_invalid_value_error_text">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
+    <!--region Info-->
+    <string name="info_dialog_copyright_button_text">Urheberrechte</string>
+    <string name="info_dialog_label">Info</string>
+    <string name="info_dialog_policy_button_text">Datenschutz-Bestimmungen</string>
+    <string name="info_dialog_source_code_button_text">Quellcode</string>
     <!--endregion-->
 
     <!--region Permission-->
@@ -42,22 +57,12 @@
     <string name="permission_rationale_message_text">Bitte gewähren Sie Zugriff auf die Kamera des Geräts. Kamerazugriff ist erforderlich, um Ihre Karten zu scannen</string>
     <!--endregion-->
 
-    <!--region Scanner-->
-    <string name="scanner_add_manually_fab_title">Manuell hinzufügen</string>
-    <string name="scanner_explanation_message">Scannen Sie einen Barcode, um automatisch eine neue Karte hinzuzufügen</string>
-    <!--endregion-->
-
-    <!--region Search-->
-    <string name="search_blank_message_text">\u00A0</string>
-    <string name="search_edit_text_hint">Durchsuchen Sie Ihre Karten</string>
-    <string name="search_nothing_found_message_text">Nichts gefunden</string>
-    <!--endregion-->
-
     <!--region Settings-->
     <string name="settings_about_app_button_text">Über App</string>
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
     <string name="settings_export_cards_button_text">Exportieren Sie Karten in eine Datei</string>
     <string name="settings_import_cards_button_text">Importieren Sie Karten aus einer Datei</string>
+    <string name="settings_label">Einstellungen</string>
     <string name="settings_switch_to_dark_mode_button_text">Wechseln Sie in den dunklen Modus</string>
     <string name="settings_switch_to_light_mode_button_text">Wechseln Sie in den Lichtmodus</string>
     <string name="settings_switch_to_multi_column_button_text">Zur mehrspaltigen Kartenliste wechseln</string>
@@ -70,10 +75,5 @@
     <string name="specs_barcode_valid_characters_text">Gültige Zeichen: %s</string>
     <string name="specs_label">Spezifikationen</string>
     <string name="specs_toolbar_title">Unterstützte Formate</string>
-    <!--endregion-->
-
-    <!--region Viewer-->
-    <string name="viewer_label">Kartenbetrachter</string>
-    <string name="viewer_edit_fab_title">Bearbeiten</string>
     <!--endregion-->
 </resources>
