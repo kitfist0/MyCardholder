@@ -5,6 +5,7 @@ import android.transition.TransitionSet
 import android.view.View
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
+import androidx.core.view.setPadding
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,10 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             .inflateTransition(android.R.transition.move)
         with(binding) {
             val uniqueNameSuffix = args.cardId
-            cardDisplayBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
+            cardDisplayBarcodeImage.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                setPadding(getStatusBarHeight())
+            }
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardContentText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayEditFab.setupUniqueTransitionName(uniqueNameSuffix)

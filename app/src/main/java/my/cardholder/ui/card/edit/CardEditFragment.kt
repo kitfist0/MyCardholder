@@ -4,6 +4,7 @@ import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import androidx.core.transition.doOnEnd
 import androidx.core.view.isInvisible
+import androidx.core.view.setPadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             .inflateTransition(android.R.transition.move)
         with(binding) {
             val uniqueNameSuffix = args.cardId
+            cardEditBarcodeImage.setPadding(getStatusBarHeight())
             cardEditCardNameInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
