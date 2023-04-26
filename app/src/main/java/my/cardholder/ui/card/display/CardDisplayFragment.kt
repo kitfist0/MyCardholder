@@ -19,10 +19,6 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
     FragmentCardDisplayBinding::inflate
 ) {
 
-    private companion object {
-        const val DELETE_BUTTON_ANIM_DURATION = 300L
-    }
-
     @Inject
     lateinit var viewModelFactory: CardDisplayViewModelFactory
 
@@ -61,9 +57,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                 cardDisplayDeleteCardButton.alpha = 0f
             }
             transitionSet.doOnEnd {
-                cardDisplayDeleteCardButton.animate()
-                    .setDuration(DELETE_BUTTON_ANIM_DURATION)
-                    .alpha(1f)
+                cardDisplayDeleteCardButton.animateAlpha(1f)
                 cardDisplayDeleteCardButton.setOnClickListener {
                     viewModel.onDeleteCardButtonClicked()
                 }

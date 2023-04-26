@@ -3,11 +3,13 @@ package my.cardholder.util.ext
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.View
+import android.view.ViewPropertyAnimator
 import android.view.WindowInsets
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.annotation.FloatRange
 import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
 import coil.load
@@ -16,6 +18,13 @@ import coil.transform.RoundedCornersTransformation
 import com.google.android.material.textfield.TextInputLayout
 import my.cardholder.R
 import java.io.File
+
+@Suppress("MagicNumber")
+fun View.animateAlpha(@FloatRange(from = 0.0, to = 1.0) value: Float): ViewPropertyAnimator {
+    return animate()
+        .setDuration(300)
+        .alpha(value)
+}
 
 fun View.setupUniqueTransitionName(uniqueSuffix: Long) {
     ViewCompat.setTransitionName(this, transitionName.format(uniqueSuffix))

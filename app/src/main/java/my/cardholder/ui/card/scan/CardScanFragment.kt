@@ -9,16 +9,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import my.cardholder.databinding.FragmentCardScanBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.ext.animateAlpha
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
 class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     FragmentCardScanBinding::inflate
 ) {
-
-    private companion object {
-        const val ALPHA_ANIM_DURATION = 300L
-    }
 
     override val viewModel: CardScanViewModel by viewModels()
 
@@ -38,9 +35,7 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
         collectWhenStarted(viewModel.state) { state ->
             binding.cardScanExplanationMessageText.apply {
                 if (!state.withExplanation) {
-                    animate()
-                        .alpha(0f)
-                        .setDuration(ALPHA_ANIM_DURATION)
+                    animateAlpha(0f)
                         .setListener(
                             object : AnimatorListenerAdapter() {
                                 override fun onAnimationEnd(animation: Animator) {

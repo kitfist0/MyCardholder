@@ -19,10 +19,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
     FragmentCardEditBinding::inflate
 ) {
 
-    private companion object {
-        const val ALPHA_ANIM_DURATION = 300L
-    }
-
     @Inject
     lateinit var viewModelFactory: CardEditViewModelFactory
 
@@ -67,14 +63,8 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
-                cardEditColorsRecyclerView.animate()
-                    .setDuration(ALPHA_ANIM_DURATION)
-                    .alpha(1f)
-                    .start()
-                cardEditBarcodeFormatInputLayout.animate()
-                    .setDuration(ALPHA_ANIM_DURATION)
-                    .alpha(1f)
-                    .start()
+                cardEditColorsRecyclerView.animateAlpha(1f)
+                cardEditBarcodeFormatInputLayout.animateAlpha(1f)
             }
         }
     }
