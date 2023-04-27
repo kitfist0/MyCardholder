@@ -5,6 +5,7 @@ import android.transition.TransitionSet
 import android.view.View
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
+import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
@@ -54,10 +55,10 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
-                cardDisplayDeleteCardButton.alpha = 0f
+                cardDisplayDeleteCardButton.isVisible = false
             }
             transitionSet.doOnEnd {
-                cardDisplayDeleteCardButton.animateAlpha(1f)
+                cardDisplayDeleteCardButton.animateVisibilityChange()
                 cardDisplayDeleteCardButton.setOnClickListener {
                     viewModel.onDeleteCardButtonClicked()
                 }

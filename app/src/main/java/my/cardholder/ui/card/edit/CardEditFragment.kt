@@ -3,7 +3,8 @@ package my.cardholder.ui.card.edit
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import androidx.core.transition.doOnEnd
-import androidx.core.view.isInvisible
+import androidx.core.transition.doOnStart
+import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
@@ -48,23 +49,25 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardContentChanged(it?.toString()) }
             }
-            cardEditBarcodeFormatInputLayout.apply {
-                alpha = 0f
-                editText?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
-            }
+            cardEditBarcodeFormatInputLayout.editText
+                ?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
             cardEditColorsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = listAdapter
-                alpha = 0f
             }
             cardEditOkFab.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
-            (sharedElementEnterTransition as TransitionSet).doOnEnd {
-                cardEditColorsRecyclerView.animateAlpha(1f)
-                cardEditBarcodeFormatInputLayout.animateAlpha(1f)
+            val transitionSet = sharedElementEnterTransition as TransitionSet
+            transitionSet.doOnStart {
+                cardEditBarcodeFormatInputLayout.isVisible = false
+                cardEditColorsRecyclerView.isVisible = false
+            }
+            transitionSet.doOnEnd {
+                cardEditBarcodeFormatInputLayout.animateVisibilityChange()
+                cardEditColorsRecyclerView.animateVisibilityChange()
             }
         }
     }
@@ -76,7 +79,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditCardNameInputLayout.isEnabled = false
                     cardEditCardContentInputLayout.isEnabled = false
                     cardEditBarcodeFormatInputLayout.isEnabled = false
-                    cardEditColorsRecyclerView.isInvisible = true
                 }
                 is CardEditState.Success -> with(binding) {
                     cardEditBarcodeImage.apply {
@@ -98,7 +100,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                             item = state.barcodeFormatName,
                         )
                     }
-                    cardEditColorsRecyclerView.isInvisible = false
                     listAdapter.submitList(state.cardColors)
                 }
             }

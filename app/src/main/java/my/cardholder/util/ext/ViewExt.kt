@@ -1,16 +1,17 @@
 package my.cardholder.util.ext
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.View
-import android.view.ViewPropertyAnimator
 import android.view.WindowInsets
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.annotation.FloatRange
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import coil.load
 import coil.size.Size
@@ -20,10 +21,21 @@ import my.cardholder.R
 import java.io.File
 
 @Suppress("MagicNumber")
-fun View.animateAlpha(@FloatRange(from = 0.0, to = 1.0) value: Float): ViewPropertyAnimator {
-    return animate()
+fun View.animateVisibilityChange() {
+    val finalVisibility = !isVisible
+    isVisible = true
+    alpha = if (finalVisibility) 0f else 1f
+    animate()
         .setDuration(300)
-        .alpha(value)
+        .alpha(if (finalVisibility) 1f else 0f)
+        .setListener(
+            object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    isVisible = finalVisibility
+                }
+            }
+        )
+        .start()
 }
 
 fun View.setupUniqueTransitionName(uniqueSuffix: Long) {
