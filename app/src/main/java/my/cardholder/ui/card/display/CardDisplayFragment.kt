@@ -53,15 +53,15 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                 viewModel.onEditFabClicked(extras)
             }
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
+            cardDisplayDeleteCardButton.setOnClickListener {
+                viewModel.onDeleteCardButtonClicked()
+            }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
                 cardDisplayDeleteCardButton.isVisible = false
             }
             transitionSet.doOnEnd {
                 cardDisplayDeleteCardButton.animateVisibilityChange()
-                cardDisplayDeleteCardButton.setOnClickListener {
-                    viewModel.onDeleteCardButtonClicked()
-                }
             }
         }
     }
