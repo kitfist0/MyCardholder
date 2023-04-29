@@ -8,6 +8,7 @@
 
     <!--region CardEdit-->
     <string name="card_edit_barcode_format_hint">Format</string>
+    <string name="card_edit_color_hint">Farbe</string>
     <string name="card_edit_content_hint">Text</string>
     <string name="card_edit_label">Kartenbearbeitung</string>
     <string name="card_edit_name_hint">Name</string>

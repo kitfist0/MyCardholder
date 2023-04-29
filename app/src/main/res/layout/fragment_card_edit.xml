@@ -84,18 +84,26 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/card_edit_colors_recycler_view"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/card_edit_card_color_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingVertical="8dp"
+        android:layout_margin="8dp"
+        android:hint="@string/card_edit_color_hint"
+        android:labelFor="@id/card_edit_card_color_auto_complete_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_edit_barcode_format_input_layout"
-        tools:itemCount="8"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_color"
-        tools:orientation="horizontal" />
+        app:layout_constraintTop_toBottomOf="@id/card_edit_barcode_format_input_layout">
+
+        <AutoCompleteTextView
+            android:id="@+id/card_edit_card_color_auto_complete_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            tools:text="@sample/sample_cards.json/cards/color" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_edit_ok_fab"

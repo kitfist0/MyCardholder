@@ -8,12 +8,12 @@ sealed class CardEditState {
     object Loading : CardEditState()
 
     data class Success(
+        val barcodeFile: File?,
         val cardName: String,
         val cardContent: String,
-        val cardColor: Int,
-        val barcodeFile: File?,
         val barcodeFormatName: String,
         val barcodeFormatNames: List<String> = SupportedFormat.values().map { it.toString() },
+        val cardColor: String,
         val cardColors: List<String> = Card.COLORS.toList(),
     ) : CardEditState()
 }

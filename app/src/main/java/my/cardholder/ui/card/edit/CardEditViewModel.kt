@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
-import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 
@@ -29,11 +28,11 @@ class CardEditViewModel @AssistedInject constructor(
             .filterNotNull()
             .onEach { card ->
                 _state.value = CardEditState.Success(
+                    barcodeFile = card.barcodeFile,
                     cardName = card.name,
                     cardContent = card.content,
-                    cardColor = card.getColorInt(),
-                    barcodeFile = card.barcodeFile,
                     barcodeFormatName = card.format.toString(),
+                    cardColor = card.color,
                 )
                 if (card.barcodeFile?.exists() == false) {
                     showSnack("The value is invalid for the selected barcode type")
@@ -44,15 +43,6 @@ class CardEditViewModel @AssistedInject constructor(
 
     fun onOkFabClicked() {
         navigateUp()
-    }
-
-    fun onColorItemClicked(color: String) {
-        if (updatedCardColor == color) {
-            return
-        }
-        viewModelScope.launch {
-            cardRepository.updateCardColor(cardId, color)
-        }
     }
 
     fun onCardNameChanged(cardName: String?) {
@@ -68,6 +58,16 @@ class CardEditViewModel @AssistedInject constructor(
     fun onCardFormatChanged(cardFormat: String?) {
         updatedCardFormat = cardFormat?.let { SupportedFormat.valueOf(it) }
         updateCardData()
+    }
+
+    fun onCardColorChanged(cardColor: String?) {
+        if (cardColor == null || updatedCardColor == cardColor) {
+            return
+        }
+        updatedCardColor = cardColor
+        viewModelScope.launch {
+            cardRepository.updateCardColor(cardId, cardColor)
+        }
     }
 
     private fun updateCardData() {

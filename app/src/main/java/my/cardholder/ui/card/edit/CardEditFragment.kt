@@ -2,13 +2,13 @@ package my.cardholder.ui.card.edit
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
+import androidx.core.graphics.toColorInt
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardEditBinding
 import my.cardholder.ui.base.BaseFragment
@@ -24,12 +24,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
     lateinit var viewModelFactory: CardEditViewModelFactory
 
     private val args: CardEditFragmentArgs by navArgs()
-
-    private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CardEditColorsAdapter { color ->
-            viewModel.onColorItemClicked(color)
-        }
-    }
 
     override val viewModel: CardEditViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
@@ -51,10 +45,8 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             cardEditBarcodeFormatInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
-            cardEditColorsRecyclerView.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                adapter = listAdapter
-            }
+            cardEditCardColorInputLayout.editText
+                ?.doAfterTextChanged { viewModel.onCardColorChanged(it?.toString()) }
             cardEditOkFab.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
@@ -63,11 +55,11 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
                 cardEditBarcodeFormatInputLayout.isVisible = false
-                cardEditColorsRecyclerView.isVisible = false
+                cardEditCardColorInputLayout.isVisible = false
             }
             transitionSet.doOnEnd {
                 cardEditBarcodeFormatInputLayout.animateVisibilityChange()
-                cardEditColorsRecyclerView.animateVisibilityChange()
+                cardEditCardColorInputLayout.animateVisibilityChange()
             }
         }
     }
@@ -79,10 +71,11 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditCardNameInputLayout.isEnabled = false
                     cardEditCardContentInputLayout.isEnabled = false
                     cardEditBarcodeFormatInputLayout.isEnabled = false
+                    cardEditCardColorInputLayout.isEnabled = false
                 }
                 is CardEditState.Success -> with(binding) {
                     cardEditBarcodeImage.apply {
-                        setBackgroundColor(state.cardColor)
+                        setBackgroundColor(state.cardColor.toColorInt())
                         loadBarcodeImage(state.barcodeFile)
                     }
                     cardEditCardNameInputLayout.apply {
@@ -100,7 +93,13 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                             item = state.barcodeFormatName,
                         )
                     }
-                    listAdapter.submitList(state.cardColors)
+                    cardEditCardColorInputLayout.apply {
+                        isEnabled = true
+                        setAutocompleteTextIfRequired(
+                            items = state.cardColors,
+                            item = state.cardColor,
+                        )
+                    }
                 }
             }
         }
