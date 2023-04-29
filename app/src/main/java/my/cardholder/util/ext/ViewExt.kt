@@ -96,13 +96,13 @@ fun EditText.setTextAndSelectionIfRequired(text: String) {
     }
 }
 
-fun TextInputLayout.setAutocompleteTextIfRequired(items: List<String>, item: String) {
+fun TextInputLayout.setAutocompleteTextIfRequired(value: String, values: List<String>) {
     (editText as? AutoCompleteTextView)?.apply {
-        if (text.toString() != item) {
-            setText(item)
+        if (text.toString() != value) {
+            setText(value)
         }
         if (adapter == null) {
-            setAdapter(ArrayAdapter(context, android.R.layout.select_dialog_item, items))
+            setAdapter(ArrayAdapter(context, android.R.layout.select_dialog_item, values))
         }
     }
 }

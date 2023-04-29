@@ -89,15 +89,15 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditBarcodeFormatInputLayout.apply {
                         isEnabled = true
                         setAutocompleteTextIfRequired(
-                            items = state.barcodeFormatNames,
-                            item = state.barcodeFormatName,
+                            value = state.barcodeFormatName,
+                            values = state.barcodeFormatNames,
                         )
                     }
                     cardEditCardColorInputLayout.apply {
                         isEnabled = true
                         setAutocompleteTextIfRequired(
-                            items = state.cardColors,
-                            item = state.cardColor,
+                            value = state.cardColor,
+                            values = state.cardColors,
                         )
                     }
                 }
