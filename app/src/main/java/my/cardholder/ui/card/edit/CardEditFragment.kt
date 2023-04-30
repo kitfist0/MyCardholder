@@ -2,6 +2,7 @@ package my.cardholder.ui.card.edit
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
+import android.widget.AutoCompleteTextView
 import androidx.core.graphics.toColorInt
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
@@ -86,19 +87,15 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         isEnabled = true
                         editText?.setTextAndSelectionIfRequired(state.cardContent)
                     }
-                    cardEditBarcodeFormatInputLayout.apply {
-                        isEnabled = true
-                        setAutocompleteTextIfRequired(
-                            value = state.barcodeFormatName,
-                            values = state.barcodeFormatNames,
-                        )
+                    cardEditBarcodeFormatInputLayout.isEnabled = true
+                    (cardEditBarcodeFormatInputLayout.editText as? AutoCompleteTextView)?.apply {
+                        setTextAndSelectionIfRequired(state.barcodeFormatName)
+                        adapter ?: setDefaultAdapter(state.barcodeFormatNames)
                     }
-                    cardEditCardColorInputLayout.apply {
-                        isEnabled = true
-                        setAutocompleteTextIfRequired(
-                            value = state.cardColor,
-                            values = state.cardColors,
-                        )
+                    cardEditCardColorInputLayout.isEnabled = true
+                    (cardEditCardColorInputLayout.editText as? AutoCompleteTextView)?.apply {
+                        setTextAndSelectionIfRequired(state.cardColor)
+                        adapter ?: setDefaultAdapter(state.cardColors)
                     }
                 }
             }
