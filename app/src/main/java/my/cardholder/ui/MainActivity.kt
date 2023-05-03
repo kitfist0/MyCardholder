@@ -6,17 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
+import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -46,12 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.nightModeEnabled
-                    .onEach { setDefaultNightMode(it) }
-                    .collect()
-            }
+        collectWhenStarted(viewModel.nightModeEnabled) { isEnabled ->
+            setDefaultNightMode(isEnabled)
         }
     }
 
