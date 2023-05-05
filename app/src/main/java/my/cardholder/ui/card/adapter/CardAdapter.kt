@@ -15,9 +15,9 @@ import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.ext.loadBarcodeImage
 import my.cardholder.util.ext.setupUniqueTransitionName
 
-class CardsAdapter(
+class CardAdapter(
     private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
-) : ListAdapter<Card, CardsAdapter.CardViewHolder>(CardDiffCallback) {
+) : ListAdapter<Card, CardAdapter.CardViewHolder>(CardDiffCallback) {
 
     private companion object {
         object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
