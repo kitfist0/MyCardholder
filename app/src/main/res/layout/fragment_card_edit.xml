@@ -20,6 +20,21 @@
         tools:ignore="ContentDescription"
         tools:src="@drawable/ic_qr_code" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/card_edit_card_labels_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/card_edit_color_hint"
+        android:paddingHorizontal="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/card_edit_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:itemCount="2"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_label"
+        tools:orientation="horizontal"
+        tools:reverseLayout="true" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_edit_guideline_horizontal"
         android:layout_width="wrap_content"
