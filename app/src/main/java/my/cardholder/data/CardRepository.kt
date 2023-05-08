@@ -159,7 +159,7 @@ class CardRepository @Inject constructor(
             content = content,
             color = color ?: Card.COLORS.random(),
             format = format,
-            labels = emptyList(),
+            labels = listOf("Sample"),
             barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
         ).also { card ->
             runCatching {
