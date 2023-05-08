@@ -16,8 +16,9 @@
     <!--endregion-->
 
     <!--region CardLabels-->
-    <string name="card_labels_label">Labels</string>
     <string name="card_labels_add_label_fab_content_description">Add new label</string>
+    <string name="card_labels_label">Labels</string>
+    <string name="card_labels_no_labels_message">No labels</string>
     <!--endregion-->
 
     <!--region CardList-->

@@ -16,8 +16,9 @@
     <!--endregion-->
 
     <!--region CardLabels-->
-    <string name="card_labels_label">Schlagwörter</string>
     <string name="card_labels_add_label_fab_content_description">Neues Schlagwort hinzufügen</string>
+    <string name="card_labels_label">Schlagwörter</string>
+    <string name="card_labels_no_labels_message">Keine Schlagwörter</string>
     <!--endregion-->
 
     <!--region CardList-->
