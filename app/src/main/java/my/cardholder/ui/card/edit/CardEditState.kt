@@ -1,6 +1,7 @@
 package my.cardholder.ui.card.edit
 
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.Label
 import my.cardholder.data.model.SupportedFormat
 import java.io.File
 
@@ -9,6 +10,7 @@ sealed class CardEditState {
 
     data class Success(
         val barcodeFile: File?,
+        val cardLabels: List<String>,
         val cardName: String,
         val cardContent: String,
         val barcodeFormatName: String,

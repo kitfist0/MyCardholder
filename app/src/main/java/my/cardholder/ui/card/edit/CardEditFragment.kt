@@ -10,9 +10,12 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardEditBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.ui.card.adapter.LabelAdapter
 import my.cardholder.util.ext.*
 import javax.inject.Inject
 
@@ -26,6 +29,13 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
 
     private val args: CardEditFragmentArgs by navArgs()
 
+    private val labelAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        LabelAdapter(
+            onItemClick = { labelText ->
+            }
+        )
+    }
+
     override val viewModel: CardEditViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
@@ -34,6 +44,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
             cardEditBarcodeImage.setPadding(getStatusBarHeight())
             cardEditCardNameInputLayout.apply {
@@ -52,7 +63,10 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
-            root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
+            cardEditCardLabelsRecyclerView.apply {
+                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
+                adapter = labelAdapter
+            }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
                 cardEditBarcodeFormatInputLayout.isVisible = false
@@ -79,6 +93,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         setBackgroundColor(state.cardColor.toColorInt())
                         loadBarcodeImage(state.barcodeFile)
                     }
+                    labelAdapter.submitList(state.cardLabels)
                     cardEditCardNameInputLayout.apply {
                         isEnabled = true
                         editText?.setTextAndSelectionIfRequired(state.cardName)

@@ -23,10 +23,11 @@ class CardDisplayViewModel @AssistedInject constructor(
             .filterNotNull()
             .onEach { card ->
                 _state.value = CardDisplayState.Success(
+                    barcodeFile = card.barcodeFile,
+                    cardLabels = card.labels,
                     cardName = card.name,
                     cardContent = card.content,
                     cardColor = card.getColorInt(),
-                    barcodeFile = card.barcodeFile,
                 )
             }
             .launchIn(viewModelScope)
