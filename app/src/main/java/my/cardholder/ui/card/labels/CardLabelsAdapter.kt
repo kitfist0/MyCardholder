@@ -33,7 +33,7 @@ class CardLabelsAdapter(
         }
 
         fun bind(label: Label) {
-            binding.itemLabelChip.text = label.value
+            binding.itemLabelText.text = label.value
         }
     }
 

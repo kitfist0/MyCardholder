@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardEditBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.adapter.LabelAdapter
+import my.cardholder.ui.card.adapter.LabelTextAdapter
 import my.cardholder.util.ext.*
 import javax.inject.Inject
 
@@ -29,8 +29,8 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
 
     private val args: CardEditFragmentArgs by navArgs()
 
-    private val labelAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        LabelAdapter(
+    private val labelTextAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        LabelTextAdapter(
             onItemClick = { labelText ->
             }
         )
@@ -65,7 +65,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             cardEditCardLabelsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
-                adapter = labelAdapter
+                adapter = labelTextAdapter
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
@@ -93,7 +93,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         setBackgroundColor(state.cardColor.toColorInt())
                         loadBarcodeImage(state.barcodeFile)
                     }
-                    labelAdapter.submitList(state.cardLabels)
+                    labelTextAdapter.submitList(state.cardLabels)
                     cardEditCardNameInputLayout.apply {
                         isEnabled = true
                         editText?.setTextAndSelectionIfRequired(state.cardName)

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardDisplayBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.adapter.LabelAdapter
+import my.cardholder.ui.card.adapter.LabelTextAdapter
 import my.cardholder.util.ext.*
 import javax.inject.Inject
 
@@ -28,8 +28,8 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
 
     private val args: CardDisplayFragmentArgs by navArgs()
 
-    private val labelAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        LabelAdapter(
+    private val labelTextAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        LabelTextAdapter(
             onItemClick = { labelText ->
             }
         )
@@ -68,7 +68,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             }
             cardDisplayCardLabelsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
-                adapter = labelAdapter
+                adapter = labelTextAdapter
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
@@ -91,7 +91,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                             setBackgroundColor(state.cardColor)
                             loadBarcodeImage(state.barcodeFile)
                         }
-                        labelAdapter.submitList(state.cardLabels)
+                        labelTextAdapter.submitList(state.cardLabels)
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
                         cardDisplayEditFab.isClickable = true

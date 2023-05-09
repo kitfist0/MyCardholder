@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:itemCount="2"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_label"
+        tools:listitem="@layout/item_label_text"
         tools:orientation="horizontal"
         tools:reverseLayout="true" />
 

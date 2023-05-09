@@ -5,28 +5,28 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import my.cardholder.databinding.ItemLabelBinding
+import my.cardholder.databinding.ItemLabelTextBinding
 
-class LabelAdapter(
+class LabelTextAdapter(
     private val onItemClick: (labelText: String) -> Unit,
-) : ListAdapter<String, LabelAdapter.LabelViewHolder>(LabelDiffCallback) {
+) : ListAdapter<String, LabelTextAdapter.LabelTextViewHolder>(LabelTextDiffCallback) {
 
     private companion object {
-        object LabelDiffCallback : DiffUtil.ItemCallback<String>() {
+        object LabelTextDiffCallback : DiffUtil.ItemCallback<String>() {
             override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
 
             override fun areContentsTheSame(oldItem: String, newItem: String) = true
         }
     }
 
-    inner class LabelViewHolder(
-        private val binding: ItemLabelBinding,
+    inner class LabelTextViewHolder(
+        private val binding: ItemLabelTextBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {
-                val label = getItem(adapterPosition)
-                onItemClick.invoke(label)
+                val labelText = getItem(adapterPosition)
+                onItemClick.invoke(labelText)
             }
         }
 
@@ -35,12 +35,12 @@ class LabelAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LabelViewHolder {
-        val binding = ItemLabelBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return LabelViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LabelTextViewHolder {
+        val binding = ItemLabelTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return LabelTextViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: LabelViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LabelTextViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 }
