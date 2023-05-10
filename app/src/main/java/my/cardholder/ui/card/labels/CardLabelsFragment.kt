@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardLabelsBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.ui.card.adapter.LabelAdapter
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
@@ -16,7 +17,7 @@ class CardLabelsFragment : BaseFragment<FragmentCardLabelsBinding>(
     override val viewModel: CardLabelsViewModel by viewModels()
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CardLabelsAdapter(
+        LabelAdapter(
             onItemClick = { label ->
                 viewModel.onLabelClicked(label)
             }

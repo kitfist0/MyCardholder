@@ -1,4 +1,4 @@
-package my.cardholder.ui.card.labels
+package my.cardholder.ui.card.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.model.Label
 import my.cardholder.databinding.ItemLabelBinding
 
-class CardLabelsAdapter(
+class LabelAdapter(
     private val onItemClick: (label: Label) -> Unit,
-) : ListAdapter<Label, CardLabelsAdapter.LabelViewHolder>(LabelDiffCallback) {
+) : ListAdapter<Label, LabelAdapter.LabelViewHolder>(LabelDiffCallback) {
 
     private companion object {
         object LabelDiffCallback : DiffUtil.ItemCallback<Label>() {
