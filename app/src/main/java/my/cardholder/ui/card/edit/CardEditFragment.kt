@@ -32,8 +32,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
 
     private val labelTextAdapter by lazy(LazyThreadSafetyMode.NONE) {
         LabelTextAdapter(
-            onItemClick = { labelText ->
-            }
+            onItemClick = { viewModel.onLabelTextClicked() }
         )
     }
 

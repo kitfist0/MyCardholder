@@ -8,6 +8,7 @@ import my.cardholder.databinding.FragmentCardLabelsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.card.adapter.LabelAdapter
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
 class CardLabelsFragment : BaseFragment<FragmentCardLabelsBinding>(
@@ -26,6 +27,7 @@ class CardLabelsFragment : BaseFragment<FragmentCardLabelsBinding>(
 
     override fun initViews() {
         with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets()
             cardLabelsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = listAdapter
@@ -44,6 +46,7 @@ class CardLabelsFragment : BaseFragment<FragmentCardLabelsBinding>(
                     binding.cardLabelsEmptyListMessageText.setText(state.messageRes)
                     listAdapter.submitList(null)
                 }
+
                 is CardLabelsState.Success -> {
                     binding.cardLabelsAddLabelFab.isVisible = true
                     binding.cardLabelsEmptyListMessageText.text = null

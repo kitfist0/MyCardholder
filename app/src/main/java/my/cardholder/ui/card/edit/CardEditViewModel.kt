@@ -42,6 +42,10 @@ class CardEditViewModel @AssistedInject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun onLabelTextClicked() {
+        navigate(CardEditFragmentDirections.fromCardEditToCardLabels(cardId))
+    }
+
     fun onOkFabClicked() {
         navigateUp()
     }
