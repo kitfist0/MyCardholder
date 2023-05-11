@@ -15,12 +15,6 @@
     <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>
     <!--endregion-->
 
-    <!--region CardLabels-->
-    <string name="card_labels_add_label_fab_content_description">Add new label</string>
-    <string name="card_labels_label">Labels</string>
-    <string name="card_labels_no_labels_message">No labels</string>
-    <!--endregion-->
-
     <!--region CardList-->
     <string name="card_list_label">Cards</string>
     <string name="card_list_no_cards_message">No scanned cards</string>
@@ -55,6 +49,12 @@
     <string name="info_dialog_label">Info</string>
     <string name="info_dialog_policy_button_text">Privacy policy</string>
     <string name="info_dialog_source_code_button_text">Source code</string>
+    <!--endregion-->
+
+    <!--region Labels-->
+    <string name="labels_add_label_fab_content_description">Add new label</string>
+    <string name="labels_label">Labels</string>
+    <string name="labels_empty_list_message">No labels</string>
     <!--endregion-->
 
     <!--region Permission-->

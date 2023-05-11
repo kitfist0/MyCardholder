@@ -15,12 +15,6 @@
     <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
     <!--endregion-->
 
-    <!--region CardLabels-->
-    <string name="card_labels_add_label_fab_content_description">Neues Schlagwort hinzufügen</string>
-    <string name="card_labels_label">Schlagwörter</string>
-    <string name="card_labels_no_labels_message">Keine Schlagwörter</string>
-    <!--endregion-->
-
     <!--region CardList-->
     <string name="card_list_label">Karten</string>
     <string name="card_list_no_cards_message">Keine gescannten Karten</string>
@@ -55,6 +49,12 @@
     <string name="info_dialog_label">Info</string>
     <string name="info_dialog_policy_button_text">Datenschutz-Bestimmungen</string>
     <string name="info_dialog_source_code_button_text">Quellcode</string>
+    <!--endregion-->
+
+    <!--region Labels-->
+    <string name="labels_add_label_fab_content_description">Neues Schlagwort hinzufügen</string>
+    <string name="labels_label">Schlagwörter</string>
+    <string name="labels_empty_list_message">Keine Schlagwörter</string>
     <!--endregion-->
 
     <!--region Permission-->

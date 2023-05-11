@@ -93,11 +93,10 @@
     <fragment
         android:id="@+id/card_labels_fragment"
         android:name="my.cardholder.ui.card.labels.CardLabelsFragment"
-        android:label="@string/card_labels_label"
+        android:label="@string/labels_label"
         tools:layout="@layout/fragment_card_labels">
         <argument
             android:name="card_id"
-            android:defaultValue="-1L"
             app:argType="long" />
     </fragment>
 
@@ -114,6 +113,12 @@
             app:destination="@id/card_list_fragment"
             app:popUpTo="@id/card_list_fragment" />
     </dialog>
+
+    <fragment
+        android:id="@+id/labels_fragment"
+        android:name="my.cardholder.ui.labels.LabelsFragment"
+        android:label="@string/labels_label"
+        tools:layout="@layout/fragment_labels" />
 
     <fragment
         android:id="@+id/settings_fragment"
