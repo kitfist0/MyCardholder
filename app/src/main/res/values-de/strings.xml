@@ -66,6 +66,7 @@
 
     <!--region Settings-->
     <string name="settings_about_app_button_text">Über App</string>
+    <string name="settings_card_labels_button_text">Schlagwörter verwalten</string>
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
     <string name="settings_export_cards_button_text">Exportieren Sie Karten in eine Datei</string>
     <string name="settings_import_cards_button_text">Importieren Sie Karten aus einer Datei</string>
