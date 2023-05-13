@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.labels.LabelsFragment">
+    tools:context=".ui.label.list.LabelListFragment">
 
     <TextView
-        android:id="@+id/labels_empty_list_message_text"
+        android:id="@+id/label_list_empty_message_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/labels_empty_list_message"
+        android:text="@string/label_list_empty_list_message"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/labels_recycler_view"
+        android:id="@+id/label_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
@@ -24,12 +24,12 @@
         tools:listitem="@layout/item_label" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/labels_add_label_fab"
+        android:id="@+id/label_list_add_label_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="32dp"
-        android:contentDescription="@string/labels_add_label_fab_content_description"
+        android:contentDescription="@string/label_list_add_label_fab_content_description"
         app:icon="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

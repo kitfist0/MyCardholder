@@ -51,10 +51,10 @@
     <string name="info_dialog_source_code_button_text">Source code</string>
     <!--endregion-->
 
-    <!--region Labels-->
-    <string name="labels_add_label_fab_content_description">Add new label</string>
-    <string name="labels_label">Labels</string>
-    <string name="labels_empty_list_message">No labels</string>
+    <!--region LabelList-->
+    <string name="label_list_add_label_fab_content_description">Add new label</string>
+    <string name="label_list_label">Labels</string>
+    <string name="label_list_empty_list_message">No labels</string>
     <!--endregion-->
 
     <!--region Permission-->

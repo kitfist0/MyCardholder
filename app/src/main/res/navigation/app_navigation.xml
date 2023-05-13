@@ -93,7 +93,7 @@
     <fragment
         android:id="@+id/card_labels_fragment"
         android:name="my.cardholder.ui.card.labels.CardLabelsFragment"
-        android:label="@string/labels_label"
+        android:label="@string/label_list_label"
         tools:layout="@layout/fragment_card_labels">
         <argument
             android:name="card_id"
@@ -115,10 +115,10 @@
     </dialog>
 
     <fragment
-        android:id="@+id/labels_fragment"
-        android:name="my.cardholder.ui.labels.LabelsFragment"
-        android:label="@string/labels_label"
-        tools:layout="@layout/fragment_labels" />
+        android:id="@+id/label_list_fragment"
+        android:name="my.cardholder.ui.label.list.LabelListFragment"
+        android:label="@string/label_list_label"
+        tools:layout="@layout/fragment_label_list" />
 
     <fragment
         android:id="@+id/settings_fragment"
@@ -135,8 +135,8 @@
             android:id="@+id/from_settings_to_coffee"
             app:destination="@id/coffee_dialog" />
         <action
-            android:id="@+id/from_settings_to_labels"
-            app:destination="@id/labels_fragment" />
+            android:id="@+id/from_settings_to_label_list"
+            app:destination="@id/label_list_fragment" />
     </fragment>
 
     <fragment

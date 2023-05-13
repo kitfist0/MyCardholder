@@ -1,4 +1,4 @@
-package my.cardholder.ui.labels
+package my.cardholder.ui.label.list
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,20 +9,20 @@ import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LabelsViewModel @Inject constructor(
+class LabelListViewModel @Inject constructor(
     labelDao: LabelDao,
 ) : BaseViewModel() {
 
-    private val _state = MutableStateFlow<LabelsState>(LabelsState.Empty())
+    private val _state = MutableStateFlow<LabelListState>(LabelListState.Empty())
     val state = _state.asStateFlow()
 
     init {
         labelDao.getLabels()
             .onEach { labels ->
                 _state.value = if (labels.isNotEmpty()) {
-                    LabelsState.Success(labels)
+                    LabelListState.Success(labels)
                 } else {
-                    LabelsState.Empty()
+                    LabelListState.Empty()
                 }
             }
             .launchIn(viewModelScope)

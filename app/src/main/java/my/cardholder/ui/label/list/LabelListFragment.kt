@@ -1,22 +1,21 @@
-package my.cardholder.ui.labels
+package my.cardholder.ui.label.list
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.databinding.FragmentCardLabelsBinding
-import my.cardholder.databinding.FragmentLabelsBinding
+import my.cardholder.databinding.FragmentLabelListBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.card.adapter.LabelAdapter
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
-class LabelsFragment : BaseFragment<FragmentLabelsBinding>(
-    FragmentLabelsBinding::inflate
+class LabelListFragment : BaseFragment<FragmentLabelListBinding>(
+    FragmentLabelListBinding::inflate
 ) {
 
-    override val viewModel: LabelsViewModel by viewModels()
+    override val viewModel: LabelListViewModel by viewModels()
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         LabelAdapter(
@@ -29,11 +28,11 @@ class LabelsFragment : BaseFragment<FragmentLabelsBinding>(
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
-            labelsRecyclerView.apply {
+            labelListRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = listAdapter
             }
-            labelsAddLabelFab.setOnClickListener {
+            labelListAddLabelFab.setOnClickListener {
                 viewModel.onAddLabelFabClicked()
             }
         }
@@ -42,15 +41,14 @@ class LabelsFragment : BaseFragment<FragmentLabelsBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
-                is LabelsState.Empty -> {
-                    binding.labelsAddLabelFab.isVisible = false
-                    binding.labelsEmptyListMessageText.setText(state.messageRes)
+                is LabelListState.Empty -> {
+                    binding.labelListAddLabelFab.isVisible = false
+                    binding.labelListEmptyMessageText.setText(state.messageRes)
                     listAdapter.submitList(null)
                 }
-
-                is LabelsState.Success -> {
-                    binding.labelsAddLabelFab.isVisible = true
-                    binding.labelsEmptyListMessageText.text = null
+                is LabelListState.Success -> {
+                    binding.labelListAddLabelFab.isVisible = true
+                    binding.labelListEmptyMessageText.text = null
                     listAdapter.submitList(state.labels)
                 }
             }

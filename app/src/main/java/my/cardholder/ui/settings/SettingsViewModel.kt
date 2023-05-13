@@ -51,7 +51,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onManageLabelsButtonClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToLabels())
+        navigate(SettingsFragmentDirections.fromSettingsToLabelList())
     }
 
     fun onExportCardsButtonClicked() {
