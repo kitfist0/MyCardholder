@@ -50,6 +50,10 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onManageLabelsButtonClicked() {
+        navigate(SettingsFragmentDirections.fromSettingsToLabels())
+    }
+
     fun onExportCardsButtonClicked() {
         viewModelScope.launch {
             if (cardRepository.cards.first().isNotEmpty()) {

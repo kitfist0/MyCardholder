@@ -66,11 +66,11 @@
 
     <!--region Settings-->
     <string name="settings_about_app_button_text">About app</string>
-    <string name="settings_card_labels_button_text">Manage labels</string>
     <string name="settings_coffee_button_text">Coffee for developers</string>
     <string name="settings_export_cards_button_text">Export cards to file</string>
     <string name="settings_import_cards_button_text">Import cards from a file</string>
     <string name="settings_label">Settings</string>
+    <string name="settings_manage_labels_button_text">Manage labels</string>
     <string name="settings_switch_to_dark_mode_button_text">Switch to dark mode</string>
     <string name="settings_switch_to_light_mode_button_text">Switch to light mode</string>
     <string name="settings_switch_to_multi_column_button_text">Switch to multi-column list of cards</string>

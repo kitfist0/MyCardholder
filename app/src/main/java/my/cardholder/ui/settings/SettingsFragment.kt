@@ -42,6 +42,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             settingsCardListViewButton.setOnClickListener {
                 viewModel.onCardListViewButtonClicked()
             }
+            settingsManageLabelsButton.setOnClickListener {
+                viewModel.onManageLabelsButtonClicked()
+            }
             settingsExportCardsButton.setOnClickListener {
                 viewModel.onExportCardsButtonClicked()
             }
