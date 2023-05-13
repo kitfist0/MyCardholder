@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
-    android:padding="16dp"
+    android:drawablePadding="@dimen/label_item_start_image_padding"
+    android:padding="@dimen/label_item_content_padding"
     android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-    app:drawableEndCompat="@drawable/ic_delete"
+    app:drawableStartCompat="@drawable/ic_label"
     tools:text="Label" />
