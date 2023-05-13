@@ -29,6 +29,7 @@ class LabelListViewModel @Inject constructor(
     }
 
     fun onLabelClicked(label: Label) {
+        navigate(LabelListFragmentDirections.fromLabelListToLabelAction(label.value))
     }
 
     fun onAddLabelFabClicked() {

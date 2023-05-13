@@ -118,7 +118,21 @@
         android:id="@+id/label_list_fragment"
         android:name="my.cardholder.ui.label.list.LabelListFragment"
         android:label="@string/label_list_label"
-        tools:layout="@layout/fragment_label_list" />
+        tools:layout="@layout/fragment_label_list">
+        <action
+            android:id="@+id/from_label_list_to_label_action"
+            app:destination="@id/label_action_dialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/label_action_dialog"
+        android:name="my.cardholder.ui.label.action.LabelActionDialog"
+        android:label="@string/delete_card_dialog_label"
+        tools:layout="@layout/dialog_delete_card">
+        <argument
+            android:name="label_value"
+            app:argType="string" />
+    </dialog>
 
     <fragment
         android:id="@+id/settings_fragment"
