@@ -142,6 +142,11 @@
         <argument
             android:name="label_value"
             app:argType="string" />
+
+        <action
+            android:id="@+id/from_label_action_to_label_edit"
+            app:destination="@id/label_edit_fragment"
+            app:popUpTo="@id/label_list_fragment" />
     </dialog>
 
     <fragment

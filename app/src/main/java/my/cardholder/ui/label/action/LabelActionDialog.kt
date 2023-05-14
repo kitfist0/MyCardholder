@@ -5,6 +5,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogLabelActionBinding
 import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.util.ext.assistedViewModels
+import my.cardholder.util.ext.collectWhenStarted
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -22,8 +23,19 @@ class LabelActionDialog : BaseDialogFragment<DialogLabelActionBinding>(
     }
 
     override fun initViews() {
+        with(binding) {
+            labelActionDeleteButton.setOnClickListener {
+                viewModel.onDeleteButtonClicked()
+            }
+            labelActionEditButton.setOnClickListener {
+                viewModel.onEditButtonClicked()
+            }
+        }
     }
 
     override fun collectData() {
+        collectWhenStarted(viewModel.state) { state ->
+            binding.labelActionTitleText.text = state.title
+        }
     }
 }
