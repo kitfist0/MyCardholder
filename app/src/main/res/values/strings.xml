@@ -56,6 +56,11 @@
     <string name="label_action_delete_label_button_text">Delete label permanently</string>
     <!--endregion-->
 
+    <!--region LabelEdit-->
+    <string name="label_edit_label">Edit label</string>
+    <string name="label_edit_label_text_hint">Label</string>
+    <!--endregion-->
+
     <!--region LabelList-->
     <string name="label_list_add_label_fab_content_description">Add new label</string>
     <string name="label_list_label">Labels</string>

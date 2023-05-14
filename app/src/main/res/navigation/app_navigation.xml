@@ -124,6 +124,16 @@
             app:destination="@id/label_action_dialog" />
     </fragment>
 
+    <fragment
+        android:id="@+id/label_edit_fragment"
+        android:name="my.cardholder.ui.label.edit.LabelEditFragment"
+        android:label="@string/label_edit_label"
+        tools:layout="@layout/fragment_label_edit">
+        <argument
+            android:name="label_value"
+            app:argType="string" />
+    </fragment>
+
     <dialog
         android:id="@+id/label_action_dialog"
         android:name="my.cardholder.ui.label.action.LabelActionDialog"
