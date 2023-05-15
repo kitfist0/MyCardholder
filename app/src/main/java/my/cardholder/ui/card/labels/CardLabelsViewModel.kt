@@ -1,18 +1,17 @@
 package my.cardholder.ui.card.labels
 
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.Navigator
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import my.cardholder.data.CardRepository
 import my.cardholder.data.LabelDao
-import my.cardholder.data.SettingsDataStore
-import my.cardholder.data.model.Label
 import my.cardholder.ui.base.BaseViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class CardLabelsViewModel @Inject constructor(
+class CardLabelsViewModel @AssistedInject constructor(
+    @Assisted("card_id") private val cardId: Long,
+    cardRepository: CardRepository,
     labelDao: LabelDao,
 ) : BaseViewModel() {
 
@@ -20,10 +19,18 @@ class CardLabelsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        labelDao.getLabels()
-            .onEach { labels ->
-                _state.value = if (labels.isNotEmpty()) {
-                    CardLabelsState.Success(labels)
+        cardRepository.getCard(cardId)
+            .combine(labelDao.getLabels()) { card, allLabels ->
+                val cardLabels = card?.labels.orEmpty()
+                allLabels.map { label ->
+                    CardLabelsItemState(
+                        labelValue = label.value,
+                        isChecked = cardLabels.contains(label.value),
+                    )
+                }
+            }.onEach { items ->
+                _state.value = if (items.isNotEmpty()) {
+                    CardLabelsState.Success(items)
                 } else {
                     CardLabelsState.Empty()
                 }
@@ -31,9 +38,13 @@ class CardLabelsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onLabelClicked(label: Label) {
+    fun onCardLabelClicked(cardLabel: CardLabelsItemState) {
     }
+}
 
-    fun onAddLabelFabClicked() {
-    }
+@AssistedFactory
+interface CardLabelsViewModelFactory {
+    fun create(
+        @Assisted("card_id") cardId: Long,
+    ): CardLabelsViewModel
 }
