@@ -39,6 +39,9 @@ class CardLabelsFragment : BaseFragment<FragmentCardLabelsBinding>(
                 layoutManager = LinearLayoutManager(context)
                 adapter = listAdapter
             }
+            cardLabelsManageLabelsFab.setOnClickListener {
+                viewModel.onManageLabelsFabClicked()
+            }
         }
     }
 

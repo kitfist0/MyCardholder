@@ -38,6 +38,10 @@ class CardLabelsViewModel @AssistedInject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun onManageLabelsFabClicked() {
+        navigate(CardLabelsFragmentDirections.fromCardLabelsToLabelList())
+    }
+
     fun onCardLabelClicked(cardLabel: CardLabelsItemState) {
     }
 }
