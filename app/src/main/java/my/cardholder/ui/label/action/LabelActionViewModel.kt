@@ -12,28 +12,28 @@ import my.cardholder.data.model.Label
 import my.cardholder.ui.base.BaseViewModel
 
 class LabelActionViewModel @AssistedInject constructor(
-    @Assisted("label_value") private val labelValue: String,
+    @Assisted("label_text") private val labelText: String,
     private val labelDao: LabelDao,
 ) : BaseViewModel() {
 
-    private val _state = MutableStateFlow(LabelActionState(labelValue))
+    private val _state = MutableStateFlow(LabelActionState(labelText))
     val state = _state.asStateFlow()
 
     fun onDeleteButtonClicked() {
         viewModelScope.launch {
-            labelDao.delete(Label(labelValue))
+            labelDao.delete(Label(labelText))
             navigateUp()
         }
     }
 
     fun onEditButtonClicked() {
-        navigate(LabelActionDialogDirections.fromLabelActionToLabelEdit(labelValue))
+        navigate(LabelActionDialogDirections.fromLabelActionToLabelEdit(labelText))
     }
 }
 
 @AssistedFactory
 interface LabelActionViewModelFactory {
     fun create(
-        @Assisted("label_value") labelValue: String,
+        @Assisted("label_text") labelText: String,
     ): LabelActionViewModel
 }

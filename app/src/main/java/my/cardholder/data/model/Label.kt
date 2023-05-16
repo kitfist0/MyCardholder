@@ -5,5 +5,5 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "labels")
 data class Label(
-    @PrimaryKey val value: String,
+    @PrimaryKey val text: String,
 )

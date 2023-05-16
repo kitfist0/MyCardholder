@@ -19,7 +19,7 @@ class LabelActionDialog : BaseDialogFragment<DialogLabelActionBinding>(
     private val args: LabelActionDialogArgs by navArgs()
 
     override val viewModel: LabelActionViewModel by assistedViewModels {
-        viewModelFactory.create(args.labelValue)
+        viewModelFactory.create(args.labelText)
     }
 
     override fun initViews() {

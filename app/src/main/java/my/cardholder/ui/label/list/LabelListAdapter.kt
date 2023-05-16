@@ -1,4 +1,4 @@
-package my.cardholder.ui.card.adapter
+package my.cardholder.ui.label.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.model.Label
 import my.cardholder.databinding.ItemLabelBinding
 
-class LabelAdapter(
+class LabelListAdapter(
     private val onItemClick: (label: Label) -> Unit,
-) : ListAdapter<Label, LabelAdapter.LabelViewHolder>(LabelDiffCallback) {
+) : ListAdapter<Label, LabelListAdapter.LabelViewHolder>(LabelDiffCallback) {
 
     private companion object {
         object LabelDiffCallback : DiffUtil.ItemCallback<Label>() {
             override fun areItemsTheSame(oldItem: Label, newItem: Label) =
-                oldItem.value == newItem.value
+                oldItem.text == newItem.text
 
             override fun areContentsTheSame(oldItem: Label, newItem: Label) = true
         }
@@ -33,7 +33,7 @@ class LabelAdapter(
         }
 
         fun bind(label: Label) {
-            binding.itemLabelText.text = label.value
+            binding.itemLabelText.text = label.text
         }
     }
 

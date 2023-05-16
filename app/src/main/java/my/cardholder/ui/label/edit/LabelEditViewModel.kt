@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.*
 import my.cardholder.ui.base.BaseViewModel
 
 class LabelEditViewModel @AssistedInject constructor(
-    @Assisted("label_value") private val labelValue: String,
+    @Assisted("label_text") private val labelText: String,
 ) : BaseViewModel() {
 
-    private val _state = MutableStateFlow<LabelEditState>(LabelEditState.Success(labelValue))
+    private val _state = MutableStateFlow<LabelEditState>(LabelEditState.Success(labelText))
     val state = _state.asStateFlow()
 
     fun onOkFabClicked() {
@@ -21,6 +21,6 @@ class LabelEditViewModel @AssistedInject constructor(
 @AssistedFactory
 interface LabelEditViewModelFactory {
     fun create(
-        @Assisted("label_value") labelValue: String,
+        @Assisted("label_text") labelText: String,
     ): LabelEditViewModel
 }

@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentLabelListBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.adapter.LabelAdapter
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
@@ -18,7 +17,7 @@ class LabelListFragment : BaseFragment<FragmentLabelListBinding>(
     override val viewModel: LabelListViewModel by viewModels()
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        LabelAdapter(
+        LabelListAdapter(
             onItemClick = { label ->
                 viewModel.onLabelClicked(label)
             }

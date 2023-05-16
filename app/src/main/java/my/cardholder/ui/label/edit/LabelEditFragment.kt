@@ -21,7 +21,7 @@ class LabelEditFragment : BaseFragment<FragmentLabelEditBinding>(
     private val args: LabelEditFragmentArgs by navArgs()
 
     override val viewModel: LabelEditViewModel by assistedViewModels {
-        viewModelFactory.create(args.labelValue)
+        viewModelFactory.create(args.labelText)
     }
 
     override fun initViews() {

@@ -24,8 +24,8 @@ class CardLabelsViewModel @AssistedInject constructor(
                 val cardLabels = card?.labels.orEmpty()
                 allLabels.map { label ->
                     CardLabelsItemState(
-                        labelValue = label.value,
-                        isChecked = cardLabels.contains(label.value),
+                        labelValue = label.text,
+                        isChecked = cardLabels.contains(label.text),
                     )
                 }
             }.onEach { items ->
