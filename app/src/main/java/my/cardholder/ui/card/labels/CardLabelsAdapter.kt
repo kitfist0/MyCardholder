@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.R
 import my.cardholder.databinding.ItemCardLabelBinding
+import my.cardholder.util.ext.setDrawables
 
 class CardLabelsAdapter(
     private val onItemClick: (itemState: CardLabelsItemState) -> Unit,
@@ -36,12 +37,12 @@ class CardLabelsAdapter(
         fun bind(cardLabel: CardLabelsItemState) {
             binding.itemCardLabelText.apply {
                 text = cardLabel.labelValue
-                setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    0,
-                    0,
-                    if (cardLabel.isChecked) R.drawable.ic_button_checked else R.drawable.ic_button_unchecked,
-                    0
-                )
+                val drawableRes = if (cardLabel.isChecked) {
+                    R.drawable.ic_button_checked
+                } else {
+                    R.drawable.ic_button_unchecked
+                }
+                setDrawables(end = drawableRes)
             }
         }
     }
