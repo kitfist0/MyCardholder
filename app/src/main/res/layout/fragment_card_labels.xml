@@ -12,22 +12,24 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/label_list_empty_list_message"
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        tools:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_labels_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal" />
+        android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_card_label" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/card_labels_add_label_fab"
+        android:id="@+id/card_labels_manage_labels_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="32dp"
-        android:contentDescription="@string/label_list_add_label_fab_content_description"
-        app:icon="@drawable/ic_add"
+        android:text="@string/card_labels_manage_labels_fab_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

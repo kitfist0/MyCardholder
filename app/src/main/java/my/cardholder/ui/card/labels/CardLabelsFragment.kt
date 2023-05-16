@@ -1,6 +1,5 @@
 package my.cardholder.ui.card.labels
 
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,12 +46,10 @@ class CardLabelsFragment : BaseFragment<FragmentCardLabelsBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardLabelsState.Empty -> {
-                    binding.cardLabelsAddLabelFab.isVisible = false
                     binding.cardLabelsEmptyListMessageText.setText(state.messageRes)
                     listAdapter.submitList(null)
                 }
                 is CardLabelsState.Success -> {
-                    binding.cardLabelsAddLabelFab.isVisible = true
                     binding.cardLabelsEmptyListMessageText.text = null
                     listAdapter.submitList(state.cardLabels)
                 }

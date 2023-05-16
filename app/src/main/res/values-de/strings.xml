@@ -15,6 +15,11 @@
     <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
     <!--endregion-->
 
+    <!--region CardLabels-->
+    <string name="card_labels_label">Kartenschlagwörter</string>
+    <string name="card_labels_manage_labels_fab_text">Schlagwörter verwalten</string>
+    <!--endregion-->
+
     <!--region CardList-->
     <string name="card_list_label">Karten</string>
     <string name="card_list_no_cards_message">Keine gescannten Karten</string>

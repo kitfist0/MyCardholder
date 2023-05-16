@@ -15,6 +15,11 @@
     <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>
     <!--endregion-->
 
+    <!--region CardLabels-->
+    <string name="card_labels_label">Card labels</string>
+    <string name="card_labels_manage_labels_fab_text">Manage labels</string>
+    <!--endregion-->
+
     <!--region CardList-->
     <string name="card_list_label">Cards</string>
     <string name="card_list_no_cards_message">No scanned cards</string>

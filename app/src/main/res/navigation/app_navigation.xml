@@ -93,7 +93,7 @@
     <fragment
         android:id="@+id/card_labels_fragment"
         android:name="my.cardholder.ui.card.labels.CardLabelsFragment"
-        android:label="@string/label_list_label"
+        android:label="@string/card_labels_label"
         tools:layout="@layout/fragment_card_labels">
         <argument
             android:name="card_id"
