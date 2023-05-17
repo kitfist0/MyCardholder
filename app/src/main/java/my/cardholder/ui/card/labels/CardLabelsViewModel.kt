@@ -5,13 +5,14 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.LabelDao
 import my.cardholder.ui.base.BaseViewModel
 
 class CardLabelsViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
-    cardRepository: CardRepository,
+    private val cardRepository: CardRepository,
     labelDao: LabelDao,
 ) : BaseViewModel() {
 
@@ -43,6 +44,13 @@ class CardLabelsViewModel @AssistedInject constructor(
     }
 
     fun onCardLabelClicked(cardLabel: CardLabelsItemState) {
+        viewModelScope.launch {
+            if (cardLabel.isChecked) {
+                cardRepository.removeLabelFromCard(cardId, cardLabel.labelValue)
+            } else {
+                cardRepository.addLabelToCard(cardId, cardLabel.labelValue)
+            }
+        }
     }
 }
 
