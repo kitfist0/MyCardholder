@@ -1,5 +1,6 @@
 package my.cardholder.ui.label.edit
 
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentLabelEditBinding
@@ -21,12 +22,14 @@ class LabelEditFragment : BaseFragment<FragmentLabelEditBinding>(
     private val args: LabelEditFragmentArgs by navArgs()
 
     override val viewModel: LabelEditViewModel by assistedViewModels {
-        viewModelFactory.create(args.labelText)
+        viewModelFactory.create(args.labelId)
     }
 
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
+            labelEditLabelTextInputLayout.editText
+                ?.doAfterTextChanged { viewModel.onLabelTextChanged(it?.toString()) }
             labelEditOkFab.setOnClickListener {
                 viewModel.onOkFabClicked()
             }

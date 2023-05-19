@@ -8,32 +8,34 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import my.cardholder.data.LabelDao
-import my.cardholder.data.model.Label
 import my.cardholder.ui.base.BaseViewModel
 
 class LabelActionViewModel @AssistedInject constructor(
-    @Assisted("label_text") private val labelText: String,
+    @Assisted("label_id") private val labelId: Long,
     private val labelDao: LabelDao,
 ) : BaseViewModel() {
 
-    private val _state = MutableStateFlow(LabelActionState(labelText))
+    private val _state = MutableStateFlow(LabelActionState(""))
     val state = _state.asStateFlow()
 
-    fun onDeleteButtonClicked() {
+    init {
         viewModelScope.launch {
-            labelDao.delete(Label(labelText))
-            navigateUp()
+            val labelText = labelDao.getLabel(labelId)?.text.orEmpty()
+            _state.value = LabelActionState(labelText)
         }
     }
 
+    fun onDeleteButtonClicked() {
+    }
+
     fun onEditButtonClicked() {
-        navigate(LabelActionDialogDirections.fromLabelActionToLabelEdit(labelText))
+        navigate(LabelActionDialogDirections.fromLabelActionToLabelEdit(labelId))
     }
 }
 
 @AssistedFactory
 interface LabelActionViewModelFactory {
     fun create(
-        @Assisted("label_text") labelText: String,
+        @Assisted("label_id") labelId: Long,
     ): LabelActionViewModel
 }

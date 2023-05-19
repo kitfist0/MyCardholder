@@ -13,6 +13,9 @@ interface LabelDao {
     @Query("SELECT * FROM labels")
     fun getLabels(): Flow<List<Label>>
 
+    @Query("SELECT * FROM labels WHERE id = :id")
+    suspend fun getLabel(id: Long): Label?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(label: Label)
 

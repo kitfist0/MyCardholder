@@ -133,8 +133,8 @@
         android:label="@string/label_edit_label"
         tools:layout="@layout/fragment_label_edit">
         <argument
-            android:name="label_text"
-            app:argType="string" />
+            android:name="label_id"
+            app:argType="long" />
     </fragment>
 
     <dialog
@@ -143,8 +143,8 @@
         android:label="@string/delete_card_dialog_label"
         tools:layout="@layout/dialog_delete_card">
         <argument
-            android:name="label_text"
-            app:argType="string" />
+            android:name="label_id"
+            app:argType="long" />
         <action
             android:id="@+id/from_label_action_to_label_edit"
             app:destination="@id/label_edit_fragment"
