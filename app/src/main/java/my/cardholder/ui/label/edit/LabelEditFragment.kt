@@ -40,10 +40,16 @@ class LabelEditFragment : BaseFragment<FragmentLabelEditBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is LabelEditState.Loading -> {
-                    binding.labelEditLabelTextInputLayout.isEnabled = false
+                    binding.labelEditLabelTextInputLayout.apply {
+                        hint = ""
+                        isEnabled = false
+                    }
                 }
                 is LabelEditState.Success -> {
-                    binding.labelEditLabelTextInputLayout.isEnabled = true
+                    binding.labelEditLabelTextInputLayout.apply {
+                        setHint(state.hintRes)
+                        isEnabled = true
+                    }
                     binding.labelEditLabelTextInputLayout.editText
                         ?.setTextAndSelectionIfRequired(state.labelText)
                 }

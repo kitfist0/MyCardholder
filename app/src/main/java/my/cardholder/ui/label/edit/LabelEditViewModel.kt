@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.data.LabelDao
 import my.cardholder.ui.base.BaseViewModel
 
@@ -20,7 +21,14 @@ class LabelEditViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch {
             val labelText = labelDao.getLabel(labelId)?.text.orEmpty()
-            _state.value = LabelEditState.Success(labelText)
+            _state.value = LabelEditState.Success(
+                hintRes = if (labelId != -1L) {
+                    R.string.label_edit_label_text_default_hint
+                } else {
+                    R.string.label_edit_label_text_new_hint
+                },
+                labelText = labelText,
+            )
         }
     }
 

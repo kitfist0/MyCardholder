@@ -69,7 +69,8 @@
 
     <!--region LabelEdit-->
     <string name="label_edit_label">Schlagwort bearbeiten</string>
-    <string name="label_edit_label_text_hint">Schlagwort</string>
+    <string name="label_edit_label_text_default_hint">Schlagwort</string>
+    <string name="label_edit_label_text_new_hint">Neues Schlagwort</string>
     <!--endregion-->
 
     <!--region LabelList-->

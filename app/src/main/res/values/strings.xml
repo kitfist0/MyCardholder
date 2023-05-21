@@ -69,7 +69,8 @@
 
     <!--region LabelEdit-->
     <string name="label_edit_label">Edit label</string>
-    <string name="label_edit_label_text_hint">Label</string>
+    <string name="label_edit_label_text_default_hint">Label</string>
+    <string name="label_edit_label_text_new_hint">New label</string>
     <!--endregion-->
 
     <!--region LabelList-->

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_margin="8dp"
-        android:hint="@string/label_edit_label_text_hint">
+        android:hint="@string/label_edit_label_text_default_hint">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

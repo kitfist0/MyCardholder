@@ -137,6 +137,7 @@
         tools:layout="@layout/fragment_label_edit">
         <argument
             android:name="label_id"
+            android:defaultValue="-1L"
             app:argType="long" />
     </fragment>
 
