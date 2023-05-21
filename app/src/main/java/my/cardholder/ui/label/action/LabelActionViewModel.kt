@@ -26,6 +26,10 @@ class LabelActionViewModel @AssistedInject constructor(
     }
 
     fun onDeleteButtonClicked() {
+        viewModelScope.launch {
+            labelDao.deleteLabel(labelId)
+            navigateUp()
+        }
     }
 
     fun onEditButtonClicked() {

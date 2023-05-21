@@ -1,7 +1,6 @@
 package my.cardholder.data
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -16,9 +15,9 @@ interface LabelDao {
     @Query("SELECT * FROM labels WHERE id = :id")
     suspend fun getLabel(id: Long): Label?
 
+    @Query("DELETE FROM labels WHERE id = :id")
+    suspend fun deleteLabel(id: Long)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(label: Label)
-
-    @Delete
-    suspend fun delete(label: Label)
 }
