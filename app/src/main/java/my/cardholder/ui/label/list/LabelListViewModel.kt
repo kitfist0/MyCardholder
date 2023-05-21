@@ -33,5 +33,6 @@ class LabelListViewModel @Inject constructor(
     }
 
     fun onAddLabelFabClicked() {
+        navigate(LabelListFragmentDirections.fromLabelListToLabelEdit())
     }
 }
