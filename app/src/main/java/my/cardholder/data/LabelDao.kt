@@ -15,6 +15,9 @@ interface LabelDao {
     @Query("SELECT * FROM labels WHERE id = :id")
     suspend fun getLabel(id: Long): Label?
 
+    @Query("SELECT * FROM labels WHERE text == :text")
+    suspend fun getLabelByText(text: String): Label?
+
     @Query("DELETE FROM labels WHERE id = :id")
     suspend fun deleteLabel(id: Long)
 
