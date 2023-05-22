@@ -104,22 +104,6 @@ class CardRepository @Inject constructor(
         cardDao.update(newCard)
     }
 
-    suspend fun addLabelToCard(cardId: Long, labelText: String) {
-        cardDao.getCard(cardId).first()?.let { card ->
-            val labels = card.labels.toMutableList()
-            labels.add(labelText)
-            cardDao.update(card.copy(labels = labels))
-        }
-    }
-
-    suspend fun removeLabelFromCard(cardId: Long, labelText: String) {
-        cardDao.getCard(cardId).first()?.let { card ->
-            val labels = card.labels.toMutableList()
-            labels.remove(labelText)
-            cardDao.update(card.copy(labels = labels))
-        }
-    }
-
     suspend fun deleteCard(cardId: Long) {
         getCard(cardId).first()?.let { card ->
             card.barcodeFile?.delete()
@@ -175,7 +159,6 @@ class CardRepository @Inject constructor(
             content = content,
             color = color ?: Card.COLORS.random(),
             format = format,
-            labels = listOf("Sample"),
             barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
         ).also { card ->
             runCatching {

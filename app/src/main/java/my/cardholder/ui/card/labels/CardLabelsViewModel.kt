@@ -5,7 +5,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.LabelDao
 import my.cardholder.ui.base.BaseViewModel
@@ -22,7 +21,7 @@ class CardLabelsViewModel @AssistedInject constructor(
     init {
         cardRepository.getCard(cardId)
             .combine(labelDao.getLabels()) { card, allLabels ->
-                val cardLabels = card?.labels.orEmpty()
+                val cardLabels = emptyList<String>()
                 allLabels.map { label ->
                     CardLabelsItemState(
                         labelValue = label.text,
@@ -44,13 +43,6 @@ class CardLabelsViewModel @AssistedInject constructor(
     }
 
     fun onCardLabelClicked(cardLabel: CardLabelsItemState) {
-        viewModelScope.launch {
-            if (cardLabel.isChecked) {
-                cardRepository.removeLabelFromCard(cardId, cardLabel.labelValue)
-            } else {
-                cardRepository.addLabelToCard(cardId, cardLabel.labelValue)
-            }
-        }
     }
 }
 

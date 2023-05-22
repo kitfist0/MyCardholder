@@ -4,12 +4,13 @@ import androidx.room.TypeConverter
 
 class Converters {
     @TypeConverter
-    fun listToString(value: List<String>?): String? {
+    fun listToString(value: List<Long>?): String? {
         return value?.joinToString(separator = ",")
     }
 
     @TypeConverter
-    fun stringToList(string: String?): List<String>? {
+    fun stringToList(string: String?): List<Long>? {
         return string?.split(",")
+            ?.map { it.toLong() }
     }
 }

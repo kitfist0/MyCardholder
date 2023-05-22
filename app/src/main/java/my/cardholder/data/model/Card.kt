@@ -16,7 +16,6 @@ data class Card(
     val content: String,
     val color: String,
     val format: SupportedFormat,
-    val labels: List<String>,
     val path: BarcodeFilePath?,
 ) {
 
@@ -26,9 +25,8 @@ data class Card(
         content: String,
         color: String,
         format: SupportedFormat,
-        labels: List<String>,
         barcodeFile: File?,
-    ): this(id, name, content, color, format, labels, barcodeFile?.absolutePath)
+    ) : this(id, name, content, color, format, barcodeFile?.absolutePath)
 
     @Ignore
     val barcodeFile: File? = path?.let { File(it) }

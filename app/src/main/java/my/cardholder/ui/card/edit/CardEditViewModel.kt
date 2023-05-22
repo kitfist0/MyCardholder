@@ -29,7 +29,7 @@ class CardEditViewModel @AssistedInject constructor(
             .onEach { card ->
                 _state.value = CardEditState.Success(
                     barcodeFile = card.barcodeFile,
-                    cardLabels = card.labels,
+                    cardLabels = emptyList(),
                     cardName = card.name,
                     cardContent = card.content,
                     barcodeFormatName = card.format.toString(),
