@@ -9,13 +9,12 @@ data class CardWithLabels(
     val card: Card,
 
     @Relation(
-        entity = Label::class,
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
             LabelRef::class,
-            parentColumn = "cardId",
-            entityColumn = "labelId"
+            parentColumn = "card_id",
+            entityColumn = "label_id"
         ),
     )
     val labels: List<Label>
