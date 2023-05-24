@@ -13,6 +13,7 @@ import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.CardWithLabels
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.model.isSquare
 import my.cardholder.util.ext.writeBarcodeBitmap
@@ -40,6 +41,10 @@ class CardRepository @Inject constructor(
 
     fun getCard(cardId: Long): Flow<Card?> {
         return cardDao.getCard(cardId)
+    }
+
+    fun getCardWithLabels(cardId: Long): Flow<CardWithLabels?> {
+        return cardDao.getCardWithLabels(cardId)
     }
 
     suspend fun insertRandomCard(): Long {
