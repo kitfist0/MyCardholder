@@ -24,12 +24,13 @@ class CardEditViewModel @AssistedInject constructor(
     val state = _state.asStateFlow()
 
     init {
-        cardRepository.getCard(cardId)
+        cardRepository.getCardWithLabels(cardId)
             .filterNotNull()
-            .onEach { card ->
+            .onEach { cardWithLabels ->
+                val card = cardWithLabels.card
                 _state.value = CardEditState.Success(
                     barcodeFile = card.barcodeFile,
-                    cardLabels = emptyList(),
+                    cardLabels = cardWithLabels.labels.map { it.text },
                     cardName = card.name,
                     cardContent = card.content,
                     barcodeFormatName = card.format.toString(),
