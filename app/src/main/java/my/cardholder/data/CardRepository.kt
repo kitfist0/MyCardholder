@@ -39,10 +39,6 @@ class CardRepository @Inject constructor(
 
     val cards: Flow<List<Card>> = cardDao.getCards()
 
-    fun getCard(cardId: Long): Flow<Card?> {
-        return cardDao.getCard(cardId)
-    }
-
     fun getCardWithLabels(cardId: Long): Flow<CardWithLabels?> {
         return cardDao.getCardWithLabels(cardId)
     }
@@ -149,6 +145,10 @@ class CardRepository @Inject constructor(
             }
             true
         }
+    }
+
+    private fun getCard(cardId: Long): Flow<Card?> {
+        return cardDao.getCard(cardId)
     }
 
     private fun createNewCardAndBarcodeFile(
