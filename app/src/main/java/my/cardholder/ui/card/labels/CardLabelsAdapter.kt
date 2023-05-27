@@ -16,7 +16,7 @@ class CardLabelsAdapter(
     private companion object {
         object CardLabelDiffCallback : DiffUtil.ItemCallback<CardLabelsItemState>() {
             override fun areItemsTheSame(oldItem: CardLabelsItemState, newItem: CardLabelsItemState) =
-                oldItem.labelValue == newItem.labelValue
+                oldItem.labelId == newItem.labelId
 
             override fun areContentsTheSame(oldItem: CardLabelsItemState, newItem: CardLabelsItemState) =
                 oldItem.isChecked == newItem.isChecked
@@ -36,7 +36,7 @@ class CardLabelsAdapter(
 
         fun bind(cardLabel: CardLabelsItemState) {
             binding.itemCardLabelText.apply {
-                text = cardLabel.labelValue
+                text = cardLabel.labelText
                 val drawableRes = if (cardLabel.isChecked) {
                     R.drawable.ic_button_checked
                 } else {

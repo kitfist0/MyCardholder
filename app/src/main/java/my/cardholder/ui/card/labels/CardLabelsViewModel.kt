@@ -11,7 +11,7 @@ import my.cardholder.ui.base.BaseViewModel
 
 class CardLabelsViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
-    private val cardRepository: CardRepository,
+    cardRepository: CardRepository,
     labelDao: LabelDao,
 ) : BaseViewModel() {
 
@@ -19,13 +19,16 @@ class CardLabelsViewModel @AssistedInject constructor(
     val state = _state.asStateFlow()
 
     init {
-        cardRepository.getCard(cardId)
-            .combine(labelDao.getLabels()) { card, allLabels ->
-                val cardLabels = emptyList<String>()
+        cardRepository.getCardWithLabels(cardId)
+            .combine(labelDao.getLabels()) { cardWithLabels, allLabels ->
+                val cardLabels = cardWithLabels?.labels
+                    ?.map { it.id }
+                    .orEmpty()
                 allLabels.map { label ->
                     CardLabelsItemState(
-                        labelValue = label.text,
-                        isChecked = cardLabels.contains(label.text),
+                        labelId = label.id,
+                        labelText = label.text,
+                        isChecked = cardLabels.contains(label.id),
                     )
                 }
             }.onEach { items ->
