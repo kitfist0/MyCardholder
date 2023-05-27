@@ -5,14 +5,18 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.LabelDao
+import my.cardholder.data.LabelRefDao
+import my.cardholder.data.model.LabelRef
 import my.cardholder.ui.base.BaseViewModel
 
 class CardLabelsViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     cardRepository: CardRepository,
     labelDao: LabelDao,
+    private val labelRefDao: LabelRefDao,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow<CardLabelsState>(CardLabelsState.Empty())
@@ -46,6 +50,14 @@ class CardLabelsViewModel @AssistedInject constructor(
     }
 
     fun onCardLabelClicked(cardLabel: CardLabelsItemState) {
+        viewModelScope.launch {
+            val labelRef = LabelRef(cardId, cardLabel.labelId)
+            if (cardLabel.isChecked) {
+                labelRefDao.delete(labelRef)
+            } else {
+                labelRefDao.insert(labelRef)
+            }
+        }
     }
 }
 
