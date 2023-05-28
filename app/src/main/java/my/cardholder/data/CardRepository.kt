@@ -3,20 +3,11 @@ package my.cardholder.data
 import com.github.doyaaaaaken.kotlincsv.dsl.context.InsufficientFieldsRowBehaviour
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.Writer
-import com.google.zxing.aztec.AztecWriter
-import com.google.zxing.datamatrix.DataMatrixWriter
-import com.google.zxing.oned.*
-import com.google.zxing.pdf417.PDF417Writer
-import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.CardWithLabels
 import my.cardholder.data.model.SupportedFormat
-import my.cardholder.data.model.isSquare
-import my.cardholder.util.ext.writeBarcodeBitmap
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,14 +16,11 @@ import javax.inject.Singleton
 
 @Singleton
 class CardRepository @Inject constructor(
+    private val barcodeFileRepository: BarcodeFileRepository,
     private val cardDao: CardDao,
-    private val filesDir: File,
 ) {
 
     private companion object {
-        const val BARCODE_1X1_SIZE = 650
-        const val BARCODE_3X1_HEIGHT = 325
-        const val BARCODE_3X1_WIDTH = 975
         const val CARD_NAME_FORMAT = "MMMdd HH:mm:ss"
         const val CSV_SCHEME_VERSION = 1
     }
@@ -158,42 +146,14 @@ class CardRepository @Inject constructor(
         color: String? = null,
         format: SupportedFormat,
     ): Card {
+        val barcodeFilePath = barcodeFileRepository.writeBarcodeFile(content, format)
         return Card(
             id = id ?: 0,
             name = name,
             content = content,
             color = color ?: Card.COLORS.random(),
             format = format,
-            barcodeFile = File(filesDir, "${UUID.randomUUID()}.jpeg"),
-        ).also { card ->
-            runCatching {
-                val isSquare = card.format.isSquare()
-                val bitMatrix = getWriter(format).encode(
-                    content,
-                    BarcodeFormat.valueOf(format.toString()),
-                    if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_WIDTH,
-                    if (isSquare) BARCODE_1X1_SIZE else BARCODE_3X1_HEIGHT,
-                )
-                card.barcodeFile?.writeBarcodeBitmap(bitMatrix)
-            }
-        }
-    }
-
-    private fun getWriter(supportedFormat: SupportedFormat): Writer {
-        return when (supportedFormat) {
-            SupportedFormat.UPC_A -> UPCAWriter()
-            SupportedFormat.UPC_E -> UPCEWriter()
-            SupportedFormat.EAN_8 -> EAN8Writer()
-            SupportedFormat.EAN_13 -> EAN13Writer()
-            SupportedFormat.CODE_39 -> Code39Writer()
-            SupportedFormat.CODE_93 -> Code93Writer()
-            SupportedFormat.CODE_128 -> Code128Writer()
-            SupportedFormat.ITF -> ITFWriter()
-            SupportedFormat.CODABAR -> CodaBarWriter()
-            SupportedFormat.QR_CODE -> QRCodeWriter()
-            SupportedFormat.DATA_MATRIX -> DataMatrixWriter()
-            SupportedFormat.AZTEC -> AztecWriter()
-            SupportedFormat.PDF_417 -> PDF417Writer()
-        }
+            path = barcodeFilePath,
+        )
     }
 }
