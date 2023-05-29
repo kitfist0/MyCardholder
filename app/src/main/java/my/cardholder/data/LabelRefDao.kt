@@ -9,7 +9,7 @@ import my.cardholder.data.model.LabelRef
 @Dao
 interface LabelRefDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(labelRef: LabelRef)
+    suspend fun insert(vararg labelRefs: LabelRef)
 
     @Delete
     suspend fun delete(labelRef: LabelRef)
