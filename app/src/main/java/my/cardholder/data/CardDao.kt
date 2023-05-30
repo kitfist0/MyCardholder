@@ -10,6 +10,10 @@ interface CardDao {
     @Query("SELECT * FROM cards ORDER BY id DESC")
     fun getCards(): Flow<List<Card>>
 
+    @Transaction
+    @Query("SELECT * FROM cards")
+    fun getCardsWithLabels(): Flow<List<CardWithLabels>>
+
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCard(id: Long): Flow<Card?>
 
