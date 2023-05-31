@@ -1,14 +1,10 @@
 package my.cardholder.data
 
-import com.github.doyaaaaaken.kotlincsv.dsl.context.InsufficientFieldsRowBehaviour
-import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.CardWithLabels
 import my.cardholder.data.model.SupportedFormat
-import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -22,7 +18,6 @@ class CardRepository @Inject constructor(
 
     private companion object {
         const val CARD_NAME_FORMAT = "MMMdd HH:mm:ss"
-        const val CSV_SCHEME_VERSION = 1
     }
 
     val cards: Flow<List<Card>> = cardDao.getCards()
@@ -97,41 +92,6 @@ class CardRepository @Inject constructor(
         getCard(cardId).first()?.let { card ->
             card.barcodeFile?.delete()
             cardDao.deleteCard(card.id)
-        }
-    }
-
-    suspend fun exportCards(outputStream: OutputStream): Result<Boolean> {
-        return runCatching {
-            csvWriter().openAsync(outputStream) {
-                writeRow(CSV_SCHEME_VERSION)
-                cardDao.getCards().first().reversed().forEach { card ->
-                    writeRow(listOf(card.name, card.content, card.color, card.format))
-                }
-            }
-            true
-        }
-    }
-
-    suspend fun importCards(inputStream: InputStream): Result<Boolean> {
-        val reader = csvReader {
-            insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.IGNORE
-        }
-        return runCatching {
-            reader.openAsync(inputStream) {
-                val version = readNext()?.first()?.toInt()
-                if (version == 1) {
-                    readAllAsSequence(fieldsNum = 4).forEach { row ->
-                        val card = createNewCardAndBarcodeFile(
-                            name = row[0],
-                            content = row[1],
-                            color = row[2],
-                            format = SupportedFormat.valueOf(row[3]),
-                        )
-                        cardDao.insert(card)
-                    }
-                }
-            }
-            true
         }
     }
 
