@@ -64,26 +64,29 @@ class BackupRepository @Inject constructor(
     }
 
     private suspend fun importCard(row: List<String>) {
+        val name = row[CARD_NAME_INDEX]
         val content = row[CARD_CONTENT_INDEX]
         val format = SupportedFormat.valueOf(row[CARD_BARCODE_FORMAT_INDEX])
-        val barcodeFilePath = barcodeFileRepository.writeBarcodeFile(content, format)
-        val labels = if (row.size > MIN_NUM_OF_COLUMNS_FOR_VERSION_1) {
-            row.subList(MIN_NUM_OF_COLUMNS_FOR_VERSION_1, row.lastIndex)
-                .map { Label(0, it) }
-        } else {
-            emptyList()
+        if (cardDao.getCardWithSuchData(name, content, format) == null) {
+            val labels = if (row.size > MIN_NUM_OF_COLUMNS_FOR_VERSION_1) {
+                row.subList(MIN_NUM_OF_COLUMNS_FOR_VERSION_1, row.lastIndex)
+                    .map { Label(0, it) }
+            } else {
+                emptyList()
+            }
+            val barcodeFilePath = barcodeFileRepository.writeBarcodeFile(content, format)
+            val card = Card(
+                id = 0,
+                name = row[CARD_NAME_INDEX],
+                content = content,
+                color = row[CARD_COLOR_INDEX],
+                format = format,
+                path = barcodeFilePath,
+            )
+            val cardId = cardDao.insert(card)
+            val labelIds = labelDao.upsert(labels)
+            val labelRefs = labelIds.map { labelId -> LabelRef(cardId, labelId) }
+            labelRefDao.insert(*labelRefs.toTypedArray())
         }
-        val card = Card(
-            id = 0,
-            name = row[CARD_NAME_INDEX],
-            content = content,
-            color = row[CARD_COLOR_INDEX],
-            format = format,
-            path = barcodeFilePath,
-        )
-        val cardId = cardDao.insert(card)
-        val labelIds = labelDao.upsert(labels)
-        val labelRefs = labelIds.map { labelId -> LabelRef(cardId, labelId) }
-        labelRefDao.insert(*labelRefs.toTypedArray())
     }
 }

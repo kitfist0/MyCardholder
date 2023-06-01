@@ -4,6 +4,7 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.CardWithLabels
+import my.cardholder.data.model.SupportedFormat
 
 @Dao
 interface CardDao {
@@ -20,6 +21,9 @@ interface CardDao {
     @Transaction
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCardWithLabels(id: Long): Flow<CardWithLabels?>
+
+    @Query("SELECT * FROM cards WHERE name = :name AND content = :content AND format = :format LIMIT 1")
+    suspend fun getCardWithSuchData(name: String, content: String, format: SupportedFormat): Card?
 
     @Query("SELECT * FROM cards WHERE name LIKE :name")
     suspend fun getCardsWithNamesLike(name: String): List<Card>
