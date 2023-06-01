@@ -47,6 +47,9 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
             cardEditBarcodeImage.setPadding(getStatusBarHeight())
+            cardEditAddLabelsButton.setOnClickListener {
+                viewModel.onAddLabelsClicked()
+            }
             cardEditCardNameInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
@@ -83,6 +86,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardEditState.Loading -> with(binding) {
+                    cardEditAddLabelsButton.isVisible = false
                     cardEditCardNameInputLayout.isEnabled = false
                     cardEditCardContentInputLayout.isEnabled = false
                     cardEditBarcodeFormatInputLayout.isEnabled = false
@@ -93,6 +97,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         setBackgroundColor(state.cardColor.toColorInt())
                         loadBarcodeImage(state.barcodeFile)
                     }
+                    cardEditAddLabelsButton.isVisible = state.cardLabels.isEmpty()
                     labelTextAdapter.submitList(state.cardLabels)
                     cardEditCardNameInputLayout.apply {
                         isEnabled = true
