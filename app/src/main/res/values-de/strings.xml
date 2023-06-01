@@ -7,6 +7,7 @@
     <!--endregion-->
 
     <!--region CardEdit-->
+    <string name="card_edit_add_labels_button_text">Schlagwört hinzufügen</string>
     <string name="card_edit_barcode_format_hint">Format</string>
     <string name="card_edit_color_hint">Farbe</string>
     <string name="card_edit_content_hint">Text</string>

@@ -35,6 +35,18 @@
         tools:orientation="horizontal"
         tools:reverseLayout="true" />
 
+    <Button
+        android:id="@+id/card_edit_add_labels_button"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:text="@string/card_edit_add_labels_button_text"
+        android:textColor="@android:color/black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/card_edit_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_edit_guideline_horizontal"
         android:layout_width="wrap_content"
