@@ -19,7 +19,7 @@ class CardLabelsAdapter(
                 oldItem.labelId == newItem.labelId
 
             override fun areContentsTheSame(oldItem: CardLabelsItemState, newItem: CardLabelsItemState) =
-                oldItem.isChecked == newItem.isChecked
+                oldItem.labelText == newItem.labelText && oldItem.isChecked == newItem.isChecked
         }
     }
 
