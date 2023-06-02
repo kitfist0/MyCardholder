@@ -1,8 +1,6 @@
 package my.cardholder.data
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
@@ -22,8 +20,8 @@ interface LabelDao {
     @Query("DELETE FROM labels WHERE id = :id")
     suspend fun deleteLabel(id: Long)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(label: Label)
+    @Upsert
+    suspend fun upsert(label: Label)
 
     @Upsert
     suspend fun upsert(labels: List<Label>): List<Long>

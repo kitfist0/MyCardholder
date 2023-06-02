@@ -60,7 +60,7 @@ class LabelEditViewModel @AssistedInject constructor(
                 labelId != NEW_LABEL_ID && labelDao.getLabelByText(labelText) != null ->
                     showSnack("Label already exists")
                 else -> {
-                    labelDao.insert(Label(id = labelId, text = labelText))
+                    labelDao.upsert(Label(id = labelId, text = labelText))
                     navigateUp()
                 }
             }
