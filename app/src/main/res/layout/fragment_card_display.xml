@@ -21,17 +21,6 @@
         tools:ignore="ContentDescription"
         tools:src="@drawable/ic_qr_code" />
 
-    <Button
-        android:id="@+id/card_display_delete_card_button"
-        style="?attr/materialIconButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:icon="@drawable/ic_delete"
-        app:iconTint="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_display_card_labels_recycler_view"
         android:layout_width="0dp"
@@ -56,11 +45,15 @@
 
     <TextView
         android:id="@+id/card_display_card_name_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:ellipsize="marquee"
+        android:lines="1"
+        android:padding="4dp"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
         android:transitionName="@string/transition_card_name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/card_display_guideline_horizontal"
         tools:text="@sample/sample_cards.json/cards/name" />
@@ -70,11 +63,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:background="#11000000"
+        android:lines="4"
+        android:padding="4dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:transitionName="@string/transition_card_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_display_card_name_text"
         tools:text="@sample/sample_cards.json/cards/content" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/card_display_delete_card_button"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:text="@string/card_display_delete_card_button_text"
+        android:textAllCaps="true"
+        android:textColor="?colorError"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_display_card_content_text" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_display_edit_fab"

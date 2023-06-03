@@ -2,8 +2,9 @@
     <string name="app_name">MyCardholder</string>
 
     <!--region CardDisplay-->
-    <string name="card_display_label">Card display</string>
+    <string name="card_display_delete_card_button_text">Delete card permanently</string>
     <string name="card_display_edit_fab_title">Edit</string>
+    <string name="card_display_label">Card display</string>
     <!--endregion-->
 
     <!--region CardEdit-->
