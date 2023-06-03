@@ -5,8 +5,12 @@ import my.cardholder.R
 
 sealed class CardLabelsState {
     data class Empty(
-        @StringRes val messageRes: Int = R.string.label_list_empty_list_message
+        val cardName: String,
+        @StringRes val messageRes: Int = R.string.label_list_empty_list_message,
     ) : CardLabelsState()
 
-    data class Success(val cardLabels: List<CardLabelsItemState>) : CardLabelsState()
+    data class Success(
+        val cardName: String,
+        val cardLabels: List<CardLabelsItemState>,
+    ) : CardLabelsState()
 }

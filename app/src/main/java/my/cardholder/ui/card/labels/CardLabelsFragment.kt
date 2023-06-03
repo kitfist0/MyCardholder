@@ -49,10 +49,12 @@ class CardLabelsFragment : BaseFragment<FragmentCardLabelsBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardLabelsState.Empty -> {
+                    binding.cardLabelsToolbar.title = state.cardName
                     binding.cardLabelsEmptyListMessageText.setText(state.messageRes)
                     listAdapter.submitList(null)
                 }
                 is CardLabelsState.Success -> {
+                    binding.cardLabelsToolbar.title = state.cardName
                     binding.cardLabelsEmptyListMessageText.text = null
                     listAdapter.submitList(state.cardLabels)
                 }

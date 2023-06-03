@@ -19,12 +19,15 @@ class CardLabelsViewModel @AssistedInject constructor(
     private val labelRefDao: LabelRefDao,
 ) : BaseViewModel() {
 
-    private val _state = MutableStateFlow<CardLabelsState>(CardLabelsState.Empty())
+    private var cardName: String = ""
+
+    private val _state = MutableStateFlow<CardLabelsState>(CardLabelsState.Empty(cardName))
     val state = _state.asStateFlow()
 
     init {
         cardRepository.getCardWithLabels(cardId)
             .combine(labelDao.getLabels()) { cardWithLabels, allLabels ->
+                cardName = cardWithLabels?.card?.name.orEmpty()
                 val cardLabels = cardWithLabels?.labels
                     ?.map { it.id }
                     .orEmpty()
@@ -35,11 +38,12 @@ class CardLabelsViewModel @AssistedInject constructor(
                         isChecked = cardLabels.contains(label.id),
                     )
                 }
-            }.onEach { items ->
+            }
+            .onEach { items ->
                 _state.value = if (items.isNotEmpty()) {
-                    CardLabelsState.Success(items)
+                    CardLabelsState.Success(cardName, items)
                 } else {
-                    CardLabelsState.Empty()
+                    CardLabelsState.Empty(cardName)
                 }
             }
             .launchIn(viewModelScope)
