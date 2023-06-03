@@ -76,7 +76,7 @@
 
     <!--region LabelList-->
     <string name="label_list_add_label_fab_content_description">Add new label</string>
-    <string name="label_list_label">Labels</string>
+    <string name="label_list_label">All labels</string>
     <string name="label_list_empty_list_message">No labels</string>
     <!--endregion-->
 
