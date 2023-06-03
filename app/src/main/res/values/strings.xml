@@ -50,12 +50,6 @@
     <string name="delete_card_dialog_title">Delete? The card will be permanently deleted</string>
     <!--endregion-->
 
-    <!--region DeleteLabel-->
-    <string name="delete_label_dialog_button_text">Delete label permanently</string>
-    <string name="delete_label_dialog_label">Delete label</string>
-    <string name="delete_label_dialog_title">Delete? The label will be removed for all cards</string>
-    <!--endregion-->
-
     <!--region Info-->
     <string name="info_dialog_copyright_button_text">Copyright</string>
     <string name="info_dialog_label">Info</string>

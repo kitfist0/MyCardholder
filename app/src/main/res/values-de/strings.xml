@@ -50,12 +50,6 @@
     <string name="delete_card_dialog_title">Löschen? Die Karte wird dauerhaft gelöscht</string>
     <!--endregion-->
 
-    <!--region DeleteLabel-->
-    <string name="delete_label_dialog_button_text">Schlagwort dauerhaft löschen</string>
-    <string name="delete_label_dialog_label">Schlagwort löschen</string>
-    <string name="delete_label_dialog_title">Löschen? Das Schlagwort wird für alle Karten entfernt</string>
-    <!--endregion-->
-
     <!--region Info-->
     <string name="info_dialog_copyright_button_text">Urheberrechte</string>
     <string name="info_dialog_label">Info</string>
