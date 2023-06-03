@@ -7,12 +7,18 @@
     <!--endregion-->
 
     <!--region CardEdit-->
+    <string name="card_edit_add_labels_button_text">Schlagwört hinzufügen</string>
     <string name="card_edit_barcode_format_hint">Format</string>
     <string name="card_edit_color_hint">Farbe</string>
     <string name="card_edit_content_hint">Text</string>
     <string name="card_edit_label">Kartenbearbeitung</string>
     <string name="card_edit_name_hint">Name</string>
     <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
+    <!--endregion-->
+
+    <!--region CardLabels-->
+    <string name="card_labels_label">Kartenschlagwörter</string>
+    <string name="card_labels_manage_labels_fab_text">Schlagwörter verwalten</string>
     <!--endregion-->
 
     <!--region CardList-->
@@ -51,6 +57,23 @@
     <string name="info_dialog_source_code_button_text">Quellcode</string>
     <!--endregion-->
 
+    <!--region LabelAction-->
+    <string name="label_action_edit_label_button_text">Schlagwortname ändern</string>
+    <string name="label_action_delete_label_button_text">Schlagwort dauerhaft löschen</string>
+    <!--endregion-->
+
+    <!--region LabelEdit-->
+    <string name="label_edit_label">Schlagwort bearbeiten</string>
+    <string name="label_edit_label_text_default_hint">Schlagwort</string>
+    <string name="label_edit_label_text_new_hint">Neues Schlagwort</string>
+    <!--endregion-->
+
+    <!--region LabelList-->
+    <string name="label_list_add_label_fab_content_description">Neues Schlagwort hinzufügen</string>
+    <string name="label_list_label">Alle Schlagwörter</string>
+    <string name="label_list_empty_list_message">Keine Schlagwörter</string>
+    <!--endregion-->
+
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Neue Karte manuell hinzufügen</string>
     <string name="permission_grant_button_text">Erteilen</string>
@@ -64,6 +87,7 @@
     <string name="settings_export_cards_button_text">Exportieren Sie Karten in eine Datei</string>
     <string name="settings_import_cards_button_text">Importieren Sie Karten aus einer Datei</string>
     <string name="settings_label">Einstellungen</string>
+    <string name="settings_manage_labels_button_text">Schlagwörter verwalten</string>
     <string name="settings_switch_to_dark_mode_button_text">Wechseln Sie in den dunklen Modus</string>
     <string name="settings_switch_to_light_mode_button_text">Wechseln Sie in den Lichtmodus</string>
     <string name="settings_switch_to_multi_column_button_text">Zur mehrspaltigen Kartenliste wechseln</string>

@@ -9,9 +9,12 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardDisplayBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.ui.card.adapter.LabelTextAdapter
 import my.cardholder.util.ext.*
 import javax.inject.Inject
 
@@ -25,6 +28,13 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
 
     private val args: CardDisplayFragmentArgs by navArgs()
 
+    private val labelTextAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        LabelTextAdapter(
+            onItemClick = { labelText ->
+            }
+        )
+    }
+
     override val viewModel: CardDisplayViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
@@ -33,6 +43,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
             cardDisplayBarcodeImage.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
@@ -52,9 +63,12 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                     .build()
                 viewModel.onEditFabClicked(extras)
             }
-            root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             cardDisplayDeleteCardButton.setOnClickListener {
                 viewModel.onDeleteCardButtonClicked()
+            }
+            cardDisplayCardLabelsRecyclerView.apply {
+                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
+                adapter = labelTextAdapter
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
@@ -77,6 +91,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                             setBackgroundColor(state.cardColor)
                             loadBarcodeImage(state.barcodeFile)
                         }
+                        labelTextAdapter.submitList(state.cardLabels)
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
                         cardDisplayEditFab.isClickable = true

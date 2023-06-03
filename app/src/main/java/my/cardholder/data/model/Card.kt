@@ -19,15 +19,6 @@ data class Card(
     val path: BarcodeFilePath?,
 ) {
 
-    constructor(
-        id: Long,
-        name: String,
-        content: String,
-        color: String,
-        format: SupportedFormat,
-        barcodeFile: File?,
-    ): this(id, name, content, color, format, barcodeFile?.absolutePath)
-
     @Ignore
     val barcodeFile: File? = path?.let { File(it) }
 

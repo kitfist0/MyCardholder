@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.data.BackupRepository
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
@@ -13,6 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    private val backupRepository: BackupRepository,
     private val cardRepository: CardRepository,
     private val settingsDataStore: SettingsDataStore,
 ) : BaseViewModel() {
@@ -50,6 +52,10 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onManageLabelsButtonClicked() {
+        navigate(SettingsFragmentDirections.fromSettingsToLabelList())
+    }
+
     fun onExportCardsButtonClicked() {
         viewModelScope.launch {
             if (cardRepository.cards.first().isNotEmpty()) {
@@ -67,7 +73,7 @@ class SettingsViewModel @Inject constructor(
     fun onExportCardsResult(outputStream: OutputStream?) {
         outputStream?.let {
             viewModelScope.launch {
-                cardRepository.exportCards(it)
+                backupRepository.exportCards(it)
                     .onSuccess { showSnack("Export completed") }
                     .onFailure { showSnack(it.message.orEmpty()) }
             }
@@ -85,7 +91,7 @@ class SettingsViewModel @Inject constructor(
     fun onImportCardsResult(inputStream: InputStream?) {
         inputStream?.let {
             viewModelScope.launch {
-                cardRepository.importCards(it)
+                backupRepository.importCards(it)
                     .onSuccess { showSnack("Import completed") }
                     .onFailure { showSnack(it.message.orEmpty()) }
             }

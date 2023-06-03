@@ -29,8 +29,23 @@
         android:layout_margin="4dp"
         app:icon="@drawable/ic_delete"
         app:iconTint="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@id/card_display_barcode_image"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/card_display_card_labels_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/card_edit_color_hint"
+        android:paddingHorizontal="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/card_display_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:itemCount="2"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_label_text"
+        tools:orientation="horizontal"
+        tools:reverseLayout="true" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_display_guideline_horizontal"

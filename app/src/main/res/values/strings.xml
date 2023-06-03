@@ -7,12 +7,18 @@
     <!--endregion-->
 
     <!--region CardEdit-->
+    <string name="card_edit_add_labels_button_text">Add labels</string>
     <string name="card_edit_barcode_format_hint">Format</string>
     <string name="card_edit_color_hint">Color</string>
     <string name="card_edit_content_hint">Text</string>
     <string name="card_edit_label">Edit</string>
     <string name="card_edit_name_hint">Name</string>
     <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>
+    <!--endregion-->
+
+    <!--region CardLabels-->
+    <string name="card_labels_label">Card labels</string>
+    <string name="card_labels_manage_labels_fab_text">Manage labels</string>
     <!--endregion-->
 
     <!--region CardList-->
@@ -51,6 +57,23 @@
     <string name="info_dialog_source_code_button_text">Source code</string>
     <!--endregion-->
 
+    <!--region LabelAction-->
+    <string name="label_action_edit_label_button_text">Edit label name</string>
+    <string name="label_action_delete_label_button_text">Delete label permanently</string>
+    <!--endregion-->
+
+    <!--region LabelEdit-->
+    <string name="label_edit_label">Edit label</string>
+    <string name="label_edit_label_text_default_hint">Label</string>
+    <string name="label_edit_label_text_new_hint">New label</string>
+    <!--endregion-->
+
+    <!--region LabelList-->
+    <string name="label_list_add_label_fab_content_description">Add new label</string>
+    <string name="label_list_label">All labels</string>
+    <string name="label_list_empty_list_message">No labels</string>
+    <!--endregion-->
+
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Add new card manually</string>
     <string name="permission_grant_button_text">Grant</string>
@@ -64,6 +87,7 @@
     <string name="settings_export_cards_button_text">Export cards to file</string>
     <string name="settings_import_cards_button_text">Import cards from a file</string>
     <string name="settings_label">Settings</string>
+    <string name="settings_manage_labels_button_text">Manage labels</string>
     <string name="settings_switch_to_dark_mode_button_text">Switch to dark mode</string>
     <string name="settings_switch_to_light_mode_button_text">Switch to light mode</string>
     <string name="settings_switch_to_multi_column_button_text">Switch to multi-column list of cards</string>
