@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.BackupRepository
-import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
 import java.io.InputStream
@@ -15,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val backupRepository: BackupRepository,
-    private val cardRepository: CardRepository,
     private val settingsDataStore: SettingsDataStore,
 ) : BaseViewModel() {
 
@@ -57,13 +55,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onExportCardsButtonClicked() {
-        viewModelScope.launch {
-            if (cardRepository.cards.first().isNotEmpty()) {
-                _state.update { it.copy(launchCardsExport = true) }
-            } else {
-                showSnack("No cards to export")
-            }
-        }
+        _state.update { it.copy(launchCardsExport = true) }
     }
 
     fun onExportCardsLaunched() {

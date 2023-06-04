@@ -31,18 +31,23 @@ class BackupRepository @Inject constructor(
     }
 
     suspend fun exportCards(outputStream: OutputStream): Result<Boolean> {
-        return runCatching {
-            csvWriter().openAsync(outputStream) {
-                writeRow(CSV_SCHEME_VERSION_1)
-                cardDao.getCardsWithLabels().first().forEach { cardWithLabels ->
-                    val card = cardWithLabels.card
-                    val row = mutableListOf<Any>(card.name, card.content, card.color, card.format)
-                    val labelTexts = cardWithLabels.labels.map { it.text }
-                    row.addAll(labelTexts)
-                    writeRow(row)
+        val cardWithLabels = cardDao.getCardsWithLabels().first()
+        return if (cardWithLabels.isNotEmpty()) {
+            runCatching {
+                csvWriter().openAsync(outputStream) {
+                    writeRow(CSV_SCHEME_VERSION_1)
+                    cardDao.getCardsWithLabels().first().forEach { cardWithLabels ->
+                        val card = cardWithLabels.card
+                        val row = mutableListOf<Any>(card.name, card.content, card.color, card.format)
+                        val labelTexts = cardWithLabels.labels.map { it.text }
+                        row.addAll(labelTexts)
+                        writeRow(row)
+                    }
                 }
+                true
             }
-            true
+        } else {
+            Result.failure(Throwable("No cards to export"))
         }
     }
 
