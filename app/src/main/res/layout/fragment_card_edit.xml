@@ -67,6 +67,7 @@
         android:layout_margin="8dp"
         android:hint="@string/card_edit_name_hint"
         android:transitionName="@string/transition_card_name"
+        app:hintAnimationEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/card_edit_guideline_horizontal">
@@ -85,6 +86,7 @@
         android:layout_margin="8dp"
         android:hint="@string/card_edit_content_hint"
         android:transitionName="@string/transition_card_content"
+        app:hintAnimationEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_edit_card_name_input_layout">
@@ -104,6 +106,7 @@
         android:layout_margin="8dp"
         android:hint="@string/card_edit_barcode_format_hint"
         android:labelFor="@id/card_edit_barcode_format_auto_complete_text"
+        app:hintAnimationEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_edit_card_content_input_layout">
@@ -125,6 +128,7 @@
         android:layout_margin="8dp"
         android:hint="@string/card_edit_color_hint"
         android:labelFor="@id/card_edit_card_color_auto_complete_text"
+        app:hintAnimationEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_edit_barcode_format_input_layout">
