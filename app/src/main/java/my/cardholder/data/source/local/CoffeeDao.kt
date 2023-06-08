@@ -1,4 +1,4 @@
-package my.cardholder.data
+package my.cardholder.data.source.local
 
 import androidx.room.Dao
 import androidx.room.Insert

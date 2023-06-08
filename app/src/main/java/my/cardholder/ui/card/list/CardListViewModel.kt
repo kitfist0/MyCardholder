@@ -5,7 +5,7 @@ import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import my.cardholder.data.CardRepository
-import my.cardholder.data.SettingsDataStore
+import my.cardholder.data.source.local.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 

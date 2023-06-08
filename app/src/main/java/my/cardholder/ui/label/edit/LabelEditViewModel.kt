@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
-import my.cardholder.data.LabelDao
+import my.cardholder.data.source.local.LabelDao
 import my.cardholder.data.model.Label
 import my.cardholder.ui.base.BaseViewModel
 

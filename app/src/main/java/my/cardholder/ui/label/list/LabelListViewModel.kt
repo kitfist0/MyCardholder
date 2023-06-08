@@ -3,7 +3,7 @@ package my.cardholder.ui.label.list
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import my.cardholder.data.LabelDao
+import my.cardholder.data.source.local.LabelDao
 import my.cardholder.data.model.Label
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject

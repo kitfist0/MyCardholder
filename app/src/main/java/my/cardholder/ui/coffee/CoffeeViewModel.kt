@@ -4,8 +4,8 @@ import android.app.Activity
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import my.cardholder.data.CoffeeDao
-import my.cardholder.data.PlayBillingClient
+import my.cardholder.data.source.local.CoffeeDao
+import my.cardholder.data.source.remote.PlayBillingClient
 import my.cardholder.data.model.Coffee
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject

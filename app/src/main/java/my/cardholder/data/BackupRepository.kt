@@ -8,6 +8,9 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.model.Label
 import my.cardholder.data.model.LabelRef
 import my.cardholder.data.model.SupportedFormat
+import my.cardholder.data.source.local.CardDao
+import my.cardholder.data.source.local.LabelDao
+import my.cardholder.data.source.local.LabelRefDao
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
