@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import my.cardholder.data.source.local.CoffeeDao
-import my.cardholder.data.source.remote.PlayBillingClient
+import my.cardholder.data.source.remote.PlayBillingApi
 import my.cardholder.data.model.Coffee
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CoffeeViewModel @Inject constructor(
     private val coffeeDao: CoffeeDao,
-    private val playBillingClient: PlayBillingClient,
+    private val playBillingApi: PlayBillingApi,
 ) : BaseViewModel() {
 
     val coffees = coffeeDao.getCoffees()
@@ -21,13 +21,13 @@ class CoffeeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             if (coffeeDao.isEmpty()) {
-                playBillingClient.productIds.onEach { productId ->
+                playBillingApi.productIds.onEach { productId ->
                     coffeeDao.insert(
                         Coffee(id = productId, isPurchased = false)
                     )
                 }
             }
-            playBillingClient.getIdsOfPurchasedProducts()
+            playBillingApi.getIdsOfPurchasedProducts()
                 .onSuccess { purchasedIds ->
                     purchasedIds.onEach { onCoffeePurchased(it) }
                 }
@@ -36,7 +36,7 @@ class CoffeeViewModel @Inject constructor(
 
     fun onCoffeeClicked(activity: Activity, productId: String) {
         viewModelScope.launch {
-            playBillingClient.purchaseProduct(activity, productId)
+            playBillingApi.purchaseProduct(activity, productId)
                 .onSuccess { onCoffeePurchased(it) }
                 .onFailure { showSnack(it.message.orEmpty()) }
         }

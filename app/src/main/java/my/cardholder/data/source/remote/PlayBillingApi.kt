@@ -12,7 +12,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Singleton
-class PlayBillingClient @Inject constructor(
+class PlayBillingApi @Inject constructor(
     billingClientBuilder: BillingClient.Builder,
 ) {
 
