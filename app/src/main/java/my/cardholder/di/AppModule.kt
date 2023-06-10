@@ -15,6 +15,7 @@ import my.cardholder.data.source.local.CardDao
 import my.cardholder.data.source.local.CoffeeDao
 import my.cardholder.data.source.local.LabelDao
 import my.cardholder.data.source.local.LabelRefDao
+import my.cardholder.util.PlayBillingWrapper
 import java.io.File
 import javax.inject.Singleton
 
@@ -68,8 +69,10 @@ class AppModule {
     }
 
     @Provides
-    fun provideBillingClientBuilder(app: Application): BillingClient.Builder {
-        return BillingClient.newBuilder(app)
+    @Singleton
+    fun providePlayBillingWrapper(app: Application): PlayBillingWrapper {
+        val billingClientBuilder = BillingClient.newBuilder(app)
+        return PlayBillingWrapper(billingClientBuilder)
     }
 
     @Provides

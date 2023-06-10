@@ -1,6 +1,7 @@
 package my.cardholder.data.source.remote
 
 import com.android.billingclient.api.*
+import my.cardholder.util.PlayBillingWrapper
 import my.cardholder.util.ext.getErrorMessage
 import my.cardholder.util.ext.isOk
 import javax.inject.Inject
@@ -43,9 +44,8 @@ class PlayBillingApi @Inject constructor(
         }
         val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
         return if (purchasesResult.billingResult.isOk()) {
-            playBillingWrapper.getClient().onSuccess { billingClient ->
-                billingClient.acknowledgePurchases(purchasesResult.purchasesList)
-            }
+            playBillingWrapper.getClientOrNull()
+                ?.acknowledgePurchases(purchasesResult.purchasesList)
             Result.success(true)
         } else {
             Result.failure(Throwable(purchasesResult.billingResult.getErrorMessage()))

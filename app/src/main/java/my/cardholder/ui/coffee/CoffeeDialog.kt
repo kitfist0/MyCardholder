@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.billingclient.api.BillingFlowParams
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import my.cardholder.data.source.remote.PlayBillingWrapper
+import my.cardholder.util.PlayBillingWrapper
 import my.cardholder.databinding.DialogCoffeeBinding
 import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.util.ext.collectWhenStarted
@@ -45,7 +45,7 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
     private fun launchBillingFlow(billingFlowParams: BillingFlowParams) {
         viewModel.onBillingFlowLaunched()
         lifecycleScope.launch {
-            playBillingWrapper.getClient().onSuccess { billingClient ->
+            playBillingWrapper.getClientOrNull()?.let { billingClient ->
                 val result = billingClient.launchBillingFlow(requireActivity(), billingFlowParams)
                 viewModel.onBillingFlowResult(result)
             }

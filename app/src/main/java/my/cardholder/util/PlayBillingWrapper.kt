@@ -1,4 +1,4 @@
-package my.cardholder.data.source.remote
+package my.cardholder.util
 
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -9,15 +9,13 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import my.cardholder.util.ext.getErrorMessage
 import my.cardholder.util.ext.isOk
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-@Singleton
-class PlayBillingWrapper @Inject constructor(
+class PlayBillingWrapper constructor(
     billingClientBuilder: BillingClient.Builder,
+    private val billingConnectionMutex: Mutex = Mutex()
 ) {
 
     private val billingClient = billingClientBuilder
@@ -26,8 +24,6 @@ class PlayBillingWrapper @Inject constructor(
         }
         .enablePendingPurchases()
         .build()
-
-    private val billingConnectionMutex: Mutex = Mutex()
 
     val purchasesResultChannel = Channel<PurchasesResult>(Channel.UNLIMITED)
 
@@ -46,6 +42,10 @@ class PlayBillingWrapper @Inject constructor(
                 billingClient
             }
         }
+
+    suspend fun getClientOrNull(): BillingClient? {
+        return getClient().getOrNull()
+    }
 
     private suspend fun BillingClient.connectOrThrow() = suspendCoroutine { continuation ->
         startConnection(
