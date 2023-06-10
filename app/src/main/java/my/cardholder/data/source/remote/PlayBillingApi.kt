@@ -51,7 +51,7 @@ class PlayBillingApi @Inject constructor(
         )
     }
 
-    suspend fun onBillingFlowResult(billingResult: BillingResult): Result<Boolean> {
+    suspend fun processBillingFlowResult(billingResult: BillingResult): Result<Boolean> {
         if (!billingResult.isOk()) {
             return Result.failure(Throwable(billingResult.getErrorMessage()))
         }

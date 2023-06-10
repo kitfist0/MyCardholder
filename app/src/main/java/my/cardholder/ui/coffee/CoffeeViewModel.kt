@@ -9,16 +9,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import my.cardholder.data.source.local.CoffeeDao
-import my.cardholder.data.source.remote.PlayBillingApi
-import my.cardholder.data.model.Coffee
+import my.cardholder.data.CoffeeRepository
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CoffeeViewModel @Inject constructor(
-    private val coffeeDao: CoffeeDao,
-    private val playBillingApi: PlayBillingApi,
+    private val coffeeRepository: CoffeeRepository,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(
@@ -30,27 +27,19 @@ class CoffeeViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        coffeeDao.getCoffees()
+        viewModelScope.launch {
+            coffeeRepository.initialize()
+        }
+        coffeeRepository.coffees
             .onEach { coffees ->
                 _state.update { it.copy(coffees = coffees) }
             }
             .launchIn(viewModelScope)
-        viewModelScope.launch {
-            if (coffeeDao.isEmpty()) {
-                playBillingApi.productIds.onEach { productId ->
-                    coffeeDao.insert(
-                        Coffee(id = productId, isPurchased = false)
-                    )
-                }
-            }
-            playBillingApi.acknowledgePurchasedProducts()
-            updatePurchaseStatusOfCoffees()
-        }
     }
 
-    fun onCoffeeClicked(productId: String) {
+    fun onCoffeeClicked(coffeeId: String) {
         viewModelScope.launch {
-            playBillingApi.getBillingFlowParams(productId)
+            coffeeRepository.getCoffeeBillingFlowParams(coffeeId)
                 .onSuccess { billingFlowParams ->
                     _state.update { it.copy(launchBillingFlowRequest = billingFlowParams) }
                 }
@@ -64,22 +53,8 @@ class CoffeeViewModel @Inject constructor(
 
     fun onBillingFlowResult(billingResult: BillingResult) {
         viewModelScope.launch {
-            playBillingApi.onBillingFlowResult(billingResult)
-                .onSuccess { updatePurchaseStatusOfCoffees() }
+            coffeeRepository.processCoffeeBillingFlowResult(billingResult)
                 .onFailure { showSnack(it.message.orEmpty()) }
-        }
-    }
-
-    private fun updatePurchaseStatusOfCoffees() {
-        viewModelScope.launch {
-            playBillingApi.getIdsOfPurchasedProducts()
-                .onSuccess { purchasedIds ->
-                    purchasedIds.onEach { productId ->
-                        coffeeDao.insert(
-                            Coffee(id = productId, isPurchased = true)
-                        )
-                    }
-                }
         }
     }
 }
