@@ -1,9 +1,8 @@
 package my.cardholder.data.source.local
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 import my.cardholder.data.model.Coffee
 
@@ -15,6 +14,6 @@ interface CoffeeDao {
     @Query("SELECT (SELECT COUNT(*) FROM coffees) == 0")
     suspend fun isEmpty(): Boolean
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(coffee: Coffee): Long
+    @Upsert
+    suspend fun upsert(coffees: List<Coffee>)
 }

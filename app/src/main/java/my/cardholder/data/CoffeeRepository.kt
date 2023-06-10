@@ -19,9 +19,10 @@ class CoffeeRepository @Inject constructor(
 
     suspend fun initialize() {
         if (coffeeDao.isEmpty()) {
-            playBillingApi.productIds.onEach { productId ->
-                coffeeDao.insert(Coffee(id = productId, isPurchased = false))
+            val coffees = playBillingApi.productIds.map { productId ->
+                Coffee(id = productId, isPurchased = false)
             }
+            coffeeDao.upsert(coffees)
         }
         updatePurchaseStatusOfCoffees()
     }
@@ -37,12 +38,11 @@ class CoffeeRepository @Inject constructor(
 
     private suspend fun updatePurchaseStatusOfCoffees() {
         playBillingApi.getIdsOfPurchasedProducts()
-            .onSuccess { purchasedIds ->
-                purchasedIds.onEach { productId ->
-                    coffeeDao.insert(
-                        Coffee(id = productId, isPurchased = true)
-                    )
+            .onSuccess { productIds ->
+                val coffees = productIds.map { productId ->
+                    Coffee(id = productId, isPurchased = true)
                 }
+                coffeeDao.upsert(coffees)
             }
     }
 }
