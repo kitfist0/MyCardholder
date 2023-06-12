@@ -12,7 +12,7 @@ import java.util.concurrent.Executor
 
 @Module
 @InstallIn(SingletonComponent::class)
-class CameraModule {
+object CameraModule {
 
     @Provides
     fun provideCameraProviderFuture(context: Context): ListenableFuture<ProcessCameraProvider> {
