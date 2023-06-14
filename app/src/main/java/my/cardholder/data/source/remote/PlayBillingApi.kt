@@ -14,41 +14,16 @@ class PlayBillingApi @Inject constructor(
 
     val productIds = listOf("coffee.espresso", "coffee.cappuccino", "coffee.latte")
 
-    suspend fun getBillingFlowParams(productId: String): Result<BillingFlowParams?> {
-        return playBillingWrapper.getClient().fold(
-            onSuccess = { billingClient ->
-                val productDetailsResult = billingClient.queryNonConsumableProductDetails()
-                val billingFlowParams = productDetailsResult.productDetailsList
-                    ?.find { it.productId == productId }
-                    ?.let { productDetails ->
-                        val productDetailsParamsList = listOf(
-                            BillingFlowParams.ProductDetailsParams.newBuilder()
-                                .setProductDetails(productDetails)
-                                .build()
-                        )
-                        BillingFlowParams.newBuilder()
-                            .setProductDetailsParamsList(productDetailsParamsList)
-                            .build()
-                    }
-                Result.success(billingFlowParams)
-            },
-            onFailure = {
-                Result.failure(it)
-            }
-        )
-    }
-
-    suspend fun processBillingFlowResult(billingResult: BillingResult): Result<Boolean> {
-        if (!billingResult.isOk()) {
-            return Result.failure(Throwable(billingResult.getErrorMessage()))
-        }
+    suspend fun waitProductPurchaseResult(): Result<Boolean> {
         val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
-        return if (purchasesResult.billingResult.isOk()) {
+        val billingResult = purchasesResult.billingResult
+        val purchasesList = purchasesResult.purchasesList
+        return if (billingResult.isOk() && purchasesList.isNotEmpty()) {
             playBillingWrapper.getClientOrNull()
-                ?.acknowledgePurchasesIfRequired(purchasesResult.purchasesList)
+                ?.acknowledgePurchasesIfRequired(purchasesList)
             Result.success(true)
         } else {
-            Result.failure(Throwable(purchasesResult.billingResult.getErrorMessage()))
+            Result.failure(Throwable(billingResult.getErrorMessage()))
         }
     }
 
@@ -84,21 +59,6 @@ class PlayBillingApi @Inject constructor(
                         .build()
                 )
             }
-    }
-
-    private suspend fun BillingClient.queryNonConsumableProductDetails(
-        vararg productIds: String,
-    ): ProductDetailsResult {
-        val productList = productIds.map { productId ->
-            QueryProductDetailsParams.Product.newBuilder()
-                .setProductId(productId)
-                .setProductType(BillingClient.ProductType.INAPP)
-                .build()
-        }
-        val queryProductDetailsParams = QueryProductDetailsParams.newBuilder()
-            .setProductList(productList)
-            .build()
-        return queryProductDetails(queryProductDetailsParams)
     }
 
     private suspend fun BillingClient.queryNonConsumablePurchases(): PurchasesResult {

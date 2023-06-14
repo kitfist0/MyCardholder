@@ -1,7 +1,5 @@
 package my.cardholder.data
 
-import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.BillingResult
 import kotlinx.coroutines.flow.Flow
 import my.cardholder.data.model.Coffee
 import my.cardholder.data.source.local.CoffeeDao
@@ -27,12 +25,8 @@ class CoffeeRepository @Inject constructor(
         updatePurchaseStatusOfCoffees()
     }
 
-    suspend fun getCoffeeBillingFlowParams(coffeeId: String): Result<BillingFlowParams?> {
-        return playBillingApi.getBillingFlowParams(coffeeId)
-    }
-
-    suspend fun processCoffeeBillingFlowResult(billingResult: BillingResult): Result<Boolean> {
-        return playBillingApi.processBillingFlowResult(billingResult)
+    suspend fun waitCoffeePurchaseResult(): Result<Boolean> {
+        return playBillingApi.waitProductPurchaseResult()
             .onSuccess { updatePurchaseStatusOfCoffees() }
     }
 

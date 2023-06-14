@@ -1,7 +1,6 @@
 package my.cardholder.ui.coffee
 
 import androidx.lifecycle.viewModelScope
-import com.android.billingclient.api.BillingResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +20,7 @@ class CoffeeViewModel @Inject constructor(
     private val _state = MutableStateFlow(
         CoffeeState(
             coffees = emptyList(),
-            launchBillingFlowRequest = null,
+            launchPurchaseFlow = null,
         )
     )
     val state = _state.asStateFlow()
@@ -38,23 +37,21 @@ class CoffeeViewModel @Inject constructor(
     }
 
     fun onCoffeeClicked(coffeeId: String) {
+        _state.update { it.copy(launchPurchaseFlow = coffeeId) }
+    }
+
+    fun onPurchaseFlowLaunched() {
+        _state.update { it.copy(launchPurchaseFlow = null) }
+    }
+
+    fun onPurchaseFlowStartedSuccessfully() {
         viewModelScope.launch {
-            coffeeRepository.getCoffeeBillingFlowParams(coffeeId)
-                .onSuccess { billingFlowParams ->
-                    _state.update { it.copy(launchBillingFlowRequest = billingFlowParams) }
-                }
+            coffeeRepository.waitCoffeePurchaseResult()
                 .onFailure { showSnack(it.message.orEmpty()) }
         }
     }
 
-    fun onBillingFlowLaunched() {
-        _state.update { it.copy(launchBillingFlowRequest = null) }
-    }
-
-    fun onBillingFlowResult(billingResult: BillingResult) {
-        viewModelScope.launch {
-            coffeeRepository.processCoffeeBillingFlowResult(billingResult)
-                .onFailure { showSnack(it.message.orEmpty()) }
-        }
+    fun onPurchaseFlowStartedWithError(throwable: Throwable) {
+        showSnack(throwable.message.orEmpty())
     }
 }

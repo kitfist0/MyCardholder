@@ -3,12 +3,11 @@ package my.cardholder.ui.coffee
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.billingclient.api.BillingFlowParams
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import my.cardholder.util.PlayBillingWrapper
 import my.cardholder.databinding.DialogCoffeeBinding
 import my.cardholder.ui.base.BaseDialogFragment
+import my.cardholder.util.PurchaseFlowLauncher
 import my.cardholder.util.ext.collectWhenStarted
 import javax.inject.Inject
 
@@ -18,7 +17,7 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
 ) {
 
     @Inject
-    lateinit var playBillingWrapper: PlayBillingWrapper
+    lateinit var purchaseFlowLauncher: PurchaseFlowLauncher
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CoffeeAdapter {
@@ -38,17 +37,16 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             listAdapter.submitList(state.coffees)
-            state.launchBillingFlowRequest?.let { launchBillingFlow(it) }
+            state.launchPurchaseFlow?.let { launchPurchaseFlow(it) }
         }
     }
 
-    private fun launchBillingFlow(billingFlowParams: BillingFlowParams) {
-        viewModel.onBillingFlowLaunched()
+    private fun launchPurchaseFlow(productId: String) {
+        viewModel.onPurchaseFlowLaunched()
         lifecycleScope.launch {
-            playBillingWrapper.getClientOrNull()?.let { billingClient ->
-                val result = billingClient.launchBillingFlow(requireActivity(), billingFlowParams)
-                viewModel.onBillingFlowResult(result)
-            }
+            purchaseFlowLauncher.startPurchase(productId)
+                .onSuccess { viewModel.onPurchaseFlowStartedSuccessfully() }
+                .onFailure { viewModel.onPurchaseFlowStartedWithError(it) }
         }
     }
 }
