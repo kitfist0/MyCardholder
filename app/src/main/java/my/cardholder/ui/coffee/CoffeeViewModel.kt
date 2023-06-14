@@ -44,7 +44,7 @@ class CoffeeViewModel @Inject constructor(
         _state.update { it.copy(launchPurchaseFlow = null) }
     }
 
-    fun onPurchaseFlowStartedSuccessfully() {
+    fun onPurchaseFlowStartedSuccessfully(productId: String) {
         viewModelScope.launch {
             coffeeRepository.waitCoffeePurchaseResult()
                 .onFailure { showSnack(it.message.orEmpty()) }

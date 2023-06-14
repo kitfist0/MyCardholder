@@ -18,7 +18,7 @@ class PurchaseFlowLauncher @Inject constructor(
     private val playBillingWrapper: PlayBillingWrapper,
 ) {
 
-    suspend fun startPurchase(productId: String): Result<Boolean> {
+    suspend fun startPurchase(productId: String): Result<String> {
         return playBillingWrapper.getClient().fold(
             onSuccess = { billingClient ->
                 val productDetailsResult = billingClient.queryNonConsumableProductDetails(productId)
@@ -38,7 +38,7 @@ class PurchaseFlowLauncher @Inject constructor(
 
     private fun BillingClient.launchBillingFlowForResult(
         productDetails: ProductDetails,
-    ): Result<Boolean> {
+    ): Result<String> {
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                 .setProductDetails(productDetails)
@@ -49,7 +49,7 @@ class PurchaseFlowLauncher @Inject constructor(
             .build()
         val billingResult = launchBillingFlow(activity, billingFlowParams)
         return if (billingResult.isOk()) {
-            Result.success(true)
+            Result.success(productDetails.productId)
         } else {
             Result.failure(Throwable(billingResult.getErrorMessage()))
         }
