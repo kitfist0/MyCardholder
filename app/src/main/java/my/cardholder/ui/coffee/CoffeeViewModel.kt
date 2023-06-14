@@ -40,11 +40,8 @@ class CoffeeViewModel @Inject constructor(
         _state.update { it.copy(launchPurchaseFlow = coffeeId) }
     }
 
-    fun onPurchaseFlowLaunched() {
+    fun onPurchaseFlowStartedSuccessfully() {
         _state.update { it.copy(launchPurchaseFlow = null) }
-    }
-
-    fun onPurchaseFlowStartedSuccessfully(productId: String) {
         viewModelScope.launch {
             coffeeRepository.waitCoffeePurchaseResult()
                 .onFailure { showSnack(it.message.orEmpty()) }
@@ -52,6 +49,7 @@ class CoffeeViewModel @Inject constructor(
     }
 
     fun onPurchaseFlowStartedWithError(throwable: Throwable) {
+        _state.update { it.copy(launchPurchaseFlow = null) }
         showSnack(throwable.message.orEmpty())
     }
 }

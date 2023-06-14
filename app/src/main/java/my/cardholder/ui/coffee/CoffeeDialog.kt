@@ -42,10 +42,9 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
     }
 
     private fun launchPurchaseFlow(productId: String) {
-        viewModel.onPurchaseFlowLaunched()
         lifecycleScope.launch {
             purchaseFlowLauncher.startPurchase(productId)
-                .onSuccess { viewModel.onPurchaseFlowStartedSuccessfully(it) }
+                .onSuccess { viewModel.onPurchaseFlowStartedSuccessfully() }
                 .onFailure { viewModel.onPurchaseFlowStartedWithError(it) }
         }
     }
