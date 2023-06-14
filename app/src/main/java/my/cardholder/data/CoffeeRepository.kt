@@ -13,12 +13,20 @@ class CoffeeRepository @Inject constructor(
     private val playBillingApi: PlayBillingApi,
 ) {
 
+    private companion object {
+        val COFFEE_IDS = listOf(
+            "coffee.espresso",
+            "coffee.cappuccino",
+            "coffee.latte",
+        )
+    }
+
     val coffees: Flow<List<Coffee>> = coffeeDao.getCoffees()
 
     suspend fun initialize() {
         if (coffeeDao.isEmpty()) {
-            val coffees = playBillingApi.productIds.map { productId ->
-                Coffee(id = productId, isPurchased = false)
+            val coffees = COFFEE_IDS.map { coffeeId ->
+                Coffee(id = coffeeId, isPurchased = false)
             }
             coffeeDao.upsert(coffees)
         }

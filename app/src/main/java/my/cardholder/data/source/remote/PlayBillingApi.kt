@@ -12,21 +12,6 @@ class PlayBillingApi @Inject constructor(
     private val playBillingWrapper: PlayBillingWrapper,
 ) {
 
-    val productIds = listOf("coffee.espresso", "coffee.cappuccino", "coffee.latte")
-
-    suspend fun waitProductPurchaseResult(): Result<Boolean> {
-        val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
-        val billingResult = purchasesResult.billingResult
-        val purchasesList = purchasesResult.purchasesList
-        return if (billingResult.isOk() && purchasesList.isNotEmpty()) {
-            playBillingWrapper.getClientOrNull()
-                ?.acknowledgePurchasesIfRequired(purchasesList)
-            Result.success(true)
-        } else {
-            Result.failure(Throwable(billingResult.getErrorMessage()))
-        }
-    }
-
     suspend fun getIdsOfPurchasedProducts(): Result<List<String>> {
         return playBillingWrapper.getClient().fold(
             onSuccess = { billingClient ->
@@ -46,6 +31,19 @@ class PlayBillingApi @Inject constructor(
                 Result.failure(it)
             }
         )
+    }
+
+    suspend fun waitProductPurchaseResult(): Result<Boolean> {
+        val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
+        val billingResult = purchasesResult.billingResult
+        val purchasesList = purchasesResult.purchasesList
+        return if (billingResult.isOk() && purchasesList.isNotEmpty()) {
+            playBillingWrapper.getClientOrNull()
+                ?.acknowledgePurchasesIfRequired(purchasesList)
+            Result.success(true)
+        } else {
+            Result.failure(Throwable(billingResult.getErrorMessage()))
+        }
     }
 
     private suspend fun BillingClient.acknowledgePurchasesIfRequired(
