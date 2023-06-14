@@ -45,7 +45,7 @@ class PlayBillingApi @Inject constructor(
         val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
         return if (purchasesResult.billingResult.isOk()) {
             playBillingWrapper.getClientOrNull()
-                ?.acknowledgePurchases(purchasesResult.purchasesList)
+                ?.acknowledgePurchasesIfRequired(purchasesResult.purchasesList)
             Result.success(true)
         } else {
             Result.failure(Throwable(purchasesResult.billingResult.getErrorMessage()))
@@ -57,10 +57,12 @@ class PlayBillingApi @Inject constructor(
             onSuccess = { billingClient ->
                 val purchasesResult = billingClient.queryNonConsumablePurchases()
                 if (purchasesResult.billingResult.isOk()) {
-                    val purchases = purchasesResult.purchasesList.filter { it.isPurchased() }
-                    billingClient.acknowledgePurchases(purchases)
-                    val purchasedIds = purchases.flatMap { purchase -> purchase.products }
-                    Result.success(purchasedIds)
+                    val purchasedPurchases = purchasesResult.purchasesList
+                        .filter { it.isPurchased() }
+                    billingClient.acknowledgePurchasesIfRequired(purchasedPurchases)
+                    val purchasedProductIds = purchasedPurchases
+                        .flatMap { purchase -> purchase.products }
+                    Result.success(purchasedProductIds)
                 } else {
                     Result.failure(Throwable(purchasesResult.billingResult.getErrorMessage()))
                 }
@@ -71,8 +73,10 @@ class PlayBillingApi @Inject constructor(
         )
     }
 
-    private suspend fun BillingClient.acknowledgePurchases(purchases: List<Purchase>) {
-        purchases.filter { purchase -> purchase.isPurchased() && !purchase.isAcknowledged }
+    private suspend fun BillingClient.acknowledgePurchasesIfRequired(
+        purchasesList: List<Purchase>
+    ) {
+        purchasesList.filter { purchase -> purchase.isPurchased() && !purchase.isAcknowledged }
             .onEach { purchase ->
                 acknowledgePurchase(
                     AcknowledgePurchaseParams.newBuilder()
@@ -82,7 +86,9 @@ class PlayBillingApi @Inject constructor(
             }
     }
 
-    private suspend fun BillingClient.queryNonConsumableProductDetails(): ProductDetailsResult {
+    private suspend fun BillingClient.queryNonConsumableProductDetails(
+        vararg productIds: String,
+    ): ProductDetailsResult {
         val productList = productIds.map { productId ->
             QueryProductDetailsParams.Product.newBuilder()
                 .setProductId(productId)
