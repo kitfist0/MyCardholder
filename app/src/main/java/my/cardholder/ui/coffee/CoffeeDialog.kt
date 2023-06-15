@@ -37,15 +37,15 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             listAdapter.submitList(state.coffees)
-            state.launchPurchaseFlow?.let { launchPurchaseFlow(it) }
+            state.launchCoffeePurchaseFlow?.let { launchCoffeePurchaseFlow(it) }
         }
     }
 
-    private fun launchPurchaseFlow(productId: String) {
+    private fun launchCoffeePurchaseFlow(productId: String) {
         lifecycleScope.launch {
             purchaseFlowLauncher.startPurchase(productId)
-                .onSuccess { viewModel.onPurchaseFlowStartedSuccessfully() }
-                .onFailure { viewModel.onPurchaseFlowStartedWithError(it) }
+                .onSuccess { viewModel.onCoffeePurchaseFlowStartedSuccessfully() }
+                .onFailure { viewModel.onCoffeePurchaseFlowStartedWithError(it) }
         }
     }
 }
