@@ -3,14 +3,14 @@ package my.cardholder.data
 import kotlinx.coroutines.flow.Flow
 import my.cardholder.data.model.Coffee
 import my.cardholder.data.source.local.CoffeeDao
-import my.cardholder.data.source.remote.PlayBillingApi
+import my.cardholder.data.source.remote.CoffeeApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CoffeeRepository @Inject constructor(
     private val coffeeDao: CoffeeDao,
-    private val playBillingApi: PlayBillingApi,
+    private val coffeeApi: CoffeeApi,
 ) {
 
     private companion object {
@@ -34,12 +34,12 @@ class CoffeeRepository @Inject constructor(
     }
 
     suspend fun waitCoffeePurchaseResult(): Result<Unit> {
-        return playBillingApi.waitProductPurchaseResult()
+        return coffeeApi.waitCoffeePurchaseResult()
             .onSuccess { updatePurchaseStatusOfCoffees() }
     }
 
     private suspend fun updatePurchaseStatusOfCoffees() {
-        playBillingApi.getIdsOfPurchasedProducts()
+        coffeeApi.getIdsOfPurchasedCoffees()
             .onSuccess { coffeeIds ->
                 val coffees = coffeeIds.map { coffeeId ->
                     Coffee(id = coffeeId, isPurchased = true)

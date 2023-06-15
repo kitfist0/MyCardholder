@@ -8,11 +8,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlayBillingApi @Inject constructor(
+class CoffeeApi @Inject constructor(
     private val playBillingWrapper: PlayBillingWrapper,
 ) {
 
-    suspend fun getIdsOfPurchasedProducts(): Result<List<String>> {
+    suspend fun getIdsOfPurchasedCoffees(): Result<List<String>> {
         return playBillingWrapper.getClient().fold(
             onSuccess = { billingClient ->
                 val purchasesResult = billingClient.queryNonConsumablePurchases()
@@ -33,7 +33,7 @@ class PlayBillingApi @Inject constructor(
         )
     }
 
-    suspend fun waitProductPurchaseResult(): Result<Unit> {
+    suspend fun waitCoffeePurchaseResult(): Result<Unit> {
         val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
         val billingResult = purchasesResult.billingResult
         val purchasesList = purchasesResult.purchasesList
