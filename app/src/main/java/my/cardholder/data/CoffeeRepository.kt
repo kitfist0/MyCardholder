@@ -33,16 +33,16 @@ class CoffeeRepository @Inject constructor(
         updatePurchaseStatusOfCoffees()
     }
 
-    suspend fun waitCoffeePurchaseResult(): Result<Boolean> {
+    suspend fun waitCoffeePurchaseResult(): Result<Unit> {
         return playBillingApi.waitProductPurchaseResult()
             .onSuccess { updatePurchaseStatusOfCoffees() }
     }
 
     private suspend fun updatePurchaseStatusOfCoffees() {
         playBillingApi.getIdsOfPurchasedProducts()
-            .onSuccess { productIds ->
-                val coffees = productIds.map { productId ->
-                    Coffee(id = productId, isPurchased = true)
+            .onSuccess { coffeeIds ->
+                val coffees = coffeeIds.map { coffeeId ->
+                    Coffee(id = coffeeId, isPurchased = true)
                 }
                 coffeeDao.upsert(coffees)
             }

@@ -33,14 +33,14 @@ class PlayBillingApi @Inject constructor(
         )
     }
 
-    suspend fun waitProductPurchaseResult(): Result<Boolean> {
+    suspend fun waitProductPurchaseResult(): Result<Unit> {
         val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
         val billingResult = purchasesResult.billingResult
         val purchasesList = purchasesResult.purchasesList
         return if (billingResult.isOk() && purchasesList.isNotEmpty()) {
             playBillingWrapper.getClientOrNull()
                 ?.acknowledgePurchasesIfRequired(purchasesList)
-            Result.success(true)
+            Result.success(Unit)
         } else {
             Result.failure(Throwable(billingResult.getErrorMessage()))
         }
