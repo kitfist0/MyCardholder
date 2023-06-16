@@ -7,7 +7,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import my.cardholder.databinding.DialogCoffeeBinding
 import my.cardholder.ui.base.BaseDialogFragment
-import my.cardholder.util.PurchaseFlowLauncher
 import my.cardholder.util.ext.collectWhenStarted
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
 ) {
 
     @Inject
-    lateinit var purchaseFlowLauncher: PurchaseFlowLauncher
+    lateinit var coffeePurchaseFlowLauncher: CoffeePurchaseFlowLauncher
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CoffeeAdapter {
@@ -43,7 +42,7 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
 
     private fun launchCoffeePurchaseFlow(productId: String) {
         lifecycleScope.launch {
-            purchaseFlowLauncher.startPurchase(productId)
+            coffeePurchaseFlowLauncher.startPurchase(requireActivity(), productId)
                 .onSuccess { viewModel.onCoffeePurchaseFlowStartedSuccessfully() }
                 .onFailure { viewModel.onCoffeePurchaseFlowStartedWithError(it) }
         }

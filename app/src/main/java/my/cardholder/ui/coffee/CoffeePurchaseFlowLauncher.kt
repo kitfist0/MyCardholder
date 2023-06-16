@@ -1,10 +1,11 @@
-package my.cardholder.util
+package my.cardholder.ui.coffee
 
 import android.app.Activity
+import my.cardholder.util.PlayBillingWrapper
 import my.cardholder.util.ext.launchNonConsumableProductPurchase
 import javax.inject.Inject
 
-class PurchaseFlowLauncher @Inject constructor(
+class CoffeePurchaseFlowLauncher @Inject constructor(
     private val playBillingWrapper: PlayBillingWrapper,
 ) {
     suspend fun startPurchase(activity: Activity, productId: String): Result<Unit> {
