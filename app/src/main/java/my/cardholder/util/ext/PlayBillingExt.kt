@@ -1,11 +1,17 @@
 package my.cardholder.util.ext
 
 import android.app.Activity
+import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.ProductDetailsResult
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesResult
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryPurchasesParams
+import com.android.billingclient.api.acknowledgePurchase
 import com.android.billingclient.api.queryProductDetails
+import com.android.billingclient.api.queryPurchasesAsync
 
 suspend fun BillingClient.launchNonConsumableProductPurchase(
     activity: Activity,
@@ -34,7 +40,34 @@ suspend fun BillingClient.launchNonConsumableProductPurchase(
     }
 }
 
-suspend fun BillingClient.queryNonConsumableProductDetails(
+suspend fun BillingClient.queryAndAcknowledgePurchasedProducts(): Result<List<String>> {
+    val purchasesResult = queryNonConsumablePurchases()
+    val purchasesList = purchasesResult.purchasesList
+    return if (purchasesResult.billingResult.isOk()) {
+        acknowledgePurchasesIfRequired(purchasesList)
+        val purchasedProductIds = purchasesList
+            .filter { it.isPurchased() }
+            .flatMap { purchase -> purchase.products }
+        Result.success(purchasedProductIds)
+    } else {
+        Result.failure(Throwable(purchasesResult.billingResult.getErrorMessage()))
+    }
+}
+
+private suspend fun BillingClient.acknowledgePurchasesIfRequired(
+    purchasesList: List<Purchase>,
+) {
+    purchasesList.filter { purchase -> purchase.isPurchased() && !purchase.isAcknowledged }
+        .onEach { purchase ->
+            acknowledgePurchase(
+                AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+                    .build()
+            )
+        }
+}
+
+private suspend fun BillingClient.queryNonConsumableProductDetails(
     productId: String,
 ): ProductDetailsResult {
     val productList = listOf(
@@ -49,3 +82,12 @@ suspend fun BillingClient.queryNonConsumableProductDetails(
             .build()
     )
 }
+
+private suspend fun BillingClient.queryNonConsumablePurchases(): PurchasesResult {
+    val queryPurchasesParams = QueryPurchasesParams.newBuilder()
+        .setProductType(BillingClient.ProductType.INAPP)
+        .build()
+    return queryPurchasesAsync(queryPurchasesParams)
+}
+
+private fun Purchase.isPurchased() = purchaseState == Purchase.PurchaseState.PURCHASED

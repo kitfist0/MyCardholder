@@ -10,11 +10,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.PlayBillingWrapper
+import my.cardholder.util.ext.isOk
+import my.cardholder.util.ext.queryAndAcknowledgePurchasedProducts
 import javax.inject.Inject
 
 @HiltViewModel
 class CoffeeViewModel @Inject constructor(
     private val coffeeRepository: CoffeeRepository,
+    private val playBillingWrapper: PlayBillingWrapper,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(
@@ -28,6 +32,7 @@ class CoffeeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             coffeeRepository.initialize()
+            updatePurchaseStatusOfCoffees()
         }
         coffeeRepository.coffees
             .onEach { coffees ->
@@ -43,13 +48,25 @@ class CoffeeViewModel @Inject constructor(
     fun onCoffeePurchaseFlowStartedSuccessfully() {
         _state.update { it.copy(launchCoffeePurchaseFlow = null) }
         viewModelScope.launch {
-            coffeeRepository.waitCoffeePurchaseResult()
-                .onFailure { showSnack(it.message.orEmpty()) }
+            val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
+            if (purchasesResult.billingResult.isOk()) {
+                updatePurchaseStatusOfCoffees()
+            }
         }
     }
 
     fun onCoffeePurchaseFlowStartedWithError(throwable: Throwable) {
         _state.update { it.copy(launchCoffeePurchaseFlow = null) }
         showSnack(throwable.message.orEmpty())
+    }
+
+    private suspend fun updatePurchaseStatusOfCoffees() {
+        playBillingWrapper.getClient()
+            .onSuccess { billingClient ->
+                billingClient.queryAndAcknowledgePurchasedProducts().onSuccess { purchasedIds ->
+                    coffeeRepository.updatePurchaseStatusOfCoffees(purchasedIds)
+                }
+            }
+            .onFailure { showSnack(it.message.orEmpty()) }
     }
 }
