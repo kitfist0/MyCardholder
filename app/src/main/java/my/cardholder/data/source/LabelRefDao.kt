@@ -1,4 +1,4 @@
-package my.cardholder.data.source.local
+package my.cardholder.data.source
 
 import androidx.room.Dao
 import androidx.room.Delete

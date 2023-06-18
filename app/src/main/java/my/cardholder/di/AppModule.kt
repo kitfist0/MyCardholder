@@ -10,11 +10,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import my.cardholder.data.source.local.AppDatabase
-import my.cardholder.data.source.local.CardDao
-import my.cardholder.data.source.local.CoffeeDao
-import my.cardholder.data.source.local.LabelDao
-import my.cardholder.data.source.local.LabelRefDao
+import my.cardholder.data.source.AppDatabase
+import my.cardholder.data.source.CardDao
+import my.cardholder.data.source.CoffeeDao
+import my.cardholder.data.source.LabelDao
+import my.cardholder.data.source.LabelRefDao
 import my.cardholder.util.PlayBillingWrapper
 import java.io.File
 import javax.inject.Singleton

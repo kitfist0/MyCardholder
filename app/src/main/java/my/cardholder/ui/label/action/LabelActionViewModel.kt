@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import my.cardholder.data.source.local.LabelDao
+import my.cardholder.data.source.LabelDao
 import my.cardholder.ui.base.BaseViewModel
 
 class LabelActionViewModel @AssistedInject constructor(

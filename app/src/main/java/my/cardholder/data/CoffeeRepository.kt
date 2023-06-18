@@ -2,7 +2,7 @@ package my.cardholder.data
 
 import kotlinx.coroutines.flow.Flow
 import my.cardholder.data.model.Coffee
-import my.cardholder.data.source.local.CoffeeDao
+import my.cardholder.data.source.CoffeeDao
 import javax.inject.Inject
 import javax.inject.Singleton
 

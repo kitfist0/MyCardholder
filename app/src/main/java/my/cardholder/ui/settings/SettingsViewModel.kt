@@ -5,7 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.BackupRepository
-import my.cardholder.data.source.local.SettingsDataStore
+import my.cardholder.data.source.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
 import java.io.InputStream
 import java.io.OutputStream

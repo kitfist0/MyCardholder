@@ -1,4 +1,4 @@
-package my.cardholder.data.source.local
+package my.cardholder.data.source
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -1,4 +1,4 @@
-package my.cardholder.data.source.local
+package my.cardholder.data.source
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
