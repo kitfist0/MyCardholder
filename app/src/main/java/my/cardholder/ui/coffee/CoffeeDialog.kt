@@ -16,7 +16,7 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
 ) {
 
     @Inject
-    lateinit var coffeePurchaseFlowLauncher: CoffeePurchaseFlowLauncher
+    lateinit var coffeePurchaseLauncher: CoffeePurchaseLauncher
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CoffeeAdapter {
@@ -36,13 +36,13 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             listAdapter.submitList(state.coffees)
-            state.launchCoffeePurchaseFlow?.let { launchCoffeePurchaseFlow(it) }
+            state.launchCoffeePurchase?.let { launchCoffeePurchase(it) }
         }
     }
 
-    private fun launchCoffeePurchaseFlow(productId: String) {
+    private fun launchCoffeePurchase(productId: String) {
         lifecycleScope.launch {
-            coffeePurchaseFlowLauncher.startPurchase(requireActivity(), productId)
+            coffeePurchaseLauncher.startPurchase(requireActivity(), productId)
                 .onSuccess { viewModel.onCoffeePurchaseFlowStartedSuccessfully() }
                 .onFailure { viewModel.onCoffeePurchaseFlowStartedWithError(it) }
         }

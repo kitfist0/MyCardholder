@@ -4,5 +4,5 @@ import my.cardholder.data.model.Coffee
 
 data class CoffeeState(
     val coffees: List<Coffee>,
-    val launchCoffeePurchaseFlow: String?,
+    val launchCoffeePurchase: String?,
 )

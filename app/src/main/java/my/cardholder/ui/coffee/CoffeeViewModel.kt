@@ -24,7 +24,7 @@ class CoffeeViewModel @Inject constructor(
     private val _state = MutableStateFlow(
         CoffeeState(
             coffees = emptyList(),
-            launchCoffeePurchaseFlow = null,
+            launchCoffeePurchase = null,
         )
     )
     val state = _state.asStateFlow()
@@ -42,11 +42,11 @@ class CoffeeViewModel @Inject constructor(
     }
 
     fun onCoffeeClicked(coffeeId: String) {
-        _state.update { it.copy(launchCoffeePurchaseFlow = coffeeId) }
+        _state.update { it.copy(launchCoffeePurchase = coffeeId) }
     }
 
     fun onCoffeePurchaseFlowStartedSuccessfully() {
-        _state.update { it.copy(launchCoffeePurchaseFlow = null) }
+        _state.update { it.copy(launchCoffeePurchase = null) }
         viewModelScope.launch {
             val purchasesResult = playBillingWrapper.purchasesResultChannel.receive()
             if (purchasesResult.billingResult.isOk()) {
@@ -56,7 +56,7 @@ class CoffeeViewModel @Inject constructor(
     }
 
     fun onCoffeePurchaseFlowStartedWithError(throwable: Throwable) {
-        _state.update { it.copy(launchCoffeePurchaseFlow = null) }
+        _state.update { it.copy(launchCoffeePurchase = null) }
         showSnack(throwable.message.orEmpty())
     }
 
