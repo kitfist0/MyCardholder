@@ -18,6 +18,7 @@ class LabelEditViewModel @AssistedInject constructor(
 
     private companion object {
         const val NEW_LABEL_ID = 0L
+        const val MAX_LABEL_TEXT_LENGTH = 30
     }
 
     private var enteredLabelText: String? = null
@@ -57,6 +58,8 @@ class LabelEditViewModel @AssistedInject constructor(
             when {
                 labelText.isEmpty() ->
                     showSnack("Invalid input")
+                labelText.length > MAX_LABEL_TEXT_LENGTH ->
+                    showSnack("Too long text")
                 labelDao.getLabelByText(labelText) != null ->
                     navigateUp()
                 else -> {
