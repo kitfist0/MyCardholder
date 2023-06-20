@@ -21,7 +21,7 @@
         tools:src="@drawable/ic_qr_code" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/card_edit_card_labels_recycler_view"
+        android:id="@+id/card_edit_label_texts_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/card_edit_color_hint"

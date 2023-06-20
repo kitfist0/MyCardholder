@@ -66,7 +66,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             cardDisplayDeleteCardButton.setOnClickListener {
                 viewModel.onDeleteCardButtonClicked()
             }
-            cardDisplayCardLabelsRecyclerView.apply {
+            cardDisplayLabelTextsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
                 adapter = labelTextAdapter
             }

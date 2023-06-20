@@ -66,7 +66,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
-            cardEditCardLabelsRecyclerView.apply {
+            cardEditLabelTextsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
                 adapter = labelTextAdapter
             }
