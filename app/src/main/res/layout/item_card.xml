@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/card_item_height"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/cardholder_card_view_layout_margin"
     app:cardCornerRadius="@dimen/card_item_corner_radius"
     app:cardElevation="0dp"
     app:strokeWidth="0dp"
     tools:cardBackgroundColor="@sample/sample_cards.json/cards/color">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/item_card_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,21 +41,36 @@
             android:transitionName="@string/transition_card_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_card_barcode_image"
-            tools:text="@sample/sample_cards.json/cards/name" />
+            tools:text="@tools:sample/cities" />
 
         <TextView
             android:id="@+id/item_card_content_text"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:lines="2"
+            android:lines="1"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:transitionName="@string/transition_card_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_card_name_text"
-            tools:text="@sample/sample_cards.json/cards/content" />
+            tools:text="@tools:sample/lorem/random" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/item_card_category_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:ellipsize="end"
+            android:lines="1"
+            android:paddingTop="4dp"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:transitionName="@string/transition_card_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_card_content_text"
+            tools:text="Category" />
+
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
