@@ -1,6 +1,7 @@
 package my.cardholder.data.model
 
 import androidx.core.graphics.toColorInt
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -13,6 +14,8 @@ data class Card(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val name: String,
+    @ColumnInfo("category_id")
+    val categoryId: Long = 0L,
     val content: String,
     val color: String,
     val format: SupportedFormat,

@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.data.source.AppDatabase
 import my.cardholder.data.source.CardDao
+import my.cardholder.data.source.CategoryDao
 import my.cardholder.data.source.CoffeeDao
 import my.cardholder.data.source.LabelDao
 import my.cardholder.data.source.LabelRefDao
@@ -44,6 +45,12 @@ object DataModule {
     @Singleton
     fun provideCardDao(database: AppDatabase): CardDao {
         return database.cardDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(database: AppDatabase): CategoryDao {
+        return database.categoryDao()
     }
 
     @Provides
