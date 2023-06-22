@@ -3,6 +3,7 @@ package my.cardholder.data.source
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.CardAndCategory
 import my.cardholder.data.model.CardWithLabels
 import my.cardholder.data.model.SupportedFormat
 
@@ -17,6 +18,10 @@ interface CardDao {
 
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCard(id: Long): Flow<Card?>
+
+    @Transaction
+    @Query("SELECT * FROM cards")
+    fun getCardsAndCategories(): Flow<CardAndCategory>
 
     @Transaction
     @Query("SELECT * FROM cards WHERE id = :id")
