@@ -9,12 +9,9 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardDisplayBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.adapter.LabelTextAdapter
 import my.cardholder.util.ext.*
 import javax.inject.Inject
 
@@ -27,13 +24,6 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
     lateinit var viewModelFactory: CardDisplayViewModelFactory
 
     private val args: CardDisplayFragmentArgs by navArgs()
-
-    private val labelTextAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        LabelTextAdapter(
-            onItemClick = { labelText ->
-            }
-        )
-    }
 
     override val viewModel: CardDisplayViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
@@ -66,10 +56,6 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             cardDisplayDeleteCardButton.setOnClickListener {
                 viewModel.onDeleteCardButtonClicked()
             }
-            cardDisplayLabelTextsRecyclerView.apply {
-                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
-                adapter = labelTextAdapter
-            }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
                 cardDisplayDeleteCardButton.isVisible = false
@@ -91,7 +77,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                             setBackgroundColor(state.cardColor)
                             loadBarcodeImage(state.barcodeFile)
                         }
-                        labelTextAdapter.submitList(state.cardLabels)
+                        cardDisplayCardCategoryText.text = "Category"
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
                         cardDisplayEditFab.isClickable = true
