@@ -30,6 +30,7 @@
         android:hint="@string/card_edit_color_hint"
         android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
         android:textColor="#FFEAEAEA"
+        android:transitionName="@string/transition_card_category"
         app:chipStrokeColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="@id/card_display_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"

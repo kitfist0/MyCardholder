@@ -41,6 +41,7 @@ class CardAdapter(
                         itemCardBarcodeImage to itemCardBarcodeImage.transitionName,
                         itemCardNameText to itemCardNameText.transitionName,
                         itemCardContentText to itemCardContentText.transitionName,
+                        itemCardCategoryText to itemCardCategoryText.transitionName,
                     )
                 }
                 onItemClick.invoke(card.id, sharedElements)
@@ -65,6 +66,10 @@ class CardAdapter(
                 itemCardContentText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.content
+                }
+                itemCardCategoryText.apply {
+                    setupUniqueTransitionName(uniqueNameSuffix)
+                    text = "Category"
                 }
             }
         }

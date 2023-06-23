@@ -2,6 +2,7 @@
 <resources>
     <string name="transition_card_name">trans_name_%s</string>
     <string name="transition_card_content">trans_content_%s</string>
+    <string name="transition_card_category">trans_category_%s</string>
     <string name="transition_card_barcode">trans_barcode_%s</string>
     <string name="transition_card_fab">trans_fab_%s</string>
     <string name="transition_search">trans_search</string>

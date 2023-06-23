@@ -39,6 +39,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setPadding(getStatusBarHeight())
             }
+            cardDisplayCardCategoryText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardContentText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayEditFab.setupUniqueTransitionName(uniqueNameSuffix)
