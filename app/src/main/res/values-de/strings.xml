@@ -10,10 +10,12 @@
     <!--region CardEdit-->
     <string name="card_edit_add_labels_button_text">Schlagwört hinzufügen</string>
     <string name="card_edit_barcode_format_hint">Format</string>
+    <string name="card_edit_category_hint">Kategorie</string>
     <string name="card_edit_color_hint">Farbe</string>
     <string name="card_edit_content_hint">Text</string>
     <string name="card_edit_label">Kartenbearbeitung</string>
     <string name="card_edit_name_hint">Name</string>
+    <string name="card_edit_no_category_text">Keine Kategorie</string>
     <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
     <!--endregion-->
 
