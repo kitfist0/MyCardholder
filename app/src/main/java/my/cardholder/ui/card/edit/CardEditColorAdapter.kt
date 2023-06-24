@@ -1,4 +1,4 @@
-package my.cardholder.ui.card.adapter
+package my.cardholder.ui.card.edit
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -11,7 +11,7 @@ import androidx.core.graphics.toColorInt
 import androidx.core.widget.TextViewCompat
 import my.cardholder.R
 
-class ColorAdapter constructor(
+class CardEditColorAdapter constructor(
     context: Context,
     private val items: List<String>,
 ) : ArrayAdapter<String>(context, R.layout.item_color, items) {

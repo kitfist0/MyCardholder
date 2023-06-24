@@ -13,8 +13,7 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardEditBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.adapter.ColorAdapter
- import my.cardholder.util.ext.*
+import my.cardholder.util.ext.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -97,7 +96,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditCardColorInputLayout.isEnabled = true
                     (cardEditCardColorInputLayout.editText as? AutoCompleteTextView)?.apply {
                         setTextAndSelectionIfRequired(state.cardColor)
-                        adapter ?: setAdapter(ColorAdapter(context, state.cardColors))
+                        adapter ?: setAdapter(CardEditColorAdapter(context, state.cardColors))
                     }
                 }
             }
