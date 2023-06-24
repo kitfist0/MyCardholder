@@ -21,7 +21,11 @@ interface CardDao {
 
     @Transaction
     @Query("SELECT * FROM cards")
-    fun getCardsAndCategories(): Flow<CardAndCategory>
+    fun getCardsAndCategories(): Flow<List<CardAndCategory>>
+
+    @Transaction
+    @Query("SELECT * FROM cards WHERE id = :id")
+    fun getCardAndCategory(id: Long): Flow<CardAndCategory?>
 
     @Transaction
     @Query("SELECT * FROM cards WHERE id = :id")

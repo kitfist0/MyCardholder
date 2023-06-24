@@ -3,6 +3,7 @@ package my.cardholder.data
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.CardAndCategory
 import my.cardholder.data.model.CardWithLabels
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CardDao
@@ -23,8 +24,14 @@ class CardRepository @Inject constructor(
 
     val cards: Flow<List<Card>> = cardDao.getCards()
 
+    val cardsAndCategories: Flow<List<CardAndCategory>> = cardDao.getCardsAndCategories()
+
     fun getCardWithLabels(cardId: Long): Flow<CardWithLabels?> {
         return cardDao.getCardWithLabels(cardId)
+    }
+
+    fun getCardAndCategory(cardId: Long): Flow<CardAndCategory?> {
+        return cardDao.getCardAndCategory(cardId)
     }
 
     suspend fun insertRandomCard(): Long {
