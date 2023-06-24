@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
         android:backgroundTint="#88000000"
-        android:hint="@string/card_edit_color_hint"
         android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
         android:textColor="#FFEAEAEA"
         android:transitionName="@string/transition_card_category"

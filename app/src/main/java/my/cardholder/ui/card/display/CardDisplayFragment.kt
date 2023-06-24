@@ -71,14 +71,17 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
         collectWhenStarted(viewModel.state) { state ->
             with(binding) {
                 when (state) {
-                    is CardDisplayState.Loading ->
+                    is CardDisplayState.Loading -> {
+                        cardDisplayCardCategoryText.isVisible = false
                         cardDisplayEditFab.isClickable = false
+                    }
                     is CardDisplayState.Success -> {
                         cardDisplayBarcodeImage.apply {
                             setBackgroundColor(state.cardColor)
                             loadBarcodeImage(state.barcodeFile)
                         }
-                        cardDisplayCardCategoryText.text = "Category"
+                        cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
+                        cardDisplayCardCategoryText.text = state.cardCategory
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
                         cardDisplayEditFab.isClickable = true
