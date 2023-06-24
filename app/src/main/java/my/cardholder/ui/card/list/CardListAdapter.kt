@@ -70,7 +70,7 @@ class CardListAdapter(
                 }
                 itemCardCategoryText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
-                    text = cardAndCategory.category.name
+                    text = cardAndCategory.category?.name.orEmpty()
                 }
             }
         }

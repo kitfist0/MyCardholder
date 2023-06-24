@@ -11,5 +11,5 @@ data class CardAndCategory(
         parentColumn = "category_id",
         entityColumn = "id"
     )
-    val category: Category
+    val category: Category?
 )
