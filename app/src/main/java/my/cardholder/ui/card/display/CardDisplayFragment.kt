@@ -47,6 +47,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                 val sharedElements = mapOf<View, String>(
                     cardDisplayCardNameText to cardDisplayCardNameText.transitionName,
                     cardDisplayCardContentText to cardDisplayCardContentText.transitionName,
+                    cardDisplayCardCategoryText to cardDisplayCardCategoryText.transitionName,
                     cardDisplayEditFab to cardDisplayEditFab.transitionName,
                 )
                 val extras = FragmentNavigator.Extras.Builder()
