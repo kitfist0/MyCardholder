@@ -17,8 +17,9 @@ class CardEditViewModel @AssistedInject constructor(
 
     private var updatedCardName: String? = null
     private var updatedCardContent: String? = null
-    private var updatedCardFormat: SupportedFormat? = null
+    private var updatedCardCategory: String? = null
     private var updatedCardColor: String? = null
+    private var updatedCardFormat: SupportedFormat? = null
 
     private val _state = MutableStateFlow<CardEditState>(CardEditState.Loading)
     val state = _state.asStateFlow()
@@ -65,8 +66,11 @@ class CardEditViewModel @AssistedInject constructor(
         updateCardData()
     }
 
-    fun onCardFormatChanged(cardFormat: String?) {
-        updatedCardFormat = cardFormat?.let { SupportedFormat.valueOf(it) }
+    fun onCardCategoryChanged(cardCategory: String?) {
+        if (cardCategory == null || updatedCardCategory == cardCategory) {
+            return
+        }
+        updatedCardCategory = cardCategory
         updateCardData()
     }
 
@@ -78,6 +82,11 @@ class CardEditViewModel @AssistedInject constructor(
         viewModelScope.launch {
             cardRepository.updateCardColor(cardId, cardColor)
         }
+    }
+
+    fun onCardFormatChanged(cardFormat: String?) {
+        updatedCardFormat = cardFormat?.let { SupportedFormat.valueOf(it) }
+        updateCardData()
     }
 
     private fun updateCardData() {
