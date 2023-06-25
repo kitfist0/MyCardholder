@@ -85,22 +85,6 @@
         <argument
             android:name="card_id"
             app:argType="long" />
-        <action
-            android:id="@+id/from_card_edit_to_card_labels"
-            app:destination="@id/card_labels_fragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/card_labels_fragment"
-        android:name="my.cardholder.ui.card.labels.CardLabelsFragment"
-        android:label="@string/card_labels_label"
-        tools:layout="@layout/fragment_card_labels">
-        <argument
-            android:name="card_id"
-            app:argType="long" />
-        <action
-            android:id="@+id/from_card_labels_to_label_list"
-            app:destination="@id/label_list_fragment" />
     </fragment>
 
     <dialog
