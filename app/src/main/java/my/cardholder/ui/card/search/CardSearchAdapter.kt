@@ -1,4 +1,4 @@
-package my.cardholder.ui.card.adapter
+package my.cardholder.ui.card.search
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -15,9 +15,9 @@ import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.ext.loadBarcodeImage
 import my.cardholder.util.ext.setupUniqueTransitionName
 
-class CardAdapter(
-    private val onItemClick: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
-) : ListAdapter<Card, CardAdapter.CardViewHolder>(CardDiffCallback) {
+class CardSearchAdapter(
+    private val onItemClicked: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
+) : ListAdapter<Card, CardSearchAdapter.CardViewHolder>(CardDiffCallback) {
 
     private companion object {
         object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
@@ -44,7 +44,7 @@ class CardAdapter(
                         itemCardCategoryText to itemCardCategoryText.transitionName,
                     )
                 }
-                onItemClick.invoke(card.id, sharedElements)
+                onItemClicked.invoke(card.id, sharedElements)
             }
         }
 
