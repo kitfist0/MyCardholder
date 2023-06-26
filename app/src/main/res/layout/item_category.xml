@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="@dimen/category_item_content_padding"
+    android:weightSum="3">
+
+    <TextView
+        android:id="@+id/item_category_name_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:drawablePadding="@dimen/label_item_start_image_padding"
+        android:lines="1"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        tools:text="Category" />
+
+    <TextView
+        android:id="@+id/item_category_number_of_cards_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        tools:text="0" />
+
+</LinearLayout>

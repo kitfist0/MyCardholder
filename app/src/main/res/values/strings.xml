@@ -37,6 +37,12 @@
     <string name="card_scan_label">Scan</string>
     <!--endregion-->
 
+    <!--region Categories-->
+    <string name="categories_add_category_fab_content_description">Add new card category</string>
+    <string name="categories_label">Categories</string>
+    <string name="categories_empty_list_message">No categories</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Coffee</string>
     <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>
