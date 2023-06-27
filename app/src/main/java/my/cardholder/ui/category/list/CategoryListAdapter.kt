@@ -1,4 +1,4 @@
-package my.cardholder.ui.categories
+package my.cardholder.ui.category.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.model.Category
 import my.cardholder.databinding.ItemCategoryBinding
 
-class CategoriesAdapter(
+class CategoryListAdapter(
     private val onItemClicked: (category: Category) -> Unit,
-) : ListAdapter<Category, CategoriesAdapter.CategoryViewHolder>(LabelDiffCallback) {
+) : ListAdapter<Category, CategoryListAdapter.CategoryViewHolder>(LabelDiffCallback) {
 
     private companion object {
         object LabelDiffCallback : DiffUtil.ItemCallback<Category>() {

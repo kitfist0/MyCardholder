@@ -37,10 +37,10 @@
     <string name="card_scan_label">Kartenscan</string>
     <!--endregion-->
 
-    <!--region Categories-->
-    <string name="categories_add_category_fab_content_description">Neue Kartenkategorie hinzufügen</string>
-    <string name="categories_label">Kartenkategorien</string>
-    <string name="categories_empty_list_message">Keine Kartenkategorien</string>
+    <!--region CategoryList-->
+    <string name="category_list_add_category_fab_content_description">Neue Kartenkategorie hinzufügen</string>
+    <string name="category_list_label">Kartenkategorien</string>
+    <string name="category_list_empty_list_message">Keine Kartenkategorien</string>
     <!--endregion-->
 
     <!--region Coffee-->

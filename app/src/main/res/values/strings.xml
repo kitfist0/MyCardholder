@@ -37,10 +37,10 @@
     <string name="card_scan_label">Scan</string>
     <!--endregion-->
 
-    <!--region Categories-->
-    <string name="categories_add_category_fab_content_description">Add new card category</string>
-    <string name="categories_label">Card categories</string>
-    <string name="categories_empty_list_message">No categories</string>
+    <!--region CategoryList-->
+    <string name="category_list_add_category_fab_content_description">Add new card category</string>
+    <string name="category_list_label">Card categories</string>
+    <string name="category_list_empty_list_message">No categories</string>
     <!--endregion-->
 
     <!--region Coffee-->
