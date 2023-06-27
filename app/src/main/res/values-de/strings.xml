@@ -37,6 +37,12 @@
     <string name="card_scan_label">Kartenscan</string>
     <!--endregion-->
 
+    <!--region CategoryEdit-->
+    <string name="category_edit_category_name_hint">Name</string>
+    <string name="category_edit_toolbar_title">Kartenkategorie</string>
+    <string name="category_edit_delete_menu_item_title">Kategorie löschen</string>
+    <!--endregion-->
+
     <!--region CategoryList-->
     <string name="category_list_add_category_fab_content_description">Neue Kartenkategorie hinzufügen</string>
     <string name="category_list_label">Kartenkategorien</string>
