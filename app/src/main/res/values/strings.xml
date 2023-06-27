@@ -39,14 +39,16 @@
 
     <!--region CategoryEdit-->
     <string name="category_edit_category_name_hint">Name</string>
+    <string name="category_edit_category_toolbar_title">Card category</string>
     <string name="category_edit_delete_menu_item_title">Delete category</string>
-    <string name="category_edit_toolbar_title">Card category</string>
+    <string name="category_edit_label">Card category</string>
+    <string name="category_edit_new_category_toolbar_title">New category</string>
     <!--endregion-->
 
     <!--region CategoryList-->
     <string name="category_list_add_category_fab_content_description">Add new card category</string>
-    <string name="category_list_label">Card categories</string>
     <string name="category_list_empty_list_message">No categories</string>
+    <string name="category_list_label">Card categories</string>
     <!--endregion-->
 
     <!--region Coffee-->

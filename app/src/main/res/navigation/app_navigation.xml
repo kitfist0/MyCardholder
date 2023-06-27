@@ -93,6 +93,17 @@
         android:label="@string/category_list_label"
         tools:layout="@layout/fragment_category_list" />
 
+    <fragment
+        android:id="@+id/category_edit_fragment"
+        android:name="my.cardholder.ui.category.edit.CategoryEditFragment"
+        android:label="@string/category_edit_label"
+        tools:layout="@layout/fragment_category_edit">
+        <argument
+            android:name="category_id"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+
     <dialog
         android:id="@+id/delete_card_dialog"
         android:name="my.cardholder.ui.card.delete.DeleteCardDialog"

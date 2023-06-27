@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/category_edit_menu"
-        app:title="@string/category_edit_toolbar_title" />
+        app:title="@string/category_edit_category_toolbar_title" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/category_edit_category_name_input_layout"

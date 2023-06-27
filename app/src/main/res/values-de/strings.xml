@@ -39,14 +39,16 @@
 
     <!--region CategoryEdit-->
     <string name="category_edit_category_name_hint">Name</string>
-    <string name="category_edit_toolbar_title">Kartenkategorie</string>
+    <string name="category_edit_category_toolbar_title">Kartenkategorie</string>
     <string name="category_edit_delete_menu_item_title">Kategorie löschen</string>
+    <string name="category_edit_label">Kartenkategorie</string>
+    <string name="category_edit_new_category_toolbar_title">Neue Kartenkategorie</string>
     <!--endregion-->
 
     <!--region CategoryList-->
     <string name="category_list_add_category_fab_content_description">Neue Kartenkategorie hinzufügen</string>
-    <string name="category_list_label">Kartenkategorien</string>
     <string name="category_list_empty_list_message">Keine Kartenkategorien</string>
+    <string name="category_list_label">Kartenkategorien</string>
     <!--endregion-->
 
     <!--region Coffee-->
