@@ -91,7 +91,11 @@
         android:id="@+id/category_list_fragment"
         android:name="my.cardholder.ui.category.list.CategoryListFragment"
         android:label="@string/category_list_label"
-        tools:layout="@layout/fragment_category_list" />
+        tools:layout="@layout/fragment_category_list">
+        <action
+            android:id="@+id/from_category_list_to_category_edit"
+            app:destination="@id/category_edit_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/category_edit_fragment"

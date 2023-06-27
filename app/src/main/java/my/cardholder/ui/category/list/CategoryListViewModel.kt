@@ -29,9 +29,10 @@ class CategoryListViewModel @Inject constructor(
     }
 
     fun onCategoryClicked(category: Category) {
-        showSnack(category.name)
+        navigate(CategoryListFragmentDirections.fromCategoryListToCategoryEdit(category.id))
     }
 
     fun onAddCategoryFabClicked() {
+        navigate(CategoryListFragmentDirections.fromCategoryListToCategoryEdit())
     }
 }
