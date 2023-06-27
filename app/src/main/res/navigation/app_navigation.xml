@@ -87,6 +87,12 @@
             app:argType="long" />
     </fragment>
 
+    <fragment
+        android:id="@+id/categories_fragment"
+        android:name="my.cardholder.ui.categories.CategoriesFragment"
+        android:label="@string/categories_label"
+        tools:layout="@layout/fragment_categories" />
+
     <dialog
         android:id="@+id/delete_card_dialog"
         android:name="my.cardholder.ui.card.delete.DeleteCardDialog"
@@ -154,8 +160,8 @@
             android:id="@+id/from_settings_to_coffee"
             app:destination="@id/coffee_dialog" />
         <action
-            android:id="@+id/from_settings_to_label_list"
-            app:destination="@id/label_list_fragment" />
+            android:id="@+id/from_settings_to_categories"
+            app:destination="@id/categories_fragment" />
     </fragment>
 
     <fragment
