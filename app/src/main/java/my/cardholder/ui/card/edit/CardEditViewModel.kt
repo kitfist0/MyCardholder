@@ -8,16 +8,22 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
+import my.cardholder.data.source.CategoryDao
 import my.cardholder.ui.base.BaseViewModel
 
 class CardEditViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
+    private val categoryDao: CategoryDao,
 ) : BaseViewModel() {
+
+    private companion object {
+        const val NO_CATEGORY_NAME_TEXT = "No category"
+    }
 
     private var updatedCardName: String? = null
     private var updatedCardContent: String? = null
-    private var updatedCardCategory: String? = null
+    private var updatedCardCategoryName: String? = null
     private var updatedCardColor: String? = null
     private var updatedCardFormat: SupportedFormat? = null
 
@@ -25,15 +31,17 @@ class CardEditViewModel @AssistedInject constructor(
     val state = _state.asStateFlow()
 
     init {
-        cardRepository.getCardWithLabels(cardId)
+        cardRepository.getCardAndCategory(cardId)
             .filterNotNull()
-            .onEach { cardWithLabels ->
-                val card = cardWithLabels.card
+            .onEach { cardAndCategory ->
+                val categoryNames = categoryDao.getCategoryNames()
+                val card = cardAndCategory.card
                 _state.value = CardEditState.Success(
                     barcodeFile = card.barcodeFile,
-                    cardLabels = cardWithLabels.labels.map { it.text },
                     cardName = card.name,
                     cardContent = card.content,
+                    cardCategoryName = cardAndCategory.category?.name ?: NO_CATEGORY_NAME_TEXT,
+                    cardCategoryNames = listOf(NO_CATEGORY_NAME_TEXT).plus(categoryNames),
                     barcodeFormatName = card.format.toString(),
                     cardColor = card.color,
                 )
@@ -58,12 +66,19 @@ class CardEditViewModel @AssistedInject constructor(
         updateCardData()
     }
 
-    fun onCardCategoryChanged(cardCategory: String?) {
-        if (cardCategory == null || updatedCardCategory == cardCategory) {
+    fun onCardCategoryNameChanged(cardCategoryName: String?) {
+        if (cardCategoryName == null || updatedCardCategoryName == cardCategoryName) {
             return
         }
-        updatedCardCategory = cardCategory
-        updateCardData()
+        updatedCardCategoryName = cardCategoryName
+        viewModelScope.launch {
+            val category = if (cardCategoryName != NO_CATEGORY_NAME_TEXT) {
+                categoryDao.getCategoryByName(cardCategoryName)
+            } else {
+                null
+            }
+            cardRepository.updateCardCategoryId(cardId, category?.id)
+        }
     }
 
     fun onCardColorChanged(cardColor: String?) {

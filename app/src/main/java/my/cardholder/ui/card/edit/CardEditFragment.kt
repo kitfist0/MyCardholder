@@ -47,7 +47,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             cardEditCardCategoryInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
-                editText?.doAfterTextChanged { viewModel.onCardCategoryChanged(it?.toString()) }
+                editText?.doAfterTextChanged { viewModel.onCardCategoryNameChanged(it?.toString()) }
             }
             cardEditCardColorInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardColorChanged(it?.toString()) }
@@ -94,8 +94,8 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     }
                     cardEditCardCategoryInputLayout.isEnabled = true
                     (cardEditCardCategoryInputLayout.editText as? AutoCompleteTextView)?.apply {
-                        setTextAndSelectionIfRequired(state.cardCategory)
-                        adapter ?: setDefaultAdapter(state.cardCategories)
+                        setTextAndSelectionIfRequired(state.cardCategoryName)
+                        adapter ?: setDefaultAdapter(state.cardCategoryNames)
                     }
                     cardEditCardColorInputLayout.isEnabled = true
                     (cardEditCardColorInputLayout.editText as? AutoCompleteTextView)?.apply {
