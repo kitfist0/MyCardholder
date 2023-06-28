@@ -3,6 +3,7 @@ package my.cardholder.ui.category.edit
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.R
 import my.cardholder.databinding.FragmentCategoryEditBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.assistedViewModels
@@ -48,7 +49,7 @@ class CategoryEditFragment : BaseFragment<FragmentCategoryEditBinding>(
                 is CategoryEditState.Success -> {
                     binding.categoryEditToolbar.apply {
                         setTitle(state.titleRes)
-                        setMenuVisibility(!state.isNewCategory)
+                        menu.findItem(R.id.category_delete_menu_item).isVisible = !state.isNewCategory
                     }
                     binding.categoryEditCategoryNameInputLayout.isEnabled = true
                     binding.categoryEditCategoryNameInputLayout.editText
