@@ -133,19 +133,6 @@
             app:argType="long" />
     </fragment>
 
-    <dialog
-        android:id="@+id/label_action_dialog"
-        android:name="my.cardholder.ui.label.action.LabelActionDialog"
-        android:label="@string/delete_card_dialog_label"
-        tools:layout="@layout/dialog_delete_card">
-        <argument
-            android:name="label_id"
-            app:argType="long" />
-        <action
-            android:id="@+id/from_label_action_to_label_edit"
-            app:destination="@id/label_edit_fragment" />
-    </dialog>
-
     <fragment
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.SettingsFragment"

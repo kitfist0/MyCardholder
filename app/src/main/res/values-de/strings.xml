@@ -69,11 +69,6 @@
     <string name="info_dialog_source_code_button_text">Quellcode</string>
     <!--endregion-->
 
-    <!--region LabelAction-->
-    <string name="label_action_edit_label_button_text">Schlagwortname ändern</string>
-    <string name="label_action_delete_label_button_text">Schlagwort dauerhaft löschen</string>
-    <!--endregion-->
-
     <!--region LabelEdit-->
     <string name="label_edit_label">Schlagwort bearbeiten</string>
     <string name="label_edit_label_text_default_hint">Schlagwort</string>

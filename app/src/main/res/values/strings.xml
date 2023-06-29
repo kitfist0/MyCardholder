@@ -69,11 +69,6 @@
     <string name="info_dialog_source_code_button_text">Source code</string>
     <!--endregion-->
 
-    <!--region LabelAction-->
-    <string name="label_action_edit_label_button_text">Edit label name</string>
-    <string name="label_action_delete_label_button_text">Delete label permanently</string>
-    <!--endregion-->
-
     <!--region LabelEdit-->
     <string name="label_edit_label">Edit label</string>
     <string name="label_edit_label_text_default_hint">Label</string>
