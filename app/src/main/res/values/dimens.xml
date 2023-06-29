@@ -28,11 +28,6 @@
     <dimen name="category_item_content_padding">16dp</dimen>
     <!--endregion-->
 
-    <!--region LabelItem-->
-    <dimen name="label_item_content_padding">16dp</dimen>
-    <dimen name="label_item_start_image_padding">16dp</dimen>
-    <!--endregion-->
-
     <!--region MaterialButton-->
     <dimen name="material_button_default_corner_radius">8dp</dimen>
     <!--endregion-->

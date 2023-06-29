@@ -80,12 +80,6 @@
     <string name="label_edit_label_text_new_hint">Neues Schlagwort</string>
     <!--endregion-->
 
-    <!--region LabelList-->
-    <string name="label_list_add_label_fab_content_description">Neues Schlagwort hinzufügen</string>
-    <string name="label_list_label">Alle Schlagwörter</string>
-    <string name="label_list_empty_list_message">Keine Schlagwörter</string>
-    <!--endregion-->
-
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Neue Karte manuell hinzufügen</string>
     <string name="permission_grant_button_text">Erteilen</string>
