@@ -24,5 +24,5 @@ interface CategoryDao {
     suspend fun deleteCategoryById(id: Long)
 
     @Upsert
-    suspend fun upsert(category: Category)
+    suspend fun upsert(category: Category): Long
 }

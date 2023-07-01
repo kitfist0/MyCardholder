@@ -1,16 +1,15 @@
 package my.cardholder.data
 
+import com.github.doyaaaaaken.kotlincsv.client.CsvFileReader
 import com.github.doyaaaaaken.kotlincsv.dsl.context.InsufficientFieldsRowBehaviour
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.Card
-import my.cardholder.data.model.Label
-import my.cardholder.data.model.LabelRef
+import my.cardholder.data.model.Category
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CardDao
-import my.cardholder.data.source.LabelDao
-import my.cardholder.data.source.LabelRefDao
+import my.cardholder.data.source.CategoryDao
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -20,30 +19,33 @@ import javax.inject.Singleton
 class BackupRepository @Inject constructor(
     private val barcodeFileRepository: BarcodeFileRepository,
     private val cardDao: CardDao,
-    private val labelDao: LabelDao,
-    private val labelRefDao: LabelRefDao,
+    private val categoryDao: CategoryDao,
 ) {
 
     private companion object {
-        const val CSV_SCHEME_VERSION_1 = 1
-        const val MIN_NUM_OF_COLUMNS_FOR_VERSION_1 = 4
-        const val CARD_NAME_INDEX = 0
-        const val CARD_CONTENT_INDEX = 1
-        const val CARD_COLOR_INDEX = 2
-        const val CARD_BARCODE_FORMAT_INDEX = 3
+        const val V1_CSV_SCHEME = 1
+        const val V1_CARD_NAME_INDEX = 0
+        const val V1_CARD_CATEGORY_INDEX = 1
+        const val V1_CARD_CONTENT_INDEX = 2
+        const val V1_CARD_COLOR_INDEX = 3
+        const val V1_CARD_FORMAT_INDEX = 4
     }
 
     suspend fun exportCards(outputStream: OutputStream): Result<Boolean> {
-        val cardWithLabels = cardDao.getCardsWithLabels().first()
-        return if (cardWithLabels.isNotEmpty()) {
+        val cardsAndCategories = cardDao.getCardsAndCategories().first()
+        return if (cardsAndCategories.isNotEmpty()) {
             runCatching {
                 csvWriter().openAsync(outputStream) {
-                    writeRow(CSV_SCHEME_VERSION_1)
-                    cardDao.getCardsWithLabels().first().forEach { cardWithLabels ->
-                        val card = cardWithLabels.card
-                        val row = mutableListOf<Any>(card.name, card.content, card.color, card.format)
-                        val labelTexts = cardWithLabels.labels.map { it.text }
-                        row.addAll(labelTexts)
+                    writeRow(V1_CSV_SCHEME)
+                    cardsAndCategories.forEach { cardAndCategory ->
+                        val card = cardAndCategory.card
+                        val categoryName = cardAndCategory.category?.name.orEmpty()
+                        val row = mutableListOf<Any>()
+                        row.add(V1_CARD_NAME_INDEX, card.name)
+                        row.add(V1_CARD_CATEGORY_INDEX, categoryName)
+                        row.add(V1_CARD_CONTENT_INDEX, card.content)
+                        row.add(V1_CARD_COLOR_INDEX, card.color)
+                        row.add(V1_CARD_FORMAT_INDEX, card.format)
                         writeRow(row)
                     }
                 }
@@ -61,40 +63,39 @@ class BackupRepository @Inject constructor(
         return runCatching {
             reader.openAsync(inputStream) {
                 val version = readNext()?.first()?.toInt()
-                if (version == CSV_SCHEME_VERSION_1) {
-                    readAllAsSequence().forEach { row ->
-                        importCard(row)
-                    }
+                if (version == V1_CSV_SCHEME) {
+                    importCardsAccordingToV1Schema()
                 }
             }
             true
         }
     }
 
-    private suspend fun importCard(row: List<String>) {
-        val name = row[CARD_NAME_INDEX]
-        val content = row[CARD_CONTENT_INDEX]
-        val format = SupportedFormat.valueOf(row[CARD_BARCODE_FORMAT_INDEX])
-        if (cardDao.getCardWithSuchData(name, content, format) == null) {
-            val labels = if (row.size > MIN_NUM_OF_COLUMNS_FOR_VERSION_1) {
-                row.subList(MIN_NUM_OF_COLUMNS_FOR_VERSION_1, row.lastIndex)
-                    .map { Label(0, it) }
-            } else {
-                emptyList()
+    private suspend fun CsvFileReader.importCardsAccordingToV1Schema() {
+        readAllAsSequence().forEach { row ->
+            val name = row[V1_CARD_NAME_INDEX]
+            val content = row[V1_CARD_CONTENT_INDEX]
+            val format = SupportedFormat.valueOf(row[V1_CARD_FORMAT_INDEX])
+            if (cardDao.getCardWithSuchData(name, content, format) == null) {
+                val categoryName = row[V1_CARD_CATEGORY_INDEX]
+                val categoryId = if (categoryName.isNotEmpty()) {
+                    categoryDao.getCategoryByName(categoryName)?.id
+                        ?: categoryDao.upsert(Category(0, categoryName))
+                } else {
+                    null
+                }
+                val barcodeFilePath = barcodeFileRepository.writeBarcodeFile(content, format)
+                val card = Card(
+                    id = 0,
+                    name = row[V1_CARD_NAME_INDEX],
+                    categoryId = categoryId ?: 0,
+                    content = content,
+                    color = row[V1_CARD_COLOR_INDEX],
+                    format = format,
+                    path = barcodeFilePath,
+                )
+                cardDao.insert(card)
             }
-            val barcodeFilePath = barcodeFileRepository.writeBarcodeFile(content, format)
-            val card = Card(
-                id = 0,
-                name = row[CARD_NAME_INDEX],
-                content = content,
-                color = row[CARD_COLOR_INDEX],
-                format = format,
-                path = barcodeFilePath,
-            )
-            val cardId = cardDao.insert(card)
-            val labelIds = labelDao.upsert(labels)
-            val labelRefs = labelIds.map { labelId -> LabelRef(cardId, labelId) }
-            labelRefDao.insert(*labelRefs.toTypedArray())
         }
     }
 }
