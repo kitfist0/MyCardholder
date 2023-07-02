@@ -37,6 +37,8 @@ data class Card(
     val barcodeFile: File? = path?.let { File(it) }
 
     companion object {
+        const val NEW_CARD_ID = 0L
+
         val COLORS = arrayOf(
             "#EF5350",
             "#EC407A",

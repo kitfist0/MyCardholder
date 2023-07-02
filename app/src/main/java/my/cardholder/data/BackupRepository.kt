@@ -86,7 +86,7 @@ class BackupRepository @Inject constructor(
                 }
                 val barcodeFilePath = barcodeFileRepository.writeBarcodeFile(content, format)
                 val card = Card(
-                    id = 0,
+                    id = Card.NEW_CARD_ID,
                     name = row[V1_CARD_NAME_INDEX],
                     categoryId = categoryId,
                     content = content,

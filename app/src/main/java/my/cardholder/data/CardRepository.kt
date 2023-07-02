@@ -117,7 +117,7 @@ class CardRepository @Inject constructor(
     ): Card {
         val barcodeFilePath = barcodeFileRepository.writeBarcodeFile(content, format)
         return Card(
-            id = id ?: 0,
+            id = id ?: Card.NEW_CARD_ID,
             name = name,
             content = content,
             color = color ?: Card.COLORS.random(),
