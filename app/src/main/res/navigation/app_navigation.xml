@@ -123,17 +123,6 @@
     </dialog>
 
     <fragment
-        android:id="@+id/label_edit_fragment"
-        android:name="my.cardholder.ui.label.edit.LabelEditFragment"
-        android:label="@string/label_edit_label"
-        tools:layout="@layout/fragment_label_edit">
-        <argument
-            android:name="label_id"
-            android:defaultValue="0L"
-            app:argType="long" />
-    </fragment>
-
-    <fragment
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.SettingsFragment"
         android:label="@string/settings_label"

@@ -69,12 +69,6 @@
     <string name="info_dialog_source_code_button_text">Quellcode</string>
     <!--endregion-->
 
-    <!--region LabelEdit-->
-    <string name="label_edit_label">Schlagwort bearbeiten</string>
-    <string name="label_edit_label_text_default_hint">Schlagwort</string>
-    <string name="label_edit_label_text_new_hint">Neues Schlagwort</string>
-    <!--endregion-->
-
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Neue Karte manuell hinzufügen</string>
     <string name="permission_grant_button_text">Erteilen</string>

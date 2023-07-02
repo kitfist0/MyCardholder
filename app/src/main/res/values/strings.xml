@@ -69,12 +69,6 @@
     <string name="info_dialog_source_code_button_text">Source code</string>
     <!--endregion-->
 
-    <!--region LabelEdit-->
-    <string name="label_edit_label">Edit label</string>
-    <string name="label_edit_label_text_default_hint">Label</string>
-    <string name="label_edit_label_text_new_hint">New label</string>
-    <!--endregion-->
-
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Add new card manually</string>
     <string name="permission_grant_button_text">Grant</string>
