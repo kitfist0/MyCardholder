@@ -61,7 +61,7 @@ class CardRepository @Inject constructor(
 
     suspend fun updateCardCategoryId(cardId: Long, categoryId: Long?) {
         val oldCard = getCard(cardId).first()
-        oldCard?.copy(categoryId = categoryId ?: 0)
+        oldCard?.copy(categoryId = categoryId)
             ?.let { newCard -> cardDao.update(newCard) }
     }
 

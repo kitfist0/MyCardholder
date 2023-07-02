@@ -80,7 +80,7 @@ class BackupRepository @Inject constructor(
                 val categoryName = row[V1_CARD_CATEGORY_INDEX]
                 val categoryId = if (categoryName.isNotEmpty()) {
                     categoryDao.getCategoryByName(categoryName)?.id
-                        ?: categoryDao.upsert(Category(0, categoryName))
+                        ?: categoryDao.upsert(Category(name = categoryName))
                 } else {
                     null
                 }
@@ -88,7 +88,7 @@ class BackupRepository @Inject constructor(
                 val card = Card(
                     id = 0,
                     name = row[V1_CARD_NAME_INDEX],
-                    categoryId = categoryId ?: 0,
+                    categoryId = categoryId,
                     content = content,
                     color = row[V1_CARD_COLOR_INDEX],
                     format = format,
