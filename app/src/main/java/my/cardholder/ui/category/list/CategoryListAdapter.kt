@@ -5,20 +5,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import my.cardholder.data.model.Category
+import my.cardholder.data.model.CategoryAndCards
 import my.cardholder.databinding.ItemCategoryBinding
 
 class CategoryListAdapter(
-    private val onItemClicked: (category: Category) -> Unit,
-) : ListAdapter<Category, CategoryListAdapter.CategoryViewHolder>(LabelDiffCallback) {
+    private val onItemClicked: (categoryAndCards: CategoryAndCards) -> Unit,
+) : ListAdapter<CategoryAndCards, CategoryListAdapter.CategoryViewHolder>(LabelDiffCallback) {
 
     private companion object {
-        object LabelDiffCallback : DiffUtil.ItemCallback<Category>() {
-            override fun areItemsTheSame(oldItem: Category, newItem: Category) =
-                oldItem.id == newItem.id
+        object LabelDiffCallback : DiffUtil.ItemCallback<CategoryAndCards>() {
+            override fun areItemsTheSame(oldItem: CategoryAndCards, newItem: CategoryAndCards) =
+                oldItem.category.id == newItem.category.id
 
-            override fun areContentsTheSame(oldItem: Category, newItem: Category) =
-                oldItem.name == newItem.name
+            override fun areContentsTheSame(oldItem: CategoryAndCards, newItem: CategoryAndCards) =
+                oldItem.category.name == newItem.category.name &&
+                        oldItem.cards.size == newItem.cards.size
         }
     }
 
@@ -33,8 +34,11 @@ class CategoryListAdapter(
             }
         }
 
-        fun bind(category: Category) {
-            binding.itemCategoryNameText.text = category.name
+        fun bind(categoryAndCards: CategoryAndCards) {
+            with(binding) {
+                itemCategoryNameText.text = categoryAndCards.category.name
+                itemCategoryNumberOfCardsText.text = categoryAndCards.cards.size.toString()
+            }
         }
     }
 

@@ -3,7 +3,7 @@ package my.cardholder.ui.category.list
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import my.cardholder.data.model.Category
+import my.cardholder.data.model.CategoryAndCards
 import my.cardholder.data.source.CategoryDao
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -17,10 +17,10 @@ class CategoryListViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        categoryDao.getCategories()
-            .onEach { categories ->
-                _state.value = if (categories.isNotEmpty()) {
-                    CategoryListState.Success(categories)
+        categoryDao.getCategoriesAndCards()
+            .onEach { categoriesAndCards ->
+                _state.value = if (categoriesAndCards.isNotEmpty()) {
+                    CategoryListState.Success(categoriesAndCards)
                 } else {
                     CategoryListState.Empty()
                 }
@@ -28,8 +28,8 @@ class CategoryListViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onCategoryClicked(category: Category) {
-        navigate(CategoryListFragmentDirections.fromCategoryListToCategoryEdit(category.id))
+    fun onCategoryClicked(categoryAndCards: CategoryAndCards) {
+        navigate(CategoryListFragmentDirections.fromCategoryListToCategoryEdit(categoryAndCards.category.id))
     }
 
     fun onAddCategoryFabClicked() {

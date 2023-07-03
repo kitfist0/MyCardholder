@@ -17,8 +17,8 @@ class CategoryListFragment : BaseFragment<FragmentCategoryListBinding>(
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CategoryListAdapter(
-            onItemClicked = { category ->
-                viewModel.onCategoryClicked(category)
+            onItemClicked = { categoryAndCards ->
+                viewModel.onCategoryClicked(categoryAndCards)
             }
         )
     }
@@ -45,7 +45,7 @@ class CategoryListFragment : BaseFragment<FragmentCategoryListBinding>(
                 }
                 is CategoryListState.Success -> {
                     binding.categoryListEmptyMessageText.text = null
-                    listAdapter.submitList(state.categories)
+                    listAdapter.submitList(state.categoriesAndCards)
                 }
             }
         }
