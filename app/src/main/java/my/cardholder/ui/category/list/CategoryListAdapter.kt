@@ -10,10 +10,10 @@ import my.cardholder.databinding.ItemCategoryBinding
 
 class CategoryListAdapter(
     private val onItemClicked: (categoryAndCards: CategoryAndCards) -> Unit,
-) : ListAdapter<CategoryAndCards, CategoryListAdapter.CategoryViewHolder>(LabelDiffCallback) {
+) : ListAdapter<CategoryAndCards, CategoryListAdapter.CategoryViewHolder>(CategoryDiffCallback) {
 
     private companion object {
-        object LabelDiffCallback : DiffUtil.ItemCallback<CategoryAndCards>() {
+        object CategoryDiffCallback : DiffUtil.ItemCallback<CategoryAndCards>() {
             override fun areItemsTheSame(oldItem: CategoryAndCards, newItem: CategoryAndCards) =
                 oldItem.category.id == newItem.category.id
 
@@ -43,8 +43,9 @@ class CategoryListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val binding = ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CategoryViewHolder(binding)
+        return CategoryViewHolder(
+            ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
