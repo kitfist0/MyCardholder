@@ -57,13 +57,18 @@ class CardEditViewModel @AssistedInject constructor(
     }
 
     fun onCardNameChanged(cardName: String?) {
+        if (cardName == null || updatedCardName == cardName) {
+            return
+        }
         updatedCardName = cardName
-        updateCardData()
+        viewModelScope.launch {
+            cardRepository.updateCardName(cardId, cardName)
+        }
     }
 
     fun onCardContentChanged(cardContent: String?) {
         updatedCardContent = cardContent
-        updateCardData()
+        updateCardBarcodeIfRequired()
     }
 
     fun onCardCategoryNameChanged(cardCategoryName: String?) {
@@ -93,14 +98,13 @@ class CardEditViewModel @AssistedInject constructor(
 
     fun onCardFormatChanged(cardFormat: String?) {
         updatedCardFormat = cardFormat?.let { SupportedFormat.valueOf(it) }
-        updateCardData()
+        updateCardBarcodeIfRequired()
     }
 
-    private fun updateCardData() {
+    private fun updateCardBarcodeIfRequired() {
         viewModelScope.launch {
-            cardRepository.updateCardDataIfItChanges(
-                id = cardId,
-                name = updatedCardName,
+            cardRepository.updateCardBarcodeIfRequired(
+                cardId = cardId,
                 content = updatedCardContent,
                 format = updatedCardFormat,
             )

@@ -31,9 +31,6 @@ interface CardDao {
     @Query("DELETE FROM cards WHERE id = :id")
     suspend fun deleteCard(id: Long)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(card: Card): Long
-
-    @Update
-    suspend fun update(card: Card)
+    @Upsert
+    suspend fun upsert(card: Card): Long
 }

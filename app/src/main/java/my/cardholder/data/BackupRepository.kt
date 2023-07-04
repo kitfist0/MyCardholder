@@ -94,7 +94,7 @@ class BackupRepository @Inject constructor(
                     format = format,
                     path = barcodeFilePath,
                 )
-                cardDao.insert(card)
+                cardDao.upsert(card)
             }
         }
     }
