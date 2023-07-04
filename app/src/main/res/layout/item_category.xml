@@ -16,6 +16,7 @@
         android:layout_weight="2"
         android:lines="1"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        android:transitionName="@string/transition_card_category"
         tools:text="Category" />
 
     <TextView

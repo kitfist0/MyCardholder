@@ -1,15 +1,17 @@
 package my.cardholder.ui.category.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.model.CategoryAndCards
 import my.cardholder.databinding.ItemCategoryBinding
+import my.cardholder.util.ext.setupUniqueTransitionName
 
 class CategoryListAdapter(
-    private val onItemClicked: (categoryAndCards: CategoryAndCards) -> Unit,
+    private val onItemClicked: (categoryAndCards: CategoryAndCards, sharedElements: Map<View, String>) -> Unit,
 ) : ListAdapter<CategoryAndCards, CategoryListAdapter.CategoryViewHolder>(CategoryDiffCallback) {
 
     private companion object {
@@ -29,13 +31,19 @@ class CategoryListAdapter(
 
         init {
             itemView.setOnClickListener {
-                val label = getItem(adapterPosition)
-                onItemClicked.invoke(label)
+                val sharedElements = with(binding) {
+                    mapOf<View, String>(
+                        itemCategoryNameText to itemCategoryNameText.transitionName,
+                    )
+                }
+                val categoryAndCards = getItem(adapterPosition)
+                onItemClicked.invoke(categoryAndCards, sharedElements)
             }
         }
 
         fun bind(categoryAndCards: CategoryAndCards) {
             with(binding) {
+                itemCategoryNameText.setupUniqueTransitionName(categoryAndCards.category.id)
                 itemCategoryNameText.text = categoryAndCards.category.name
                 itemCategoryNumberOfCardsText.text = categoryAndCards.cards.size.toString()
             }

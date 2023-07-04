@@ -1,6 +1,8 @@
 package my.cardholder.ui.category.list
 
+import android.transition.TransitionInflater
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCategoryListBinding
@@ -17,18 +19,29 @@ class CategoryListFragment : BaseFragment<FragmentCategoryListBinding>(
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CategoryListAdapter(
-            onItemClicked = { categoryAndCards ->
-                viewModel.onCategoryClicked(categoryAndCards)
+            onItemClicked = { categoryAndCards, sharedElements ->
+                val extras = FragmentNavigator.Extras.Builder()
+                    .addSharedElements(sharedElements)
+                    .build()
+                viewModel.onCategoryClicked(categoryAndCards, extras)
             }
         )
     }
 
     override fun initViews() {
+        sharedElementEnterTransition = TransitionInflater.from(context)
+            .inflateTransition(android.R.transition.move)
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
             categoryListRecyclerView.apply {
+                clipToPadding = false
                 layoutManager = LinearLayoutManager(context)
                 adapter = listAdapter
+                postponeEnterTransition()
+                viewTreeObserver.addOnPreDrawListener {
+                    startPostponedEnterTransition()
+                    true
+                }
             }
             categoryListAddCategoryFab.setOnClickListener {
                 viewModel.onAddCategoryFabClicked()

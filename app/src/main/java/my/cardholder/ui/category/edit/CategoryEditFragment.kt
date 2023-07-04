@@ -1,5 +1,6 @@
 package my.cardholder.ui.category.edit
 
+import android.transition.TransitionInflater
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -9,6 +10,7 @@ import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.assistedViewModels
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.setTextAndSelectionIfRequired
+import my.cardholder.util.ext.setupUniqueTransitionName
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 import javax.inject.Inject
 
@@ -27,11 +29,15 @@ class CategoryEditFragment : BaseFragment<FragmentCategoryEditBinding>(
     }
 
     override fun initViews() {
+        sharedElementEnterTransition = TransitionInflater.from(context)
+            .inflateTransition(android.R.transition.move)
         with(binding) {
+            val uniqueNameSuffix = args.categoryId
             root.updateVerticalPaddingAfterApplyingWindowInsets()
             categoryEditToolbar.setOnMenuItemClickListener { menuItem ->
                 viewModel.onMenuItemClicked(menuItem.itemId)
             }
+            categoryEditCategoryNameInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
             categoryEditCategoryNameInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCategoryNameChanged(it?.toString()) }
             categoryEditOkFab.setOnClickListener {

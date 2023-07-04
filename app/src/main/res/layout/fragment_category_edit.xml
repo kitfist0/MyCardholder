@@ -23,6 +23,8 @@
         android:layout_gravity="top"
         android:layout_margin="8dp"
         android:hint="@string/category_edit_category_name_hint"
+        android:transitionName="@string/transition_card_category"
+        app:hintAnimationEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/category_edit_toolbar">

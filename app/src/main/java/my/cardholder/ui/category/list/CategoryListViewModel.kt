@@ -1,6 +1,7 @@
 package my.cardholder.ui.category.list
 
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import my.cardholder.data.model.CategoryAndCards
@@ -28,8 +29,8 @@ class CategoryListViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onCategoryClicked(categoryAndCards: CategoryAndCards) {
-        navigate(CategoryListFragmentDirections.fromCategoryListToCategoryEdit(categoryAndCards.category.id))
+    fun onCategoryClicked(categoryAndCards: CategoryAndCards, extras: Navigator.Extras) {
+        navigate(CategoryListFragmentDirections.fromCategoryListToCategoryEdit(categoryAndCards.category.id), extras)
     }
 
     fun onAddCategoryFabClicked() {
