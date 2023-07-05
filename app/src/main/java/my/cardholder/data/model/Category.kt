@@ -5,11 +5,11 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "labels",
-    indices = [Index(value = ["text"], unique = true)],
+    tableName = "categories",
+    indices = [Index(value = ["name"], unique = true)],
 )
-data class Label(
+data class Category(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
-    val text: String,
+    val id: Long = 0L,
+    val name: String,
 )

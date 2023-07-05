@@ -10,16 +10,13 @@
     <!--region CardEdit-->
     <string name="card_edit_add_labels_button_text">Schlagwört hinzufügen</string>
     <string name="card_edit_barcode_format_hint">Format</string>
+    <string name="card_edit_category_hint">Kategorie</string>
     <string name="card_edit_color_hint">Farbe</string>
     <string name="card_edit_content_hint">Text</string>
     <string name="card_edit_label">Kartenbearbeitung</string>
     <string name="card_edit_name_hint">Name</string>
+    <string name="card_edit_no_category_text">Keine Kategorie</string>
     <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
-    <!--endregion-->
-
-    <!--region CardLabels-->
-    <string name="card_labels_label">Kartenschlagwörter</string>
-    <string name="card_labels_manage_labels_fab_text">Schlagwörter verwalten</string>
     <!--endregion-->
 
     <!--region CardList-->
@@ -40,6 +37,20 @@
     <string name="card_scan_label">Kartenscan</string>
     <!--endregion-->
 
+    <!--region CategoryEdit-->
+    <string name="category_edit_category_name_hint">Name</string>
+    <string name="category_edit_category_toolbar_title">Kartenkategorie</string>
+    <string name="category_edit_delete_menu_item_title">Kategorie löschen</string>
+    <string name="category_edit_label">Kartenkategorie</string>
+    <string name="category_edit_new_category_toolbar_title">Neue Kartenkategorie</string>
+    <!--endregion-->
+
+    <!--region CategoryList-->
+    <string name="category_list_add_category_fab_content_description">Neue Kartenkategorie hinzufügen</string>
+    <string name="category_list_empty_list_message">Keine Kartenkategorien</string>
+    <string name="category_list_label">Kartenkategorien</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Kaffee</string>
     <string name="coffee_dialog_title">Unterstützen Sie diese App, indem Sie Kaffee für Entwickler kaufen</string>
@@ -58,23 +69,6 @@
     <string name="info_dialog_source_code_button_text">Quellcode</string>
     <!--endregion-->
 
-    <!--region LabelAction-->
-    <string name="label_action_edit_label_button_text">Schlagwortname ändern</string>
-    <string name="label_action_delete_label_button_text">Schlagwort dauerhaft löschen</string>
-    <!--endregion-->
-
-    <!--region LabelEdit-->
-    <string name="label_edit_label">Schlagwort bearbeiten</string>
-    <string name="label_edit_label_text_default_hint">Schlagwort</string>
-    <string name="label_edit_label_text_new_hint">Neues Schlagwort</string>
-    <!--endregion-->
-
-    <!--region LabelList-->
-    <string name="label_list_add_label_fab_content_description">Neues Schlagwort hinzufügen</string>
-    <string name="label_list_label">Alle Schlagwörter</string>
-    <string name="label_list_empty_list_message">Keine Schlagwörter</string>
-    <!--endregion-->
-
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Neue Karte manuell hinzufügen</string>
     <string name="permission_grant_button_text">Erteilen</string>
@@ -84,11 +78,11 @@
 
     <!--region Settings-->
     <string name="settings_about_app_button_text">Über App</string>
+    <string name="settings_card_categories_button_text">Kartenkategorien</string>
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
     <string name="settings_export_cards_button_text">Exportieren Sie Karten in eine Datei</string>
     <string name="settings_import_cards_button_text">Importieren Sie Karten aus einer Datei</string>
     <string name="settings_label">Einstellungen</string>
-    <string name="settings_manage_labels_button_text">Schlagwörter verwalten</string>
     <string name="settings_switch_to_dark_mode_button_text">Wechseln Sie in den dunklen Modus</string>
     <string name="settings_switch_to_light_mode_button_text">Wechseln Sie in den Lichtmodus</string>
     <string name="settings_switch_to_multi_column_button_text">Zur mehrspaltigen Kartenliste wechseln</string>

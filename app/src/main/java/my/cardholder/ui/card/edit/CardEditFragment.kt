@@ -10,13 +10,9 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardEditBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.adapter.ColorAdapter
-import my.cardholder.ui.card.adapter.LabelTextAdapter
 import my.cardholder.util.ext.*
 import javax.inject.Inject
 
@@ -30,12 +26,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
 
     private val args: CardEditFragmentArgs by navArgs()
 
-    private val labelTextAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        LabelTextAdapter(
-            onItemClick = { viewModel.onLabelTextClicked() }
-        )
-    }
-
     override val viewModel: CardEditViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
     }
@@ -47,9 +37,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
             cardEditBarcodeImage.setPadding(getStatusBarHeight())
-            cardEditAddLabelsButton.setOnClickListener {
-                viewModel.onAddLabelsClicked()
-            }
             cardEditCardNameInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
@@ -58,26 +45,26 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardContentChanged(it?.toString()) }
             }
-            cardEditBarcodeFormatInputLayout.editText
-                ?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
+            cardEditCardCategoryInputLayout.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                editText?.doAfterTextChanged { viewModel.onCardCategoryNameChanged(it?.toString()) }
+            }
             cardEditCardColorInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardColorChanged(it?.toString()) }
+            cardEditBarcodeFormatInputLayout.editText
+                ?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
             cardEditOkFab.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
-            cardEditLabelTextsRecyclerView.apply {
-                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
-                adapter = labelTextAdapter
-            }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
-                cardEditBarcodeFormatInputLayout.isVisible = false
                 cardEditCardColorInputLayout.isVisible = false
+                cardEditBarcodeFormatInputLayout.isVisible = false
             }
             transitionSet.doOnEnd {
-                cardEditBarcodeFormatInputLayout.animateVisibilityChange()
                 cardEditCardColorInputLayout.animateVisibilityChange()
+                cardEditBarcodeFormatInputLayout.animateVisibilityChange()
             }
         }
     }
@@ -86,19 +73,17 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardEditState.Loading -> with(binding) {
-                    cardEditAddLabelsButton.isVisible = false
                     cardEditCardNameInputLayout.isEnabled = false
                     cardEditCardContentInputLayout.isEnabled = false
-                    cardEditBarcodeFormatInputLayout.isEnabled = false
+                    cardEditCardCategoryInputLayout.isEnabled = false
                     cardEditCardColorInputLayout.isEnabled = false
+                    cardEditBarcodeFormatInputLayout.isEnabled = false
                 }
                 is CardEditState.Success -> with(binding) {
                     cardEditBarcodeImage.apply {
                         setBackgroundColor(state.cardColor.toColorInt())
                         loadBarcodeImage(state.barcodeFile)
                     }
-                    cardEditAddLabelsButton.isVisible = state.cardLabels.isEmpty()
-                    labelTextAdapter.submitList(state.cardLabels)
                     cardEditCardNameInputLayout.apply {
                         isEnabled = true
                         editText?.setTextAndSelectionIfRequired(state.cardName)
@@ -107,15 +92,20 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         isEnabled = true
                         editText?.setTextAndSelectionIfRequired(state.cardContent)
                     }
-                    cardEditBarcodeFormatInputLayout.isEnabled = true
-                    (cardEditBarcodeFormatInputLayout.editText as? AutoCompleteTextView)?.apply {
-                        setTextAndSelectionIfRequired(state.barcodeFormatName)
-                        adapter ?: setDefaultAdapter(state.barcodeFormatNames)
+                    cardEditCardCategoryInputLayout.isEnabled = true
+                    (cardEditCardCategoryInputLayout.editText as? AutoCompleteTextView)?.apply {
+                        setTextAndSelectionIfRequired(state.cardCategoryName)
+                        adapter ?: setDefaultAdapter(state.cardCategoryNames)
                     }
                     cardEditCardColorInputLayout.isEnabled = true
                     (cardEditCardColorInputLayout.editText as? AutoCompleteTextView)?.apply {
                         setTextAndSelectionIfRequired(state.cardColor)
-                        adapter ?: setAdapter(ColorAdapter(context, state.cardColors))
+                        adapter ?: setAdapter(CardEditColorAdapter(context, state.cardColors))
+                    }
+                    cardEditBarcodeFormatInputLayout.isEnabled = true
+                    (cardEditBarcodeFormatInputLayout.editText as? AutoCompleteTextView)?.apply {
+                        setTextAndSelectionIfRequired(state.barcodeFormatName)
+                        adapter ?: setDefaultAdapter(state.barcodeFormatNames)
                     }
                 }
             }

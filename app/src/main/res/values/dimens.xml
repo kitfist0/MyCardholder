@@ -24,9 +24,8 @@
     <dimen name="card_item_square_barcode_width">100dp</dimen>
     <!--endregion-->
 
-    <!--region LabelItem-->
-    <dimen name="label_item_content_padding">16dp</dimen>
-    <dimen name="label_item_start_image_padding">16dp</dimen>
+    <!--region CategoryItem-->
+    <dimen name="category_item_content_padding">16dp</dimen>
     <!--endregion-->
 
     <!--region MaterialButton-->

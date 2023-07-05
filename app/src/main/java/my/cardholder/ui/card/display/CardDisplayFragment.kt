@@ -9,12 +9,9 @@ import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardDisplayBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.adapter.LabelTextAdapter
 import my.cardholder.util.ext.*
 import javax.inject.Inject
 
@@ -27,13 +24,6 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
     lateinit var viewModelFactory: CardDisplayViewModelFactory
 
     private val args: CardDisplayFragmentArgs by navArgs()
-
-    private val labelTextAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        LabelTextAdapter(
-            onItemClick = { labelText ->
-            }
-        )
-    }
 
     override val viewModel: CardDisplayViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
@@ -49,6 +39,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setPadding(getStatusBarHeight())
             }
+            cardDisplayCardCategoryText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardContentText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayEditFab.setupUniqueTransitionName(uniqueNameSuffix)
@@ -56,6 +47,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                 val sharedElements = mapOf<View, String>(
                     cardDisplayCardNameText to cardDisplayCardNameText.transitionName,
                     cardDisplayCardContentText to cardDisplayCardContentText.transitionName,
+                    cardDisplayCardCategoryText to cardDisplayCardCategoryText.transitionName,
                     cardDisplayEditFab to cardDisplayEditFab.transitionName,
                 )
                 val extras = FragmentNavigator.Extras.Builder()
@@ -65,10 +57,6 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             }
             cardDisplayDeleteCardButton.setOnClickListener {
                 viewModel.onDeleteCardButtonClicked()
-            }
-            cardDisplayLabelTextsRecyclerView.apply {
-                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, true)
-                adapter = labelTextAdapter
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
@@ -84,14 +72,17 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
         collectWhenStarted(viewModel.state) { state ->
             with(binding) {
                 when (state) {
-                    is CardDisplayState.Loading ->
+                    is CardDisplayState.Loading -> {
+                        cardDisplayCardCategoryText.isVisible = false
                         cardDisplayEditFab.isClickable = false
+                    }
                     is CardDisplayState.Success -> {
                         cardDisplayBarcodeImage.apply {
                             setBackgroundColor(state.cardColor)
                             loadBarcodeImage(state.barcodeFile)
                         }
-                        labelTextAdapter.submitList(state.cardLabels)
+                        cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
+                        cardDisplayCardCategoryText.text = state.cardCategory
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
                         cardDisplayEditFab.isClickable = true

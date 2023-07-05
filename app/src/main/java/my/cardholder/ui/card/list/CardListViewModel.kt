@@ -20,9 +20,9 @@ class CardListViewModel @Inject constructor(
 
     init {
         settingsDataStore.multiColumnListEnabled
-            .combine(cardRepository.cards) { isMultiColumn, cards ->
-                _state.value = if (cards.isNotEmpty()) {
-                    CardListState.Success(cards, if (isMultiColumn) 2 else 1)
+            .combine(cardRepository.cardsAndCategories) { isMultiColumn, cardsAndCategories ->
+                _state.value = if (cardsAndCategories.isNotEmpty()) {
+                    CardListState.Success(cardsAndCategories, if (isMultiColumn) 2 else 1)
                 } else {
                     CardListState.Empty()
                 }

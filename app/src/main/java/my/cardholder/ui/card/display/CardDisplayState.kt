@@ -7,7 +7,7 @@ sealed class CardDisplayState {
 
     data class Success(
         val barcodeFile: File?,
-        val cardLabels: List<String>,
+        val cardCategory: String,
         val cardName: String,
         val cardContent: String,
         val cardColor: Int,

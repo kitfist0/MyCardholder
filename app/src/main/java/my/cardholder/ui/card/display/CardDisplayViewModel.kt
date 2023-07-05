@@ -19,13 +19,13 @@ class CardDisplayViewModel @AssistedInject constructor(
     val state = _state.asStateFlow()
 
     init {
-        cardRepository.getCardWithLabels(cardId)
+        cardRepository.getCardAndCategory(cardId)
             .filterNotNull()
-            .onEach { cardWithLabels ->
-                val card = cardWithLabels.card
+            .onEach { cardAndCategory ->
+                val card = cardAndCategory.card
                 _state.value = CardDisplayState.Success(
                     barcodeFile = card.barcodeFile,
-                    cardLabels = cardWithLabels.labels.map { it.text },
+                    cardCategory = cardAndCategory.category?.name.orEmpty(),
                     cardName = card.name,
                     cardContent = card.content,
                     cardColor = card.getColorInt(),

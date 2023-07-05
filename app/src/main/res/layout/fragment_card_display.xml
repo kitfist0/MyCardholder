@@ -21,20 +21,19 @@
         tools:ignore="ContentDescription"
         tools:src="@drawable/ic_qr_code" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/card_display_label_texts_recycler_view"
-        android:layout_width="0dp"
+    <com.google.android.material.chip.Chip
+        android:id="@+id/card_display_card_category_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/card_edit_color_hint"
-        android:paddingHorizontal="4dp"
+        android:layout_marginHorizontal="4dp"
+        android:backgroundTint="#88000000"
+        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+        android:textColor="#FFEAEAEA"
+        android:transitionName="@string/transition_card_category"
+        app:chipStrokeColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="@id/card_display_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:itemCount="2"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_label_text"
-        tools:orientation="horizontal"
-        tools:reverseLayout="true" />
+        tools:text="Category" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_display_guideline_horizontal"
@@ -56,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/card_display_guideline_horizontal"
-        tools:text="@sample/sample_cards.json/cards/name" />
+        tools:text="@tools:sample/cities" />
 
     <TextView
         android:id="@+id/card_display_card_content_text"
@@ -65,13 +64,14 @@
         android:layout_margin="8dp"
         android:autoLink="web"
         android:background="#11000000"
+        android:ellipsize="end"
         android:lines="4"
         android:padding="4dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:transitionName="@string/transition_card_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_display_card_name_text"
-        tools:text="@sample/sample_cards.json/cards/content" />
+        tools:text="@tools:sample/lorem/random" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/card_display_delete_card_button"

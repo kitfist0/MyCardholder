@@ -20,39 +20,6 @@
         tools:ignore="ContentDescription"
         tools:src="@drawable/ic_qr_code" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/card_edit_label_texts_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/card_edit_color_hint"
-        android:paddingHorizontal="4dp"
-        app:layout_constraintBottom_toBottomOf="@id/card_edit_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:itemCount="2"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_label_text"
-        tools:orientation="horizontal"
-        tools:reverseLayout="true" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/card_edit_add_labels_button"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginVertical="4dp"
-        android:padding="0dp"
-        android:text="@string/card_edit_add_labels_button_text"
-        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
-        android:textColor="@android:color/black"
-        app:backgroundTint="#11000000"
-        app:cornerRadius="@dimen/material_button_default_corner_radius"
-        app:layout_constraintBottom_toBottomOf="@id/card_edit_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:strokeColor="@android:color/black"
-        tools:visibility="invisible" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_edit_guideline_horizontal"
         android:layout_width="wrap_content"
@@ -99,24 +66,25 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/card_edit_barcode_format_input_layout"
+        android:id="@+id/card_edit_card_category_input_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:hint="@string/card_edit_barcode_format_hint"
-        android:labelFor="@id/card_edit_barcode_format_auto_complete_text"
+        android:transitionName="@string/transition_card_category"
+        android:hint="@string/card_edit_category_hint"
+        android:labelFor="@id/card_edit_card_category_auto_complete_text"
         app:hintAnimationEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_edit_card_content_input_layout">
 
         <AutoCompleteTextView
-            android:id="@+id/card_edit_barcode_format_auto_complete_text"
+            android:id="@+id/card_edit_card_category_auto_complete_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            tools:text="QR_CODE" />
+            tools:text="@string/card_edit_no_category_text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +99,7 @@
         app:hintAnimationEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_edit_barcode_format_input_layout">
+        app:layout_constraintTop_toBottomOf="@id/card_edit_card_category_input_layout">
 
         <AutoCompleteTextView
             android:id="@+id/card_edit_card_color_auto_complete_text"
@@ -139,6 +107,28 @@
             android:layout_height="wrap_content"
             android:inputType="none"
             tools:text="@sample/sample_cards.json/cards/color" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/card_edit_barcode_format_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/card_edit_barcode_format_hint"
+        android:labelFor="@id/card_edit_barcode_format_auto_complete_text"
+        app:hintAnimationEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_edit_card_color_input_layout">
+
+        <AutoCompleteTextView
+            android:id="@+id/card_edit_barcode_format_auto_complete_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            tools:text="QR_CODE" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

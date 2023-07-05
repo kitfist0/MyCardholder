@@ -10,9 +10,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.data.source.AppDatabase
 import my.cardholder.data.source.CardDao
+import my.cardholder.data.source.CategoryDao
 import my.cardholder.data.source.CoffeeDao
-import my.cardholder.data.source.LabelDao
-import my.cardholder.data.source.LabelRefDao
 import java.io.File
 import javax.inject.Singleton
 
@@ -48,19 +47,13 @@ object DataModule {
 
     @Provides
     @Singleton
+    fun provideCategoryDao(database: AppDatabase): CategoryDao {
+        return database.categoryDao()
+    }
+
+    @Provides
+    @Singleton
     fun provideCoffeeDao(database: AppDatabase): CoffeeDao {
         return database.coffeeDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideLabelDao(database: AppDatabase): LabelDao {
-        return database.labelDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideLabelRefDao(database: AppDatabase): LabelRefDao {
-        return database.labelRefDao()
     }
 }

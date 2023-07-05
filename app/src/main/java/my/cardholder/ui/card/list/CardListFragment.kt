@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardListBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.adapter.CardAdapter
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
@@ -26,8 +25,8 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
     override val viewModel: CardListViewModel by viewModels()
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CardAdapter(
-            onItemClick = { cardId, sharedElements ->
+        CardListAdapter(
+            onItemClicked = { cardId, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)
                     .build()
@@ -95,7 +94,7 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                     }
                     binding.cardListSearchFab.isVisible = true
                     binding.cardListEmptyListMessageText.text = null
-                    listAdapter.submitList(state.cards)
+                    listAdapter.submitList(state.cardsAndCategories)
                 }
             }
         }

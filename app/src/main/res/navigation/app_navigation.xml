@@ -85,22 +85,27 @@
         <argument
             android:name="card_id"
             app:argType="long" />
-        <action
-            android:id="@+id/from_card_edit_to_card_labels"
-            app:destination="@id/card_labels_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/card_labels_fragment"
-        android:name="my.cardholder.ui.card.labels.CardLabelsFragment"
-        android:label="@string/card_labels_label"
-        tools:layout="@layout/fragment_card_labels">
-        <argument
-            android:name="card_id"
-            app:argType="long" />
+        android:id="@+id/category_list_fragment"
+        android:name="my.cardholder.ui.category.list.CategoryListFragment"
+        android:label="@string/category_list_label"
+        tools:layout="@layout/fragment_category_list">
         <action
-            android:id="@+id/from_card_labels_to_label_list"
-            app:destination="@id/label_list_fragment" />
+            android:id="@+id/from_category_list_to_category_edit"
+            app:destination="@id/category_edit_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/category_edit_fragment"
+        android:name="my.cardholder.ui.category.edit.CategoryEditFragment"
+        android:label="@string/category_edit_label"
+        tools:layout="@layout/fragment_category_edit">
+        <argument
+            android:name="category_id"
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
 
     <dialog
@@ -118,44 +123,6 @@
     </dialog>
 
     <fragment
-        android:id="@+id/label_list_fragment"
-        android:name="my.cardholder.ui.label.list.LabelListFragment"
-        android:label="@string/label_list_label"
-        tools:layout="@layout/fragment_label_list">
-        <action
-            android:id="@+id/from_label_list_to_label_action"
-            app:destination="@id/label_action_dialog" />
-        <action
-            android:id="@+id/from_label_list_to_label_edit"
-            app:destination="@id/label_edit_fragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/label_edit_fragment"
-        android:name="my.cardholder.ui.label.edit.LabelEditFragment"
-        android:label="@string/label_edit_label"
-        tools:layout="@layout/fragment_label_edit">
-        <argument
-            android:name="label_id"
-            android:defaultValue="0L"
-            app:argType="long" />
-    </fragment>
-
-    <dialog
-        android:id="@+id/label_action_dialog"
-        android:name="my.cardholder.ui.label.action.LabelActionDialog"
-        android:label="@string/delete_card_dialog_label"
-        tools:layout="@layout/dialog_delete_card">
-        <argument
-            android:name="label_id"
-            app:argType="long" />
-        <action
-            android:id="@+id/from_label_action_to_label_edit"
-            app:destination="@id/label_edit_fragment"
-            app:popUpTo="@id/label_list_fragment" />
-    </dialog>
-
-    <fragment
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.SettingsFragment"
         android:label="@string/settings_label"
@@ -170,8 +137,8 @@
             android:id="@+id/from_settings_to_coffee"
             app:destination="@id/coffee_dialog" />
         <action
-            android:id="@+id/from_settings_to_label_list"
-            app:destination="@id/label_list_fragment" />
+            android:id="@+id/from_settings_to_category_list"
+            app:destination="@id/category_list_fragment" />
     </fragment>
 
     <fragment
