@@ -1,6 +1,8 @@
 package my.cardholder.ui.card.search
 
+import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.view.inputmethod.InputMethodManager
@@ -9,6 +11,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.animation.ArgbEvaluatorCompat
+import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardSearchBinding
 import my.cardholder.ui.base.BaseFragment
@@ -49,6 +53,17 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
                 (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
                     ?.showSoftInput(cardSearchTextInputLayout.editText, 1)
             }
+        }
+        val transitionSet = sharedElementEnterTransition as TransitionSet
+        val colorDrawable = binding.root.background as? ColorDrawable
+        transitionSet.doOnEnd {
+            val animator = ValueAnimator.ofObject(
+                ArgbEvaluatorCompat(),
+                colorDrawable?.color,
+                MaterialColors.getColor(binding.root, android.R.attr.windowBackground)
+            )
+            animator.addUpdateListener { view?.setBackgroundColor(it.animatedValue as Int) }
+            animator.start()
         }
     }
 
