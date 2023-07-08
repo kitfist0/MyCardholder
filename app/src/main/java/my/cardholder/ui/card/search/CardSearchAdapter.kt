@@ -1,23 +1,18 @@
 package my.cardholder.ui.card.search
 
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.model.Card
-import my.cardholder.data.model.Card.Companion.getColorInt
-import my.cardholder.databinding.ItemCardBinding
-import my.cardholder.util.ext.loadBarcodeImage
+import my.cardholder.databinding.ItemSearchBinding
 import my.cardholder.util.ext.setupUniqueTransitionName
 
 class CardSearchAdapter(
     private val onItemClicked: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
-) : ListAdapter<Card, CardSearchAdapter.CardViewHolder>(CardDiffCallback) {
+) : ListAdapter<Card, CardSearchAdapter.SearchViewHolder>(CardDiffCallback) {
 
     private companion object {
         object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
@@ -29,19 +24,17 @@ class CardSearchAdapter(
         }
     }
 
-    inner class CardViewHolder(
-        private val binding: ItemCardBinding,
+    inner class SearchViewHolder(
+        private val binding: ItemSearchBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {
                 val card = getItem(adapterPosition)
                 val sharedElements = with(binding) {
-                    mapOf(
-                        itemCardBarcodeImage to itemCardBarcodeImage.transitionName,
-                        itemCardNameText to itemCardNameText.transitionName,
-                        itemCardContentText to itemCardContentText.transitionName,
-                        itemCardCategoryText to itemCardCategoryText.transitionName,
+                    mapOf<View, String>(
+                        itemSearchBarcodeImage to itemSearchBarcodeImage.transitionName,
+                        itemSearchNameText to itemSearchNameText.transitionName,
                     )
                 }
                 onItemClicked.invoke(card.id, sharedElements)
@@ -51,41 +44,22 @@ class CardSearchAdapter(
         fun bind(card: Card) {
             with(binding) {
                 val uniqueNameSuffix = card.id
-                itemCardLayout.background = getCardGradientDrawable(card.getColorInt())
-                itemCardBarcodeImage.apply {
-                    setupUniqueTransitionName(uniqueNameSuffix)
-                    loadBarcodeImage(
-                        barcodeFile = card.barcodeFile,
-                        originalSize = false,
-                    )
-                }
-                itemCardNameText.apply {
+                itemSearchBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
+                itemSearchNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.name
                 }
-                itemCardContentText.apply {
-                    setupUniqueTransitionName(uniqueNameSuffix)
-                    text = card.content
-                }
-                itemCardCategoryText.apply {
-                    setupUniqueTransitionName(uniqueNameSuffix)
-                    text = "Category"
-                }
             }
         }
-
-        private fun getCardGradientDrawable(colorInt: Int): GradientDrawable {
-            val bottomLeftColor = ColorUtils.blendARGB(colorInt, Color.TRANSPARENT, 0.2f)
-            return GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(bottomLeftColor, colorInt))
-        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val binding = ItemCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CardViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+        return SearchViewHolder(
+            ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 }

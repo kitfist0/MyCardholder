@@ -32,6 +32,12 @@
     <dimen name="material_button_default_corner_radius">8dp</dimen>
     <!--endregion-->
 
+    <!--region SearchItem-->
+    <dimen name="search_item_content_padding">16dp</dimen>
+    <dimen name="search_item_drawable_padding">8dp</dimen>
+    <dimen name="search_item_text_horizontal_padding">16dp</dimen>
+    <!--endregion-->
+
     <!--region SpecItem-->
     <dimen name="spec_item_content_padding">16dp</dimen>
     <dimen name="spec_item_image_height">75dp</dimen>

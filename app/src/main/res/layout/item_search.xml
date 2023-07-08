@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="@dimen/search_item_content_padding">
+
+    <ImageView
+        android:id="@+id/item_search_barcode_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_qr_code"
+        android:transitionName="@string/transition_card_barcode"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/item_search_name_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="?selectableItemBackground"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingHorizontal="@dimen/search_item_text_horizontal_padding"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:transitionName="@string/transition_card_name"
+        tools:text="@tools:sample/cities" />
+
+</LinearLayout>
