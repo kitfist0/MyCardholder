@@ -42,6 +42,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textShortMessage"
             tools:text="@sample/sample_cards.json/cards/name" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -61,6 +62,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxLines="3"
             tools:text="@sample/sample_cards.json/cards/content" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -71,9 +74,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:transitionName="@string/transition_card_category"
         android:hint="@string/card_edit_category_hint"
         android:labelFor="@id/card_edit_card_category_auto_complete_text"
+        android:transitionName="@string/transition_card_category"
         app:hintAnimationEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
