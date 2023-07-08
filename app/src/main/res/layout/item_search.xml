@@ -27,6 +27,6 @@
         android:paddingHorizontal="@dimen/search_item_text_horizontal_padding"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         android:transitionName="@string/transition_card_name"
-        tools:text="@tools:sample/cities" />
+        tools:text="@sample/sample_cards.json/cards/name" />
 
 </LinearLayout>
