@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import my.cardholder.R
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.isSquare
 import my.cardholder.databinding.ItemSearchBinding
 import my.cardholder.util.ext.setupUniqueTransitionName
 
@@ -44,7 +46,12 @@ class CardSearchAdapter(
         fun bind(card: Card) {
             with(binding) {
                 val uniqueNameSuffix = card.id
-                itemSearchBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
+                itemSearchBarcodeImage.apply {
+                    setupUniqueTransitionName(uniqueNameSuffix)
+                    setImageResource(
+                        if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode
+                    )
+                }
                 itemSearchNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.name
