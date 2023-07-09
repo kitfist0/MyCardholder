@@ -1,6 +1,5 @@
 package my.cardholder.ui.settings
 
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
@@ -13,23 +12,6 @@ import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
-
-    private companion object {
-        const val EXPORTED_FILE_NAME = "exported.csv"
-        const val MIME_TYPE = "*/*"
-    }
-
-    private val exportCards =
-        registerForActivityResult(ActivityResultContracts.CreateDocument(MIME_TYPE)) { uri ->
-            val outputStream = uri?.let { requireActivity().contentResolver.openOutputStream(it) }
-            viewModel.onExportCardsResult(outputStream)
-        }
-
-    private val importCards =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            val inputStream = uri?.let { requireActivity().contentResolver.openInputStream(it) }
-            viewModel.onImportCardsResult(inputStream)
-        }
 
     override val viewModel: SettingsViewModel by viewModels()
 
@@ -48,12 +30,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             settingsImportExportCardsButton.setOnClickListener {
                 viewModel.onImportExportCardsButtonClicked()
             }
-            settingsExportCardsButton.setOnClickListener {
-                viewModel.onExportCardsButtonClicked()
-            }
-            settingsImportCardsButton.setOnClickListener {
-                viewModel.onImportCardsButtonClicked()
-            }
             settingsCoffeeButton.setOnClickListener {
                 viewModel.onCoffeeButtonClicked()
             }
@@ -68,18 +44,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            with(state) {
-                setupColorThemeButtonState(nightModeEnabled)
-                setupCardListViewButtonState(multiColumnListEnabled)
-                if (launchCardsExport) {
-                    exportCards.launch(EXPORTED_FILE_NAME)
-                    viewModel.onExportCardsLaunched()
-                }
-                if (launchCardsImport) {
-                    importCards.launch(MIME_TYPE)
-                    viewModel.onImportCardsLaunched()
-                }
-            }
+            setupColorThemeButtonState(state.nightModeEnabled)
+            setupCardListViewButtonState(state.multiColumnListEnabled)
         }
     }
 

@@ -4,16 +4,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import my.cardholder.data.BackupRepository
 import my.cardholder.data.source.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
-import java.io.InputStream
-import java.io.OutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val backupRepository: BackupRepository,
     private val settingsDataStore: SettingsDataStore,
 ) : BaseViewModel() {
 
@@ -21,8 +17,6 @@ class SettingsViewModel @Inject constructor(
         SettingsState(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
-            launchCardsExport = false,
-            launchCardsImport = false,
         )
     )
     val state = _state.asStateFlow()
@@ -56,42 +50,6 @@ class SettingsViewModel @Inject constructor(
 
     fun onImportExportCardsButtonClicked() {
         navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
-    }
-
-    fun onExportCardsButtonClicked() {
-        _state.update { it.copy(launchCardsExport = true) }
-    }
-
-    fun onExportCardsLaunched() {
-        _state.update { it.copy(launchCardsExport = false) }
-    }
-
-    fun onExportCardsResult(outputStream: OutputStream?) {
-        outputStream?.let {
-            viewModelScope.launch {
-                backupRepository.exportCards(it)
-                    .onSuccess { showSnack("Export completed") }
-                    .onFailure { showSnack(it.message.orEmpty()) }
-            }
-        }
-    }
-
-    fun onImportCardsButtonClicked() {
-        _state.update { it.copy(launchCardsImport = true) }
-    }
-
-    fun onImportCardsLaunched() {
-        _state.update { it.copy(launchCardsImport = false) }
-    }
-
-    fun onImportCardsResult(inputStream: InputStream?) {
-        inputStream?.let {
-            viewModelScope.launch {
-                backupRepository.importCards(it)
-                    .onSuccess { showSnack("Import completed") }
-                    .onFailure { showSnack(it.message.orEmpty()) }
-            }
-        }
     }
 
     fun onCoffeeButtonClicked() {
