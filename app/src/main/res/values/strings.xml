@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">MyCardholder</string>
 
+    <!--region CardBackup-->
+    <string name="card_backup_dialog_default_title">Import or export cards</string>
+    <string name="card_backup_dialog_export_button_text">Export cards to file</string>
+    <string name="card_backup_dialog_export_progress_title">Export in progress - %s</string>
+    <string name="card_backup_dialog_import_button_text">Import cards from a file</string>
+    <string name="card_backup_dialog_import_progress_title">Import in progress - %s</string>
+    <!--endregion-->
+
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Delete card permanently</string>
     <string name="card_display_edit_fab_title">Edit</string>
