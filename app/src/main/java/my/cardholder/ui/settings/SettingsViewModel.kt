@@ -54,6 +54,10 @@ class SettingsViewModel @Inject constructor(
         navigate(SettingsFragmentDirections.fromSettingsToCategoryList())
     }
 
+    fun onImportExportCardsButtonClicked() {
+        navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
+    }
+
     fun onExportCardsButtonClicked() {
         _state.update { it.copy(launchCardsExport = true) }
     }

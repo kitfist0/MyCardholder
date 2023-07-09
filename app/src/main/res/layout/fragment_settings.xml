@@ -49,6 +49,18 @@
             app:iconSize="24dp" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/settings_import_export_cards_button"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:padding="20dp"
+            android:text="@string/settings_import_export_cards_button_text"
+            app:icon="@drawable/ic_import_export"
+            app:iconPadding="16dp"
+            app:iconSize="24dp" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/settings_export_cards_button"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="match_parent"
