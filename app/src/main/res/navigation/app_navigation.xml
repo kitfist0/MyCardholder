@@ -139,6 +139,9 @@
         <action
             android:id="@+id/from_settings_to_category_list"
             app:destination="@id/category_list_fragment" />
+        <action
+            android:id="@+id/from_settings_to_card_backup"
+            app:destination="@id/card_backup_dialog" />
     </fragment>
 
     <fragment
@@ -158,5 +161,11 @@
         android:name="my.cardholder.ui.coffee.CoffeeDialog"
         android:label="@string/coffee_dialog_label"
         tools:layout="@layout/dialog_coffee" />
+
+    <dialog
+        android:id="@+id/card_backup_dialog"
+        android:name="my.cardholder.ui.card.backup.CardBackupDialog"
+        android:label="@string/card_backup_dialog_label"
+        tools:layout="@layout/dialog_card_backup" />
 
 </navigation>
