@@ -4,10 +4,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.BackupRepository
+import my.cardholder.data.model.BackupResult
 import my.cardholder.ui.base.BaseViewModel
 import java.io.InputStream
 import java.io.OutputStream
@@ -18,14 +20,14 @@ class CardBackupViewModel @Inject constructor(
     private val backupRepository: BackupRepository,
 ) : BaseViewModel() {
 
-    private val _state = MutableStateFlow(
-        CardBackupState(
-            titleRes = R.string.card_backup_dialog_default_title,
-            progress = 0,
-            launchCardsExport = false,
-            launchCardsImport = false,
-        )
+    private val defaultState = CardBackupState(
+        titleRes = R.string.card_backup_dialog_default_title,
+        progress = 0,
+        launchCardsExport = false,
+        launchCardsImport = false,
     )
+
+    private val _state = MutableStateFlow(defaultState)
     val state = _state.asStateFlow()
 
     fun onExportCardsButtonClicked() {
@@ -37,13 +39,10 @@ class CardBackupViewModel @Inject constructor(
     }
 
     fun onExportCardsResult(outputStream: OutputStream?) {
-        outputStream?.let {
-            viewModelScope.launch {
-                backupRepository.exportCards(it)
-                    .onSuccess { showSnack("Export completed") }
-                    .onFailure { showSnack(it.message.orEmpty()) }
-            }
-        }
+        outputStream ?: return
+        backupRepository.exportToBackupFile(outputStream)
+            .onEach { onEachBackupResult(it) }
+            .launchIn(viewModelScope)
     }
 
     fun onImportCardsButtonClicked() {
@@ -55,11 +54,24 @@ class CardBackupViewModel @Inject constructor(
     }
 
     fun onImportCardsResult(inputStream: InputStream?) {
-        inputStream?.let {
-            viewModelScope.launch {
-                backupRepository.importCards(it)
-                    .onSuccess { showSnack("Import completed") }
-                    .onFailure { showSnack(it.message.orEmpty()) }
+        inputStream ?: return
+        backupRepository.importFromBackupFile(inputStream)
+            .onEach { onEachBackupResult(it) }
+            .launchIn(viewModelScope)
+    }
+
+    private fun onEachBackupResult(result: BackupResult) {
+        when (result) {
+            is BackupResult.Error -> {
+                _state.value = defaultState
+                showSnack(result.message)
+            }
+            is BackupResult.Progress -> {
+                _state.update { it.copy(progress = result.percentage) }
+            }
+            BackupResult.Success -> {
+                _state.value = defaultState
+                navigateUp()
             }
         }
     }
