@@ -1,7 +1,7 @@
 package my.cardholder.ui.card.backup
 
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.isVisible
+import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogCardBackupBinding
@@ -48,7 +48,7 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
             binding.cardBackupTitleText.setText(state.titleRes)
             binding.cardBackupProgressIndicator.apply {
                 progress = state.progress
-                isVisible = state.progress != 0
+                isInvisible = state.progress == 0
             }
             if (state.launchCardsExport) {
                 exportCards.launch(EXPORTED_FILE_NAME)

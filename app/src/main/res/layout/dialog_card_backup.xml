@@ -20,8 +20,8 @@
         android:id="@+id/card_backup_progress_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/bottom_sheet_view_padding"
-        android:visibility="gone"
+        android:paddingHorizontal="@dimen/bottom_sheet_view_padding"
+        android:visibility="invisible"
         tools:progress="75"
         tools:visibility="visible" />
 
@@ -29,6 +29,7 @@
         android:id="@+id/card_backup_export_cards_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_sheet_button_height"
+        android:layout_marginTop="4dp"
         android:background="?selectableItemBackground"
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
