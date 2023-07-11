@@ -71,7 +71,6 @@ class BackupRepository @Inject constructor(
             when (version) {
                 V1_CSV_SCHEME ->
                     rows.forEachIndexed { index, row ->
-                        kotlinx.coroutines.delay(700)
                         importCardAccordingToV1Schema(row)
                         sendProgress(current = index + 1, total = numOfCards)
                     }
