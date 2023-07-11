@@ -46,11 +46,14 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
+            val notCurrentlyInProgress = !state.currentlyInProgress()
             binding.cardBackupTitleText.setText(state.titleRes)
             binding.cardBackupProgressIndicator.apply {
                 progress = state.progress ?: 0
-                isInvisible = !state.currentlyInProgress()
+                isInvisible = notCurrentlyInProgress
             }
+            binding.cardBackupExportCardsButton.isEnabled = notCurrentlyInProgress
+            binding.cardBackupImportCardsButton.isEnabled = notCurrentlyInProgress
             if (state.launchCardsExport) {
                 exportCards.launch(EXPORTED_FILE_NAME)
                 viewModel.onExportCardsLaunched()
