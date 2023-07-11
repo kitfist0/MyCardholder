@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogCardBackupBinding
 import my.cardholder.ui.base.BaseDialogFragment
+import my.cardholder.ui.card.backup.CardBackupState.Companion.currentlyInProgress
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
@@ -47,8 +48,8 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
         collectWhenStarted(viewModel.state) { state ->
             binding.cardBackupTitleText.setText(state.titleRes)
             binding.cardBackupProgressIndicator.apply {
-                progress = state.progress
-                isInvisible = state.progress == 0
+                progress = state.progress ?: 0
+                isInvisible = !state.currentlyInProgress()
             }
             if (state.launchCardsExport) {
                 exportCards.launch(EXPORTED_FILE_NAME)

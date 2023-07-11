@@ -20,14 +20,16 @@ class CardBackupViewModel @Inject constructor(
     private val backupRepository: BackupRepository,
 ) : BaseViewModel() {
 
-    private val defaultState = CardBackupState(
-        titleRes = R.string.card_backup_dialog_default_title,
-        progress = 0,
-        launchCardsExport = false,
-        launchCardsImport = false,
-    )
+    private companion object {
+        val DEFAULT_STATE = CardBackupState(
+            titleRes = R.string.card_backup_dialog_default_title,
+            progress = null,
+            launchCardsExport = false,
+            launchCardsImport = false,
+        )
+    }
 
-    private val _state = MutableStateFlow(defaultState)
+    private val _state = MutableStateFlow(DEFAULT_STATE)
     val state = _state.asStateFlow()
 
     fun onExportCardsButtonClicked() {
@@ -63,14 +65,14 @@ class CardBackupViewModel @Inject constructor(
     private fun onEachBackupResult(result: BackupResult) {
         when (result) {
             is BackupResult.Error -> {
-                _state.value = defaultState
+                _state.value = DEFAULT_STATE
                 showSnack(result.message)
             }
             is BackupResult.Progress -> {
                 _state.update { it.copy(progress = result.percentage) }
             }
             BackupResult.Success -> {
-                _state.value = defaultState
+                _state.value = DEFAULT_STATE
                 navigateUp()
             }
         }
