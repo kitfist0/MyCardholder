@@ -4,6 +4,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.BuildConfig
 import my.cardholder.databinding.DialogCardBackupBinding
 import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.ui.card.backup.CardBackupState.Companion.currentlyInProgress
@@ -15,7 +16,7 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
 ) {
 
     private companion object {
-        const val EXPORTED_FILE_NAME = "exported.csv"
+        const val EXPORTED_FILE_NAME = BuildConfig.APP_NAME + "Backup.csv"
         const val MIME_TYPE = "*/*"
     }
 
