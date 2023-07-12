@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import my.cardholder.R
 import my.cardholder.data.BackupRepository
@@ -43,6 +44,9 @@ class CardBackupViewModel @Inject constructor(
     fun onExportCardsResult(outputStream: OutputStream?) {
         outputStream ?: return
         backupRepository.exportToBackupFile(outputStream)
+            .onStart {
+                _state.update { it.copy(titleRes = R.string.card_backup_dialog_export_title) }
+            }
             .onEach { onEachBackupResult(it) }
             .launchIn(viewModelScope)
     }
@@ -58,6 +62,9 @@ class CardBackupViewModel @Inject constructor(
     fun onImportCardsResult(inputStream: InputStream?) {
         inputStream ?: return
         backupRepository.importFromBackupFile(inputStream)
+            .onStart {
+                _state.update { it.copy(titleRes = R.string.card_backup_dialog_import_title) }
+            }
             .onEach { onEachBackupResult(it) }
             .launchIn(viewModelScope)
     }
