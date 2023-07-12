@@ -24,9 +24,9 @@ class CardBackupViewModel @Inject constructor(
     private companion object {
         val DEFAULT_STATE = CardBackupState(
             titleRes = R.string.card_backup_dialog_default_title,
-            progress = null,
-            launchCardsExport = false,
-            launchCardsImport = false,
+            progressPercentage = null,
+            launchBackupFileExport = false,
+            launchBackupFileImport = false,
         )
     }
 
@@ -34,14 +34,14 @@ class CardBackupViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     fun onExportCardsButtonClicked() {
-        _state.update { it.copy(launchCardsExport = true) }
+        _state.update { it.copy(launchBackupFileExport = true) }
     }
 
-    fun onExportCardsLaunched() {
-        _state.update { it.copy(launchCardsExport = false) }
+    fun onBackupFileExportLaunched() {
+        _state.update { it.copy(launchBackupFileExport = false) }
     }
 
-    fun onExportCardsResult(outputStream: OutputStream?) {
+    fun onBackupFileExportResult(outputStream: OutputStream?) {
         outputStream ?: return
         backupRepository.exportToBackupFile(outputStream)
             .onStart {
@@ -52,14 +52,14 @@ class CardBackupViewModel @Inject constructor(
     }
 
     fun onImportCardsButtonClicked() {
-        _state.update { it.copy(launchCardsImport = true) }
+        _state.update { it.copy(launchBackupFileImport = true) }
     }
 
-    fun onImportCardsLaunched() {
-        _state.update { it.copy(launchCardsImport = false) }
+    fun onBackupFileImportLaunched() {
+        _state.update { it.copy(launchBackupFileImport = false) }
     }
 
-    fun onImportCardsResult(inputStream: InputStream?) {
+    fun onBackupFileImportResult(inputStream: InputStream?) {
         inputStream ?: return
         backupRepository.importFromBackupFile(inputStream)
             .onStart {
@@ -76,7 +76,7 @@ class CardBackupViewModel @Inject constructor(
                 showSnack(result.message)
             }
             is BackupResult.Progress -> {
-                _state.update { it.copy(progress = result.percentage) }
+                _state.update { it.copy(progressPercentage = result.percentage) }
             }
             BackupResult.Success -> {
                 _state.value = DEFAULT_STATE

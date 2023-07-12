@@ -20,16 +20,16 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
         const val MIME_TYPE = "*/*"
     }
 
-    private val exportCards =
+    private val backupFileExport =
         registerForActivityResult(ActivityResultContracts.CreateDocument(MIME_TYPE)) { uri ->
             val outputStream = uri?.let { requireActivity().contentResolver.openOutputStream(it) }
-            viewModel.onExportCardsResult(outputStream)
+            viewModel.onBackupFileExportResult(outputStream)
         }
 
-    private val importCards =
+    private val backupFileImport =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             val inputStream = uri?.let { requireActivity().contentResolver.openInputStream(it) }
-            viewModel.onImportCardsResult(inputStream)
+            viewModel.onBackupFileImportResult(inputStream)
         }
 
     override val viewModel: CardBackupViewModel by viewModels()
@@ -50,17 +50,17 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
             val notCurrentlyInProgress = !state.currentlyInProgress()
             binding.cardBackupTitleText.setText(state.titleRes)
             binding.cardBackupProgressIndicator.apply {
-                progress = state.progress ?: 0
+                progress = state.progressPercentage ?: 0
                 isInvisible = notCurrentlyInProgress
             }
             binding.cardBackupExportCardsButton.isEnabled = notCurrentlyInProgress
             binding.cardBackupImportCardsButton.isEnabled = notCurrentlyInProgress
-            if (state.launchCardsExport) {
-                exportCards.launch(EXPORTED_FILE_NAME)
-                viewModel.onExportCardsLaunched()
-            } else if (state.launchCardsImport) {
-                importCards.launch(MIME_TYPE)
-                viewModel.onImportCardsLaunched()
+            if (state.launchBackupFileExport) {
+                backupFileExport.launch(EXPORTED_FILE_NAME)
+                viewModel.onBackupFileExportLaunched()
+            } else if (state.launchBackupFileImport) {
+                backupFileImport.launch(MIME_TYPE)
+                viewModel.onBackupFileImportLaunched()
             }
         }
     }
