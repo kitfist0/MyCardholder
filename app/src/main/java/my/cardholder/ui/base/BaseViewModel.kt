@@ -16,11 +16,17 @@ sealed class BaseEvent {
 
     object NavigateUp : BaseEvent()
 
-    data class SnackMessage(val message: String) : BaseEvent()
+    data class SnackMessage(
+        val message: String,
+    ) : BaseEvent()
 
     data class StartActivity(
         val action: String,
         val uriString: String? = null,
+    ) : BaseEvent()
+
+    data class ToastMessage(
+        val message: String,
     ) : BaseEvent()
 }
 
@@ -43,6 +49,10 @@ abstract class BaseViewModel : ViewModel() {
 
     protected fun startActivity(action: String, uriString: String? = null) {
         sendEvent(BaseEvent.StartActivity(action, uriString))
+    }
+
+    protected fun showToast(message: String) {
+        sendEvent(BaseEvent.ToastMessage(message))
     }
 
     private fun sendEvent(event: BaseEvent) {

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +25,8 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
             is BaseEvent.StartActivity -> event.uriString
                 ?.let { uriString -> startActivity(Intent(event.action, Uri.parse(uriString))) }
                 ?: startActivity(Intent(event.action))
+            is BaseEvent.ToastMessage ->
+                Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
         }
     }
 }
