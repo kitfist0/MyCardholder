@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/bottom_sheet_root_vertical_padding"
+    tools:context=".ui.card.backup.CardBackupDialog">
+
+    <TextView
+        android:id="@+id/card_backup_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="@string/card_backup_dialog_default_title"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/card_backup_progress_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/bottom_sheet_view_padding"
+        android:visibility="invisible"
+        tools:progress="75"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/card_backup_export_cards_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_sheet_button_height"
+        android:layout_marginTop="4dp"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
+        android:gravity="center_vertical"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="@string/card_backup_dialog_export_button_text"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:drawableStartCompat="@drawable/ic_export" />
+
+    <TextView
+        android:id="@+id/card_backup_import_cards_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_sheet_button_height"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
+        android:gravity="center_vertical"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="@string/card_backup_dialog_import_button_text"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:drawableStartCompat="@drawable/ic_import" />
+
+</LinearLayout>

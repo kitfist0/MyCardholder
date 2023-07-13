@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">MyCardholder</string>
 
+    <!--region CardBackup-->
+    <string name="card_backup_dialog_default_title">Import or export cards</string>
+    <string name="card_backup_dialog_export_button_text">Export cards to file</string>
+    <string name="card_backup_dialog_export_title">Please wait. Export in progress</string>
+    <string name="card_backup_dialog_import_button_text">Import cards from a file</string>
+    <string name="card_backup_dialog_import_title">Please wait. Import in progress</string>
+    <string name="card_backup_dialog_label">Backup</string>
+    <!--endregion-->
+
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Delete card permanently</string>
     <string name="card_display_edit_fab_title">Edit</string>
@@ -81,6 +90,7 @@
     <string name="settings_card_categories_button_text">Card categories</string>
     <string name="settings_coffee_button_text">Coffee for developers</string>
     <string name="settings_export_cards_button_text">Export cards to file</string>
+    <string name="settings_import_export_cards_button_text">Import or export cards</string>
     <string name="settings_import_cards_button_text">Import cards from a file</string>
     <string name="settings_label">Settings</string>
     <string name="settings_switch_to_dark_mode_button_text">Switch to dark mode</string>

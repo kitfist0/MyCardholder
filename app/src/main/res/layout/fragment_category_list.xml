@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/category_list_toolbar"
-        tools:itemCount="3"
+        tools:itemCount="4"
         tools:listitem="@layout/item_category" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">MyCardholder</string>
 
+    <!--region CardBackup-->
+    <string name="card_backup_dialog_default_title">Karten importieren oder exportieren</string>
+    <string name="card_backup_dialog_export_button_text">Exportieren Sie Karten in eine Datei</string>
+    <string name="card_backup_dialog_export_title">Warten Sie mal. Export läuft</string>
+    <string name="card_backup_dialog_import_button_text">Importieren Sie Karten aus einer Datei</string>
+    <string name="card_backup_dialog_import_title">Warten Sie mal. Import läuft</string>
+    <string name="card_backup_dialog_label">Kartensicherung</string>
+    <!--endregion-->
+
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Karte dauerhaft löschen</string>
     <string name="card_display_edit_fab_title">Bearbeiten</string>
@@ -81,6 +90,7 @@
     <string name="settings_card_categories_button_text">Kartenkategorien</string>
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
     <string name="settings_export_cards_button_text">Exportieren Sie Karten in eine Datei</string>
+    <string name="settings_import_export_cards_button_text">Karten importieren oder exportieren</string>
     <string name="settings_import_cards_button_text">Importieren Sie Karten aus einer Datei</string>
     <string name="settings_label">Einstellungen</string>
     <string name="settings_switch_to_dark_mode_button_text">Wechseln Sie in den dunklen Modus</string>

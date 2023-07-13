@@ -24,8 +24,6 @@
             android:maxWidth="@dimen/card_item_rectangle_barcode_width"
             android:minWidth="@dimen/card_item_square_barcode_width"
             android:transitionName="@string/transition_card_barcode"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:background="@android:color/white"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_qr_code" />
@@ -39,9 +37,7 @@
             android:paddingTop="8dp"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
             android:transitionName="@string/transition_card_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_card_barcode_image"
-            tools:text="@tools:sample/cities" />
+            tools:text="@sample/sample_cards.json/cards/name" />
 
         <TextView
             android:id="@+id/item_card_content_text"
@@ -51,10 +47,7 @@
             android:lines="1"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             android:transitionName="@string/transition_card_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_card_name_text"
-            tools:text="@tools:sample/lorem/random" />
+            tools:text="@sample/sample_cards.json/cards/content" />
 
         <TextView
             android:id="@+id/item_card_category_text"
@@ -66,10 +59,7 @@
             android:paddingTop="4dp"
             android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
             android:transitionName="@string/transition_card_category"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_card_content_text"
-            tools:text="Category" />
+            tools:text="@sample/sample_cards.json/cards/category" />
 
     </LinearLayout>
 

@@ -14,10 +14,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
+        android:ellipsize="end"
         android:lines="1"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:transitionName="@string/transition_card_category"
-        tools:text="Category" />
+        tools:text="@sample/sample_cards.json/cards/category" />
 
     <TextView
         android:id="@+id/item_category_number_of_cards_text"
