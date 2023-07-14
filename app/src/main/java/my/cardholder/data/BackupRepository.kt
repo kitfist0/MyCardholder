@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
+import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Category
@@ -50,7 +51,11 @@ class BackupRepository @Inject constructor(
                 row.add(V1_CARD_COLOR_INDEX, card.color)
                 row.add(V1_CARD_FORMAT_INDEX, card.format)
                 writeRow(row)
-                sendProgress(current = index + 1, total = numOfCards)
+                sendProgress(
+                    backupOperationType = BackupOperationType.EXPORT,
+                    current = index + 1,
+                    total = numOfCards,
+                )
             }
         }
     }.catch {
@@ -72,7 +77,11 @@ class BackupRepository @Inject constructor(
                 V1_CSV_SCHEME ->
                     rows.forEachIndexed { index, row ->
                         importCardAccordingToV1Schema(row)
-                        sendProgress(current = index + 1, total = numOfCards)
+                        sendProgress(
+                            backupOperationType = BackupOperationType.IMPORT,
+                            current = index + 1,
+                            total = numOfCards,
+                        )
                     }
                 else -> throw Throwable("Invalid file format")
             }
@@ -107,9 +116,13 @@ class BackupRepository @Inject constructor(
         }
     }
 
-    private suspend inline fun ProducerScope<BackupResult>.sendProgress(current: Int, total: Int) {
+    private suspend inline fun ProducerScope<BackupResult>.sendProgress(
+        backupOperationType: BackupOperationType,
+        current: Int,
+        total: Int,
+    ) {
         if (current == total) {
-            send(BackupResult.Success)
+            send(BackupResult.Success(backupOperationType))
         } else {
             val percentage = ((current.toDouble() / total) * 100).toInt()
             send(BackupResult.Progress(percentage))

@@ -78,7 +78,7 @@ class CardBackupViewModel @Inject constructor(
             is BackupResult.Progress -> {
                 _state.update { it.copy(progressPercentage = result.percentage) }
             }
-            BackupResult.Success -> {
+            is BackupResult.Success -> {
                 _state.value = DEFAULT_STATE
                 navigateUp()
             }
