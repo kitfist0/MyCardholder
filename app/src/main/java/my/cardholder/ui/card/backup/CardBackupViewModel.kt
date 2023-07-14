@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import my.cardholder.R
 import my.cardholder.data.BackupRepository
+import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
 import my.cardholder.ui.base.BaseViewModel
 import java.io.InputStream
@@ -73,13 +74,17 @@ class CardBackupViewModel @Inject constructor(
         when (result) {
             is BackupResult.Error -> {
                 _state.value = DEFAULT_STATE
-                showSnack(result.message)
+                showToast(result.message)
             }
             is BackupResult.Progress -> {
                 _state.update { it.copy(progressPercentage = result.percentage) }
             }
             is BackupResult.Success -> {
                 _state.value = DEFAULT_STATE
+                when (result.type) {
+                    BackupOperationType.IMPORT -> showToast("Import completed")
+                    BackupOperationType.EXPORT -> showToast("Export completed")
+                }
                 navigateUp()
             }
         }
