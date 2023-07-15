@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingVertical="@dimen/bottom_sheet_root_vertical_padding"
+    android:splitMotionEvents="false"
     tools:context=".ui.card.backup.CardBackupDialog">
 
     <TextView
