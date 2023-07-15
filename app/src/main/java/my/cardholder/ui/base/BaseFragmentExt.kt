@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import my.cardholder.util.Text
 import my.cardholder.util.ext.collectWhenStarted
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
@@ -21,12 +22,19 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
             is BaseEvent.NavigateUp ->
                 findNavController().navigateUp()
             is BaseEvent.SnackMessage ->
-                Snackbar.make(requireView(), event.message, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(requireView(), textToString(event.text), Snackbar.LENGTH_LONG).show()
             is BaseEvent.StartActivity -> event.uriString
                 ?.let { uriString -> startActivity(Intent(event.action, Uri.parse(uriString))) }
                 ?: startActivity(Intent(event.action))
             is BaseEvent.ToastMessage ->
-                Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), textToString(event.text), Toast.LENGTH_LONG).show()
         }
+    }
+}
+
+private fun Fragment.textToString(text: Text): String {
+    return when (text) {
+        is Text.Resource -> getString(text.resId)
+        is Text.Simple -> text.text
     }
 }

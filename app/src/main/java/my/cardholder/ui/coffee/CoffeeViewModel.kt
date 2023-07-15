@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.PlayBillingWrapper
+import my.cardholder.util.Text
 import my.cardholder.util.ext.isOk
 import my.cardholder.util.ext.queryAndAcknowledgePurchasedProducts
 import javax.inject.Inject
@@ -57,7 +58,7 @@ class CoffeeViewModel @Inject constructor(
 
     fun onCoffeePurchaseFlowStartedWithError(throwable: Throwable) {
         _state.update { it.copy(launchCoffeePurchase = null) }
-        showSnack(throwable.message.orEmpty())
+        showSnack(Text.Simple(throwable.message.orEmpty()))
     }
 
     private suspend fun updatePurchaseStatusOfCoffees() {
@@ -67,6 +68,6 @@ class CoffeeViewModel @Inject constructor(
                     coffeeRepository.updatePurchaseStatusOfCoffees(purchasedIds)
                 }
             }
-            .onFailure { showSnack(it.message.orEmpty()) }
+            .onFailure { showSnack(Text.Simple(it.message.orEmpty())) }
     }
 }

@@ -7,6 +7,7 @@ import androidx.navigation.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import my.cardholder.util.Text
 
 sealed class BaseEvent {
     data class Navigate(
@@ -17,7 +18,7 @@ sealed class BaseEvent {
     object NavigateUp : BaseEvent()
 
     data class SnackMessage(
-        val message: String,
+        val text: Text,
     ) : BaseEvent()
 
     data class StartActivity(
@@ -26,7 +27,7 @@ sealed class BaseEvent {
     ) : BaseEvent()
 
     data class ToastMessage(
-        val message: String,
+        val text: Text,
     ) : BaseEvent()
 }
 
@@ -43,16 +44,16 @@ abstract class BaseViewModel : ViewModel() {
         sendEvent(BaseEvent.NavigateUp)
     }
 
-    protected fun showSnack(message: String) {
-        sendEvent(BaseEvent.SnackMessage(message))
+    protected fun showSnack(text: Text) {
+        sendEvent(BaseEvent.SnackMessage(text))
     }
 
     protected fun startActivity(action: String, uriString: String? = null) {
         sendEvent(BaseEvent.StartActivity(action, uriString))
     }
 
-    protected fun showToast(message: String) {
-        sendEvent(BaseEvent.ToastMessage(message))
+    protected fun showToast(text: Text) {
+        sendEvent(BaseEvent.ToastMessage(text))
     }
 
     private fun sendEvent(event: BaseEvent) {

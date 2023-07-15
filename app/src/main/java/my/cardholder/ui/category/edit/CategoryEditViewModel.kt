@@ -10,6 +10,7 @@ import my.cardholder.R
 import my.cardholder.data.model.Category
 import my.cardholder.data.source.CategoryDao
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.Text
 
 class CategoryEditViewModel @AssistedInject constructor(
     @Assisted("category_id") private val categoryId: Long,
@@ -61,9 +62,9 @@ class CategoryEditViewModel @AssistedInject constructor(
             val categoryName = enteredCategoryName?.trim()
             when {
                 categoryName.isNullOrEmpty() ->
-                    showSnack("Invalid input")
+                    showSnack(Text.Simple("Invalid input"))
                 categoryName.length > MAX_CATEGORY_NAME_LENGTH ->
-                    showSnack("Too long name")
+                    showSnack(Text.Simple("Too long name"))
                 categoryDao.getCategoryByName(categoryName) != null ->
                     navigateUp()
                 else -> {

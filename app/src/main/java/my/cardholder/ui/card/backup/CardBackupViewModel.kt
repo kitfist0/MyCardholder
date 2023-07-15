@@ -14,6 +14,7 @@ import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.ui.card.backup.CardBackupState.Companion.currentlyInProgress
+import my.cardholder.util.Text
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -37,7 +38,7 @@ class CardBackupViewModel @Inject constructor(
 
     fun onDialogDismiss() {
         if (_state.value.currentlyInProgress()) {
-            showToast("Operation canceled")
+            showToast(Text.Simple("Operation canceled"))
         }
     }
 
@@ -81,7 +82,7 @@ class CardBackupViewModel @Inject constructor(
         when (result) {
             is BackupResult.Error -> {
                 _state.value = DEFAULT_STATE
-                showToast(result.message)
+                showToast(Text.Simple(result.message))
             }
             is BackupResult.Progress -> {
                 _state.update { it.copy(progressPercentage = result.percentage) }
@@ -89,8 +90,8 @@ class CardBackupViewModel @Inject constructor(
             is BackupResult.Success -> {
                 _state.value = DEFAULT_STATE
                 when (result.type) {
-                    BackupOperationType.IMPORT -> showToast("Import completed")
-                    BackupOperationType.EXPORT -> showToast("Export completed")
+                    BackupOperationType.IMPORT -> showToast(Text.Simple("Import completed"))
+                    BackupOperationType.EXPORT -> showToast(Text.Simple("Export completed"))
                 }
                 navigateUp()
             }

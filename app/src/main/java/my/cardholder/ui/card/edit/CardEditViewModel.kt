@@ -10,6 +10,7 @@ import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CategoryDao
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.Text
 
 class CardEditViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
@@ -46,7 +47,7 @@ class CardEditViewModel @AssistedInject constructor(
                     cardColor = card.color,
                 )
                 if (card.barcodeFile?.exists() == false) {
-                    showSnack("The value is invalid for the selected barcode type")
+                    showSnack(Text.Simple("The value is invalid for the selected barcode type"))
                 }
             }
             .launchIn(viewModelScope)
