@@ -1,5 +1,6 @@
 package my.cardholder.ui.card.backup
 
+import android.content.DialogInterface
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isInvisible
 import androidx.fragment.app.viewModels
@@ -43,6 +44,11 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
                 viewModel.onImportCardsButtonClicked()
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        viewModel.onDialogDismiss()
+        super.onDismiss(dialog)
     }
 
     override fun collectData() {

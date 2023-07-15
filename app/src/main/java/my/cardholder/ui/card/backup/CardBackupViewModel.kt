@@ -13,6 +13,7 @@ import my.cardholder.data.BackupRepository
 import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.ui.card.backup.CardBackupState.Companion.currentlyInProgress
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -33,6 +34,12 @@ class CardBackupViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(DEFAULT_STATE)
     val state = _state.asStateFlow()
+
+    fun onDialogDismiss() {
+        if (_state.value.currentlyInProgress()) {
+            showToast("Operation canceled")
+        }
+    }
 
     fun onExportCardsButtonClicked() {
         _state.update { it.copy(launchBackupFileExport = true) }
