@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CategoryDao
@@ -47,7 +48,7 @@ class CardEditViewModel @AssistedInject constructor(
                     cardColor = card.color,
                 )
                 if (card.barcodeFile?.exists() == false) {
-                    showSnack(Text.Simple("The value is invalid for the selected barcode type"))
+                    showSnack(Text.Resource(R.string.card_edit_invalid_value_error_message))
                 }
             }
             .launchIn(viewModelScope)
