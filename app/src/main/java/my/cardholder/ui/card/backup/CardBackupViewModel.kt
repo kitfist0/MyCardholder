@@ -38,7 +38,7 @@ class CardBackupViewModel @Inject constructor(
 
     fun onDialogDismiss() {
         if (_state.value.currentlyInProgress()) {
-            showToast(Text.Simple("Operation canceled"))
+            showToast(Text.Resource(R.string.card_backup_dialog_operation_canceled_message))
         }
     }
 
@@ -89,12 +89,19 @@ class CardBackupViewModel @Inject constructor(
             }
             is BackupResult.Success -> {
                 _state.value = DEFAULT_STATE
-                when (result.type) {
-                    BackupOperationType.IMPORT -> showToast(Text.Simple("Import completed"))
-                    BackupOperationType.EXPORT -> showToast(Text.Simple("Export completed"))
-                }
+                showSuccessToast(result.type)
                 navigateUp()
             }
         }
+    }
+
+    private fun showSuccessToast(type: BackupOperationType) {
+        val text = when (type) {
+            BackupOperationType.IMPORT ->
+                Text.Resource(R.string.card_backup_dialog_import_completed_message)
+            BackupOperationType.EXPORT ->
+                Text.Resource(R.string.card_backup_dialog_export_completed_message)
+        }
+        showToast(text)
     }
 }
