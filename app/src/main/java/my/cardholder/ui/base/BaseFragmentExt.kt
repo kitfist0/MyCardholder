@@ -35,6 +35,7 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
 private fun Fragment.textToString(text: Text): String {
     return when (text) {
         is Text.Resource -> getString(text.resId)
+        is Text.ResourceAndParams -> getString(text.resId, *text.params.toTypedArray())
         is Text.Simple -> text.text
     }
 }
