@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.CardRepository
+import my.cardholder.data.model.Category
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CategoryDao
 import my.cardholder.ui.base.BaseViewModel
@@ -18,10 +19,6 @@ class CardEditViewModel @AssistedInject constructor(
     private val cardRepository: CardRepository,
     private val categoryDao: CategoryDao,
 ) : BaseViewModel() {
-
-    private companion object {
-        const val NO_CATEGORY_NAME_TEXT = "No category"
-    }
 
     private var updatedCardName: String? = null
     private var updatedCardContent: String? = null
@@ -42,8 +39,8 @@ class CardEditViewModel @AssistedInject constructor(
                     barcodeFile = card.barcodeFile,
                     cardName = card.name,
                     cardContent = card.content,
-                    cardCategoryName = cardAndCategory.category?.name ?: NO_CATEGORY_NAME_TEXT,
-                    cardCategoryNames = listOf(NO_CATEGORY_NAME_TEXT).plus(categoryNames),
+                    cardCategoryName = cardAndCategory.category?.name ?: Category.UNCATEGORIZED_NAME,
+                    cardCategoryNames = listOf(Category.UNCATEGORIZED_NAME).plus(categoryNames),
                     barcodeFormatName = card.format.toString(),
                     cardColor = card.color,
                 )
@@ -79,7 +76,7 @@ class CardEditViewModel @AssistedInject constructor(
         }
         updatedCardCategoryName = cardCategoryName
         viewModelScope.launch {
-            val category = if (cardCategoryName != NO_CATEGORY_NAME_TEXT) {
+            val category = if (cardCategoryName != Category.UNCATEGORIZED_NAME) {
                 categoryDao.getCategoryByName(cardCategoryName)
             } else {
                 null

@@ -10,6 +10,12 @@ import androidx.room.PrimaryKey
 )
 data class Category(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    val id: Long = NEW_CATEGORY_ID,
     val name: String,
-)
+) {
+    companion object {
+        const val MAX_NAME_LENGTH = 30
+        const val NEW_CATEGORY_ID = 0L
+        const val UNCATEGORIZED_NAME = "NULL" // This name is forbidden
+    }
+}
