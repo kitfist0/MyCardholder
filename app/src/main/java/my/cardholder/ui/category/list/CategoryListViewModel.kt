@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import my.cardholder.data.model.Category
 import my.cardholder.data.model.CategoryAndCards
 import my.cardholder.data.source.CategoryDao
 import my.cardholder.ui.base.BaseViewModel
@@ -34,6 +35,6 @@ class CategoryListViewModel @Inject constructor(
     }
 
     fun onAddCategoryFabClicked() {
-        navigate(CategoryListFragmentDirections.fromCategoryListToCategoryEdit())
+        navigate(CategoryListFragmentDirections.fromCategoryListToCategoryEdit(Category.NEW_CATEGORY_ID))
     }
 }

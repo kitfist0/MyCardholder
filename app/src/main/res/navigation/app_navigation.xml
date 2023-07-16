@@ -104,7 +104,6 @@
         tools:layout="@layout/fragment_category_edit">
         <argument
             android:name="category_id"
-            android:defaultValue="0L"
             app:argType="long" />
     </fragment>
 
