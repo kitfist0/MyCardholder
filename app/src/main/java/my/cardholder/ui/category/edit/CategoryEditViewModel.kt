@@ -7,14 +7,14 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
+import my.cardholder.data.CategoryRepository
 import my.cardholder.data.model.Category
-import my.cardholder.data.source.CategoryDao
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
 
 class CategoryEditViewModel @AssistedInject constructor(
     @Assisted("category_id") private val categoryId: Long,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
 ) : BaseViewModel() {
 
     private var enteredCategoryName: String? = null
@@ -24,7 +24,7 @@ class CategoryEditViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            val categoryName = categoryDao.getCategoryById(categoryId)?.name.orEmpty()
+            val categoryName = categoryRepository.getCategoryNameById(categoryId).orEmpty()
             _state.value = CategoryEditState.Success(
                 titleRes = if (categoryId != Category.NEW_CATEGORY_ID) {
                     R.string.category_edit_category_toolbar_title
@@ -40,7 +40,7 @@ class CategoryEditViewModel @AssistedInject constructor(
     fun onMenuItemClicked(itemId: Int): Boolean {
         if (itemId == R.id.category_delete_menu_item) {
             viewModelScope.launch {
-                categoryDao.deleteCategoryById(categoryId)
+                categoryRepository.deleteCategoryById(categoryId)
                 navigateUp()
             }
             return true
@@ -60,7 +60,7 @@ class CategoryEditViewModel @AssistedInject constructor(
                     showSnack(
                         Text.Resource(R.string.category_edit_name_is_empty_error_message)
                     )
-                categoryName.equals(Category.UNCATEGORIZED_NAME, ignoreCase = true) ->
+                categoryName.equals(Category.NULL_NAME, ignoreCase = true) ->
                     showSnack(
                         Text.Resource(R.string.category_edit_name_is_forbidden_error_message)
                     )
@@ -71,10 +71,8 @@ class CategoryEditViewModel @AssistedInject constructor(
                             listOf(Category.MAX_NAME_LENGTH),
                         )
                     )
-                categoryDao.getCategoryByName(categoryName) != null ->
-                    navigateUp()
                 else ->
-                    categoryDao.upsert(Category(categoryId, categoryName))
+                    categoryRepository.upsertCategoryIfCategoryNameIsNew(categoryId, categoryName)
                         .also { navigateUp() }
             }
         }

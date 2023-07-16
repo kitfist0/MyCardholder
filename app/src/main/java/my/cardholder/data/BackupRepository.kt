@@ -11,10 +11,8 @@ import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
 import my.cardholder.data.model.Card
-import my.cardholder.data.model.Category
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CardDao
-import my.cardholder.data.source.CategoryDao
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -24,7 +22,7 @@ import javax.inject.Singleton
 class BackupRepository @Inject constructor(
     private val barcodeFileRepository: BarcodeFileRepository,
     private val cardDao: CardDao,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
 ) {
 
     private companion object {
@@ -97,8 +95,7 @@ class BackupRepository @Inject constructor(
         if (cardDao.getCardWithSuchData(name, content, format) == null) {
             val categoryName = row[V1_CARD_CATEGORY_INDEX]
             val categoryId = if (categoryName.isNotEmpty()) {
-                categoryDao.getCategoryByName(categoryName)?.id
-                    ?: categoryDao.upsert(Category(name = categoryName))
+                categoryRepository.upsertCategoryIfCategoryNameIsNew(categoryName = categoryName)
             } else {
                 null
             }

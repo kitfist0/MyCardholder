@@ -16,6 +16,6 @@ data class Category(
     companion object {
         const val MAX_NAME_LENGTH = 30
         const val NEW_CATEGORY_ID = 0L
-        const val UNCATEGORIZED_NAME = "NULL" // This name is forbidden
+        const val NULL_NAME = "NULL" // This name is forbidden
     }
 }

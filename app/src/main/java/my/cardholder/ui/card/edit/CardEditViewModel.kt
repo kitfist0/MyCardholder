@@ -8,16 +8,16 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.CardRepository
+import my.cardholder.data.CategoryRepository
 import my.cardholder.data.model.Category
 import my.cardholder.data.model.SupportedFormat
-import my.cardholder.data.source.CategoryDao
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
 
 class CardEditViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
-    private val categoryDao: CategoryDao,
+    private val categoryRepository: CategoryRepository,
 ) : BaseViewModel() {
 
     private var updatedCardName: String? = null
@@ -33,14 +33,14 @@ class CardEditViewModel @AssistedInject constructor(
         cardRepository.getCardAndCategory(cardId)
             .filterNotNull()
             .onEach { cardAndCategory ->
-                val categoryNames = categoryDao.getCategoryNames()
+                val categoryNames = categoryRepository.getCategoryNames()
                 val card = cardAndCategory.card
                 _state.value = CardEditState.Success(
                     barcodeFile = card.barcodeFile,
                     cardName = card.name,
                     cardContent = card.content,
-                    cardCategoryName = cardAndCategory.category?.name ?: Category.UNCATEGORIZED_NAME,
-                    cardCategoryNames = listOf(Category.UNCATEGORIZED_NAME).plus(categoryNames),
+                    cardCategoryName = cardAndCategory.category?.name ?: Category.NULL_NAME,
+                    cardCategoryNames = listOf(Category.NULL_NAME).plus(categoryNames),
                     barcodeFormatName = card.format.toString(),
                     cardColor = card.color,
                 )
@@ -76,12 +76,12 @@ class CardEditViewModel @AssistedInject constructor(
         }
         updatedCardCategoryName = cardCategoryName
         viewModelScope.launch {
-            val category = if (cardCategoryName != Category.UNCATEGORIZED_NAME) {
-                categoryDao.getCategoryByName(cardCategoryName)
+            val categoryId = if (cardCategoryName != Category.NULL_NAME) {
+                categoryRepository.getCategoryIdByName(cardCategoryName)
             } else {
                 null
             }
-            cardRepository.updateCardCategoryId(cardId, category?.id)
+            cardRepository.updateCardCategoryId(cardId, categoryId)
         }
     }
 
