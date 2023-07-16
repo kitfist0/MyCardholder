@@ -54,6 +54,9 @@
     <string name="category_edit_category_toolbar_title">Kartenkategorie</string>
     <string name="category_edit_delete_menu_item_title">Kategorie löschen</string>
     <string name="category_edit_label">Kartenkategorie</string>
+    <string name="category_edit_name_is_empty_error_message">Name ist leer</string>
+    <string name="category_edit_name_is_forbidden_error_message">Name ist verboten</string>
+    <string name="category_edit_name_is_long_error_message">Die Länge des Namens darf %s Zeichen nicht überschreiten</string>
     <string name="category_edit_new_category_toolbar_title">Neue Kartenkategorie</string>
     <!--endregion-->
 

@@ -57,17 +57,25 @@ class CategoryEditViewModel @AssistedInject constructor(
             val categoryName = enteredCategoryName?.trim()
             when {
                 categoryName.isNullOrEmpty() ->
-                    showSnack(Text.Simple("Invalid input"))
+                    showSnack(
+                        Text.Resource(R.string.category_edit_name_is_empty_error_message)
+                    )
                 categoryName.equals(Category.UNCATEGORIZED_NAME, ignoreCase = true) ->
-                    showSnack(Text.Simple("This name is forbidden"))
+                    showSnack(
+                        Text.Resource(R.string.category_edit_name_is_forbidden_error_message)
+                    )
                 categoryName.length > Category.MAX_NAME_LENGTH ->
-                    showSnack(Text.Simple("Too long name"))
+                    showSnack(
+                        Text.ResourceAndParams(
+                            R.string.category_edit_name_is_long_error_message,
+                            listOf(Category.MAX_NAME_LENGTH),
+                        )
+                    )
                 categoryDao.getCategoryByName(categoryName) != null ->
                     navigateUp()
-                else -> {
+                else ->
                     categoryDao.upsert(Category(categoryId, categoryName))
-                    navigateUp()
-                }
+                        .also { navigateUp() }
             }
         }
     }

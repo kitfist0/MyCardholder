@@ -54,6 +54,9 @@
     <string name="category_edit_category_toolbar_title">Card category</string>
     <string name="category_edit_delete_menu_item_title">Delete category</string>
     <string name="category_edit_label">Card category</string>
+    <string name="category_edit_name_is_empty_error_message">Name is empty</string>
+    <string name="category_edit_name_is_forbidden_error_message">Name is forbidden</string>
+    <string name="category_edit_name_is_long_error_message">Name length must not exceed %s characters</string>
     <string name="category_edit_new_category_toolbar_title">New category</string>
     <!--endregion-->
 
