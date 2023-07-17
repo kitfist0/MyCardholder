@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
-import my.cardholder.data.model.Card
 import my.cardholder.data.model.SupportedFormat
-import my.cardholder.data.source.CardDao
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -20,8 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 class BackupRepository @Inject constructor(
-    private val barcodeFileRepository: BarcodeFileRepository,
-    private val cardDao: CardDao,
+    private val cardRepository: CardRepository,
     private val categoryRepository: CategoryRepository,
 ) {
 
@@ -35,7 +32,7 @@ class BackupRepository @Inject constructor(
     }
 
     fun exportToBackupFile(outputStream: OutputStream): Flow<BackupResult> = channelFlow {
-        val cardsAndCategories = cardDao.getCardsAndCategories().first()
+        val cardsAndCategories = cardRepository.cardsAndCategories.first()
         val numOfCards = cardsAndCategories.size
         csvWriter().openAsync(outputStream) {
             writeRow(V1_CSV_SCHEME)
@@ -92,24 +89,20 @@ class BackupRepository @Inject constructor(
         val name = row[V1_CARD_NAME_INDEX]
         val content = row[V1_CARD_CONTENT_INDEX]
         val format = SupportedFormat.valueOf(row[V1_CARD_FORMAT_INDEX])
-        if (cardDao.getCardWithSuchData(name, content, format) == null) {
+        if (!cardRepository.isCardWithSuchDataExists(name, content, format)) {
             val categoryName = row[V1_CARD_CATEGORY_INDEX]
             val categoryId = if (categoryName.isNotEmpty()) {
                 categoryRepository.upsertCategoryIfCategoryNameIsNew(categoryName = categoryName)
             } else {
                 null
             }
-            val barcodeFilePath = barcodeFileRepository.writeBarcodeFile(content, format)
-            val card = Card(
-                id = Card.NEW_CARD_ID,
+            cardRepository.insertNewCard(
                 name = row[V1_CARD_NAME_INDEX],
                 categoryId = categoryId,
                 content = content,
                 color = row[V1_CARD_COLOR_INDEX],
                 format = format,
-                path = barcodeFilePath,
             )
-            cardDao.upsert(card)
         }
     }
 

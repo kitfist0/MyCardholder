@@ -20,11 +20,11 @@ class CardEditViewModel @AssistedInject constructor(
     private val categoryRepository: CategoryRepository,
 ) : BaseViewModel() {
 
-    private var updatedCardName: String? = null
-    private var updatedCardContent: String? = null
-    private var updatedCardCategoryName: String? = null
-    private var updatedCardColor: String? = null
-    private var updatedCardFormat: SupportedFormat? = null
+    private var cardName: String? = null
+    private var cardContent: String? = null
+    private var cardCategoryName: String? = null
+    private var cardColor: String? = null
+    private var cardFormat: String? = null
 
     private val _state = MutableStateFlow<CardEditState>(CardEditState.Loading)
     val state = _state.asStateFlow()
@@ -55,58 +55,54 @@ class CardEditViewModel @AssistedInject constructor(
         navigateUp()
     }
 
-    fun onCardNameChanged(cardName: String?) {
-        if (cardName == null || updatedCardName == cardName) {
+    fun onCardNameChanged(changedName: String?) {
+        if (changedName == null || cardName == changedName) {
             return
         }
-        updatedCardName = cardName
+        cardName = changedName
         viewModelScope.launch {
-            cardRepository.updateCardName(cardId, cardName)
+            cardRepository.updateCardName(cardId, changedName)
         }
     }
 
-    fun onCardContentChanged(cardContent: String?) {
-        updatedCardContent = cardContent
-        updateCardBarcodeIfRequired()
-    }
-
-    fun onCardCategoryNameChanged(cardCategoryName: String?) {
-        if (cardCategoryName == null || updatedCardCategoryName == cardCategoryName) {
+    fun onCardContentChanged(changedContent: String?) {
+        if (changedContent == null || cardContent == changedContent) {
             return
         }
-        updatedCardCategoryName = cardCategoryName
+        cardContent = changedContent
         viewModelScope.launch {
-            val categoryId = if (cardCategoryName != Category.NULL_NAME) {
-                categoryRepository.getCategoryIdByName(cardCategoryName)
-            } else {
-                null
-            }
+            cardRepository.updateCardContent(cardId, changedContent)
+        }
+    }
+
+    fun onCardCategoryNameChanged(changedCategoryName: String?) {
+        if (changedCategoryName == null || cardCategoryName == changedCategoryName) {
+            return
+        }
+        cardCategoryName = changedCategoryName
+        viewModelScope.launch {
+            val categoryId = categoryRepository.getCategoryIdByName(changedCategoryName)
             cardRepository.updateCardCategoryId(cardId, categoryId)
         }
     }
 
-    fun onCardColorChanged(cardColor: String?) {
-        if (cardColor == null || updatedCardColor == cardColor) {
+    fun onCardColorChanged(changedColor: String?) {
+        if (changedColor == null || cardColor == changedColor) {
             return
         }
-        updatedCardColor = cardColor
+        cardColor = changedColor
         viewModelScope.launch {
-            cardRepository.updateCardColor(cardId, cardColor)
+            cardRepository.updateCardColor(cardId, changedColor)
         }
     }
 
-    fun onCardFormatChanged(cardFormat: String?) {
-        updatedCardFormat = cardFormat?.let { SupportedFormat.valueOf(it) }
-        updateCardBarcodeIfRequired()
-    }
-
-    private fun updateCardBarcodeIfRequired() {
+    fun onCardFormatChanged(changedFormat: String?) {
+        if (changedFormat == null || cardFormat == changedFormat) {
+            return
+        }
+        cardFormat = changedFormat
         viewModelScope.launch {
-            cardRepository.updateCardBarcodeIfRequired(
-                cardId = cardId,
-                content = updatedCardContent,
-                format = updatedCardFormat,
-            )
+            cardRepository.updateCardFormat(cardId, SupportedFormat.valueOf(changedFormat))
         }
     }
 }

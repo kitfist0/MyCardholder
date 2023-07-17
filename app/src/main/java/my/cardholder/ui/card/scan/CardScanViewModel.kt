@@ -20,6 +20,7 @@ import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.CameraPermissionHelper
+import okhttp3.internal.format
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -56,7 +57,7 @@ class CardScanViewModel @Inject constructor(
 
     fun onAddManuallyFabClicked() {
         viewModelScope.launch {
-            cardRepository.insertRandomCard()
+            cardRepository.insertNewCard()
             navigate(CardScanFragmentDirections.fromCardScanToCardList())
         }
     }
@@ -101,7 +102,7 @@ class CardScanViewModel @Inject constructor(
         prevCardContent = content
         prevSupportedFormat = supportedFormat
         viewModelScope.launch {
-            cardRepository.insertCard(content, supportedFormat)
+            cardRepository.insertNewCard(content = content, format = supportedFormat)
             navigate(CardScanFragmentDirections.fromCardScanToCardList())
         }
     }

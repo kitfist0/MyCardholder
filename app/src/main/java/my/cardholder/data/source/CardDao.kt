@@ -8,11 +8,6 @@ import my.cardholder.data.model.SupportedFormat
 
 @Dao
 interface CardDao {
-    @Query("SELECT * FROM cards ORDER BY id DESC")
-    fun getCards(): Flow<List<Card>>
-
-    @Query("SELECT * FROM cards WHERE id = :id")
-    fun getCard(id: Long): Flow<Card?>
 
     @Transaction
     @Query("SELECT * FROM cards")
@@ -21,6 +16,9 @@ interface CardDao {
     @Transaction
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCardAndCategory(id: Long): Flow<CardAndCategory?>
+
+    @Query("SELECT * FROM cards WHERE id = :id")
+    suspend fun getCard(id: Long): Card?
 
     @Query("SELECT * FROM cards WHERE name = :name AND content = :content AND format = :format LIMIT 1")
     suspend fun getCardWithSuchData(name: String, content: String, format: SupportedFormat): Card?

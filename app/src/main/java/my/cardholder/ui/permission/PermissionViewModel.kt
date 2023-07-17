@@ -31,7 +31,7 @@ class PermissionViewModel @Inject constructor(
 
     fun onAddManuallyButtonClicked() {
         viewModelScope.launch {
-            cardRepository.insertRandomCard()
+            cardRepository.insertNewCard()
             navigate(PermissionFragmentDirections.fromPermissionToCardList())
         }
     }

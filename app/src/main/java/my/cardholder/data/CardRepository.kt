@@ -1,14 +1,11 @@
 package my.cardholder.data
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.BarcodeFilePath
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.CardAndCategory
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CardDao
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,10 +16,9 @@ class CardRepository @Inject constructor(
 ) {
 
     private companion object {
-        const val CARD_NAME_FORMAT = "MMMdd HH:mm:ss"
+        const val DEFAULT_CARD_CONTENT = "12345"
+        const val DEFAULT_CARD_NAME = "New"
     }
-
-    val cards: Flow<List<Card>> = cardDao.getCards()
 
     val cardsAndCategories: Flow<List<CardAndCategory>> = cardDao.getCardsAndCategories()
 
@@ -30,25 +26,74 @@ class CardRepository @Inject constructor(
         return cardDao.getCardAndCategory(cardId)
     }
 
-    suspend fun insertRandomCard(): Long {
-        return insertCard(
-            content = "Sample text",
-            supportedFormat = SupportedFormat.QR_CODE,
-        )
+    suspend fun deleteCard(cardId: Long) {
+        getCard(cardId)?.let { card ->
+            card.barcodeFile?.delete()
+            cardDao.deleteCard(card.id)
+        }
     }
 
-    suspend fun insertCard(content: String, supportedFormat: SupportedFormat): Long {
-        val timestamp = System.currentTimeMillis()
-        val barcodeFilePath = writeNewBarcodeFile(content, supportedFormat)
+    suspend fun insertNewCard(
+        name: String = DEFAULT_CARD_NAME,
+        categoryId: Long? = null,
+        content: String = DEFAULT_CARD_CONTENT,
+        color: String = Card.COLORS.random(),
+        format: SupportedFormat = SupportedFormat.QR_CODE,
+    ): Long {
+        val barcodeFilePath = writeNewBarcodeFile(content, format)
         val newCard = Card(
             id = Card.NEW_CARD_ID,
-            name = SimpleDateFormat(CARD_NAME_FORMAT, Locale.US).format(timestamp),
+            name = name,
+            categoryId = categoryId,
             content = content,
-            color = Card.COLORS.random(),
-            format = supportedFormat,
+            color = color,
+            format = format,
             path = barcodeFilePath,
         )
-        return cardDao.upsert(newCard)
+        return upsertCard(newCard)
+    }
+
+    suspend fun isCardWithSuchDataExists(
+        name: String,
+        content: String,
+        format: SupportedFormat,
+    ): Boolean {
+        return cardDao.getCardWithSuchData(name, content, format) != null
+    }
+
+    suspend fun updateCardCategoryId(cardId: Long, categoryId: Long?) {
+        getCard(cardId)?.copy(categoryId = categoryId)
+            ?.let { card -> upsertCard(card) }
+    }
+
+    suspend fun updateCardColor(cardId: Long, color: String) {
+        getCard(cardId)?.copy(color = color)
+            ?.let { card -> upsertCard(card) }
+    }
+
+    suspend fun updateCardContent(cardId: Long, content: String) {
+        getCard(cardId)?.let { card ->
+            card.barcodeFile?.delete()
+            val barcodeFilePath = writeNewBarcodeFile(content, card.format)
+            upsertCard(
+                card.copy(content = content, path = barcodeFilePath)
+            )
+        }
+    }
+
+    suspend fun updateCardFormat(cardId: Long, format: SupportedFormat) {
+        getCard(cardId)?.let { card ->
+            card.barcodeFile?.delete()
+            val barcodeFilePath = writeNewBarcodeFile(card.content, format)
+            upsertCard(
+                card.copy(format = format, path = barcodeFilePath)
+            )
+        }
+    }
+
+    suspend fun updateCardName(cardId: Long, name: String) {
+        getCard(cardId)?.copy(name = name)
+            ?.let { card -> upsertCard(card) }
     }
 
     suspend fun searchForCardsWithNamesLike(name: String): List<Card> {
@@ -59,56 +104,15 @@ class CardRepository @Inject constructor(
         }
     }
 
-    suspend fun updateCardName(cardId: Long, name: String) {
-        getCard(cardId)?.copy(name = name)
-            ?.let { card -> cardDao.upsert(card) }
-    }
-
-    suspend fun updateCardCategoryId(cardId: Long, categoryId: Long?) {
-        getCard(cardId)?.copy(categoryId = categoryId)
-            ?.let { card -> cardDao.upsert(card) }
-    }
-
-    suspend fun updateCardColor(cardId: Long, color: String) {
-        getCard(cardId)?.copy(color = color)
-            ?.let { card -> cardDao.upsert(card) }
-    }
-
-    suspend fun updateCardBarcodeIfRequired(
-        cardId: Long,
-        content: String?,
-        format: SupportedFormat?,
-    ) {
-        val oldCard = getCard(cardId) ?: return
-        val oldCardContent = oldCard.content
-        val oldCardFormat = oldCard.format
-        if (oldCardContent == content && oldCardFormat == format) {
-            return
-        }
-        oldCard.barcodeFile?.delete()
-        val cardContent = content ?: oldCardContent
-        val barcodeFormat = format ?: oldCardFormat
-        val barcodeFilePath = writeNewBarcodeFile(cardContent, barcodeFormat)
-        val card = oldCard.copy(
-            content = cardContent,
-            format = barcodeFormat,
-            path = barcodeFilePath,
-        )
-        cardDao.upsert(card)
-    }
-
-    suspend fun deleteCard(cardId: Long) {
-        getCard(cardId)?.let { card ->
-            card.barcodeFile?.delete()
-            cardDao.deleteCard(card.id)
-        }
-    }
-
     private suspend fun getCard(cardId: Long): Card? {
-        return cardDao.getCard(cardId).first()
+        return cardDao.getCard(cardId)
     }
 
     private fun writeNewBarcodeFile(content: String, format: SupportedFormat): BarcodeFilePath? {
         return barcodeFileRepository.writeBarcodeFile(content, format)
+    }
+
+    private suspend fun upsertCard(card: Card): Long {
+        return cardDao.upsert(card)
     }
 }
