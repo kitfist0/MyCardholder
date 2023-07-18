@@ -19,11 +19,11 @@ class CategoryListFragment : BaseFragment<FragmentCategoryListBinding>(
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CategoryListAdapter(
-            onItemClicked = { categoryAndCards, sharedElements ->
+            onItemClicked = { item, sharedElements ->
                 val extras = FragmentNavigator.Extras.Builder()
                     .addSharedElements(sharedElements)
                     .build()
-                viewModel.onCategoryClicked(categoryAndCards, extras)
+                viewModel.onCategoryListItemClicked(item, extras)
             }
         )
     }

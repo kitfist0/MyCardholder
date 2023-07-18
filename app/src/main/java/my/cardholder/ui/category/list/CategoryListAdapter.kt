@@ -6,22 +6,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import my.cardholder.data.model.CategoryAndCards
 import my.cardholder.databinding.ItemCategoryBinding
 import my.cardholder.util.ext.setupUniqueTransitionName
 
 class CategoryListAdapter(
-    private val onItemClicked: (categoryAndCards: CategoryAndCards, sharedElements: Map<View, String>) -> Unit,
-) : ListAdapter<CategoryAndCards, CategoryListAdapter.CategoryViewHolder>(CategoryDiffCallback) {
+    private val onItemClicked: (item: CategoryListItem, sharedElements: Map<View, String>) -> Unit,
+) : ListAdapter<CategoryListItem, CategoryListAdapter.CategoryViewHolder>(CategoryListItemDiffCallback) {
 
     private companion object {
-        object CategoryDiffCallback : DiffUtil.ItemCallback<CategoryAndCards>() {
-            override fun areItemsTheSame(oldItem: CategoryAndCards, newItem: CategoryAndCards) =
-                oldItem.category.id == newItem.category.id
+        object CategoryListItemDiffCallback : DiffUtil.ItemCallback<CategoryListItem>() {
+            override fun areItemsTheSame(oldItem: CategoryListItem, newItem: CategoryListItem) =
+                oldItem.categoryId == newItem.categoryId
 
-            override fun areContentsTheSame(oldItem: CategoryAndCards, newItem: CategoryAndCards) =
-                oldItem.category.name == newItem.category.name &&
-                        oldItem.cards.size == newItem.cards.size
+            override fun areContentsTheSame(oldItem: CategoryListItem, newItem: CategoryListItem) =
+                oldItem.categoryName == newItem.categoryName &&
+                        oldItem.numOfCards == newItem.numOfCards
         }
     }
 
@@ -36,16 +35,16 @@ class CategoryListAdapter(
                         itemCategoryNameText to itemCategoryNameText.transitionName,
                     )
                 }
-                val categoryAndCards = getItem(adapterPosition)
-                onItemClicked.invoke(categoryAndCards, sharedElements)
+                val categoryListItem = getItem(adapterPosition)
+                onItemClicked.invoke(categoryListItem, sharedElements)
             }
         }
 
-        fun bind(categoryAndCards: CategoryAndCards) {
+        fun bind(categoryListItem: CategoryListItem) {
             with(binding) {
-                itemCategoryNameText.setupUniqueTransitionName(categoryAndCards.category.id)
-                itemCategoryNameText.text = categoryAndCards.category.name
-                itemCategoryNumberOfCardsText.text = categoryAndCards.cards.size.toString()
+                itemCategoryNameText.setupUniqueTransitionName(categoryListItem.categoryId)
+                itemCategoryNameText.text = categoryListItem.categoryName
+                itemCategoryNumberOfCardsText.text = categoryListItem.numOfCards.toString()
             }
         }
     }
