@@ -62,38 +62,57 @@ class CardRepository @Inject constructor(
     }
 
     suspend fun updateCardCategoryId(cardId: Long, categoryId: Long?) {
-        getCard(cardId)?.copy(categoryId = categoryId)
-            ?.let { card -> upsertCard(card) }
+        getCard(cardId)?.let { card ->
+            if (card.categoryId != categoryId) {
+                upsertCard(
+                    card.copy(categoryId = categoryId)
+                )
+            }
+        }
     }
 
     suspend fun updateCardColor(cardId: Long, color: String) {
-        getCard(cardId)?.copy(color = color)
-            ?.let { card -> upsertCard(card) }
+        getCard(cardId)?.let { card ->
+            if (card.color != color) {
+                upsertCard(
+                    card.copy(color = color)
+                )
+            }
+        }
     }
 
     suspend fun updateCardContent(cardId: Long, content: String) {
         getCard(cardId)?.let { card ->
-            card.barcodeFile?.delete()
-            val barcodeFilePath = writeNewBarcodeFile(content, card.format)
-            upsertCard(
-                card.copy(content = content, path = barcodeFilePath)
-            )
+            if (card.content != content) {
+                card.barcodeFile?.delete()
+                val barcodeFilePath = writeNewBarcodeFile(content, card.format)
+                upsertCard(
+                    card.copy(content = content, path = barcodeFilePath)
+                )
+            }
         }
     }
 
     suspend fun updateCardFormat(cardId: Long, format: SupportedFormat) {
         getCard(cardId)?.let { card ->
-            card.barcodeFile?.delete()
-            val barcodeFilePath = writeNewBarcodeFile(card.content, format)
-            upsertCard(
-                card.copy(format = format, path = barcodeFilePath)
-            )
+            if (card.format != format) {
+                card.barcodeFile?.delete()
+                val barcodeFilePath = writeNewBarcodeFile(card.content, format)
+                upsertCard(
+                    card.copy(format = format, path = barcodeFilePath)
+                )
+            }
         }
     }
 
     suspend fun updateCardName(cardId: Long, name: String) {
-        getCard(cardId)?.copy(name = name)
-            ?.let { card -> upsertCard(card) }
+        getCard(cardId)?.let { card ->
+            if (card.name != name) {
+                upsertCard(
+                    card.copy(name = name)
+                )
+            }
+        }
     }
 
     suspend fun searchForCardsWithNamesLike(name: String): List<Card> {
