@@ -57,8 +57,8 @@ class CardScanViewModel @Inject constructor(
 
     fun onAddManuallyFabClicked() {
         viewModelScope.launch {
-            cardRepository.insertNewCard()
-            navigate(CardScanFragmentDirections.fromCardScanToCardList())
+            val cardId = cardRepository.insertNewCard()
+            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
         }
     }
 
@@ -102,8 +102,8 @@ class CardScanViewModel @Inject constructor(
         prevCardContent = content
         prevSupportedFormat = supportedFormat
         viewModelScope.launch {
-            cardRepository.insertNewCard(content = content, format = supportedFormat)
-            navigate(CardScanFragmentDirections.fromCardScanToCardList())
+            val cardId = cardRepository.insertNewCard(content = content, format = supportedFormat)
+            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
         }
     }
 

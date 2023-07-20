@@ -16,9 +16,10 @@
             app:popUpTo="@id/card_list_fragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/from_permission_to_card_list"
-            app:destination="@id/card_list_fragment"
-            app:popUpTo="@id/app_navigation" />
+            android:id="@+id/from_permission_to_card_display"
+            app:destination="@id/card_display_fragment"
+            app:popUpTo="@id/card_list_fragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -32,9 +33,10 @@
             app:popUpTo="@id/card_list_fragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/from_card_scan_to_card_list"
-            app:destination="@id/card_list_fragment"
-            app:popUpTo="@id/app_navigation" />
+            android:id="@+id/from_card_scan_to_card_display"
+            app:destination="@id/card_display_fragment"
+            app:popUpTo="@id/card_list_fragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -58,7 +60,8 @@
         <action
             android:id="@+id/from_card_search_to_card_display"
             app:destination="@id/card_display_fragment"
-            app:popUpTo="@id/card_list_fragment" />
+            app:popUpTo="@id/card_list_fragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
