@@ -13,6 +13,10 @@
     <string name="card_backup_dialog_operation_canceled_message">Operation canceled</string>
     <!--endregion-->
 
+    <!--region CardContent-->
+    <string name="card_content_hint">Text</string>
+    <!--endregion-->
+
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Delete card permanently</string>
     <string name="card_display_edit_fab_title">Edit</string>
