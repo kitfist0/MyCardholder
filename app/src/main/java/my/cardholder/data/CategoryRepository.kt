@@ -34,8 +34,8 @@ class CategoryRepository @Inject constructor(
     suspend fun upsertCategoryIfCategoryNameIsNew(
         categoryId: Long = Category.NEW_CATEGORY_ID,
         categoryName: String,
-    ): Long? {
-        getCategoryIdByName(categoryName) ?: return null
-        return categoryDao.upsert(Category(categoryId, categoryName))
+    ): Long {
+        return getCategoryIdByName(categoryName)
+            ?: categoryDao.upsert(Category(categoryId, categoryName))
     }
 }
