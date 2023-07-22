@@ -65,6 +65,16 @@
     </fragment>
 
     <fragment
+        android:id="@+id/card_content_fragment"
+        android:name="my.cardholder.ui.card.content.CardContentFragment"
+        android:label="@string/card_content_label"
+        tools:layout="@layout/fragment_card_content">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
         android:id="@+id/card_display_fragment"
         android:name="my.cardholder.ui.card.display.CardDisplayFragment"
         android:label="@string/card_display_label"
