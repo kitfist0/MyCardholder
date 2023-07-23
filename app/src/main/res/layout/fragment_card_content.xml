@@ -10,11 +10,10 @@
         android:id="@+id/card_content_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:transitionName="@string/transition_card_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:title="@sample/sample_cards.json/cards/name" />
+        app:title="@string/card_content_title" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/card_content_input_layout"

@@ -47,7 +47,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.setOnClickListener {
                     val sharedElements = mapOf<View, String>(
-                        cardEditCardNameInputLayout to cardEditCardNameInputLayout.transitionName,
                         cardEditCardContentInputLayout to cardEditCardContentInputLayout.transitionName,
                     )
                     val extras = FragmentNavigator.Extras.Builder()

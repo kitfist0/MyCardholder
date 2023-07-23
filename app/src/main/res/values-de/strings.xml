@@ -17,6 +17,7 @@
     <string name="card_content_empty_text_error_message">Leerer Text</string>
     <string name="card_content_hint">Text</string>
     <string name="card_content_label">Karteninhalt</string>
+    <string name="card_content_title">Kartentext bearbeiten</string>
     <!--endregion-->
 
     <!--region CardDisplay-->

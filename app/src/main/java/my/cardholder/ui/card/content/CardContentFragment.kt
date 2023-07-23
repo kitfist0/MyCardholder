@@ -33,7 +33,6 @@ class CardContentFragment : BaseFragment<FragmentCardContentBinding>(
         with(binding) {
             val uniqueNameSuffix = args.cardId
             root.updateVerticalPaddingAfterApplyingWindowInsets()
-            cardContentToolbar.setupUniqueTransitionName(uniqueNameSuffix)
             cardContentInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
             cardContentInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardContentChanged(it?.toString()) }
@@ -50,7 +49,6 @@ class CardContentFragment : BaseFragment<FragmentCardContentBinding>(
                     binding.cardContentInputLayout.isEnabled = false
                 }
                 is CardContentState.Success -> {
-                    binding.cardContentToolbar.title = state.cardName
                     binding.cardContentInputLayout.isEnabled = true
                     binding.cardContentInputLayout.editText
                         ?.setTextAndSelectionIfRequired(state.cardContent)

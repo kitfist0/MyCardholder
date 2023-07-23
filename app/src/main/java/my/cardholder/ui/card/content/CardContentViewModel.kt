@@ -25,7 +25,6 @@ class CardContentViewModel @AssistedInject constructor(
         viewModelScope.launch {
             val card = cardRepository.getCardAndCategory(cardId).first()?.card
             _state.value = CardContentState.Success(
-                cardName = card?.name.orEmpty(),
                 cardContent = card?.content.orEmpty(),
             )
         }
