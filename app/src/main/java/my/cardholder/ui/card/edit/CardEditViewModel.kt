@@ -1,6 +1,7 @@
 package my.cardholder.ui.card.edit
 
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -21,7 +22,6 @@ class CardEditViewModel @AssistedInject constructor(
 ) : BaseViewModel() {
 
     private var cardName: String? = null
-    private var cardContent: String? = null
     private var cardCategoryName: String? = null
     private var cardColor: String? = null
     private var cardFormat: String? = null
@@ -65,14 +65,8 @@ class CardEditViewModel @AssistedInject constructor(
         }
     }
 
-    fun onCardContentChanged(changedContent: String?) {
-        if (changedContent == null || cardContent == changedContent) {
-            return
-        }
-        cardContent = changedContent
-        viewModelScope.launch {
-            cardRepository.updateCardContent(cardId, changedContent)
-        }
+    fun onCardContentClicked(extras: Navigator.Extras) {
+        navigate(CardEditFragmentDirections.fromCardEditToCardContent(cardId), extras)
     }
 
     fun onCardCategoryNameChanged(changedCategoryName: String?) {

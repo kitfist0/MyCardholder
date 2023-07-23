@@ -62,8 +62,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:maxLines="3"
+            android:inputType="textShortMessage"
+            android:focusable="false"
             tools:text="@sample/sample_cards.json/cards/content" />
 
     </com.google.android.material.textfield.TextInputLayout>

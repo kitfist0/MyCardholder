@@ -98,6 +98,9 @@
         <argument
             android:name="card_id"
             app:argType="long" />
+        <action
+            android:id="@+id/from_card_edit_to_card_content"
+            app:destination="@id/card_content_fragment" />
     </fragment>
 
     <fragment

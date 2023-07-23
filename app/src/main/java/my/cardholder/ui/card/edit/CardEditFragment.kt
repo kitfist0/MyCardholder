@@ -2,6 +2,7 @@ package my.cardholder.ui.card.edit
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
+import android.view.View
 import android.widget.AutoCompleteTextView
 import androidx.core.graphics.toColorInt
 import androidx.core.transition.doOnEnd
@@ -9,6 +10,7 @@ import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.core.widget.doAfterTextChanged
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardEditBinding
@@ -43,7 +45,16 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             cardEditCardContentInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
-                editText?.doAfterTextChanged { viewModel.onCardContentChanged(it?.toString()) }
+                editText?.setOnClickListener {
+                    val sharedElements = mapOf<View, String>(
+                        cardEditCardNameInputLayout to cardEditCardNameInputLayout.transitionName,
+                        cardEditCardContentInputLayout to cardEditCardContentInputLayout.transitionName,
+                    )
+                    val extras = FragmentNavigator.Extras.Builder()
+                        .addSharedElements(sharedElements)
+                        .build()
+                    viewModel.onCardContentClicked(extras)
+                }
             }
             cardEditCardCategoryInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
