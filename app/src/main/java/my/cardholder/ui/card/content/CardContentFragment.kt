@@ -1,6 +1,8 @@
 package my.cardholder.ui.card.content
 
+import android.content.Context
 import android.transition.TransitionInflater
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +27,16 @@ class CardContentFragment : BaseFragment<FragmentCardContentBinding>(
 
     override val viewModel: CardContentViewModel by assistedViewModels {
         viewModelFactory.create(args.cardId)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.onBackPressed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun initViews() {

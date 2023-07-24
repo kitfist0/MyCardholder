@@ -29,11 +29,19 @@ class CardContentViewModel @AssistedInject constructor(
         }
     }
 
+    fun onBackPressed() {
+        updateCardContentAndNavigateUp()
+    }
+
     fun onCardContentChanged(changedCardContent: String?) {
         contentText = changedCardContent
     }
 
     fun onOkFabClicked() {
+        updateCardContentAndNavigateUp()
+    }
+
+    private fun updateCardContentAndNavigateUp() {
         viewModelScope.launch {
             val cardContent = contentText?.trim()
             when {
