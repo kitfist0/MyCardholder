@@ -16,27 +16,26 @@ class CardContentViewModel @AssistedInject constructor(
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
 
-    private var enteredContentText: String? = null
+    private var contentText: String? = null
 
     private val _state = MutableStateFlow<CardContentState>(CardContentState.Loading)
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val card = cardRepository.getCardAndCategory(cardId).first()?.card
-            _state.value = CardContentState.Success(
-                cardContent = card?.content.orEmpty(),
-            )
+            val cardContent = cardRepository.getCardAndCategory(cardId).first()?.card?.content
+            contentText = cardContent
+            _state.value = CardContentState.Success(cardContent.orEmpty())
         }
     }
 
-    fun onCardContentChanged(cardContent: String?) {
-        enteredContentText = cardContent
+    fun onCardContentChanged(changedCardContent: String?) {
+        contentText = changedCardContent
     }
 
     fun onOkFabClicked() {
         viewModelScope.launch {
-            val cardContent = enteredContentText?.trim()
+            val cardContent = contentText?.trim()
             when {
                 cardContent.isNullOrEmpty() ->
                     showSnack(
