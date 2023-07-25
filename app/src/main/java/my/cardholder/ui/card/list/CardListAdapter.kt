@@ -3,9 +3,9 @@ package my.cardholder.ui.card.list
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +14,10 @@ import my.cardholder.data.model.CardAndCategory
 import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.ext.loadBarcodeImage
 import my.cardholder.util.ext.setupUniqueTransitionName
+import my.cardholder.util.ext.toNavExtras
 
 class CardListAdapter(
-    private val onItemClicked: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
+    private val onItemClicked: (cardId: Long, navExtras: FragmentNavigator.Extras) -> Unit,
 ) : ListAdapter<CardAndCategory, CardListAdapter.CardViewHolder>(CardDiffCallback) {
 
     private companion object {
@@ -36,15 +37,13 @@ class CardListAdapter(
         init {
             itemView.setOnClickListener {
                 val cardAndCategory = getItem(adapterPosition)
-                val sharedElements = with(binding) {
-                    mapOf(
-                        itemCardBarcodeImage to itemCardBarcodeImage.transitionName,
-                        itemCardNameText to itemCardNameText.transitionName,
-                        itemCardContentText to itemCardContentText.transitionName,
-                        itemCardCategoryText to itemCardCategoryText.transitionName,
-                    )
-                }
-                onItemClicked.invoke(cardAndCategory.card.id, sharedElements)
+                val extras = listOf(
+                    binding.itemCardBarcodeImage,
+                    binding.itemCardNameText,
+                    binding.itemCardContentText,
+                    binding.itemCardCategoryText,
+                ).toNavExtras()
+                onItemClicked.invoke(cardAndCategory.card.id, extras)
             }
         }
 

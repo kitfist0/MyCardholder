@@ -1,16 +1,15 @@
 package my.cardholder.ui.card.list
 
 import android.transition.TransitionInflater
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardListBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.toNavExtras
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -26,10 +25,7 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardListAdapter(
-            onItemClicked = { cardId, sharedElements ->
-                val extras = FragmentNavigator.Extras.Builder()
-                    .addSharedElements(sharedElements)
-                    .build()
+            onItemClicked = { cardId, extras ->
                 viewModel.onCardClicked(cardId, extras)
             }
         )
@@ -68,12 +64,7 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                 )
             }
             cardListSearchFab.setOnClickListener {
-                val sharedElements = mapOf<View, String>(
-                    cardListSearchFab to cardListSearchFab.transitionName,
-                )
-                val extras = FragmentNavigator.Extras.Builder()
-                    .addSharedElements(sharedElements)
-                    .build()
+                val extras = listOf(cardListSearchFab).toNavExtras()
                 viewModel.onSearchFabClicked(extras)
             }
         }

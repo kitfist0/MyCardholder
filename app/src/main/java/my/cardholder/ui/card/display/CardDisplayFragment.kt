@@ -2,12 +2,10 @@ package my.cardholder.ui.card.display
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
-import android.view.View
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardDisplayBinding
@@ -43,27 +41,19 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardContentText.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
-                val sharedElements = mapOf<View, String>(
-                    cardDisplayCardContentText to cardDisplayCardContentText.transitionName,
-                )
-                val extras = FragmentNavigator.Extras.Builder()
-                    .addSharedElements(sharedElements)
-                    .build()
+                val extras = listOf(cardDisplayCardContentText).toNavExtras()
                 setOnLongClickListener {
                     viewModel.onCardContentTextLongClicked(extras)
                 }
             }
             cardDisplayEditFab.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayEditFab.setOnClickListener {
-                val sharedElements = mapOf<View, String>(
-                    cardDisplayCardNameText to cardDisplayCardNameText.transitionName,
-                    cardDisplayCardContentText to cardDisplayCardContentText.transitionName,
-                    cardDisplayCardCategoryText to cardDisplayCardCategoryText.transitionName,
-                    cardDisplayEditFab to cardDisplayEditFab.transitionName,
-                )
-                val extras = FragmentNavigator.Extras.Builder()
-                    .addSharedElements(sharedElements)
-                    .build()
+                val extras = listOf(
+                    cardDisplayCardNameText,
+                    cardDisplayCardContentText,
+                    cardDisplayCardCategoryText,
+                    cardDisplayEditFab,
+                ).toNavExtras()
                 viewModel.onEditFabClicked(extras)
             }
             cardDisplayDeleteCardButton.setOnClickListener {

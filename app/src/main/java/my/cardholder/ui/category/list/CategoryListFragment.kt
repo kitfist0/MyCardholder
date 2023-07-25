@@ -2,7 +2,6 @@ package my.cardholder.ui.category.list
 
 import android.transition.TransitionInflater
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCategoryListBinding
@@ -19,10 +18,7 @@ class CategoryListFragment : BaseFragment<FragmentCategoryListBinding>(
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CategoryListAdapter(
-            onItemClicked = { item, sharedElements ->
-                val extras = FragmentNavigator.Extras.Builder()
-                    .addSharedElements(sharedElements)
-                    .build()
+            onItemClicked = { item, extras ->
                 viewModel.onCategoryListItemClicked(item, extras)
             }
         )

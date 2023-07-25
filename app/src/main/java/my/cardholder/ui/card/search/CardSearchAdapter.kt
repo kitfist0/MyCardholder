@@ -1,8 +1,8 @@
 package my.cardholder.ui.card.search
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,9 +11,10 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.model.isSquare
 import my.cardholder.databinding.ItemSearchBinding
 import my.cardholder.util.ext.setupUniqueTransitionName
+import my.cardholder.util.ext.toNavExtras
 
 class CardSearchAdapter(
-    private val onItemClicked: (cardId: Long, sharedElements: Map<View, String>) -> Unit,
+    private val onItemClicked: (cardId: Long, navExtras: FragmentNavigator.Extras) -> Unit,
 ) : ListAdapter<Card, CardSearchAdapter.SearchViewHolder>(CardDiffCallback) {
 
     private companion object {
@@ -33,13 +34,11 @@ class CardSearchAdapter(
         init {
             itemView.setOnClickListener {
                 val card = getItem(adapterPosition)
-                val sharedElements = with(binding) {
-                    mapOf<View, String>(
-                        itemSearchBarcodeImage to itemSearchBarcodeImage.transitionName,
-                        itemSearchNameText to itemSearchNameText.transitionName,
-                    )
-                }
-                onItemClicked.invoke(card.id, sharedElements)
+                val extras = listOf(
+                    binding.itemSearchBarcodeImage,
+                    binding.itemSearchNameText,
+                ).toNavExtras()
+                onItemClicked.invoke(card.id, extras)
             }
         }
 

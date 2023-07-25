@@ -15,6 +15,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.navigation.fragment.FragmentNavigator
 import coil.load
 import coil.size.Size
 import coil.transform.RoundedCornersTransformation
@@ -63,6 +64,13 @@ fun View.updateVerticalPaddingAfterApplyingWindowInsets(
         }
         windowInsets
     }
+}
+
+fun List<View>.toNavExtras(): FragmentNavigator.Extras {
+    val sharedElements = this.associateWith { view -> view.transitionName }
+    return FragmentNavigator.Extras.Builder()
+        .addSharedElements(sharedElements)
+        .build()
 }
 
 fun ImageView.setBitmapFromAssets(fileName: String) {

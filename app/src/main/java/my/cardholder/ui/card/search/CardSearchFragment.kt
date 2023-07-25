@@ -9,7 +9,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.transition.doOnEnd
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.color.MaterialColors
@@ -28,10 +27,7 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardSearchAdapter(
-            onItemClicked = { cardId, sharedElements ->
-                val extras = FragmentNavigator.Extras.Builder()
-                    .addSharedElements(sharedElements)
-                    .build()
+            onItemClicked = { cardId, extras ->
                 viewModel.onCardClicked(cardId, extras)
             }
         )
