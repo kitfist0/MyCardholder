@@ -88,6 +88,9 @@
         <action
             android:id="@+id/from_card_display_to_delete_card"
             app:destination="@id/delete_card_dialog" />
+        <action
+            android:id="@+id/from_card_display_to_card_content"
+            app:destination="@id/card_content_fragment" />
     </fragment>
 
     <fragment

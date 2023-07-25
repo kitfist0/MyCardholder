@@ -41,7 +41,18 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             }
             cardDisplayCardCategoryText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
-            cardDisplayCardContentText.setupUniqueTransitionName(uniqueNameSuffix)
+            cardDisplayCardContentText.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                val sharedElements = mapOf<View, String>(
+                    cardDisplayCardContentText to cardDisplayCardContentText.transitionName,
+                )
+                val extras = FragmentNavigator.Extras.Builder()
+                    .addSharedElements(sharedElements)
+                    .build()
+                setOnLongClickListener {
+                    viewModel.onCardContentTextLongClicked(extras)
+                }
+            }
             cardDisplayEditFab.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayEditFab.setOnClickListener {
                 val sharedElements = mapOf<View, String>(

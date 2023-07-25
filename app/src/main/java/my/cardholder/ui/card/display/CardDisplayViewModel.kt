@@ -34,6 +34,11 @@ class CardDisplayViewModel @AssistedInject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun onCardContentTextLongClicked(extras: Navigator.Extras): Boolean {
+        navigate(CardDisplayFragmentDirections.fromCardDisplayToCardContent(cardId), extras)
+        return true
+    }
+
     fun onEditFabClicked(extras: Navigator.Extras) {
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardEdit(cardId), extras)
     }
