@@ -44,7 +44,6 @@
     <!--endregion-->
 
     <!--region CardSearch-->
-    <string name="card_search_blank_message">\u00A0</string>
     <string name="card_search_edit_text_hint">Durchsuchen Sie Ihre Karten</string>
     <string name="card_search_label">Suchkarten</string>
     <string name="card_search_nothing_found_message">Nichts gefunden</string>
