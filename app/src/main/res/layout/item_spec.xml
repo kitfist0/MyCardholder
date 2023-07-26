@@ -28,14 +28,14 @@
         <ImageView
             android:id="@+id/item_spec_barcode_image"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/spec_item_image_height"
             android:paddingTop="2dp"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_spec_barcode_name_text"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_qr_code" />
+            tools:src="@sample/sample_cards.json/cards/image" />
 
         <TextView
             android:id="@+id/item_spec_barcode_characters_text"

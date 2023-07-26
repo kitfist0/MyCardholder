@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@sample/sample_cards.json/cards/color"
         tools:ignore="ContentDescription"
-        tools:src="@drawable/ic_qr_code" />
+        tools:src="@sample/sample_cards.json/cards/image" />
 
     <com.google.android.material.chip.Chip
         android:id="@+id/card_display_card_category_text"
@@ -33,7 +33,7 @@
         app:chipStrokeColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="@id/card_display_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Category" />
+        tools:text="@sample/sample_cards.json/cards/category" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_display_guideline_horizontal"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/card_display_guideline_horizontal"
-        tools:text="@tools:sample/cities" />
+        tools:text="@sample/sample_cards.json/cards/name" />
 
     <TextView
         android:id="@+id/card_display_card_content_text"
@@ -71,7 +71,7 @@
         android:transitionName="@string/transition_card_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_display_card_name_text"
-        tools:text="@tools:sample/lorem/random" />
+        tools:text="@sample/sample_cards.json/cards/content" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/card_display_delete_card_button"

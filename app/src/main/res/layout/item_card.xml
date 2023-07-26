@@ -23,10 +23,10 @@
             android:layout_height="@dimen/card_item_square_barcode_height"
             android:maxWidth="@dimen/card_item_rectangle_barcode_width"
             android:minWidth="@dimen/card_item_square_barcode_width"
+            android:scaleType="fitStart"
             android:transitionName="@string/transition_card_barcode"
-            tools:background="@android:color/white"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_qr_code" />
+            tools:src="@sample/sample_cards.json/cards/image" />
 
         <TextView
             android:id="@+id/item_card_name_text"

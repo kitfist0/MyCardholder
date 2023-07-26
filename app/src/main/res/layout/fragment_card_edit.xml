@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@sample/sample_cards.json/cards/color"
         tools:ignore="ContentDescription"
-        tools:src="@drawable/ic_qr_code" />
+        tools:src="@sample/sample_cards.json/cards/image" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_edit_guideline_horizontal"

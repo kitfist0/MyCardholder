@@ -1,39 +1,44 @@
 {
   "cards": [
     {
-      "id": 0,
+      "id": 1,
       "name": "RedCard",
       "category": "Loyalty",
-      "content": "0000111122223333",
-      "color": "#EF5350"
-    },
-    {
-      "id": 1,
-      "name": "BlueCard",
-      "category": "Discount",
       "content": "1111222233334444",
-      "color": "#5C6BC0"
+      "color": "#EF5350",
+      "image": "@sample/sample.jpg"
     },
     {
       "id": 2,
-      "name": "GreenCard",
-      "category": "Medicine",
+      "name": "BlueCard",
+      "category": "Discount",
       "content": "2222333344445555",
-      "color": "#66BB6A"
+      "color": "#5C6BC0",
+      "image": "@sample/sample.jpg"
     },
     {
       "id": 3,
-      "name": "OrangeCard",
-      "category": "Finance",
+      "name": "GreenCard",
+      "category": "Medicine",
       "content": "3333444455556666",
-      "color": "#FF7043"
+      "color": "#66BB6A",
+      "image": "@sample/sample.jpg"
     },
     {
       "id": 4,
+      "name": "OrangeCard",
+      "category": "Finance",
+      "content": "4444555566667777",
+      "color": "#FF7043",
+      "image": "@sample/sample.jpg"
+    },
+    {
+      "id": 5,
       "name": "GrayCard",
       "category": "Transport",
-      "content": "4444555566667777",
-      "color": "#424242"
+      "content": "5555666677778888",
+      "color": "#424242",
+      "image": "@sample/sample.jpg"
     }
   ]
 }
