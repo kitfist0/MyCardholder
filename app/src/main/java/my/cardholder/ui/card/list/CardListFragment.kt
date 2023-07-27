@@ -10,6 +10,7 @@ import my.cardholder.databinding.FragmentCardListBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.toNavExtras
+import my.cardholder.util.ext.updateSpanCountIfRequired
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -79,10 +80,7 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                     listAdapter.submitList(null)
                 }
                 is CardListState.Success -> {
-                    (binding.cardListRecyclerView.layoutManager as GridLayoutManager).apply {
-                        val count = state.spanCount
-                        if (spanCount != count) spanCount = count
-                    }
+                    binding.cardListRecyclerView.updateSpanCountIfRequired(state.spanCount)
                     binding.cardListSearchFab.isVisible = true
                     binding.cardListEmptyListMessageText.text = null
                     listAdapter.submitList(state.cardsAndCategories)
