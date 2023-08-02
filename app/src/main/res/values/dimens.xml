@@ -33,9 +33,9 @@
     <!--endregion-->
 
     <!--region SearchItem-->
-    <dimen name="search_item_content_padding">16dp</dimen>
+    <dimen name="search_item_content_padding">8dp</dimen>
     <dimen name="search_item_drawable_padding">8dp</dimen>
-    <dimen name="search_item_text_horizontal_padding">16dp</dimen>
+    <dimen name="search_item_text_horizontal_padding">8dp</dimen>
     <!--endregion-->
 
     <!--region SpecItem-->

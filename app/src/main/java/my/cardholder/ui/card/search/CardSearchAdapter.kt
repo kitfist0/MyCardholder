@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.R
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.isSquare
 import my.cardholder.databinding.ItemSearchBinding
 import my.cardholder.util.ext.setupUniqueTransitionName
@@ -37,6 +38,7 @@ class CardSearchAdapter(
                 val extras = listOf(
                     binding.itemSearchBarcodeImage,
                     binding.itemSearchNameText,
+                    binding.itemSearchContentText,
                 ).toNavExtras()
                 onItemClicked.invoke(card.id, extras)
             }
@@ -45,6 +47,7 @@ class CardSearchAdapter(
         fun bind(card: Card) {
             with(binding) {
                 val uniqueNameSuffix = card.id
+                itemSearchCard.setCardBackgroundColor(card.getColorInt())
                 itemSearchBarcodeImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     setImageResource(
@@ -54,6 +57,10 @@ class CardSearchAdapter(
                 itemSearchNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.name
+                }
+                itemSearchContentText.apply {
+                    setupUniqueTransitionName(uniqueNameSuffix)
+                    text = card.content
                 }
             }
         }
