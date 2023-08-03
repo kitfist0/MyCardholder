@@ -66,7 +66,7 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
-                is CardSearchState.Blank -> {
+                is CardSearchState.Default -> {
                     binding.cardSearchEmptyMessageText.text = state.message
                     cardSearchResultAdapter.submitList(null)
                 }

@@ -5,7 +5,7 @@ import my.cardholder.R
 import my.cardholder.data.model.Card
 
 sealed class CardSearchState {
-    data class Blank(
+    data class Default(
         val message: String = Typography.nbsp.toString()
     ) : CardSearchState()
 

@@ -23,7 +23,7 @@ class CardSearchViewModel @Inject constructor(
     private var newSearchRequestText: String? = null
 
     private val _state = MutableStateFlow<CardSearchState>(
-        CardSearchState.Blank()
+        CardSearchState.Default()
     )
     val state = _state.asStateFlow()
 
@@ -34,7 +34,7 @@ class CardSearchViewModel @Inject constructor(
                 newSearchRequestText?.let { name ->
                     newSearchRequestText = null
                     _state.value = if (name.isBlank()) {
-                        CardSearchState.Blank()
+                        CardSearchState.Default()
                     } else {
                         val cards = cardRepository.searchForCardsWithNamesLike(name)
                         if (cards.isNotEmpty()) {
