@@ -30,10 +30,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/card_search_empty_message_text"
+        android:id="@+id/card_search_nothing_found_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/card_search_nothing_found_message"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,9 +50,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_search_text_input_layout"
         tools:itemCount="2"
-        tools:orientation="horizontal"
         tools:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
-        tools:listitem="@layout/item_search_category" />
+        tools:listitem="@layout/item_search_category"
+        tools:orientation="horizontal" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_search_result_recycler_view"

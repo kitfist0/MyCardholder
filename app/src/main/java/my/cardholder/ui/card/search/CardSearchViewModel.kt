@@ -8,12 +8,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
+import my.cardholder.data.CategoryRepository
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CardSearchViewModel @Inject constructor(
     private val cardRepository: CardRepository,
+    private val categoryRepository: CategoryRepository,
 ) : BaseViewModel() {
 
     private companion object {
@@ -23,24 +25,25 @@ class CardSearchViewModel @Inject constructor(
     private var newSearchRequestText: String? = null
 
     private val _state = MutableStateFlow<CardSearchState>(
-        CardSearchState.Default()
+        CardSearchState.Default(emptyList())
     )
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
+            setDefaultState()
             while (true) {
                 delay(MIN_UPDATE_INTERVAL_MILLIS)
                 newSearchRequestText?.let { name ->
                     newSearchRequestText = null
-                    _state.value = if (name.isBlank()) {
-                        CardSearchState.Default()
+                    if (name.isBlank()) {
+                        setDefaultState()
                     } else {
                         val cards = cardRepository.searchForCardsWithNamesLike(name)
-                        if (cards.isNotEmpty()) {
+                        _state.value = if (cards.isNotEmpty()) {
                             CardSearchState.Success(cards)
                         } else {
-                            CardSearchState.NothingFound()
+                            CardSearchState.NothingFound
                         }
                     }
                 }
@@ -54,5 +57,10 @@ class CardSearchViewModel @Inject constructor(
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
         navigate(CardSearchFragmentDirections.fromCardSearchToCardDisplay(cardId), extras)
+    }
+
+    private suspend fun setDefaultState() {
+        val categoryNames = categoryRepository.getCategoryNames()
+        _state.value = CardSearchState.Default(categoryNames)
     }
 }

@@ -7,9 +7,11 @@ import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.view.inputmethod.InputMethodManager
 import androidx.core.transition.doOnEnd
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +26,13 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
 ) {
 
     override val viewModel: CardSearchViewModel by viewModels()
+
+    private val cardSearchCategoryAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        CardSearchCategoryAdapter(
+            onItemClicked = { categoryName ->
+            }
+        )
+    }
 
     private val cardSearchResultAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardSearchResultAdapter(
@@ -40,6 +49,10 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets()
             cardSearchTextInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onSearchTextChanged(it?.toString()) }
+            cardSearchCategoryRecyclerView.apply {
+                layoutManager = FlexboxLayoutManager(context)
+                adapter = cardSearchCategoryAdapter
+            }
             cardSearchResultRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = cardSearchResultAdapter
@@ -67,15 +80,18 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardSearchState.Default -> {
-                    binding.cardSearchEmptyMessageText.text = state.message
+                    binding.cardSearchNothingFoundText.isVisible = false
+                    cardSearchCategoryAdapter.submitList(state.categoryNames)
                     cardSearchResultAdapter.submitList(null)
                 }
                 is CardSearchState.NothingFound -> {
-                    binding.cardSearchEmptyMessageText.setText(state.messageRes)
+                    binding.cardSearchNothingFoundText.isVisible = true
+                    cardSearchCategoryAdapter.submitList(null)
                     cardSearchResultAdapter.submitList(null)
                 }
                 is CardSearchState.Success -> {
-                    binding.cardSearchEmptyMessageText.text = null
+                    binding.cardSearchNothingFoundText.isVisible = false
+                    cardSearchCategoryAdapter.submitList(null)
                     cardSearchResultAdapter.submitList(state.cards)
                 }
             }
