@@ -10,13 +10,13 @@ import my.cardholder.R
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.isSquare
-import my.cardholder.databinding.ItemSearchBinding
+import my.cardholder.databinding.ItemSearchResultBinding
 import my.cardholder.util.ext.setupUniqueTransitionName
 import my.cardholder.util.ext.toNavExtras
 
-class CardSearchAdapter(
+class CardSearchResultAdapter(
     private val onItemClicked: (cardId: Long, navExtras: FragmentNavigator.Extras) -> Unit,
-) : ListAdapter<Card, CardSearchAdapter.SearchViewHolder>(CardDiffCallback) {
+) : ListAdapter<Card, CardSearchResultAdapter.SearchViewHolder>(CardDiffCallback) {
 
     private companion object {
         object CardDiffCallback : DiffUtil.ItemCallback<Card>() {
@@ -29,16 +29,16 @@ class CardSearchAdapter(
     }
 
     inner class SearchViewHolder(
-        private val binding: ItemSearchBinding,
+        private val binding: ItemSearchResultBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {
                 val card = getItem(adapterPosition)
                 val extras = listOf(
-                    binding.itemSearchBarcodeImage,
-                    binding.itemSearchNameText,
-                    binding.itemSearchContentText,
+                    binding.itemSearchResultBarcodeImage,
+                    binding.itemSearchResultNameText,
+                    binding.itemSearchResultContentText,
                 ).toNavExtras()
                 onItemClicked.invoke(card.id, extras)
             }
@@ -47,18 +47,18 @@ class CardSearchAdapter(
         fun bind(card: Card) {
             with(binding) {
                 val uniqueNameSuffix = card.id
-                itemSearchCard.setCardBackgroundColor(card.getColorInt())
-                itemSearchBarcodeImage.apply {
+                itemSearchResultCard.setCardBackgroundColor(card.getColorInt())
+                itemSearchResultBarcodeImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     setImageResource(
                         if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode
                     )
                 }
-                itemSearchNameText.apply {
+                itemSearchResultNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.name
                 }
-                itemSearchContentText.apply {
+                itemSearchResultContentText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.content
                 }
@@ -68,7 +68,7 @@ class CardSearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
-            ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemSearchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

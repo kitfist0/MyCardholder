@@ -25,8 +25,8 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
 
     override val viewModel: CardSearchViewModel by viewModels()
 
-    private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CardSearchAdapter(
+    private val cardSearchResultAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        CardSearchResultAdapter(
             onItemClicked = { cardId, extras ->
                 viewModel.onCardClicked(cardId, extras)
             }
@@ -40,9 +40,9 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets()
             cardSearchTextInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onSearchTextChanged(it?.toString()) }
-            cardSearchResultsRecyclerView.apply {
+            cardSearchResultRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
-                adapter = listAdapter
+                adapter = cardSearchResultAdapter
             }
             cardSearchTextInputLayout.requestFocus()
             (sharedElementEnterTransition as TransitionSet).doOnEnd {
@@ -68,15 +68,15 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
             when (state) {
                 is CardSearchState.Blank -> {
                     binding.cardSearchEmptyMessageText.text = state.message
-                    listAdapter.submitList(null)
+                    cardSearchResultAdapter.submitList(null)
                 }
                 is CardSearchState.NothingFound -> {
                     binding.cardSearchEmptyMessageText.setText(state.messageRes)
-                    listAdapter.submitList(null)
+                    cardSearchResultAdapter.submitList(null)
                 }
                 is CardSearchState.Success -> {
                     binding.cardSearchEmptyMessageText.text = null
-                    listAdapter.submitList(state.cards)
+                    cardSearchResultAdapter.submitList(state.cards)
                 }
             }
         }
