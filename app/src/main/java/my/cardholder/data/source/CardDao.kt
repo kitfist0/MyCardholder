@@ -26,6 +26,9 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE name LIKE :name")
     suspend fun getCardsWithNamesLike(name: String): List<Card>
 
+    @Query("SELECT * FROM cards WHERE category_id IN (:categoryId) AND name LIKE :name")
+    suspend fun getCardsWithCategoryIdAndWithNamesLike(categoryId: Long, name: String): List<Card>
+
     @Query("DELETE FROM cards WHERE id = :id")
     suspend fun deleteCard(id: Long)
 

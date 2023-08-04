@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CategoryRepository
+import my.cardholder.data.model.Category
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
@@ -23,10 +24,10 @@ class CardSearchViewModel @Inject constructor(
     }
 
     private var newSearchRequestText: String? = null
-    private var selectedCategoryName: String? = null
+    private var selectedCategory: Category? = null
 
     private val _state = MutableStateFlow<CardSearchState>(
-        CardSearchState.Default(emptyList(), selectedCategoryName)
+        CardSearchState.Default(emptyList(), null)
     )
     val state = _state.asStateFlow()
 
@@ -40,7 +41,9 @@ class CardSearchViewModel @Inject constructor(
                     if (name.isBlank()) {
                         setDefaultState()
                     } else {
-                        val cards = cardRepository.searchForCardsWithNamesLike(name)
+                        val cards = selectedCategory
+                            ?.let { category -> cardRepository.searchCardsBy(name, category.id) }
+                            ?: cardRepository.searchCardsBy(name)
                         _state.value = if (cards.isNotEmpty()) {
                             CardSearchState.Success(cards)
                         } else {
@@ -57,8 +60,8 @@ class CardSearchViewModel @Inject constructor(
     }
 
     fun onCategoryNameClicked(categoryName: String) {
-        selectedCategoryName = categoryName
         viewModelScope.launch {
+            selectedCategory = categoryRepository.getCategoryByName(categoryName)
             setDefaultState()
         }
     }
@@ -68,9 +71,9 @@ class CardSearchViewModel @Inject constructor(
     }
 
     private suspend fun setDefaultState() {
-        val categoryNames = selectedCategoryName
+        val categoryNames = selectedCategory
             ?.let { emptyList() }
             ?: categoryRepository.getCategoryNames()
-        _state.value = CardSearchState.Default(categoryNames, selectedCategoryName)
+        _state.value = CardSearchState.Default(categoryNames, selectedCategory?.name)
     }
 }

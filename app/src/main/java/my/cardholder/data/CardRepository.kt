@@ -115,9 +115,13 @@ class CardRepository @Inject constructor(
         }
     }
 
-    suspend fun searchForCardsWithNamesLike(name: String): List<Card> {
+    suspend fun searchCardsBy(name: String, categoryId: Long = -1): List<Card> {
         return if (name.isNotBlank()) {
-            cardDao.getCardsWithNamesLike("%$name%")
+            if (categoryId.toInt() != -1) {
+                cardDao.getCardsWithCategoryIdAndWithNamesLike(categoryId, "%$name%")
+            } else {
+                cardDao.getCardsWithNamesLike("%$name%")
+            }
         } else {
             emptyList()
         }
