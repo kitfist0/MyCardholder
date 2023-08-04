@@ -23,9 +23,10 @@ class CardSearchViewModel @Inject constructor(
     }
 
     private var newSearchRequestText: String? = null
+    private var selectedCategoryName: String? = null
 
     private val _state = MutableStateFlow<CardSearchState>(
-        CardSearchState.Default(emptyList())
+        CardSearchState.Default(emptyList(), selectedCategoryName)
     )
     val state = _state.asStateFlow()
 
@@ -55,12 +56,21 @@ class CardSearchViewModel @Inject constructor(
         newSearchRequestText = cardName
     }
 
+    fun onCategoryNameClicked(categoryName: String) {
+        selectedCategoryName = categoryName
+        viewModelScope.launch {
+            setDefaultState()
+        }
+    }
+
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
         navigate(CardSearchFragmentDirections.fromCardSearchToCardDisplay(cardId), extras)
     }
 
     private suspend fun setDefaultState() {
-        val categoryNames = categoryRepository.getCategoryNames()
-        _state.value = CardSearchState.Default(categoryNames)
+        val categoryNames = selectedCategoryName
+            ?.let { emptyList() }
+            ?: categoryRepository.getCategoryNames()
+        _state.value = CardSearchState.Default(categoryNames, selectedCategoryName)
     }
 }

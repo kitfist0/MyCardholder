@@ -17,6 +17,7 @@ import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardSearchBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.ui.card.search.CardSearchState.Default.Companion.getHint
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
@@ -30,6 +31,7 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
     private val cardSearchCategoryAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardSearchCategoryAdapter(
             onItemClicked = { categoryName ->
+                viewModel.onCategoryNameClicked(categoryName)
             }
         )
     }
@@ -80,6 +82,7 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardSearchState.Default -> {
+                    binding.cardSearchTextInputLayout.editText?.hint = state.getHint()
                     binding.cardSearchNothingFoundText.isVisible = false
                     cardSearchCategoryAdapter.submitList(state.categoryNames)
                     cardSearchResultAdapter.submitList(null)
