@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import my.cardholder.util.Text
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.textToString
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -29,13 +29,5 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
             is BaseEvent.ToastMessage ->
                 Toast.makeText(requireContext(), textToString(event.text), Toast.LENGTH_LONG).show()
         }
-    }
-}
-
-private fun Fragment.textToString(text: Text): String {
-    return when (text) {
-        is Text.Resource -> getString(text.resId)
-        is Text.ResourceAndParams -> getString(text.resId, *text.params.toTypedArray())
-        is Text.Simple -> text.text
     }
 }
