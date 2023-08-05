@@ -44,9 +44,10 @@
     <!--endregion-->
 
     <!--region CardSearch-->
-    <string name="card_search_edit_text_hint">Search your cards</string>
+    <string name="card_search_in_all_categories_hint">Search in all categories</string>
     <string name="card_search_label">Search cards</string>
     <string name="card_search_nothing_found_message">Nothing found</string>
+    <string name="card_search_within_category_hint">Search within \"%s\"</string>
     <!--endregion-->
 
     <!--region CardScan-->

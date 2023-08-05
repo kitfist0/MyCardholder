@@ -44,9 +44,10 @@
     <!--endregion-->
 
     <!--region CardSearch-->
-    <string name="card_search_edit_text_hint">Durchsuchen Sie Ihre Karten</string>
+    <string name="card_search_in_all_categories_hint">Suche in allen Kategorien</string>
     <string name="card_search_label">Suchkarten</string>
     <string name="card_search_nothing_found_message">Nichts gefunden</string>
+    <string name="card_search_within_category_hint">Suche innerhalb von \"%s\"</string>
     <!--endregion-->
 
     <!--region CardScan-->
