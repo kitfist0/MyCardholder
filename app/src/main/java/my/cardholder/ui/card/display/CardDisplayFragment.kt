@@ -36,9 +36,9 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             }
             cardDisplayCardCategoryText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
-            cardDisplayCardContentText.apply {
+            cardDisplayCardContentCardView.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
-                val extras = listOf(cardDisplayCardContentText).toNavExtras()
+                val extras = listOf(cardDisplayCardContentCardView).toNavExtras()
                 setOnLongClickListener {
                     viewModel.onCardContentTextLongClicked(extras)
                 }
@@ -47,7 +47,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             cardDisplayEditFab.setOnClickListener {
                 val extras = listOf(
                     cardDisplayCardNameText,
-                    cardDisplayCardContentText,
+                    cardDisplayCardContentCardView,
                     cardDisplayCardCategoryText,
                     cardDisplayEditFab,
                 ).toNavExtras()

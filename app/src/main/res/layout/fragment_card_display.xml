@@ -57,21 +57,30 @@
         app:layout_constraintTop_toTopOf="@id/card_display_guideline_horizontal"
         tools:text="@sample/sample_cards.json/cards/name" />
 
-    <TextView
-        android:id="@+id/card_display_card_content_text"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_display_card_content_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:autoLink="web"
-        android:background="#11000000"
-        android:ellipsize="end"
-        android:lines="4"
-        android:padding="4dp"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:transitionName="@string/transition_card_content"
+        app:cardBackgroundColor="?colorSurfaceContainer"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        app:contentPadding="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_display_card_name_text"
-        tools:text="@sample/sample_cards.json/cards/content" />
+        app:layout_constraintTop_toBottomOf="@id/card_display_card_name_text">
+
+        <TextView
+            android:id="@+id/card_display_card_content_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:ellipsize="end"
+            android:lines="4"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            tools:text="@sample/sample_cards.json/cards/content" />
+
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_display_edit_fab"
