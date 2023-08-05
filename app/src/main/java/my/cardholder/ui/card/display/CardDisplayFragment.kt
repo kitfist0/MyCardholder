@@ -1,9 +1,6 @@
 package my.cardholder.ui.card.display
 
 import android.transition.TransitionInflater
-import android.transition.TransitionSet
-import androidx.core.transition.doOnEnd
-import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.navigation.fragment.navArgs
@@ -55,16 +52,6 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                     cardDisplayEditFab,
                 ).toNavExtras()
                 viewModel.onEditFabClicked(extras)
-            }
-            cardDisplayDeleteCardButton.setOnClickListener {
-                viewModel.onDeleteCardButtonClicked()
-            }
-            val transitionSet = sharedElementEnterTransition as TransitionSet
-            transitionSet.doOnStart {
-                cardDisplayDeleteCardButton.isVisible = false
-            }
-            transitionSet.doOnEnd {
-                cardDisplayDeleteCardButton.animateVisibilityChange()
             }
         }
     }

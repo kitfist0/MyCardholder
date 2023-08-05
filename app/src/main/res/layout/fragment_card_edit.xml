@@ -20,6 +20,16 @@
         tools:ignore="ContentDescription"
         tools:src="@sample/sample_cards.json/cards/image" />
 
+    <Button
+        android:id="@+id/card_edit_delete_card_button"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:icon="@drawable/ic_delete"
+        app:layout_constraintBottom_toTopOf="@id/card_edit_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_edit_guideline_horizontal"
         android:layout_width="wrap_content"

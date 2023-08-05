@@ -73,20 +73,6 @@
         app:layout_constraintTop_toBottomOf="@id/card_display_card_name_text"
         tools:text="@sample/sample_cards.json/cards/content" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/card_display_delete_card_button"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_margin="8dp"
-        android:text="@string/card_display_delete_card_button_text"
-        android:textAllCaps="true"
-        android:textColor="?colorError"
-        app:cornerRadius="@dimen/material_button_default_corner_radius"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_display_card_content_text" />
-
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_display_edit_fab"
         android:layout_width="wrap_content"

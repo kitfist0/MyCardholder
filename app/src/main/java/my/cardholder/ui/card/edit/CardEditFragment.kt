@@ -37,6 +37,9 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
             cardEditBarcodeImage.setPadding(getStatusBarHeight())
+            cardEditDeleteCardButton.setOnClickListener {
+                viewModel.onDeleteCardButtonClicked()
+            }
             cardEditCardNameInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
@@ -62,10 +65,12 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
+                cardEditDeleteCardButton.isVisible = false
                 cardEditCardColorInputLayout.isVisible = false
                 cardEditBarcodeFormatInputLayout.isVisible = false
             }
             transitionSet.doOnEnd {
+                cardEditDeleteCardButton.animateVisibilityChange()
                 cardEditCardColorInputLayout.animateVisibilityChange()
                 cardEditBarcodeFormatInputLayout.animateVisibilityChange()
             }

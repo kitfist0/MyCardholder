@@ -42,10 +42,6 @@ class CardDisplayViewModel @AssistedInject constructor(
     fun onEditFabClicked(extras: Navigator.Extras) {
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardEdit(cardId), extras)
     }
-
-    fun onDeleteCardButtonClicked() {
-        navigate(CardDisplayFragmentDirections.fromCardDisplayToDeleteCard(cardId))
-    }
 }
 
 @AssistedFactory
