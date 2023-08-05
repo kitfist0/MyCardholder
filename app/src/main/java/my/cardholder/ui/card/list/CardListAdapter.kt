@@ -18,6 +18,7 @@ import my.cardholder.util.ext.toNavExtras
 
 class CardListAdapter(
     private val onItemClicked: (cardId: Long, navExtras: FragmentNavigator.Extras) -> Unit,
+    private val onItemLongClicked: (cardId: Long) -> Unit,
 ) : ListAdapter<CardAndCategory, CardListAdapter.CardViewHolder>(CardDiffCallback) {
 
     private companion object {
@@ -44,6 +45,11 @@ class CardListAdapter(
                     binding.itemCardCategoryText,
                 ).toNavExtras()
                 onItemClicked.invoke(cardAndCategory.card.id, extras)
+            }
+            itemView.setOnLongClickListener {
+                val cardAndCategory = getItem(adapterPosition)
+                onItemLongClicked.invoke(cardAndCategory.card.id)
+                true
             }
         }
 

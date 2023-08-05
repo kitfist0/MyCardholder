@@ -50,6 +50,9 @@
         <action
             android:id="@+id/from_card_list_to_card_search"
             app:destination="@id/card_search_fragment" />
+        <action
+            android:id="@+id/from_card_list_to_delete_card"
+            app:destination="@id/delete_card_dialog" />
     </fragment>
 
     <fragment

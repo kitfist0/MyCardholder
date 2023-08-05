@@ -34,6 +34,10 @@ class CardListViewModel @Inject constructor(
         navigate(CardListFragmentDirections.fromCardListToCardDisplay(cardId), extras)
     }
 
+    fun onCardLongClicked(cardId: Long) {
+        navigate(CardListFragmentDirections.fromCardListToDeleteCard(cardId))
+    }
+
     fun onSearchFabClicked(extras: Navigator.Extras) {
         navigate(CardListFragmentDirections.fromCardListToCardSearch(), extras)
     }
