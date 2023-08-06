@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">MyCardholder</string>
+
+    <!--region CardBackup-->
+    <string name="card_backup_dialog_default_title">Importer ou exporter des cartes</string>
+    <string name="card_backup_dialog_export_button_text">Exporter des cartes vers un fichier</string>
+    <string name="card_backup_dialog_export_completed_message">Exportation terminée avec succès</string>
+    <string name="card_backup_dialog_export_title">S\'il vous plaît, attendez. Exportation en cours</string>
+    <string name="card_backup_dialog_import_button_text">Importer des cartes à partir d\'un fichier</string>
+    <string name="card_backup_dialog_import_completed_message">Importation terminée avec succès</string>
+    <string name="card_backup_dialog_import_title">S\'il vous plaît, attendez. Importation en cours</string>
+    <string name="card_backup_dialog_label">Sauvegarde</string>
+    <string name="card_backup_dialog_operation_canceled_message">Opération annulée</string>
+    <!--endregion-->
+
+    <!--region CardContent-->
+    <string name="card_content_empty_text_error_message">Texte vide</string>
+    <string name="card_content_hint">Texte</string>
+    <string name="card_content_label">Contenu de la carte</string>
+    <string name="card_content_title">Modification du texte de la carte</string>
+    <!--endregion-->
+
+    <!--region CardDisplay-->
+    <string name="card_display_delete_card_button_text">Supprimer définitivement la carte</string>
+    <string name="card_display_edit_fab_title">Modifier</string>
+    <string name="card_display_label">Affichage de la carte</string>
+    <!--endregion-->
+
+    <!--region CardEdit-->
+    <string name="card_edit_barcode_format_hint">Format</string>
+    <string name="card_edit_category_hint">Catégorie</string>
+    <string name="card_edit_color_hint">Couleur</string>
+    <string name="card_edit_content_hint">Texte</string>
+    <string name="card_edit_label">Modifier</string>
+    <string name="card_edit_name_hint">Nom</string>
+    <string name="card_edit_invalid_value_error_message">La valeur n\'est pas valide pour le type de code-barres sélectionné</string>
+    <!--endregion-->
+
+    <!--region CardList-->
+    <string name="card_list_label">Cartes</string>
+    <string name="card_list_no_cards_message">Aucune carte scannée</string>
+    <!--endregion-->
+
+    <!--region CardSearch-->
+    <string name="card_search_in_all_categories_hint">Rechercher dans toutes les catégories</string>
+    <string name="card_search_label">Cartes de recherche</string>
+    <string name="card_search_nothing_found_message">Rien n\'a été trouvé</string>
+    <string name="card_search_within_category_hint">Rechercher dans \"%s\"</string>
+    <!--endregion-->
+
+    <!--region CardScan-->
+    <string name="card_scan_add_manually_fab_title">Ajouter manuellement</string>
+    <string name="card_scan_explanation_message">Scannez un code-barres pour ajouter automatiquement une nouvelle carte</string>
+    <string name="card_scan_label">Scanner la carte</string>
+    <!--endregion-->
+
+    <!--region CategoryEdit-->
+    <string name="category_edit_category_name_hint">Nom</string>
+    <string name="category_edit_category_toolbar_title">Catégorie de carte</string>
+    <string name="category_edit_delete_menu_item_title">Supprimer la catégorie</string>
+    <string name="category_edit_label">Catégorie de carte</string>
+    <string name="category_edit_name_is_empty_error_message">Le nom est vide</string>
+    <string name="category_edit_name_is_forbidden_error_message">Le nom est interdit</string>
+    <string name="category_edit_name_is_long_error_message">La longueur du nom ne doit pas dépasser %s caractères</string>
+    <string name="category_edit_new_category_toolbar_title">Nouvelle catégorie</string>
+    <!--endregion-->
+
+    <!--region CategoryList-->
+    <string name="category_list_add_category_fab_content_description">Ajouter une nouvelle catégorie de carte</string>
+    <string name="category_list_empty_list_message">Aucune catégorie</string>
+    <string name="category_list_label">Catégories de cartes</string>
+    <!--endregion-->
+
+    <!--region Coffee-->
+    <string name="coffee_dialog_label">Café</string>
+    <string name="coffee_dialog_title">Soutenez cette application en achetant du café pour les développeurs</string>
+    <!--endregion-->
+
+    <!--region DeleteCard-->
+    <string name="delete_card_dialog_button_text">Supprimer définitivement</string>
+    <string name="delete_card_dialog_label">Supprimer</string>
+    <string name="delete_card_dialog_title">Supprimer? La carte \"%s\" sera définitivement supprimée</string>
+    <!--endregion-->
+
+    <!--region Info-->
+    <string name="info_dialog_copyright_button_text">Droits d\'auteur</string>
+    <string name="info_dialog_label">Info</string>
+    <string name="info_dialog_policy_button_text">Politique de confidentialité</string>
+    <string name="info_dialog_source_code_button_text">Code source</string>
+    <!--endregion-->
+
+    <!--region Permission-->
+    <string name="permission_add_manually_button_text">Ajouter une nouvelle carte manuellement</string>
+    <string name="permission_grant_button_text">Accorder</string>
+    <string name="permission_label">Autorisation</string>
+    <string name="permission_rationale_message_text">Veuillez autoriser l\'accès à la caméra de l\'appareil. L\'accès à la caméra est nécessaire pour scanner vos cartes</string>
+    <!--endregion-->
+
+    <!--region Settings-->
+    <string name="settings_about_app_button_text">À propos de l\'application</string>
+    <string name="settings_card_categories_button_text">Catégories de cartes</string>
+    <string name="settings_coffee_button_text">Café pour les développeurs</string>
+    <string name="settings_import_export_cards_button_text">Importer ou exporter des cartes</string>
+    <string name="settings_label">Paramètres</string>
+    <string name="settings_switch_to_dark_mode_button_text">Passer en mode sombre</string>
+    <string name="settings_switch_to_light_mode_button_text">Passer en mode lumière</string>
+    <string name="settings_switch_to_multi_column_button_text">Passer à la liste de cartes multi-colonnes</string>
+    <string name="settings_switch_to_single_column_button_text">Passer à la liste des cartes avec une seule colonne</string>
+    <string name="settings_supported_formats_button_text">Formats pris en charge</string>
+    <!--endregion-->
+
+    <!--region Specs-->
+    <string name="specs_barcode_length_text">Longueur: %s</string>
+    <string name="specs_barcode_valid_characters_text">Caractères valides: %s</string>
+    <string name="specs_label">Spécifications</string>
+    <string name="specs_toolbar_title">Formats pris en charge</string>
+    <!--endregion-->
+</resources>
