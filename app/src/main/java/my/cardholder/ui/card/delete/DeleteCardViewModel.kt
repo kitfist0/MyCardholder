@@ -13,6 +13,20 @@ class DeleteCardViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
+
+    private val _state = MutableStateFlow(
+        DeleteCardState(cardName = "")
+    )
+    val state = _state.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            cardRepository.getCardAndCategory(cardId).first()?.let { cardAndCategory ->
+                _state.value = DeleteCardState(cardName = cardAndCategory.card.name)
+            }
+        }
+    }
+
     fun onDeleteConfirmationButtonClicked() {
         viewModelScope.launch {
             cardRepository.deleteCard(cardId)

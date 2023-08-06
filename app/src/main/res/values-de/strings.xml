@@ -81,7 +81,7 @@
     <!--region DeleteCard-->
     <string name="delete_card_dialog_button_text">Dauerhaft löschen</string>
     <string name="delete_card_dialog_label">Löschen</string>
-    <string name="delete_card_dialog_title">Löschen? Die Karte wird dauerhaft gelöscht</string>
+    <string name="delete_card_dialog_title">Löschen? Karte \"%s\" wird endgültig gelöscht</string>
     <!--endregion-->
 
     <!--region Info-->

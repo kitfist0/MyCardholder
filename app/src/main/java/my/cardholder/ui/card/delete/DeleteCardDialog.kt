@@ -4,7 +4,10 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogDeleteCardBinding
 import my.cardholder.ui.base.BaseDialogFragment
+import my.cardholder.ui.card.delete.DeleteCardState.Companion.getTitleText
 import my.cardholder.util.ext.assistedViewModels
+import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.textToString
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,5 +31,8 @@ class DeleteCardDialog : BaseDialogFragment<DialogDeleteCardBinding>(
     }
 
     override fun collectData() {
+        collectWhenStarted(viewModel.state) { state ->
+            binding.deleteCardTitleText.text = textToString(state.getTitleText())
+        }
     }
 }

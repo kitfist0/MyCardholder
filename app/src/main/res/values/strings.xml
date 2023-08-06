@@ -81,7 +81,7 @@
     <!--region DeleteCard-->
     <string name="delete_card_dialog_button_text">Delete permanently</string>
     <string name="delete_card_dialog_label">Delete</string>
-    <string name="delete_card_dialog_title">Delete? The card will be permanently deleted</string>
+    <string name="delete_card_dialog_title">Delete? The card \"%s\" will be permanently deleted</string>
     <!--endregion-->
 
     <!--region Info-->
