@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        hilt_version = '2.46.1'
+        hilt_version = '2.47'
         nav_version = '2.6.0'
     }
 }
@@ -11,7 +11,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin' version "$nav_version" apply false
     id 'com.google.dagger.hilt.android' version "$hilt_version" apply false
     id 'com.google.gms.google-services' version '4.3.15' apply false
-    id 'com.google.firebase.crashlytics' version '2.9.4' apply false
+    id 'com.google.firebase.crashlytics' version '2.9.8' apply false
 }
 
 task clean(type: Delete) {

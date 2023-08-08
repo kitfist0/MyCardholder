@@ -53,7 +53,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     // Billing
-    implementation 'com.android.billingclient:billing-ktx:6.0.0'
+    implementation 'com.android.billingclient:billing-ktx:6.0.1'
     // CameraX
     def camerax_version = '1.2.3'
     implementation "androidx.camera:camera-core:$camerax_version"
@@ -68,24 +68,24 @@ dependencies {
     // Flexbox
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation platform('com.google.firebase:firebase-bom:32.2.2')
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // Kotlin CSV
-    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.8.0'
+    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.9.2'
     // Lottie
-    implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation 'com.airbnb.android:lottie:6.1.0'
     // Ml Kit
-    implementation 'com.google.mlkit:barcode-scanning:17.1.0'
+    implementation 'com.google.mlkit:barcode-scanning:17.2.0'
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // Preference
     implementation 'androidx.preference:preference-ktx:1.2.0'
     // Room
-    def room_version = '2.5.1'
+    def room_version = '2.5.2'
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
