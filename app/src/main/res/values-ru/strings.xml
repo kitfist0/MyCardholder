@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">MyCardholder</string>
+
+    <!--region CardBackup-->
+    <string name="card_backup_dialog_default_title">Импорт или экспорт карт</string>
+    <string name="card_backup_dialog_export_button_text">Экспортировать карты в файл</string>
+    <string name="card_backup_dialog_export_completed_message">Экспорт успешно завершен</string>
+    <string name="card_backup_dialog_export_title">Пожалуйста подождите. Выполняется экспорт</string>
+    <string name="card_backup_dialog_import_button_text">Импортировать карты из файла</string>
+    <string name="card_backup_dialog_import_completed_message">Импорт успешно завершен</string>
+    <string name="card_backup_dialog_import_title">Пожалуйста подождите. Выполняется импорт</string>
+    <string name="card_backup_dialog_label">Бэкап</string>
+    <string name="card_backup_dialog_operation_canceled_message">Операция отменена</string>
+    <!--endregion-->
+
+    <!--region CardContent-->
+    <string name="card_content_empty_text_error_message">Пустой текст</string>
+    <string name="card_content_hint">Текст</string>
+    <string name="card_content_label">Содержимое карты</string>
+    <string name="card_content_title">Редактирование текста карты</string>
+    <!--endregion-->
+
+    <!--region CardDisplay-->
+    <string name="card_display_delete_card_button_text">Удалить карту навсегда</string>
+    <string name="card_display_edit_fab_title">Редактировать</string>
+    <string name="card_display_label">Отображение карты</string>
+    <!--endregion-->
+
+    <!--region CardEdit-->
+    <string name="card_edit_barcode_format_hint">Формат</string>
+    <string name="card_edit_category_hint">Категория</string>
+    <string name="card_edit_color_hint">Цвет</string>
+    <string name="card_edit_content_hint">Текст</string>
+    <string name="card_edit_label">Редактирование карты</string>
+    <string name="card_edit_name_hint">Имя</string>
+    <string name="card_edit_invalid_value_error_message">Значение недопустимо для выбранного типа штрих-кода</string>
+    <!--endregion-->
+
+    <!--region CardList-->
+    <string name="card_list_label">Карты</string>
+    <string name="card_list_no_cards_message">Нет отсканированных карт</string>
+    <!--endregion-->
+
+    <!--region CardSearch-->
+    <string name="card_search_in_all_categories_hint">Поиск во всех категориях</string>
+    <string name="card_search_label">Поиск карт</string>
+    <string name="card_search_nothing_found_message">Ничего не найдено</string>
+    <string name="card_search_within_category_hint">Поиск в категории \"%s\"</string>
+    <!--endregion-->
+
+    <!--region CardScan-->
+    <string name="card_scan_add_manually_fab_title">Добавить вручную</string>
+    <string name="card_scan_explanation_message">Отсканируйте штрих-код, чтобы автоматически добавить новую карту</string>
+    <string name="card_scan_label">Сканирование</string>
+    <!--endregion-->
+
+    <!--region CategoryEdit-->
+    <string name="category_edit_category_name_hint">Имя</string>
+    <string name="category_edit_category_toolbar_title">Категория карт</string>
+    <string name="category_edit_delete_menu_item_title">Удалить категорию</string>
+    <string name="category_edit_label">Категория карт</string>
+    <string name="category_edit_name_is_empty_error_message">Имя пустое</string>
+    <string name="category_edit_name_is_forbidden_error_message">Запрещенное имя</string>
+    <string name="category_edit_name_is_long_error_message">Имя категории не должно превышать %s символов</string>
+    <string name="category_edit_new_category_toolbar_title">Новая категория</string>
+    <!--endregion-->
+
+    <!--region CategoryList-->
+    <string name="category_list_add_category_fab_content_description">Добавить новую категорию карт</string>
+    <string name="category_list_empty_list_message">Нет категорий</string>
+    <string name="category_list_label">Категории карт</string>
+    <!--endregion-->
+
+    <!--region Coffee-->
+    <string name="coffee_dialog_label">Кофе</string>
+    <string name="coffee_dialog_title">Поддержите приложение, купив кофе для разработчиков</string>
+    <!--endregion-->
+
+    <!--region DeleteCard-->
+    <string name="delete_card_dialog_button_text">Удалить навсегда</string>
+    <string name="delete_card_dialog_label">Удалить</string>
+    <string name="delete_card_dialog_title">Удалить? Карта \"%s\" будет удалена навсегда</string>
+    <!--endregion-->
+
+    <!--region Info-->
+    <string name="info_dialog_copyright_button_text">Авторские права</string>
+    <string name="info_dialog_label">Информация</string>
+    <string name="info_dialog_policy_button_text">Политика безопасности</string>
+    <string name="info_dialog_source_code_button_text">Исходный код</string>
+    <!--endregion-->
+
+    <!--region Permission-->
+    <string name="permission_add_manually_button_text">Добавить новую карту вручную</string>
+    <string name="permission_grant_button_text">Предоставить</string>
+    <string name="permission_label">Разрешение</string>
+    <string name="permission_rationale_message_text">Предоставьте доступ к камере устройства. Доступ к камере необходим для сканирования новых карт</string>
+    <!--endregion-->
+
+    <!--region Settings-->
+    <string name="settings_about_app_button_text">О приложении</string>
+    <string name="settings_card_categories_button_text">Категории карт</string>
+    <string name="settings_coffee_button_text">Кофе для разработчиков</string>
+    <string name="settings_import_export_cards_button_text">Импорт или экспорт карт</string>
+    <string name="settings_label">Настройки</string>
+    <string name="settings_switch_to_dark_mode_button_text">Включить темную тему</string>
+    <string name="settings_switch_to_light_mode_button_text">Включить светлую тему</string>
+    <string name="settings_switch_to_multi_column_button_text">Включить отображение карт в несколько колонок</string>
+    <string name="settings_switch_to_single_column_button_text">Включить отображение карт в одну колонку</string>
+    <string name="settings_supported_formats_button_text">Поддерживаемые форматы</string>
+    <!--endregion-->
+
+    <!--region Specs-->
+    <string name="specs_barcode_length_text">Длина: %s</string>
+    <string name="specs_barcode_valid_characters_text">Допустимые символы: %s</string>
+    <string name="specs_label">Спецификации</string>
+    <string name="specs_toolbar_title">Поддерживаемые форматы</string>
+    <!--endregion-->
+</resources>
