@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyCardholder</string>
+    <string name="app_name">Porte-carte</string>
 
     <!--region CardBackup-->
     <string name="card_backup_dialog_default_title">Importer ou exporter des cartes</string>

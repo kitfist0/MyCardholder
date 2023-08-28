@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyCardholder</string>
+    <string name="app_name">Cardholder</string>
 
     <!--region CardBackup-->
     <string name="card_backup_dialog_default_title">Import or export cards</string>
