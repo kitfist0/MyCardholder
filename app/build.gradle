@@ -28,7 +28,20 @@ android {
         buildConfigField("String", "WEB_PAGE_GITHUB", "\"https://github.com/kitfist0/MyCardholder\"")
     }
 
+    signingConfigs {
+        debug {
+            storeFile = rootProject.file('cert/debug.keystore')
+            storePassword = 'android'
+            keyAlias = 'cardholder'
+            keyPassword = 'android'
+        }
+    }
+
     buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
