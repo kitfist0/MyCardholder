@@ -32,4 +32,9 @@
         android:transitionName="@string/transition_search"
         app:useCompatPadding="true" />
 
+    <androidx.appcompat.widget.Toolbar
+        android:background="@drawable/bg_gradient_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize" />
+
 </FrameLayout>
