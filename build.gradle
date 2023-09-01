@@ -11,7 +11,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin' version "$nav_version" apply false
     id 'com.google.dagger.hilt.android' version "$hilt_version" apply false
     id 'com.google.gms.google-services' version '4.3.15' apply false
-    id 'com.google.firebase.crashlytics' version '2.9.8' apply false
+    id 'com.google.firebase.crashlytics' version '2.9.9' apply false
 }
 
 task clean(type: Delete) {
