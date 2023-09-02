@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardListBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.getActionBarSize
 import my.cardholder.util.ext.toNavExtras
 import my.cardholder.util.ext.updateSpanCountIfRequired
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
@@ -66,6 +67,11 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
             cardListSearchFab.setOnClickListener {
                 val extras = listOf(cardListSearchFab).toNavExtras()
                 viewModel.onSearchFabClicked(extras)
+            }
+            cardListToolbar.apply {
+                val toolbarLayoutParams = cardListToolbar.layoutParams
+                toolbarLayoutParams.height = (getActionBarSize() / 2)
+                cardListToolbar.layoutParams = toolbarLayoutParams
             }
         }
     }

@@ -25,6 +25,13 @@ fun Fragment.getStatusBarHeight(): Int {
     return rect.top
 }
 
+fun Fragment.getActionBarSize(): Int {
+    val typedArray = requireContext().theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+    val actionBarSize = typedArray.getDimensionPixelSize(0, -1)
+    typedArray.recycle()
+    return actionBarSize
+}
+
 fun Fragment.textToString(text: Text): String {
     return when (text) {
         is Text.Resource -> getString(text.resId)

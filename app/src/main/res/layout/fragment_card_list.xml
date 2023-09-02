@@ -33,8 +33,10 @@
         app:useCompatPadding="true" />
 
     <androidx.appcompat.widget.Toolbar
-        android:background="@drawable/bg_gradient_transparent"
+        android:id="@+id/card_list_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize" />
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/bg_gradient_transparent"
+        android:elevation="0dp" />
 
 </FrameLayout>
