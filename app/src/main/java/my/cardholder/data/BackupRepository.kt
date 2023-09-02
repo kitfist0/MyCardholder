@@ -32,7 +32,7 @@ class BackupRepository @Inject constructor(
     }
 
     fun exportToBackupFile(outputStream: OutputStream): Flow<BackupResult> = channelFlow {
-        val cardsAndCategories = cardRepository.cardsAndCategories.first()
+        val cardsAndCategories = cardRepository.cardsAndCategories.first().reversed()
         val numOfCards = cardsAndCategories.size
         csvWriter().openAsync(outputStream) {
             writeRow(V1_CSV_SCHEME)
