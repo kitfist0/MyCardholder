@@ -52,6 +52,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:inputType="textShortMessage"
             tools:text="@sample/sample_cards.json/cards/name" />
 
@@ -72,8 +73,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textShortMessage"
             android:focusable="false"
+            android:inputType="textShortMessage"
             tools:text="@sample/sample_cards.json/cards/content" />
 
     </com.google.android.material.textfield.TextInputLayout>
