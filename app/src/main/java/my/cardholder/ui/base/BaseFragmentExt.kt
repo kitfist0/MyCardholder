@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import my.cardholder.util.ext.collectWhenStarted
@@ -16,9 +18,8 @@ typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
     collectWhenStarted(baseViewModel.baseEvents) { event ->
         when (event) {
-            is BaseEvent.Navigate -> event.extras
-                ?.let { extras -> findNavController().navigate(event.direction, extras) }
-                ?: findNavController().navigate(event.direction)
+            is BaseEvent.Navigate ->
+                navigateSafely(event.direction, event.extras)
             is BaseEvent.NavigateUp ->
                 findNavController().navigateUp()
             is BaseEvent.SnackMessage ->
@@ -29,5 +30,12 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
             is BaseEvent.ToastMessage ->
                 Toast.makeText(requireContext(), textToString(event.text), Toast.LENGTH_LONG).show()
         }
+    }
+}
+
+private fun Fragment.navigateSafely(direction: NavDirections, extras: Navigator.Extras?) {
+    findNavController().apply {
+        currentDestination?.getAction(direction.actionId) ?: return
+        extras?.let { navigate(direction, it) } ?: navigate(direction)
     }
 }
