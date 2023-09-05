@@ -19,6 +19,7 @@ import my.cardholder.util.ext.toNavExtras
 class CardListAdapter(
     private val onItemClicked: (cardId: Long, navExtras: FragmentNavigator.Extras) -> Unit,
     private val onItemLongClicked: (cardId: Long) -> Unit,
+    private val onItemCountIncreased: () -> Unit,
 ) : ListAdapter<CardAndCategory, CardListAdapter.CardViewHolder>(CardDiffCallback) {
 
     private companion object {
@@ -93,5 +94,14 @@ class CardListAdapter(
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    override fun onCurrentListChanged(
+        previousList: MutableList<CardAndCategory>,
+        currentList: MutableList<CardAndCategory>
+    ) {
+        if (previousList.size < currentList.size) {
+            onItemCountIncreased.invoke()
+        }
     }
 }

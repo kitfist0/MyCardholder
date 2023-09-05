@@ -28,7 +28,8 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardListAdapter(
             onItemClicked = { cardId, extras -> viewModel.onCardClicked(cardId, extras) },
-            onItemLongClicked = { cardId -> viewModel.onCardLongClicked(cardId) }
+            onItemLongClicked = { cardId -> viewModel.onCardLongClicked(cardId) },
+            onItemCountIncreased = { binding.cardListRecyclerView.smoothScrollToPosition(0) },
         )
     }
 
