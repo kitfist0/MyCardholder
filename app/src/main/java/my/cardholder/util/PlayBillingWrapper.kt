@@ -43,10 +43,6 @@ class PlayBillingWrapper constructor(
             }
         }
 
-    suspend fun getClientOrNull(): BillingClient? {
-        return getClient().getOrNull()
-    }
-
     private suspend fun BillingClient.connectOrThrow() = suspendCoroutine { continuation ->
         startConnection(
             object : BillingClientStateListener {
