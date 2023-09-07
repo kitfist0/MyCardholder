@@ -35,6 +35,15 @@ android {
             keyAlias = 'cardholder'
             keyPassword = 'android'
         }
+        release {
+            storeFile = rootProject.file('cert/release.keystore')
+            def propsFile = rootProject.file('cert/release.properties')
+            def props = new Properties()
+            props.load(new FileInputStream(propsFile))
+            storePassword = props['store_password']
+            keyAlias = props['alias']
+            keyPassword = props['key_password']
+        }
     }
 
     buildTypes {
@@ -45,6 +54,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
