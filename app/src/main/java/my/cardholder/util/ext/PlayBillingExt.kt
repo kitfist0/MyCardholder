@@ -30,6 +30,9 @@ suspend fun BillingClient.launchNonConsumableProductPurchase(
         } else {
             emptyList()
         }
+    if (productDetailsParamsList.isEmpty()) {
+        return Result.failure(Throwable("No product details"))
+    }
     val billingFlowParams = BillingFlowParams.newBuilder()
         .setProductDetailsParamsList(productDetailsParamsList)
         .build()
