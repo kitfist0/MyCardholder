@@ -1,6 +1,10 @@
 package my.cardholder.ui.category.edit
 
+import android.content.Context
 import android.transition.TransitionInflater
+import android.transition.TransitionSet
+import android.view.inputmethod.InputMethodManager
+import androidx.core.transition.doOnEnd
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,14 +43,18 @@ class CategoryEditFragment : BaseFragment<FragmentCategoryEditBinding>(
                 viewModel.onMenuItemClicked(menuItem.itemId)
             }
             categoryEditCategoryNameInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
-            categoryEditCategoryNameInputLayout.editText?.onImeActionDone {
-                viewModel.onOkFabClicked()
+            categoryEditCategoryNameInputLayout.editText?.apply {
+                doAfterTextChanged { viewModel.onCategoryNameChanged(it?.toString()) }
+                onImeActionDone { viewModel.onOkFabClicked() }
             }
-            categoryEditCategoryNameInputLayout.editText
-                ?.doAfterTextChanged { viewModel.onCategoryNameChanged(it?.toString()) }
             categoryEditOkFab.setOnClickListener {
                 viewModel.onOkFabClicked()
             }
+        }
+        binding.categoryEditCategoryNameInputLayout.requestFocus()
+        (sharedElementEnterTransition as TransitionSet).doOnEnd {
+            (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
+                ?.showSoftInput(binding.categoryEditCategoryNameInputLayout.editText, 1)
         }
     }
 
