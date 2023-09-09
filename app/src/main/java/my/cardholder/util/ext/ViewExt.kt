@@ -2,11 +2,13 @@ package my.cardholder.util.ext
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.View
 import android.view.WindowInsets
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Size
 import coil.transform.RoundedCornersTransformation
+import com.google.android.material.textfield.TextInputLayout
 import my.cardholder.R
 import java.io.File
 
@@ -135,4 +138,10 @@ fun RecyclerView.updateSpanCountIfRequired(count: Int) {
     (layoutManager as? GridLayoutManager)?.apply {
         if (spanCount != count) spanCount = count
     }
+}
+
+fun TextInputLayout.showSoftInput() {
+    requestFocus()
+    (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
+        ?.showSoftInput(editText, 1)
 }
