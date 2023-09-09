@@ -9,6 +9,7 @@ import my.cardholder.databinding.FragmentCategoryEditBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.assistedViewModels
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.onImeActionDone
 import my.cardholder.util.ext.setTextAndSelectionIfRequired
 import my.cardholder.util.ext.setupUniqueTransitionName
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
@@ -38,6 +39,9 @@ class CategoryEditFragment : BaseFragment<FragmentCategoryEditBinding>(
                 viewModel.onMenuItemClicked(menuItem.itemId)
             }
             categoryEditCategoryNameInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
+            categoryEditCategoryNameInputLayout.editText?.onImeActionDone {
+                viewModel.onOkFabClicked()
+            }
             categoryEditCategoryNameInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCategoryNameChanged(it?.toString()) }
             categoryEditOkFab.setOnClickListener {

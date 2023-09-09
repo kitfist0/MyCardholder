@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.View
 import android.view.WindowInsets
+import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
@@ -97,6 +98,16 @@ fun ImageView.loadBarcodeImage(
                 resources.getDimensionPixelSize(R.dimen.barcode_image_corners).toFloat()
             )
         )
+    }
+}
+
+fun EditText.onImeActionDone(callback: () -> Unit) {
+    setOnEditorActionListener { _, actionId, _ ->
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            callback.invoke()
+            return@setOnEditorActionListener true
+        }
+        false
     }
 }
 
