@@ -89,7 +89,7 @@
         android:layout_margin="32dp"
         android:text="@string/card_display_edit_fab_title"
         android:transitionName="@string/transition_card_fab"
-        app:icon="@drawable/ic_edit_card"
+        app:icon="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
