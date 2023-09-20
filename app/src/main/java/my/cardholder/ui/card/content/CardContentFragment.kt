@@ -2,7 +2,9 @@ package my.cardholder.ui.card.content
 
 import android.content.Context
 import android.transition.TransitionInflater
+import android.transition.TransitionSet
 import androidx.activity.OnBackPressedCallback
+import androidx.core.transition.doOnEnd
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,6 +14,7 @@ import my.cardholder.util.ext.assistedViewModels
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.setTextAndSelectionIfRequired
 import my.cardholder.util.ext.setupUniqueTransitionName
+import my.cardholder.util.ext.showSoftInput
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 import javax.inject.Inject
 
@@ -51,6 +54,9 @@ class CardContentFragment : BaseFragment<FragmentCardContentBinding>(
             cardContentOkFab.setOnClickListener {
                 viewModel.onOkFabClicked()
             }
+        }
+        (sharedElementEnterTransition as TransitionSet).doOnEnd {
+            binding.cardContentInputLayout.showSoftInput()
         }
     }
 
