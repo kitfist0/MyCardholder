@@ -2,9 +2,7 @@ package my.cardholder.ui.card.scan
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import my.cardholder.databinding.FragmentCardScanBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
@@ -17,15 +15,17 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     override val viewModel: CardScanViewModel by viewModels()
 
     override fun initViews() {
-        lifecycleScope.launch {
-            viewModel.startCamera(
-                lifecycleOwner = this@CardScanFragment,
-                surfaceProvider = binding.cardScanPreview.surfaceProvider,
-            )
-        }
         binding.cardScanAddManuallyFab.setOnClickListener {
             viewModel.onAddManuallyFabClicked()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.bindCamera(
+            lifecycleOwner = this@CardScanFragment,
+            surfaceProvider = binding.cardScanPreview.surfaceProvider,
+        )
     }
 
     override fun collectData() {
