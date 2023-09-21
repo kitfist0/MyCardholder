@@ -66,6 +66,15 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach { output ->
+            def flavorName = variant.flavorName
+            def versionCode = variant.versionCode
+            def buildType = variant.buildType.name
+            outputFileName = "my-cardholder-${flavorName}-${versionCode}-${buildType}.apk"
+        }
+    }
 }
 
 dependencies {
