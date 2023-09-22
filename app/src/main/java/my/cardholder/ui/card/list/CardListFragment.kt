@@ -65,6 +65,9 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                     }
                 )
             }
+            cardListImportCardsFab.setOnClickListener {
+                viewModel.onImportCardsFabClicked()
+            }
             cardListSearchFab.setOnClickListener {
                 val extras = listOf(cardListSearchFab).toNavExtras()
                 viewModel.onSearchFabClicked(extras)
@@ -82,12 +85,14 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
             when (state) {
                 is CardListState.Empty -> {
                     binding.cardListSearchFab.isVisible = false
+                    binding.cardListImportCardsFab.isVisible = true
                     binding.cardListEmptyListMessageText.setText(state.messageRes)
                     listAdapter.submitList(null)
                 }
                 is CardListState.Success -> {
                     binding.cardListRecyclerView.updateSpanCountIfRequired(state.spanCount)
                     binding.cardListSearchFab.isVisible = true
+                    binding.cardListImportCardsFab.isVisible = false
                     binding.cardListEmptyListMessageText.text = null
                     listAdapter.submitList(state.cardsAndCategories)
                 }

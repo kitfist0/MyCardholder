@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.*
 import my.cardholder.data.CardRepository
 import my.cardholder.data.source.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.Text
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,6 +37,10 @@ class CardListViewModel @Inject constructor(
 
     fun onCardLongClicked(cardId: Long) {
         navigate(CardListFragmentDirections.fromCardListToDeleteCard(cardId))
+    }
+
+    fun onImportCardsFabClicked() {
+        showToast(Text.Simple("Click!"))
     }
 
     fun onSearchFabClicked(extras: Navigator.Extras) {
