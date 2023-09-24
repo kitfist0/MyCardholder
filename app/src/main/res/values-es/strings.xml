@@ -39,6 +39,7 @@
     <!--region CardList-->
     <string name="card_list_label">Tarjetas</string>
     <string name="card_list_no_cards_message">Sin tarjetas escaneadas</string>
+    <string name="card_list_import_fab_title">Importar tarjetas</string>
     <!--endregion-->
 
     <!--region CardSearch-->

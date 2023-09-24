@@ -39,6 +39,7 @@
     <!--region CardList-->
     <string name="card_list_label">Карты</string>
     <string name="card_list_no_cards_message">Нет отсканированных карт</string>
+    <string name="card_list_import_fab_title">Импортировать карты</string>
     <!--endregion-->
 
     <!--region CardSearch-->

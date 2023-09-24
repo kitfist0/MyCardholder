@@ -39,7 +39,7 @@
     <!--region CardList-->
     <string name="card_list_label">Cards</string>
     <string name="card_list_no_cards_message">No scanned cards</string>
-    <string name="card_list_import_fab_title" translatable="false">Import cards</string>
+    <string name="card_list_import_fab_title">Import cards</string>
     <!--endregion-->
 
     <!--region CardSearch-->
