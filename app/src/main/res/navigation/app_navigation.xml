@@ -53,6 +53,9 @@
         <action
             android:id="@+id/from_card_list_to_delete_card"
             app:destination="@id/delete_card_dialog" />
+        <action
+            android:id="@+id/from_card_list_to_card_backup"
+            app:destination="@id/card_backup_dialog" />
     </fragment>
 
     <fragment

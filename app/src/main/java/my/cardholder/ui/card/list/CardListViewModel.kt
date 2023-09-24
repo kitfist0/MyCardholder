@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.*
 import my.cardholder.data.CardRepository
 import my.cardholder.data.source.SettingsDataStore
 import my.cardholder.ui.base.BaseViewModel
-import my.cardholder.util.Text
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,7 +39,7 @@ class CardListViewModel @Inject constructor(
     }
 
     fun onImportCardsFabClicked() {
-        showToast(Text.Simple("Click!"))
+        navigate(CardListFragmentDirections.fromCardListToCardBackup())
     }
 
     fun onSearchFabClicked(extras: Navigator.Extras) {
