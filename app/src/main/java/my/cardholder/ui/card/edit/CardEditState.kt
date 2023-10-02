@@ -5,7 +5,7 @@ import my.cardholder.data.model.SupportedFormat
 import java.io.File
 
 sealed class CardEditState {
-    object Loading : CardEditState()
+    data object Loading : CardEditState()
 
     data class Success(
         val barcodeFile: File?,

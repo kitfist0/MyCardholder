@@ -20,5 +20,5 @@ sealed class CardSearchState {
 
     data class Success(val cards: List<Card>) : CardSearchState()
 
-    object NothingFound : CardSearchState()
+    data object NothingFound : CardSearchState()
 }
