@@ -97,6 +97,10 @@
     <string name="permission_rationale_message_text">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>
     <!--endregion-->
 
+    <!--region Proposal-->
+    <string name="proposal_dialog_button_text">OK. Don\'t show again</string>
+    <!--endregion-->
+
     <!--region Settings-->
     <string name="settings_about_app_button_text">About app</string>
     <string name="settings_card_categories_button_text">Card categories</string>
