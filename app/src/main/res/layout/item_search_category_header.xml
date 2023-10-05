@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_search_category_header_chip"
-    style="@style/Widget.Material3.Chip.Suggestion.Elevated"
+    style="@style/Widget.Material3.Chip.Assist"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="4dp"
     app:chipBackgroundColor="?colorPrimaryContainer"
-    tools:text="＋" />
+    app:chipIcon="@drawable/ic_edit"
+    app:chipIconTint="?colorOnPrimaryContainer"
+    app:iconEndPadding="4dp"
+    app:iconStartPadding="4dp"
+    app:textEndPadding="0dp"
+    app:textStartPadding="0dp" />

@@ -1,7 +1,9 @@
 package my.cardholder.ui.card.search
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import my.cardholder.R
 import my.cardholder.databinding.ItemSearchCategoryBinding
 import my.cardholder.databinding.ItemSearchCategoryHeaderBinding
 
@@ -40,7 +42,8 @@ sealed class CardSearchCategoryViewHolder<T : CardSearchCategoryItem>(
         }
 
         override fun bind(item: CardSearchCategoryItem.HeaderItem) {
-            binding.itemSearchCategoryHeaderChip.text = "＋"
+            val iconDrawable = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_edit)
+            binding.itemSearchCategoryHeaderChip.chipIcon = iconDrawable
         }
     }
 }
