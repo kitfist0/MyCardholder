@@ -68,6 +68,11 @@
             app:destination="@id/card_display_fragment"
             app:popUpTo="@id/card_list_fragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/from_card_search_to_category_list"
+            app:destination="@id/category_list_fragment"
+            app:popUpTo="@id/card_list_fragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

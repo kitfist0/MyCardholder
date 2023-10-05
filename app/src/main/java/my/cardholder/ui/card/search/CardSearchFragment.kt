@@ -31,9 +31,10 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
     private val cardSearchCategoryAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardSearchCategoryAdapter(
             onCategoryClicked = { categoryName ->
-                viewModel.onCategoryNameClicked(categoryName)
+                viewModel.onCategoryItemClicked(categoryName)
             },
             onHeaderClicked = {
+                viewModel.onHeaderItemClicked()
             }
         )
     }

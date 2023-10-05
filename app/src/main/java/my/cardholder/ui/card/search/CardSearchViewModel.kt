@@ -59,7 +59,11 @@ class CardSearchViewModel @Inject constructor(
         newSearchRequestText = cardName
     }
 
-    fun onCategoryNameClicked(categoryName: String) {
+    fun onHeaderItemClicked() {
+        navigate(CardSearchFragmentDirections.fromCardSearchToCategoryList())
+    }
+
+    fun onCategoryItemClicked(categoryName: String) {
         viewModelScope.launch {
             selectedCategory = categoryRepository.getCategoryByName(categoryName)
             setDefaultState()
