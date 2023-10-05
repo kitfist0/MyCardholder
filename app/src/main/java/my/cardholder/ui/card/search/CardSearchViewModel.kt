@@ -71,13 +71,15 @@ class CardSearchViewModel @Inject constructor(
     }
 
     private suspend fun setDefaultState() {
-        val categoryItems = selectedCategory
-            ?.let { emptyList() }
-            ?: listOf(CardSearchCategoryItem.HeaderItem).plus(
-                categoryRepository.getCategoryNames().map { CardSearchCategoryItem.DefaultItem(it) }
-            )
+        val names = categoryRepository.getCategoryNames()
+        val items = if (names.isEmpty() || selectedCategory != null) {
+            emptyList()
+        } else {
+            listOf(CardSearchCategoryItem.HeaderItem)
+                .plus(names.map { CardSearchCategoryItem.DefaultItem(it) })
+        }
         _state.value = CardSearchState.Default(
-            categoryItems = categoryItems,
+            categoryItems = items,
             selectedCategoryName = selectedCategory?.name,
         )
     }
