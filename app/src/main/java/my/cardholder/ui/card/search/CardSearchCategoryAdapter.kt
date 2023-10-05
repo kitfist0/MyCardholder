@@ -4,46 +4,74 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.databinding.ItemSearchCategoryBinding
+import my.cardholder.databinding.ItemSearchCategoryHeaderBinding
 
 class CardSearchCategoryAdapter(
-    private val onItemClicked: (categoryName: String) -> Unit,
-) : ListAdapter<String, CardSearchCategoryAdapter.SearchCategoryViewHolder>(CategoryNameDiffCallback) {
+    private val onCategoryClicked: (categoryName: String) -> Unit,
+    private val onHeaderClicked: () -> Unit,
+) : ListAdapter<CardSearchCategoryItem, CardSearchCategoryViewHolder<CardSearchCategoryItem>>(
+    CategoryDiffCallback
+) {
 
     private companion object {
-        object CategoryNameDiffCallback : DiffUtil.ItemCallback<String>() {
-            override fun areItemsTheSame(oldItem: String, newItem: String) =
-                oldItem.hashCode() == newItem.hashCode()
+        const val VIEW_TYPE_CATEGORY_DEFAULT = 0
+        const val VIEW_TYPE_CATEGORY_HEADER = 1
 
-            override fun areContentsTheSame(oldItem: String, newItem: String) =
-                oldItem == newItem
-        }
-    }
+        object CategoryDiffCallback : DiffUtil.ItemCallback<CardSearchCategoryItem>() {
+            override fun areItemsTheSame(
+                oldItem: CardSearchCategoryItem,
+                newItem: CardSearchCategoryItem
+            ) = when {
+                oldItem is CardSearchCategoryItem.DefaultItem && newItem is CardSearchCategoryItem.DefaultItem ->
+                    oldItem.name == newItem.name
+                else -> true
+            }
 
-    inner class SearchCategoryViewHolder(
-        private val binding: ItemSearchCategoryBinding,
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        init {
-            itemView.setOnClickListener {
-                val categoryName = getItem(adapterPosition)
-                onItemClicked.invoke(categoryName)
+            override fun areContentsTheSame(
+                oldItem: CardSearchCategoryItem,
+                newItem: CardSearchCategoryItem
+            ) = when {
+                oldItem is CardSearchCategoryItem.DefaultItem && newItem is CardSearchCategoryItem.DefaultItem ->
+                    oldItem == newItem
+                else -> true
             }
         }
+    }
 
-        fun bind(categoryName: String) {
-            binding.itemSearchCategoryChip.text = categoryName
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is CardSearchCategoryItem.DefaultItem -> VIEW_TYPE_CATEGORY_DEFAULT
+            is CardSearchCategoryItem.HeaderItem -> VIEW_TYPE_CATEGORY_HEADER
+            else -> throw RuntimeException("Unsupported ItemViewType for obj ${getItem(position)}")
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchCategoryViewHolder {
-        return SearchCategoryViewHolder(
-            ItemSearchCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+    @Suppress("unchecked_cast")
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CardSearchCategoryViewHolder<CardSearchCategoryItem> {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            VIEW_TYPE_CATEGORY_DEFAULT -> CardSearchCategoryViewHolder.DefaultViewHolder(
+                ItemSearchCategoryBinding.inflate(inflater, parent, false),
+                onCategoryClicked,
+            )
+
+            VIEW_TYPE_CATEGORY_HEADER -> CardSearchCategoryViewHolder.HeaderViewHolder(
+                ItemSearchCategoryHeaderBinding.inflate(inflater, parent, false),
+                onHeaderClicked,
+            )
+
+            else -> throw RuntimeException("Unsupported view holder type")
+        } as CardSearchCategoryViewHolder<CardSearchCategoryItem>
     }
 
-    override fun onBindViewHolder(holder: SearchCategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: CardSearchCategoryViewHolder<CardSearchCategoryItem>,
+        position: Int
+    ) {
         holder.bind(getItem(position))
     }
 }
