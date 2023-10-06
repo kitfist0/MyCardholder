@@ -42,8 +42,18 @@ sealed class CardSearchCategoryViewHolder<T : CardSearchCategoryItem>(
         }
 
         override fun bind(item: CardSearchCategoryItem.HeaderItem) {
-            val iconDrawable = ContextCompat.getDrawable(binding.root.context, R.drawable.ic_edit)
-            binding.itemSearchCategoryHeaderChip.chipIcon = iconDrawable
+            binding.itemSearchCategoryHeaderChip.apply {
+                when (item) {
+                    CardSearchCategoryItem.HeaderItem.AddCategories -> {
+                        chipIcon = null
+                        setText(R.string.card_search_add_categories_header_text)
+                    }
+                    CardSearchCategoryItem.HeaderItem.EditCategories -> {
+                        chipIcon = ContextCompat.getDrawable(context, R.drawable.ic_edit)
+                        text = null
+                    }
+                }
+            }
         }
     }
 }

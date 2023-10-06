@@ -77,9 +77,9 @@ class CardSearchViewModel @Inject constructor(
     private suspend fun setDefaultState() {
         val names = categoryRepository.getCategoryNames()
         val items = if (names.isEmpty() || selectedCategory != null) {
-            emptyList()
+            listOf(CardSearchCategoryItem.HeaderItem.AddCategories)
         } else {
-            listOf(CardSearchCategoryItem.HeaderItem)
+            listOf(CardSearchCategoryItem.HeaderItem.EditCategories)
                 .plus(names.map { CardSearchCategoryItem.DefaultItem(it) })
         }
         _state.value = CardSearchState.Default(
