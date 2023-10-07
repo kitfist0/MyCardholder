@@ -43,6 +43,7 @@
     <!--endregion-->
 
     <!--region CardSearch-->
+    <string name="card_search_add_categories_header_text">Agregar categorías</string>
     <string name="card_search_in_all_categories_hint">Buscar en todas las categorías</string>
     <string name="card_search_label">Buscar tarjetas</string>
     <string name="card_search_nothing_found_message">Nada Encontrado</string>
