@@ -30,8 +30,11 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
 
     private val cardSearchCategoryAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardSearchCategoryAdapter(
-            onItemClicked = { categoryName ->
-                viewModel.onCategoryNameClicked(categoryName)
+            onCategoryClicked = { categoryName ->
+                viewModel.onCategoryItemClicked(categoryName)
+            },
+            onHeaderClicked = {
+                viewModel.onHeaderItemClicked()
             }
         )
     }
@@ -79,7 +82,7 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
                 is CardSearchState.Default -> {
                     binding.cardSearchTextInputLayout.editText?.hint = textToString(state.getHint())
                     binding.cardSearchNothingFoundText.isVisible = false
-                    cardSearchCategoryAdapter.submitList(state.categoryNames)
+                    cardSearchCategoryAdapter.submitList(state.categoryItems)
                     cardSearchResultAdapter.submitList(null)
                 }
                 is CardSearchState.NothingFound -> {

@@ -59,7 +59,11 @@ class CardSearchViewModel @Inject constructor(
         newSearchRequestText = cardName
     }
 
-    fun onCategoryNameClicked(categoryName: String) {
+    fun onHeaderItemClicked() {
+        navigate(CardSearchFragmentDirections.fromCardSearchToCategoryList())
+    }
+
+    fun onCategoryItemClicked(categoryName: String) {
         viewModelScope.launch {
             selectedCategory = categoryRepository.getCategoryByName(categoryName)
             setDefaultState()
@@ -71,9 +75,16 @@ class CardSearchViewModel @Inject constructor(
     }
 
     private suspend fun setDefaultState() {
-        val categoryNames = selectedCategory
-            ?.let { emptyList() }
-            ?: categoryRepository.getCategoryNames()
-        _state.value = CardSearchState.Default(categoryNames, selectedCategory?.name)
+        val names = categoryRepository.getCategoryNames()
+        val items = if (names.isEmpty() || selectedCategory != null) {
+            listOf(CardSearchCategoryItem.HeaderItem.AddCategories)
+        } else {
+            listOf(CardSearchCategoryItem.HeaderItem.EditCategories)
+                .plus(names.map { CardSearchCategoryItem.DefaultItem(it) })
+        }
+        _state.value = CardSearchState.Default(
+            categoryItems = items,
+            selectedCategoryName = selectedCategory?.name,
+        )
     }
 }

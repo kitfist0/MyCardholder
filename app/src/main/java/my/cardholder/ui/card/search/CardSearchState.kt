@@ -6,7 +6,7 @@ import my.cardholder.util.Text
 
 sealed class CardSearchState {
     data class Default(
-        val categoryNames: List<String>,
+        val categoryItems: List<CardSearchCategoryItem>,
         val selectedCategoryName: String?,
     ) : CardSearchState() {
         companion object {
