@@ -6,10 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CategoryRepository
-import my.cardholder.data.model.Category
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
@@ -24,25 +24,25 @@ class CardSearchViewModel @Inject constructor(
     }
 
     private var newSearchRequestText: String? = null
-    private var selectedCategory: Category? = null
+    private var selectedCategoryId: Long? = null
 
     private val _state = MutableStateFlow<CardSearchState>(
-        CardSearchState.Default(emptyList(), null)
+        CardSearchState.SearchInAllCategories(emptyList())
     )
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
             setDefaultState()
-            while (true) {
+            while (isActive) {
                 delay(MIN_UPDATE_INTERVAL_MILLIS)
                 newSearchRequestText?.let { name ->
                     newSearchRequestText = null
                     if (name.isBlank()) {
                         setDefaultState()
                     } else {
-                        val cards = selectedCategory
-                            ?.let { category -> cardRepository.searchCardsBy(name, category.id) }
+                        val cards = selectedCategoryId
+                            ?.let { cardRepository.searchCardsBy(name, it) }
                             ?: cardRepository.searchCardsBy(name)
                         _state.value = if (cards.isNotEmpty()) {
                             CardSearchState.Success(cards)
@@ -65,8 +65,14 @@ class CardSearchViewModel @Inject constructor(
 
     fun onCategoryItemClicked(categoryName: String) {
         viewModelScope.launch {
-            selectedCategory = categoryRepository.getCategoryByName(categoryName)
-            setDefaultState()
+            val categoryAndCards = categoryRepository.getCategoryAndCards(categoryName)
+            selectedCategoryId = categoryAndCards?.category?.id
+            categoryAndCards?.cards?.let { cards ->
+                _state.value = CardSearchState.SearchInCategory(
+                    categoryName = categoryName,
+                    categoryCards = cards,
+                )
+            }
         }
     }
 
@@ -75,16 +81,14 @@ class CardSearchViewModel @Inject constructor(
     }
 
     private suspend fun setDefaultState() {
-        val names = categoryRepository.getCategoryNames()
-        val items = if (names.isEmpty() || selectedCategory != null) {
+        selectedCategoryId = null
+        val categoryNames = categoryRepository.getCategoryNames()
+        val categoryItems = if (categoryNames.isEmpty()) {
             listOf(CardSearchCategoryItem.HeaderItem.AddCategories)
         } else {
             listOf(CardSearchCategoryItem.HeaderItem.EditCategories)
-                .plus(names.map { CardSearchCategoryItem.DefaultItem(it) })
+                .plus(categoryNames.map { CardSearchCategoryItem.DefaultItem(it) })
         }
-        _state.value = CardSearchState.Default(
-            categoryItems = items,
-            selectedCategoryName = selectedCategory?.name,
-        )
+        _state.value = CardSearchState.SearchInAllCategories(categoryItems)
     }
 }

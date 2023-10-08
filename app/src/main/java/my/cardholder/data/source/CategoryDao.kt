@@ -15,8 +15,8 @@ interface CategoryDao {
     fun getCategoriesAndCards(): Flow<List<CategoryAndCards>>
 
     @Transaction
-    @Query("SELECT * FROM categories WHERE id = :id")
-    fun getCategoryAndCards(id: Long): Flow<CategoryAndCards?>
+    @Query("SELECT * FROM categories WHERE name = :name LIMIT 1")
+    suspend fun getCategoryAndCards(name: String): CategoryAndCards?
 
     @Query("SELECT name FROM categories")
     suspend fun getCategoryNames(): List<String>

@@ -13,12 +13,11 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.R
 import my.cardholder.databinding.FragmentCardSearchBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.ui.card.search.CardSearchState.Default.Companion.getHint
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.showSoftInput
-import my.cardholder.util.ext.textToString
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -79,11 +78,19 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
-                is CardSearchState.Default -> {
-                    binding.cardSearchTextInputLayout.editText?.hint = textToString(state.getHint())
+                is CardSearchState.SearchInAllCategories -> {
+                    binding.cardSearchTextInputLayout.editText?.hint =
+                        getString(R.string.card_search_in_all_categories_hint)
                     binding.cardSearchNothingFoundText.isVisible = false
-                    cardSearchCategoryAdapter.submitList(state.categoryItems)
+                    cardSearchCategoryAdapter.submitList(state.categories)
                     cardSearchResultAdapter.submitList(null)
+                }
+                is CardSearchState.SearchInCategory -> {
+                    binding.cardSearchTextInputLayout.editText?.hint =
+                        getString(R.string.card_search_within_category_hint).format(state.categoryName)
+                    binding.cardSearchNothingFoundText.isVisible = false
+                    cardSearchCategoryAdapter.submitList(null)
+                    cardSearchResultAdapter.submitList(state.categoryCards)
                 }
                 is CardSearchState.NothingFound -> {
                     binding.cardSearchNothingFoundText.isVisible = true
