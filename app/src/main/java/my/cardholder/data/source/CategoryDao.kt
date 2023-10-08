@@ -10,12 +10,13 @@ import my.cardholder.data.model.CategoryAndCards
 
 @Dao
 interface CategoryDao {
-    @Query("SELECT * FROM categories")
-    fun getCategories(): Flow<List<Category>>
-
     @Transaction
     @Query("SELECT * FROM categories")
     fun getCategoriesAndCards(): Flow<List<CategoryAndCards>>
+
+    @Transaction
+    @Query("SELECT * FROM categories WHERE id = :id")
+    fun getCategoryAndCards(id: Long): Flow<CategoryAndCards?>
 
     @Query("SELECT name FROM categories")
     suspend fun getCategoryNames(): List<String>

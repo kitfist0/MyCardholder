@@ -15,6 +15,10 @@ class CategoryRepository @Inject constructor(
     val categoriesAndCards: Flow<List<CategoryAndCards>>
         get() = categoryDao.getCategoriesAndCards()
 
+    fun getCategoryAndCards(id: Long): Flow<CategoryAndCards?> {
+        return categoryDao.getCategoryAndCards(id)
+    }
+
     suspend fun getCategoryByName(categoryName: String): Category? {
         return categoryDao.getCategoryByName(categoryName)
     }
