@@ -3,10 +3,10 @@ package my.cardholder.ui.card.search
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CategoryRepository
@@ -20,10 +20,10 @@ class CardSearchViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private companion object {
-        const val MIN_UPDATE_INTERVAL_MILLIS = 250L
+        const val MIN_UPDATE_INTERVAL_MILLIS = 200L
     }
 
-    private var newSearchRequestText: String? = null
+    private var searchJob: Job? = null
     private var selectedCategoryId: Long? = null
 
     private val _state = MutableStateFlow<CardSearchState>(
@@ -34,29 +34,26 @@ class CardSearchViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             setDefaultState()
-            while (isActive) {
-                delay(MIN_UPDATE_INTERVAL_MILLIS)
-                newSearchRequestText?.let { name ->
-                    newSearchRequestText = null
-                    if (name.isBlank()) {
-                        setDefaultState()
-                    } else {
-                        val cards = selectedCategoryId
-                            ?.let { cardRepository.searchCardsBy(name, it) }
-                            ?: cardRepository.searchCardsBy(name)
-                        _state.value = if (cards.isNotEmpty()) {
-                            CardSearchState.Success(cards)
-                        } else {
-                            CardSearchState.NothingFound
-                        }
-                    }
-                }
-            }
         }
     }
 
     fun onSearchTextChanged(cardName: String?) {
-        newSearchRequestText = cardName
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(MIN_UPDATE_INTERVAL_MILLIS)
+            if (cardName.isNullOrBlank()) {
+                setDefaultState()
+            } else {
+                val cards = selectedCategoryId
+                    ?.let { cardRepository.searchCardsBy(cardName, it) }
+                    ?: cardRepository.searchCardsBy(cardName)
+                _state.value = if (cards.isNotEmpty()) {
+                    CardSearchState.Success(cards)
+                } else {
+                    CardSearchState.NothingFound
+                }
+            }
+        }
     }
 
     fun onHeaderItemClicked() {
