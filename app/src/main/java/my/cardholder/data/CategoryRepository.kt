@@ -19,16 +19,12 @@ class CategoryRepository @Inject constructor(
         return categoryDao.getCategoryAndCards(categoryName)
     }
 
-    suspend fun getCategoryByName(categoryName: String): Category? {
-        return categoryDao.getCategoryByName(categoryName)
-    }
-
     suspend fun getCategoryNameById(categoryId: Long): String? {
         return categoryDao.getCategoryById(categoryId)?.name
     }
 
     suspend fun getCategoryIdByName(categoryName: String): Long? {
-        return getCategoryByName(categoryName)?.id
+        return categoryDao.getCategoryByName(categoryName)?.id
     }
 
     suspend fun getCategoryNames(): List<String> {
