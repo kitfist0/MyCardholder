@@ -15,7 +15,7 @@ sealed class BaseEvent {
         val extras: Navigator.Extras? = null,
     ) : BaseEvent()
 
-    object NavigateUp : BaseEvent()
+    data object NavigateUp : BaseEvent()
 
     data class SnackMessage(
         val text: Text,
