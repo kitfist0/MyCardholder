@@ -2,6 +2,10 @@ package my.cardholder.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import dagger.Module
@@ -55,5 +59,13 @@ object DataModule {
     @Singleton
     fun provideCoffeeDao(database: AppDatabase): CoffeeDao {
         return database.coffeeDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsDataStore(context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile("prefs") }
+        )
     }
 }

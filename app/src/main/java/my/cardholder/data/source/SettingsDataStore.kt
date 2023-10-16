@@ -1,27 +1,21 @@
 package my.cardholder.data.source
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("prefs")
-
 @Singleton
-class SettingsDataStore @Inject constructor(context: Context) {
+class SettingsDataStore @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     private companion object {
         val MULTI_COLUMN_LIST_KEY = booleanPreferencesKey("multi_column_list")
         val NIGHT_MODE_KEY = booleanPreferencesKey("night_mode")
     }
-
-    private val dataStore = context.dataStore
 
     suspend fun setMultiColumnListEnabled(b: Boolean) = dataStore.edit { preferences ->
         preferences[MULTI_COLUMN_LIST_KEY] = b
