@@ -5,21 +5,21 @@ import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import my.cardholder.data.CardRepository
-import my.cardholder.data.source.SettingsDataStore
+import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CardListViewModel @Inject constructor(
     cardRepository: CardRepository,
-    settingsDataStore: SettingsDataStore,
+    settingsRepository: SettingsRepository,
 ): BaseViewModel() {
 
     private val _state = MutableStateFlow<CardListState>(CardListState.Empty())
     val state = _state.asStateFlow()
 
     init {
-        settingsDataStore.multiColumnListEnabled
+        settingsRepository.multiColumnListEnabled
             .combine(cardRepository.cardsAndCategories) { isMultiColumn, cardsAndCategories ->
                 _state.value = if (cardsAndCategories.isNotEmpty()) {
                     CardListState.Success(cardsAndCategories, if (isMultiColumn) 2 else 1)

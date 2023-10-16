@@ -4,13 +4,13 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import my.cardholder.data.source.SettingsDataStore
+import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsDataStore: SettingsDataStore,
+    private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(
@@ -22,25 +22,25 @@ class SettingsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        settingsDataStore.nightModeEnabled
+        settingsRepository.nightModeEnabled
             .onEach { _state.value = _state.value.copy(nightModeEnabled = it) }
             .launchIn(viewModelScope)
-        settingsDataStore.multiColumnListEnabled
+        settingsRepository.multiColumnListEnabled
             .onEach { _state.value = _state.value.copy(multiColumnListEnabled = it) }
             .launchIn(viewModelScope)
     }
 
     fun onColorThemeButtonClicked() {
         viewModelScope.launch {
-            val isEnabled = settingsDataStore.nightModeEnabled.first()
-            settingsDataStore.setNightModeEnabled(!isEnabled)
+            val isEnabled = settingsRepository.nightModeEnabled.first()
+            settingsRepository.setNightModeEnabled(!isEnabled)
         }
     }
 
     fun onCardListViewButtonClicked() {
         viewModelScope.launch {
-            val isEnabled = settingsDataStore.multiColumnListEnabled.first()
-            settingsDataStore.setMultiColumnListEnabled(!isEnabled)
+            val isEnabled = settingsRepository.multiColumnListEnabled.first()
+            settingsRepository.setMultiColumnListEnabled(!isEnabled)
         }
     }
 

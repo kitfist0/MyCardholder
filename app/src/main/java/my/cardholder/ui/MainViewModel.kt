@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
-import my.cardholder.data.source.SettingsDataStore
+import my.cardholder.data.SettingsRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    settingsDataStore: SettingsDataStore,
+    settingsRepository: SettingsRepository,
 ) : ViewModel() {
-    val nightModeEnabled = settingsDataStore.nightModeEnabled.stateIn(
+    val nightModeEnabled = settingsRepository.nightModeEnabled.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
         initialValue = false

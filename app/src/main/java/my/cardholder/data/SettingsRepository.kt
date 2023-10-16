@@ -1,4 +1,4 @@
-package my.cardholder.data.source
+package my.cardholder.data
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SettingsDataStore @Inject constructor(private val dataStore: DataStore<Preferences>) {
+class SettingsRepository @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     private companion object {
         val MULTI_COLUMN_LIST_KEY = booleanPreferencesKey("multi_column_list")
