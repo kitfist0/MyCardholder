@@ -26,7 +26,6 @@ An open source cardholder app to store you card details in one place.
       navigation
     * [Room](https://developer.android.com/jetpack/androidx/releases/room) - store offline cache
 * [Coil](https://github.com/coil-kt/coil) - image loading library
-* [Lottie](https://airbnb.io/lottie) - animation library
 * [ZXing](https://mvnrepository.com/artifact/com.google.zxing/core) - barcode encoding/decoding
   library
 

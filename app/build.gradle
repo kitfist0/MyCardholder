@@ -116,8 +116,6 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // Kotlin CSV
     implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.9.2'
-    // Lottie
-    implementation 'com.airbnb.android:lottie:6.1.0'
     // Ml Kit
     implementation 'com.google.mlkit:barcode-scanning:17.2.0'
     // Navigation
