@@ -6,17 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.permission.PermissionFragment">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/permission_animation_view"
+    <ImageView
+        android:id="@+id/permission_image"
         android:layout_width="256dp"
         android:layout_height="256dp"
+        android:contentDescription="@string/permission_label"
+        android:src="@drawable/avd_card_scan"
         app:layout_constraintBottom_toTopOf="@id/permission_guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/card_scan_animation" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/permission_guideline_horizontal"

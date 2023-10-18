@@ -1,6 +1,9 @@
 package my.cardholder.ui.permission
 
 import android.Manifest
+import android.graphics.drawable.Animatable2
+import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
@@ -47,6 +50,16 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
             permissionGrantFab.setOnClickListener {
                 viewModel.onGrantFabClicked()
             }
+            (permissionImage.drawable as AnimatedVectorDrawable).let { anim ->
+                anim.start()
+                anim.registerAnimationCallback(
+                    object : Animatable2.AnimationCallback() {
+                        override fun onAnimationEnd(drawable: Drawable?) {
+                            anim.start()
+                        }
+                    }
+                )
+            }
         }
     }
 
@@ -54,12 +67,12 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is PermissionState.Loading -> with(binding) {
-                    permissionAnimationView.isVisible = false
+                    permissionImage.isVisible = false
                     permissionRationaleText.text = null
                     permissionGrantFab.isVisible = false
                 }
                 is PermissionState.PermissionRequired -> with(binding) {
-                    permissionAnimationView.isVisible = true
+                    permissionImage.isVisible = true
                     permissionRationaleText.text = getString(state.rationaleTextStringRes)
                     permissionGrantFab.isVisible = true
                     if (state.launchCameraPermissionRequest) {
