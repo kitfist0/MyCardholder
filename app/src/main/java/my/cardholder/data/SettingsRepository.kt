@@ -6,11 +6,15 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import my.cardholder.util.NightModeChecker
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SettingsRepository @Inject constructor(private val dataStore: DataStore<Preferences>) {
+class SettingsRepository @Inject constructor(
+    private val dataStore: DataStore<Preferences>,
+    private val nightModeChecker: NightModeChecker,
+) {
 
     private companion object {
         val MULTI_COLUMN_LIST_KEY = booleanPreferencesKey("multi_column_list")
@@ -30,6 +34,6 @@ class SettingsRepository @Inject constructor(private val dataStore: DataStore<Pr
     }
 
     val nightModeEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[NIGHT_MODE_KEY] ?: false
+        preferences[NIGHT_MODE_KEY] ?: nightModeChecker.isEnabled
     }
 }
