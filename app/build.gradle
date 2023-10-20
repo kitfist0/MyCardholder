@@ -128,6 +128,8 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
+    // Splash
+    implementation 'androidx.core:core-splashscreen:1.0.1'
     // Zxing
     implementation 'com.google.zxing:core:3.5.0'
 

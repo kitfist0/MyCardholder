@@ -16,4 +16,11 @@
         <item name="android:navigationBarColor">@color/cardholder_color_navigation_bar_day</item>
     </style>
 
+    <style name="Theme.MyCardholder.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">?android:windowBackground</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@drawable/avd_splash</item>
+        <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="s">900</item>
+        <item name="postSplashScreenTheme">@style/Theme.MyCardholder</item>
+    </style>
+
 </resources>
