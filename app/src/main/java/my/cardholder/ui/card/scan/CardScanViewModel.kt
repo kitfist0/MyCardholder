@@ -13,6 +13,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import my.cardholder.util.BarcodeAnalyzer
@@ -21,20 +23,23 @@ import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.CameraPermissionHelper
 import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltViewModel
 class CardScanViewModel @Inject constructor(
+    barcodeAnalyzer: BarcodeAnalyzer,
     cameraPermissionHelper: CameraPermissionHelper,
     private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     private val cardRepository: CardRepository,
+    private val imageAnalysis: ImageAnalysis,
 ) : BaseViewModel() {
 
     private companion object {
         const val EXPLANATION_DURATION_MILLIS = 5000L
     }
+
+    private var cameraProvider: ProcessCameraProvider? = null
 
     private var prevCardContent: String? = null
     private var prevSupportedFormat: SupportedFormat? = null
@@ -49,6 +54,10 @@ class CardScanViewModel @Inject constructor(
             delay(EXPLANATION_DURATION_MILLIS)
             _state.update { it.copy(withExplanation = false) }
         }
+        barcodeAnalyzer.barcode
+            .onEach { onBarcodeResult(it) }
+            .launchIn(viewModelScope)
+
         if (!cameraPermissionHelper.isPermissionGranted()) {
             navigate(CardScanFragmentDirections.fromCardScanToPermission())
         }
@@ -66,33 +75,27 @@ class CardScanViewModel @Inject constructor(
         surfaceProvider: Preview.SurfaceProvider,
     ) {
         viewModelScope.launch {
-            val cameraProvider = cameraProviderFuture.await()
+            cameraProvider = cameraProviderFuture.await()
             val cameraSelector = CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build()
-            val preview = Preview.Builder()
-                .build()
+            val preview = Preview.Builder().build()
             preview.setSurfaceProvider(surfaceProvider)
-            val imageAnalysis = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build()
-            imageAnalysis.setAnalyzer(
-                Executors.newSingleThreadExecutor(),
-                BarcodeAnalyzer { barcode ->
-                    barcode.getSupportedFormat()?.let { supportedFormat ->
-                        mainExecutor.execute {
-                            imageAnalysis.clearAnalyzer()
-                            cameraProvider.unbindAll()
-                            insertCardAndNavigateToEditor(
-                                content = barcode.displayValue.toString(),
-                                supportedFormat = supportedFormat,
-                            )
-                        }
-                    }
-                }
-            )
-            cameraProvider.unbindAll()
-            cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
+            cameraProvider?.unbindAll()
+            cameraProvider?.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
+        }
+    }
+
+    private fun onBarcodeResult(barcode: Barcode) {
+        barcode.getSupportedFormat()?.let { supportedFormat ->
+            mainExecutor.execute {
+                imageAnalysis.clearAnalyzer()
+                cameraProvider?.unbindAll()
+                insertCardAndNavigateToEditor(
+                    content = barcode.displayValue.toString(),
+                    supportedFormat = supportedFormat,
+                )
+            }
         }
     }
 
