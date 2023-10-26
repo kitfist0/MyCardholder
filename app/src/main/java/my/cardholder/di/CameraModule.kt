@@ -5,7 +5,6 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.google.common.util.concurrent.ListenableFuture
-import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
@@ -34,16 +33,11 @@ object CameraModule {
 
     @Provides
     @Singleton
-    fun provideBarcodeScanner(): BarcodeScanner {
+    fun provideCameraBarcodeAnalyzer(): CameraBarcodeAnalyzer {
         val options = BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
             .build()
-        return BarcodeScanning.getClient(options)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCameraBarcodeAnalyzer(barcodeScanner: BarcodeScanner): CameraBarcodeAnalyzer {
+        val barcodeScanner = BarcodeScanning.getClient(options)
         return CameraBarcodeAnalyzer(barcodeScanner)
     }
 
