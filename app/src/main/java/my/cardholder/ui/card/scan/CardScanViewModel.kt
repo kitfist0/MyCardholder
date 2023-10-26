@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import my.cardholder.util.BarcodeAnalyzer
+import my.cardholder.util.CameraBarcodeAnalyzer
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CardScanViewModel @Inject constructor(
-    barcodeAnalyzer: BarcodeAnalyzer,
+    cameraBarcodeAnalyzer: CameraBarcodeAnalyzer,
     cameraPermissionHelper: CameraPermissionHelper,
     private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
@@ -54,7 +54,7 @@ class CardScanViewModel @Inject constructor(
             delay(EXPLANATION_DURATION_MILLIS)
             _state.update { it.copy(withExplanation = false) }
         }
-        barcodeAnalyzer.barcode
+        cameraBarcodeAnalyzer.barcode
             .onEach { onBarcodeResult(it) }
             .launchIn(viewModelScope)
 

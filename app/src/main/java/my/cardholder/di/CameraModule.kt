@@ -13,7 +13,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import my.cardholder.util.BarcodeAnalyzer
+import my.cardholder.util.CameraBarcodeAnalyzer
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Singleton
@@ -43,16 +43,16 @@ object CameraModule {
 
     @Provides
     @Singleton
-    fun provideBarcodeAnalyzer(barcodeScanner: BarcodeScanner): BarcodeAnalyzer {
-        return BarcodeAnalyzer(barcodeScanner)
+    fun provideCameraBarcodeAnalyzer(barcodeScanner: BarcodeScanner): CameraBarcodeAnalyzer {
+        return CameraBarcodeAnalyzer(barcodeScanner)
     }
 
     @Provides
-    fun provideImageAnalysis(barcodeAnalyzer: BarcodeAnalyzer): ImageAnalysis {
+    fun provideImageAnalysis(cameraBarcodeAnalyzer: CameraBarcodeAnalyzer): ImageAnalysis {
         val imageAnalysis = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
-        imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(), barcodeAnalyzer)
+        imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(), cameraBarcodeAnalyzer)
         return imageAnalysis
     }
 }

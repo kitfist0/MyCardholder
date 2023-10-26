@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
-class BarcodeAnalyzer(
+class CameraBarcodeAnalyzer(
     private val barcodeScanner: BarcodeScanner,
 ) : ImageAnalysis.Analyzer {
 
