@@ -13,6 +13,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.util.CameraBarcodeAnalyzer
+import my.cardholder.util.FileBarcodeAnalyzer
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Singleton
@@ -39,6 +40,16 @@ object CameraModule {
             .build()
         val barcodeScanner = BarcodeScanning.getClient(options)
         return CameraBarcodeAnalyzer(barcodeScanner)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFileBarcodeAnalyzer(context: Context): FileBarcodeAnalyzer {
+        val options = BarcodeScannerOptions.Builder()
+            .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
+            .build()
+        val barcodeScanner = BarcodeScanning.getClient(options)
+        return FileBarcodeAnalyzer(context, barcodeScanner)
     }
 
     @Provides

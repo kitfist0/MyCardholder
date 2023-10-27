@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.filterNotNull
 import java.io.File
 
 class FileBarcodeAnalyzer(
-    private val barcodeScanner: BarcodeScanner,
     private val context: Context,
+    private val barcodeScanner: BarcodeScanner,
 ) {
 
     private val _barcode = MutableStateFlow<Barcode?>(null)
