@@ -8,7 +8,6 @@ import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
-import java.io.File
 
 class FileBarcodeAnalyzer(
     private val context: Context,
@@ -18,8 +17,8 @@ class FileBarcodeAnalyzer(
     private val _barcode = MutableStateFlow<Barcode?>(null)
     val barcode = _barcode.asStateFlow().filterNotNull()
 
-    fun analyze(file: File) {
-        val inputImage = InputImage.fromFilePath(context, Uri.fromFile(file))
+    fun analyze(uri: Uri) {
+        val inputImage = InputImage.fromFilePath(context, uri)
         barcodeScanner.process(inputImage)
             .addOnSuccessListener { barcodes ->
                 if (barcodes.isNotEmpty()) {

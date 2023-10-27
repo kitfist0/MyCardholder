@@ -1,5 +1,6 @@
 package my.cardholder.ui.card.scan
 
+import android.net.Uri
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -22,6 +23,7 @@ import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.CameraPermissionHelper
+import my.cardholder.util.FileBarcodeAnalyzer
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -32,6 +34,7 @@ class CardScanViewModel @Inject constructor(
     private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     private val cardRepository: CardRepository,
+    private val fileBarcodeAnalyzer: FileBarcodeAnalyzer,
     private val imageAnalysis: ImageAnalysis,
 ) : BaseViewModel() {
 
@@ -45,7 +48,10 @@ class CardScanViewModel @Inject constructor(
     private var prevSupportedFormat: SupportedFormat? = null
 
     private val _state = MutableStateFlow(
-        CardScanState(withExplanation = true)
+        CardScanState(
+            withExplanation = true,
+            launchFileSelectionRequest = false,
+        )
     )
     val state = _state.asStateFlow()
 
@@ -54,7 +60,12 @@ class CardScanViewModel @Inject constructor(
             delay(EXPLANATION_DURATION_MILLIS)
             _state.update { it.copy(withExplanation = false) }
         }
+
         cameraBarcodeAnalyzer.barcode
+            .onEach { onBarcodeResult(it) }
+            .launchIn(viewModelScope)
+
+        fileBarcodeAnalyzer.barcode
             .onEach { onBarcodeResult(it) }
             .launchIn(viewModelScope)
 
@@ -63,11 +74,16 @@ class CardScanViewModel @Inject constructor(
         }
     }
 
-    fun onAddManuallyFabClicked() {
-        viewModelScope.launch {
-            val cardId = cardRepository.insertNewCard()
-            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-        }
+    fun onFileSelectionRequestResult(uri: Uri?) {
+        uri?.let { fileBarcodeAnalyzer.analyze(it) }
+    }
+
+    fun onFileSelectionRequestLaunched() {
+        _state.update { it.copy(launchFileSelectionRequest = false) }
+    }
+
+    fun onSelectFileFabClicked() {
+        _state.update { it.copy(launchFileSelectionRequest = true) }
     }
 
     fun bindCamera(

@@ -1,5 +1,8 @@
 package my.cardholder.ui.card.scan
 
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,11 +15,15 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     FragmentCardScanBinding::inflate
 ) {
 
+    private val fileSelectionRequest = registerForActivityResult(PickVisualMedia()) { uri ->
+        viewModel.onFileSelectionRequestResult(uri)
+    }
+
     override val viewModel: CardScanViewModel by viewModels()
 
     override fun initViews() {
-        binding.cardScanAddManuallyFab.setOnClickListener {
-            viewModel.onAddManuallyFabClicked()
+        binding.cardScanSelectFileFab.setOnClickListener {
+            viewModel.onSelectFileFabClicked()
         }
     }
 
@@ -31,6 +38,10 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             binding.cardScanExplanationMessageText.isVisible = state.withExplanation
+            if (state.launchFileSelectionRequest) {
+                fileSelectionRequest.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+                viewModel.onFileSelectionRequestLaunched()
+            }
         }
     }
 }
