@@ -1,4 +1,4 @@
-package my.cardholder.util
+package my.cardholder.util.analyzer
 
 import android.content.Context
 import android.net.Uri
@@ -7,7 +7,6 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 
 class FileBarcodeAnalyzer(
     private val context: Context,
@@ -15,15 +14,13 @@ class FileBarcodeAnalyzer(
 ) {
 
     private val _barcode = MutableStateFlow<Barcode?>(null)
-    val barcode = _barcode.asStateFlow().filterNotNull()
+    val barcode = _barcode.asStateFlow()
 
     fun analyze(uri: Uri) {
         val inputImage = InputImage.fromFilePath(context, uri)
         barcodeScanner.process(inputImage)
             .addOnSuccessListener { barcodes ->
-                if (barcodes.isNotEmpty()) {
-                    _barcode.value = barcodes.first()
-                }
+                _barcode.value = barcodes.firstOrNull()
             }
     }
 }

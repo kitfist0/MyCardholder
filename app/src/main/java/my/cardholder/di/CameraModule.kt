@@ -12,8 +12,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import my.cardholder.util.CameraBarcodeAnalyzer
-import my.cardholder.util.FileBarcodeAnalyzer
+import my.cardholder.util.analyzer.CameraBarcodeAnalyzer
+import my.cardholder.util.analyzer.FileBarcodeAnalyzer
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Singleton

@@ -18,12 +18,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import my.cardholder.util.CameraBarcodeAnalyzer
+import my.cardholder.util.analyzer.CameraBarcodeAnalyzer
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.CameraPermissionHelper
-import my.cardholder.util.FileBarcodeAnalyzer
+import my.cardholder.util.analyzer.FileBarcodeAnalyzer
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -102,8 +102,8 @@ class CardScanViewModel @Inject constructor(
         }
     }
 
-    private fun onBarcodeResult(barcode: Barcode) {
-        barcode.getSupportedFormat()?.let { supportedFormat ->
+    private fun onBarcodeResult(barcode: Barcode?) {
+        barcode?.getSupportedFormat()?.let { supportedFormat ->
             mainExecutor.execute {
                 imageAnalysis.clearAnalyzer()
                 cameraProvider?.unbindAll()
