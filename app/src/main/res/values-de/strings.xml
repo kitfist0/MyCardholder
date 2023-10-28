@@ -54,6 +54,7 @@
     <string name="card_scan_add_manually_fab_title">Manuell hinzufügen</string>
     <string name="card_scan_explanation_message">Scannen Sie einen Barcode, um automatisch eine neue Karte hinzuzufügen</string>
     <string name="card_scan_label">Kartenscan</string>
+    <string name="card_scan_select_file_fab_title">Datei aussuchen</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->

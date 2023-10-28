@@ -54,6 +54,7 @@
     <string name="card_scan_add_manually_fab_title">Добавить вручную</string>
     <string name="card_scan_explanation_message">Отсканируйте штрих-код, чтобы автоматически добавить новую карту</string>
     <string name="card_scan_label">Сканирование</string>
+    <string name="card_scan_select_file_fab_title">Выбрать файл</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->
