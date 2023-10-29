@@ -16,25 +16,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import my.cardholder.util.analyzer.CameraBarcodeAnalyzer
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.util.CameraPermissionHelper
-import my.cardholder.util.analyzer.FileBarcodeAnalyzer
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
 @HiltViewModel
 class CardScanViewModel @Inject constructor(
-    cameraBarcodeAnalyzer: CameraBarcodeAnalyzer,
     cameraPermissionHelper: CameraPermissionHelper,
+    private val barcodeAnalyzer: BarcodeAnalyzer,
     private val mainExecutor: Executor,
     private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     private val cardRepository: CardRepository,
-    private val fileBarcodeAnalyzer: FileBarcodeAnalyzer,
     private val imageAnalysis: ImageAnalysis,
 ) : BaseViewModel() {
 
@@ -60,12 +59,7 @@ class CardScanViewModel @Inject constructor(
             delay(EXPLANATION_DURATION_MILLIS)
             _state.update { it.copy(withExplanation = false) }
         }
-
-        cameraBarcodeAnalyzer.barcode
-            .onEach { onBarcodeResult(it) }
-            .launchIn(viewModelScope)
-
-        fileBarcodeAnalyzer.barcode
+        barcodeAnalyzer.barcodeChannel.receiveAsFlow()
             .onEach { onBarcodeResult(it) }
             .launchIn(viewModelScope)
 
@@ -75,7 +69,7 @@ class CardScanViewModel @Inject constructor(
     }
 
     fun onFileSelectionRequestResult(uri: Uri?) {
-        uri?.let { fileBarcodeAnalyzer.analyze(it) }
+        uri?.let { barcodeAnalyzer.analyze(it) }
     }
 
     fun onFileSelectionRequestLaunched() {
