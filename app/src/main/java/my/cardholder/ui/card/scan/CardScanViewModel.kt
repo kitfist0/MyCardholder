@@ -1,14 +1,7 @@
 package my.cardholder.ui.card.scan
 
 import android.net.Uri
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.concurrent.futures.await
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
-import com.google.common.util.concurrent.ListenableFuture
 import com.google.mlkit.vision.barcode.common.Barcode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -24,24 +17,18 @@ import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.util.CameraPermissionHelper
-import java.util.concurrent.Executor
 import javax.inject.Inject
 
 @HiltViewModel
 class CardScanViewModel @Inject constructor(
     cameraPermissionHelper: CameraPermissionHelper,
     private val barcodeAnalyzer: BarcodeAnalyzer,
-    private val mainExecutor: Executor,
-    private val cameraProviderFuture: ListenableFuture<ProcessCameraProvider>,
     private val cardRepository: CardRepository,
-    private val imageAnalysis: ImageAnalysis,
 ) : BaseViewModel() {
 
     private companion object {
         const val EXPLANATION_DURATION_MILLIS = 5000L
     }
-
-    private var cameraProvider: ProcessCameraProvider? = null
 
     private var prevCardContent: String? = null
     private var prevSupportedFormat: SupportedFormat? = null
@@ -80,32 +67,12 @@ class CardScanViewModel @Inject constructor(
         _state.update { it.copy(launchFileSelectionRequest = true) }
     }
 
-    fun bindCamera(
-        lifecycleOwner: LifecycleOwner,
-        surfaceProvider: Preview.SurfaceProvider,
-    ) {
-        viewModelScope.launch {
-            cameraProvider = cameraProviderFuture.await()
-            val cameraSelector = CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                .build()
-            val preview = Preview.Builder().build()
-            preview.setSurfaceProvider(surfaceProvider)
-            cameraProvider?.unbindAll()
-            cameraProvider?.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageAnalysis)
-        }
-    }
-
     private fun onBarcodeResult(barcode: Barcode?) {
         barcode?.getSupportedFormat()?.let { supportedFormat ->
-            mainExecutor.execute {
-                imageAnalysis.clearAnalyzer()
-                cameraProvider?.unbindAll()
-                insertCardAndNavigateToEditor(
-                    content = barcode.displayValue.toString(),
-                    supportedFormat = supportedFormat,
-                )
-            }
+            insertCardAndNavigateToEditor(
+                content = barcode.displayValue.toString(),
+                supportedFormat = supportedFormat,
+            )
         }
     }
 
