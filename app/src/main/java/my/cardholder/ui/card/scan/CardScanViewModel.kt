@@ -17,6 +17,8 @@ import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.util.CameraPermissionHelper
+import my.cardholder.util.ext.getContentString
+import my.cardholder.util.ext.getSupportedFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,7 +72,7 @@ class CardScanViewModel @Inject constructor(
     private fun onBarcodeResult(barcode: Barcode?) {
         barcode?.getSupportedFormat()?.let { supportedFormat ->
             insertCardAndNavigateToEditor(
-                content = barcode.displayValue.toString(),
+                content = barcode.getContentString(),
                 supportedFormat = supportedFormat,
             )
         }
@@ -85,25 +87,6 @@ class CardScanViewModel @Inject constructor(
         viewModelScope.launch {
             val cardId = cardRepository.insertNewCard(content = content, format = supportedFormat)
             navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-        }
-    }
-
-    private fun Barcode.getSupportedFormat(): SupportedFormat? {
-        return when (format) {
-            Barcode.FORMAT_AZTEC -> SupportedFormat.AZTEC
-            Barcode.FORMAT_CODABAR -> SupportedFormat.CODABAR
-            Barcode.FORMAT_CODE_39 -> SupportedFormat.CODE_39
-            Barcode.FORMAT_CODE_93 -> SupportedFormat.CODE_93
-            Barcode.FORMAT_CODE_128 -> SupportedFormat.CODE_128
-            Barcode.FORMAT_DATA_MATRIX -> SupportedFormat.DATA_MATRIX
-            Barcode.FORMAT_EAN_8 -> SupportedFormat.EAN_8
-            Barcode.FORMAT_EAN_13 -> SupportedFormat.EAN_13
-            Barcode.FORMAT_ITF -> SupportedFormat.ITF
-            Barcode.FORMAT_PDF417 -> SupportedFormat.PDF_417
-            Barcode.FORMAT_QR_CODE -> SupportedFormat.QR_CODE
-            Barcode.FORMAT_UPC_A -> SupportedFormat.UPC_A
-            Barcode.FORMAT_UPC_E -> SupportedFormat.UPC_E
-            else -> null
         }
     }
 }
