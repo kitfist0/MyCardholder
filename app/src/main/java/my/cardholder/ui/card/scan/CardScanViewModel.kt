@@ -2,7 +2,6 @@ package my.cardholder.ui.card.scan
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.google.mlkit.vision.barcode.common.Barcode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,7 +48,16 @@ class CardScanViewModel @Inject constructor(
             _state.update { it.copy(withExplanation = false) }
         }
         barcodeAnalyzer.barcodeChannel.receiveAsFlow()
-            .onEach { onBarcodeResult(it) }
+            .onEach { barcode ->
+                barcode?.getSupportedFormat()?.let { supportedFormat ->
+                    insertNewCard(
+                        content = barcode.getContentString(),
+                        supportedFormat = supportedFormat,
+                    )?.let { cardId ->
+                        navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+                    }
+                }
+            }
             .launchIn(viewModelScope)
 
         if (!cameraPermissionHelper.isPermissionGranted()) {
@@ -69,24 +77,12 @@ class CardScanViewModel @Inject constructor(
         _state.update { it.copy(launchFileSelectionRequest = true) }
     }
 
-    private fun onBarcodeResult(barcode: Barcode?) {
-        barcode?.getSupportedFormat()?.let { supportedFormat ->
-            insertCardAndNavigateToEditor(
-                content = barcode.getContentString(),
-                supportedFormat = supportedFormat,
-            )
-        }
-    }
-
-    private fun insertCardAndNavigateToEditor(content: String, supportedFormat: SupportedFormat) {
+    private suspend fun insertNewCard(content: String, supportedFormat: SupportedFormat): Long? {
         if (content == prevCardContent && supportedFormat == prevSupportedFormat) {
-            return
+            return null
         }
         prevCardContent = content
         prevSupportedFormat = supportedFormat
-        viewModelScope.launch {
-            val cardId = cardRepository.insertNewCard(content = content, format = supportedFormat)
-            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-        }
+        return cardRepository.insertNewCard(content = content, format = supportedFormat)
     }
 }
