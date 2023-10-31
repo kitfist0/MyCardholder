@@ -97,6 +97,7 @@
     <string name="permission_grant_button_text">Grant</string>
     <string name="permission_label">Permission</string>
     <string name="permission_rationale_message_text">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>
+    <string name="permission_scan_barcode_file_button_text" translatable="false">Scan barcode from file</string>
     <!--endregion-->
 
     <!--region Settings-->
