@@ -97,6 +97,7 @@
     <string name="permission_grant_button_text">Предоставить</string>
     <string name="permission_label">Разрешение</string>
     <string name="permission_rationale_message_text">Предоставьте доступ к камере устройства. Доступ к камере необходим для сканирования новых карт</string>
+    <string name="permission_scan_barcode_file_button_text">Сканировать штрих-код из файла</string>
     <!--endregion-->
 
     <!--region Settings-->

@@ -97,6 +97,7 @@
     <string name="permission_grant_button_text">Accorder</string>
     <string name="permission_label">Autorisation</string>
     <string name="permission_rationale_message_text">Veuillez autoriser l\'accès à la caméra de l\'appareil. L\'accès à la caméra est nécessaire pour scanner vos cartes</string>
+    <string name="permission_scan_barcode_file_button_text">Scanner le code-barres à partir d\'un fichier</string>
     <!--endregion-->
 
     <!--region Settings-->

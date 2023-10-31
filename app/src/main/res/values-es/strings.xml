@@ -97,6 +97,7 @@
     <string name="permission_grant_button_text">Conceder</string>
     <string name="permission_label">Permiso</string>
     <string name="permission_rationale_message_text">Permita el acceso a la cámara del dispositivo. Se requiere acceso a la cámara para escanear sus tarjetas</string>
+    <string name="permission_scan_barcode_file_button_text">Escanear código de barras desde un archivo</string>
     <!--endregion-->
 
     <!--region Settings-->
