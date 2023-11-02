@@ -113,6 +113,10 @@
     <string name="settings_supported_formats_button_text">Unterstützte Formate</string>
     <!--endregion-->
 
+    <!--region Snack-->
+    <string name="snack_message_barcode_not_found">Barcode nicht gefunden</string>
+    <!--endregion-->
+
     <!--region Specs-->
     <string name="specs_barcode_length_text">Länge: %s</string>
     <string name="specs_barcode_valid_characters_text">Gültige Zeichen: %s</string>
