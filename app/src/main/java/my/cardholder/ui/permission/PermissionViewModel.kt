@@ -10,10 +10,12 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import my.cardholder.BuildConfig
+import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.util.CameraPermissionHelper
+import my.cardholder.util.Text
 import my.cardholder.util.ext.getContentString
 import my.cardholder.util.ext.getSupportedFormat
 import javax.inject.Inject
@@ -41,7 +43,7 @@ class PermissionViewModel @Inject constructor(
                         format = supportedFormat,
                     )
                     navigate(PermissionFragmentDirections.fromPermissionToCardDisplay(cardId))
-                }
+                } ?: showSnack(Text.Resource(R.string.snack_message_barcode_not_found))
             }
             .launchIn(viewModelScope)
     }
