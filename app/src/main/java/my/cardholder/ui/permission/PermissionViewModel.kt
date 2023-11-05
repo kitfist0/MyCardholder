@@ -1,30 +1,28 @@
 package my.cardholder.ui.permission
 
-import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import my.cardholder.BuildConfig
 import my.cardholder.R
 import my.cardholder.data.CardRepository
+import my.cardholder.data.ScanResultRepository
+import my.cardholder.data.model.ScanResult
 import my.cardholder.ui.base.BaseViewModel
-import my.cardholder.util.BarcodeAnalyzer
 import my.cardholder.util.CameraPermissionHelper
 import my.cardholder.util.Text
-import my.cardholder.util.ext.getContentString
-import my.cardholder.util.ext.getSupportedFormat
 import javax.inject.Inject
 
 @HiltViewModel
 class PermissionViewModel @Inject constructor(
-    private val barcodeAnalyzer: BarcodeAnalyzer,
     private val cameraPermissionHelper: CameraPermissionHelper,
     private val cardRepository: CardRepository,
+    private val scanResultRepository: ScanResultRepository,
 ) : BaseViewModel() {
 
     private companion object {
@@ -35,15 +33,21 @@ class PermissionViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        barcodeAnalyzer.barcodeChannel.receiveAsFlow()
-            .onEach { barcode ->
-                barcode?.getSupportedFormat()?.let { supportedFormat ->
-                    val cardId = cardRepository.insertNewCard(
-                        content = barcode.getContentString(),
-                        format = supportedFormat,
-                    )
-                    navigate(PermissionFragmentDirections.fromPermissionToCardDisplay(cardId))
-                } ?: showSnack(Text.Resource(R.string.snack_message_barcode_not_found))
+        scanResultRepository.fileScanResult
+            .onEach { scanResult ->
+                when (scanResult) {
+                    is ScanResult.Success ->
+                        cardRepository.insertNewCard(
+                            content = scanResult.content,
+                            format = scanResult.format,
+                        ).also { cardId ->
+                            navigate(PermissionFragmentDirections.fromPermissionToCardDisplay(cardId))
+                        }
+                    is ScanResult.Failure ->
+                        showSnack(Text.Simple(scanResult.throwable.toString()))
+                    ScanResult.Nothing ->
+                        showSnack(Text.Resource(R.string.snack_message_barcode_not_found))
+                }
             }
             .launchIn(viewModelScope)
     }
@@ -65,8 +69,8 @@ class PermissionViewModel @Inject constructor(
         }
     }
 
-    fun onBarcodeFileSelectionRequestResult(uri: Uri?) {
-        uri?.let { barcodeAnalyzer.analyze(it) }
+    fun onBarcodeFileSelectionRequestResult(inputImage: InputImage) {
+        scanResultRepository.scan(inputImage)
     }
 
     fun onBarcodeFileSelectionRequestLaunched() {

@@ -2,5 +2,5 @@ package my.cardholder.ui.card.scan
 
 data class CardScanState(
     val withExplanation: Boolean,
-    val launchFileSelectionRequest: Boolean,
+    val launchBarcodeFileSelectionRequest: Boolean,
 )

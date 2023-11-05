@@ -4,31 +4,36 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.concurrent.futures.await
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import my.cardholder.databinding.FragmentCardScanBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     FragmentCardScanBinding::inflate
-) {
+), ImageAnalysis.Analyzer {
 
     @Inject
     lateinit var imageAnalysis: ImageAnalysis
 
     private var cameraProvider: ProcessCameraProvider? = null
 
-    private val fileSelectionRequest = registerForActivityResult(PickVisualMedia()) { uri ->
-        viewModel.onFileSelectionRequestResult(uri)
+    private val barcodeFileSelectionRequest = registerForActivityResult(PickVisualMedia()) { uri ->
+        uri?.let {
+            viewModel.onBarcodeFileSelectionRequestResult(InputImage.fromFilePath(requireContext(), it))
+        }
     }
 
     override val viewModel: CardScanViewModel by viewModels()
@@ -49,6 +54,7 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
             val preview = Preview.Builder().build()
             preview.setSurfaceProvider(binding.cardScanPreview.surfaceProvider)
             cameraProvider?.unbindAll()
+            imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(), this@CardScanFragment)
             cameraProvider?.bindToLifecycle(this@CardScanFragment, selector, preview, imageAnalysis)
         }
     }
@@ -62,10 +68,14 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             binding.cardScanExplanationMessageText.isVisible = state.withExplanation
-            if (state.launchFileSelectionRequest) {
-                fileSelectionRequest.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
-                viewModel.onFileSelectionRequestLaunched()
+            if (state.launchBarcodeFileSelectionRequest) {
+                barcodeFileSelectionRequest.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
+                viewModel.onBarcodeFileSelectionRequestLaunched()
             }
         }
+    }
+
+    override fun analyze(image: ImageProxy) {
+        viewModel.onNewCameraImage(image)
     }
 }
