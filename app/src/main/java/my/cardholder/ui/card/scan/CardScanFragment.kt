@@ -26,7 +26,13 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
 ), ImageAnalysis.Analyzer {
 
     @Inject
+    lateinit var preview: Preview
+
+    @Inject
     lateinit var imageAnalysis: ImageAnalysis
+
+    @Inject
+    lateinit var selector: CameraSelector
 
     private var cameraProvider: ProcessCameraProvider? = null
 
@@ -48,12 +54,8 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
         super.onResume()
         lifecycleScope.launch {
             cameraProvider = ProcessCameraProvider.getInstance(requireContext()).await()
-            val selector = CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                .build()
-            val preview = Preview.Builder().build()
-            preview.setSurfaceProvider(binding.cardScanPreview.surfaceProvider)
             cameraProvider?.unbindAll()
+            preview.setSurfaceProvider(binding.cardScanPreview.surfaceProvider)
             imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(), this@CardScanFragment)
             cameraProvider?.bindToLifecycle(this@CardScanFragment, selector, preview, imageAnalysis)
         }
