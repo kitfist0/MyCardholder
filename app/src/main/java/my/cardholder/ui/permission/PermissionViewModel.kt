@@ -69,8 +69,8 @@ class PermissionViewModel @Inject constructor(
         }
     }
 
-    fun onBarcodeFileSelectionRequestResult(inputImage: InputImage) {
-        scanResultRepository.scan(inputImage)
+    fun onBarcodeFileSelectionRequestResult(inputImage: InputImage?) {
+        inputImage?.let { scanResultRepository.scan(it) }
     }
 
     fun onBarcodeFileSelectionRequestLaunched() {

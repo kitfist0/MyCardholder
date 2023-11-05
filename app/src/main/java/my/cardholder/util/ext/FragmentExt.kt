@@ -1,9 +1,11 @@
 package my.cardholder.util.ext
 
 import android.graphics.Rect
+import android.net.Uri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
+import com.google.mlkit.vision.common.InputImage
 import my.cardholder.util.Text
 
 inline fun <reified T : ViewModel> Fragment.assistedViewModels(
@@ -38,4 +40,8 @@ fun Fragment.textToString(text: Text): String {
         is Text.ResourceAndParams -> getString(text.resId, *text.params.toTypedArray())
         is Text.Simple -> text.text
     }
+}
+
+fun Fragment.getInputImageFromUri(uri: Uri?): InputImage? {
+    return uri?.let { InputImage.fromFilePath(requireContext(), it) }
 }

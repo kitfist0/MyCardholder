@@ -9,11 +9,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentPermissionBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.getInputImageFromUri
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -38,9 +38,7 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
 
     private val barcodeFileSelectionRequest =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            uri?.let {
-                viewModel.onBarcodeFileSelectionRequestResult(InputImage.fromFilePath(requireContext(), it))
-            }
+            viewModel.onBarcodeFileSelectionRequestResult(getInputImageFromUri(uri))
         }
 
     override val viewModel: PermissionViewModel by viewModels()

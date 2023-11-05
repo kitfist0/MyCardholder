@@ -83,8 +83,8 @@ class CardScanViewModel @Inject constructor(
         scanResultRepository.scan(image)
     }
 
-    fun onBarcodeFileSelectionRequestResult(inputImage: InputImage) {
-        scanResultRepository.scan(inputImage)
+    fun onBarcodeFileSelectionRequestResult(inputImage: InputImage?) {
+        inputImage?.let { scanResultRepository.scan(it) }
     }
 
     fun onBarcodeFileSelectionRequestLaunched() {

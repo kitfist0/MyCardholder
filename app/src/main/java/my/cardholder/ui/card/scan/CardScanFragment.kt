@@ -11,12 +11,12 @@ import androidx.concurrent.futures.await
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import my.cardholder.databinding.FragmentCardScanBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.getInputImageFromUri
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
@@ -37,9 +37,7 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     private var cameraProvider: ProcessCameraProvider? = null
 
     private val barcodeFileSelectionRequest = registerForActivityResult(PickVisualMedia()) { uri ->
-        uri?.let {
-            viewModel.onBarcodeFileSelectionRequestResult(InputImage.fromFilePath(requireContext(), it))
-        }
+        viewModel.onBarcodeFileSelectionRequestResult(getInputImageFromUri(uri))
     }
 
     override val viewModel: CardScanViewModel by viewModels()
