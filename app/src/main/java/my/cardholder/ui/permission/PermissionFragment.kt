@@ -4,6 +4,7 @@ import android.Manifest
 import android.graphics.drawable.Animatable2
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
@@ -12,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentPermissionBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.getInputImageFromUri
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -34,6 +36,11 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
         )
     }
 
+    private val barcodeFileSelectionRequest =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            viewModel.onBarcodeFileSelectionRequestResult(getInputImageFromUri(uri))
+        }
+
     override val viewModel: PermissionViewModel by viewModels()
 
     override fun onResume() {
@@ -44,8 +51,8 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
-            permissionAddManuallyButton.setOnClickListener {
-                viewModel.onAddManuallyButtonClicked()
+            permissionScanBarcodeFileButton.setOnClickListener {
+                viewModel.onScanBarcodeFileButtonClicked()
             }
             permissionGrantFab.setOnClickListener {
                 viewModel.onGrantFabClicked()
@@ -75,7 +82,12 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(
                     permissionImage.isVisible = true
                     permissionRationaleText.text = getString(state.rationaleTextStringRes)
                     permissionGrantFab.isVisible = true
-                    if (state.launchCameraPermissionRequest) {
+                    if (state.launchBarcodeFileSelectionRequest) {
+                        barcodeFileSelectionRequest.launch(
+                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        )
+                        viewModel.onBarcodeFileSelectionRequestLaunched()
+                    } else if (state.launchCameraPermissionRequest) {
                         cameraPermissionRequest.launch(CAMERA_PERMISSION)
                         viewModel.onCameraPermissionRequestLaunched()
                     }

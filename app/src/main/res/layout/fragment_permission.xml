@@ -37,11 +37,11 @@
         app:layout_constraintTop_toTopOf="@id/permission_guideline_horizontal" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/permission_add_manually_button"
+        android:id="@+id/permission_scan_barcode_file_button"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/permission_add_manually_button_text"
+        android:text="@string/permission_scan_barcode_file_button_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/permission_rationale_text" />

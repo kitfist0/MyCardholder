@@ -54,6 +54,7 @@
     <string name="card_scan_add_manually_fab_title">Agregar manualmente</string>
     <string name="card_scan_explanation_message">Escanee un código de barras para agregar automáticamente una nueva tarjeta</string>
     <string name="card_scan_label">Escanear</string>
+    <string name="card_scan_select_file_fab_title">Seleccione Archivo</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->
@@ -96,6 +97,7 @@
     <string name="permission_grant_button_text">Conceder</string>
     <string name="permission_label">Permiso</string>
     <string name="permission_rationale_message_text">Permita el acceso a la cámara del dispositivo. Se requiere acceso a la cámara para escanear sus tarjetas</string>
+    <string name="permission_scan_barcode_file_button_text">Escanear código de barras desde un archivo</string>
     <!--endregion-->
 
     <!--region Settings-->
@@ -109,6 +111,10 @@
     <string name="settings_switch_to_multi_column_button_text">Cambiar a una lista de tarjetas de varias columnas</string>
     <string name="settings_switch_to_single_column_button_text">Cambiar a una lista de tarjetas de una sola columna</string>
     <string name="settings_supported_formats_button_text">Formatos admitidos</string>
+    <!--endregion-->
+
+    <!--region Snack-->
+    <string name="snack_message_barcode_not_found">Código de barras no encontrado</string>
     <!--endregion-->
 
     <!--region Specs-->

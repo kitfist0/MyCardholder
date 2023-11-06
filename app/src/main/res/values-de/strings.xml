@@ -54,6 +54,7 @@
     <string name="card_scan_add_manually_fab_title">Manuell hinzufügen</string>
     <string name="card_scan_explanation_message">Scannen Sie einen Barcode, um automatisch eine neue Karte hinzuzufügen</string>
     <string name="card_scan_label">Kartenscan</string>
+    <string name="card_scan_select_file_fab_title">Datei aussuchen</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->
@@ -96,6 +97,7 @@
     <string name="permission_grant_button_text">Erteilen</string>
     <string name="permission_label">Erlaubnis</string>
     <string name="permission_rationale_message_text">Bitte gewähren Sie Zugriff auf die Kamera des Geräts. Kamerazugriff ist erforderlich, um Ihre Karten zu scannen</string>
+    <string name="permission_scan_barcode_file_button_text">Barcode aus Datei scannen</string>
     <!--endregion-->
 
     <!--region Settings-->
@@ -109,6 +111,10 @@
     <string name="settings_switch_to_multi_column_button_text">Zur mehrspaltigen Kartenliste wechseln</string>
     <string name="settings_switch_to_single_column_button_text">Zur einspaltigen Kartenliste wechseln</string>
     <string name="settings_supported_formats_button_text">Unterstützte Formate</string>
+    <!--endregion-->
+
+    <!--region Snack-->
+    <string name="snack_message_barcode_not_found">Barcode nicht gefunden</string>
     <!--endregion-->
 
     <!--region Specs-->

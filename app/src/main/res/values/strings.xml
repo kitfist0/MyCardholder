@@ -54,6 +54,7 @@
     <string name="card_scan_add_manually_fab_title">Add manually</string>
     <string name="card_scan_explanation_message">Scan a barcode to automatically add a new card</string>
     <string name="card_scan_label">Scan</string>
+    <string name="card_scan_select_file_fab_title">Select file</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->
@@ -96,6 +97,7 @@
     <string name="permission_grant_button_text">Grant</string>
     <string name="permission_label">Permission</string>
     <string name="permission_rationale_message_text">Please grant access to the device\'s camera. Camera access is required to scan your cards</string>
+    <string name="permission_scan_barcode_file_button_text">Scan barcode from file</string>
     <!--endregion-->
 
     <!--region Settings-->
@@ -109,6 +111,10 @@
     <string name="settings_switch_to_multi_column_button_text">Switch to multi-column list of cards</string>
     <string name="settings_switch_to_single_column_button_text">Switch to single-column list of cards</string>
     <string name="settings_supported_formats_button_text">Supported formats</string>
+    <!--endregion-->
+
+    <!--region Snack-->
+    <string name="snack_message_barcode_not_found">Barcode not found</string>
     <!--endregion-->
 
     <!--region Specs-->

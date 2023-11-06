@@ -7,6 +7,7 @@ sealed class PermissionState {
 
     data class PermissionRequired(
         val rationaleTextStringRes: Int = R.string.permission_rationale_message_text,
+        val launchBarcodeFileSelectionRequest: Boolean,
         val launchCameraPermissionRequest: Boolean,
     ) : PermissionState()
 }
