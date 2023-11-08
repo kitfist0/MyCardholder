@@ -1,6 +1,8 @@
 # MyCardholder
 
-An open source cardholder app to store you card details in one place.
+An open source cardholder app to store you cards in one place.
+
+![Screenshots](screenshots.jpg)
 
 ## Tech-stack
 
