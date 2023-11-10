@@ -1,5 +1,6 @@
 package my.cardholder.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
 import my.cardholder.util.ext.collectWhenStarted
+import ru.rustore.sdk.billingclient.RuStoreBillingClient
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -26,8 +29,14 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
+    @Inject
+    lateinit var ruStoreBillingClient: RuStoreBillingClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            ruStoreBillingClient.onNewIntent(intent)
+        }
         installSplashScreen()
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,6 +55,11 @@ class MainActivity : AppCompatActivity() {
         collectWhenStarted(viewModel.nightModeEnabled) { isEnabled ->
             setDefaultNightMode(isEnabled)
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        ruStoreBillingClient.onNewIntent(intent)
     }
 
     private fun setDefaultNightMode(isEnabled: Boolean) {
