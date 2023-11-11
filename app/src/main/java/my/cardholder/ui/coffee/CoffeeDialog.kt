@@ -1,26 +1,21 @@
 package my.cardholder.ui.coffee
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import my.cardholder.databinding.DialogCoffeeBinding
 import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.util.ext.collectWhenStarted
-import javax.inject.Inject
+import java.lang.ref.WeakReference
 
 @AndroidEntryPoint
 class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
     DialogCoffeeBinding::inflate
 ) {
 
-    @Inject
-    lateinit var coffeePurchaseLauncher: CoffeePurchaseLauncher
-
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CoffeeAdapter {
-            viewModel.onCoffeeClicked(it)
+            viewModel.onCoffeeClicked(WeakReference(activity), it)
         }
     }
 
@@ -36,15 +31,6 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             listAdapter.submitList(state.coffees)
-            state.launchCoffeePurchase?.let { launchCoffeePurchase(it) }
-        }
-    }
-
-    private fun launchCoffeePurchase(productId: String) {
-        lifecycleScope.launch {
-            coffeePurchaseLauncher.startPurchase(requireActivity(), productId)
-                .onSuccess { viewModel.onCoffeePurchaseFlowStartedSuccessfully() }
-                .onFailure { viewModel.onCoffeePurchaseFlowStartedWithError(it) }
         }
     }
 }

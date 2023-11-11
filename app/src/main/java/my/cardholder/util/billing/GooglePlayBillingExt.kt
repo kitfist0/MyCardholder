@@ -1,4 +1,4 @@
-package my.cardholder.util.ext
+package my.cardholder.util.billing
 
 import android.app.Activity
 import com.android.billingclient.api.AcknowledgePurchaseParams
