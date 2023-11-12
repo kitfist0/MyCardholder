@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.util.billing.GooglePlayBillingAssistant
 import my.cardholder.util.billing.BillingAssistant
+import my.cardholder.util.billing.GooglePlayBillingWrapper
 import my.cardholder.util.billing.RuStoreBillingAssistant
 import ru.rustore.sdk.billingclient.RuStoreBillingClient
 import ru.rustore.sdk.billingclient.RuStoreBillingClientFactory
@@ -27,9 +28,15 @@ annotation class RuStoreBilling
 object BillingModule {
     @Provides
     @Singleton
+    fun provideGooglePlayBillingWrapper(context: Context): GooglePlayBillingWrapper {
+        return GooglePlayBillingWrapper(BillingClient.newBuilder(context))
+    }
+
+    @Provides
+    @Singleton
     @GooglePlayBilling
-    fun provideGooglePlayBillingAssistant(context: Context): BillingAssistant {
-        return GooglePlayBillingAssistant(BillingClient.newBuilder(context))
+    fun provideGooglePlayBillingAssistant(googlePlayBillingWrapper: GooglePlayBillingWrapper): BillingAssistant {
+        return GooglePlayBillingAssistant(googlePlayBillingWrapper)
     }
 
     @Provides
