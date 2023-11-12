@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import my.cardholder.data.CoffeeRepository
+import my.cardholder.di.GooglePlayBilling
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
 import my.cardholder.util.billing.BillingAssistant
@@ -20,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CoffeeViewModel @Inject constructor(
     private val coffeeRepository: CoffeeRepository,
-    private val billingAssistant: BillingAssistant,
+    @GooglePlayBilling private val billingAssistant: BillingAssistant,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(
