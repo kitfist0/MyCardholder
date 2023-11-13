@@ -11,11 +11,11 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
-import my.cardholder.util.billing.BillingActivity
+import my.cardholder.util.billing.GooglePlayBillingActivity
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
-class MainActivity : BillingActivity() {
+class MainActivity : GooglePlayBillingActivity() {
 
     private val destinationIdsWithBottomNav = setOf(
         R.id.permission_fragment,
