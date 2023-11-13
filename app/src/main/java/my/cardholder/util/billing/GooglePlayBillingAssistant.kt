@@ -1,48 +1,101 @@
 package my.cardholder.util.billing
 
-import android.app.Activity
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.receiveAsFlow
-import java.lang.ref.WeakReference
+import com.android.billingclient.api.AcknowledgePurchaseParams
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryPurchasesParams
 
 class GooglePlayBillingAssistant constructor(
-    private val googlePlayBillingWrapper: GooglePlayBillingWrapper,
-) : BillingAssistant {
+    billingClientBuilder: BillingClient.Builder,
+) : BillingAssistant<BillingClient, BillingFlowParams>(), PurchasesUpdatedListener {
 
-    private val purchasedProductsChannel = Channel<List<String>>(Channel.UNLIMITED)
+    override val billingClient: BillingClient = billingClientBuilder
+        .setListener(this)
+        .enablePendingPurchases()
+        .build()
 
-    override val purchasedProductIds: Flow<List<String>> = purchasedProductsChannel.receiveAsFlow()
-        .onStart {
-            googlePlayBillingWrapper.getClient()
-                .onSuccess { client ->
-                    client.queryAndAcknowledgePurchasedProducts()
-                        .onSuccess { ids -> purchasedProductsChannel.send(ids) }
+    override fun initialize() {
+        billingClient.startConnection(
+            object : BillingClientStateListener {
+                override fun onBillingServiceDisconnected() {
                 }
-        }
 
-    override suspend fun purchaseProduct(
-        activityReference: WeakReference<Activity>,
-        productId: String
-    ): Result<String> {
-        var throwable: Throwable? = null
-        googlePlayBillingWrapper.getClient()
-            .onSuccess { client ->
-                val activity = activityReference.get()
-                    ?: return Result.failure(Throwable("No activity reference"))
-                client.launchNonConsumableProductPurchase(activity, productId)
-                    .onSuccess {
-                        val purchasesResult = googlePlayBillingWrapper.purchasesResultChannel.receive()
-                        if (purchasesResult.billingResult.isOk()) {
-                            client.queryAndAcknowledgePurchasedProducts()
-                                .onSuccess { ids -> purchasedProductsChannel.send(ids) }
-                                .onFailure { throwable = it }
-                        }
+                override fun onBillingSetupFinished(billingResult: BillingResult) {
+                    if (billingResult.isOk()) {
+                        handlePurchases()
                     }
-                    .onFailure { throwable = it }
+                }
             }
-            .onFailure { throwable = it }
-        return throwable?.let { Result.failure(it) } ?: Result.success(productId)
+        )
+    }
+
+    override fun getBillingFlowParams(productId: String, onResult: (Result<BillingFlowParams>) -> Unit) {
+        val productList = listOf(
+            QueryProductDetailsParams.Product.newBuilder()
+                .setProductId(productId)
+                .setProductType(BillingClient.ProductType.INAPP)
+                .build()
+        )
+        val productDetailsParams = QueryProductDetailsParams.newBuilder()
+            .setProductList(productList)
+            .build()
+        billingClient.queryProductDetailsAsync(productDetailsParams) { billingResult, productDetailsList ->
+            val productDetailsParamsList =
+                if (billingResult.isOk() && productDetailsList.isNotEmpty()) {
+                    listOf(
+                        BillingFlowParams.ProductDetailsParams.newBuilder()
+                            .setProductDetails(productDetailsList.first())
+                            .build()
+                    )
+                } else {
+                    emptyList()
+                }
+            if (productDetailsParamsList.isEmpty()) {
+                onResult.invoke(
+                    Result.failure(Throwable(billingResult.getErrorMessage() ?: "Unknown error"))
+                )
+            } else {
+                val billingFlowParams = BillingFlowParams.newBuilder()
+                    .setProductDetailsParamsList(productDetailsParamsList)
+                    .build()
+                onResult.invoke(Result.success(billingFlowParams))
+            }
+        }
+    }
+
+    override fun onPurchasesUpdated(billingResult: BillingResult, purchases: MutableList<Purchase>?) {
+        if (billingResult.isOk() && purchases?.isNotEmpty() == true) {
+            handlePurchases()
+        }
+    }
+
+    private fun handlePurchases() {
+        val queryPurchasesParams = QueryPurchasesParams.newBuilder()
+            .setProductType(BillingClient.ProductType.INAPP)
+            .build()
+        billingClient.queryPurchasesAsync(queryPurchasesParams) { billingResult, purchases ->
+            if (billingResult.isOk() && purchases.isNotEmpty()) {
+                val purchasedIds = purchases
+                    .filter { it.isPurchased() }
+                    .also { acknowledgePurchases(it) }
+                    .flatMap { purchase -> purchase.products }
+                purchasedProductIdsChannel.trySend(purchasedIds)
+            }
+        }
+    }
+
+    private fun acknowledgePurchases(purchases: List<Purchase>) {
+        purchases.forEach { purchase ->
+            val params = AcknowledgePurchaseParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+                .build()
+            billingClient.acknowledgePurchase(params) {
+            }
+        }
     }
 }

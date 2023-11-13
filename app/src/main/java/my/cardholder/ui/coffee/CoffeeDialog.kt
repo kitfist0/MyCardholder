@@ -6,7 +6,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogCoffeeBinding
 import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.util.ext.collectWhenStarted
-import java.lang.ref.WeakReference
 
 @AndroidEntryPoint
 class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
@@ -15,7 +14,7 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CoffeeAdapter {
-            viewModel.onCoffeeClicked(WeakReference(activity), it)
+            viewModel.onCoffeeClicked(it)
         }
     }
 

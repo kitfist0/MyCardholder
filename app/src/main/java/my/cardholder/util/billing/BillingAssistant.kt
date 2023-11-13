@@ -1,15 +1,17 @@
 package my.cardholder.util.billing
 
-import android.app.Activity
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import java.lang.ref.WeakReference
+import kotlinx.coroutines.flow.receiveAsFlow
 
-interface BillingAssistant {
+abstract class BillingAssistant<BC, FP> {
 
-    val purchasedProductIds: Flow<List<String>>
+    protected val purchasedProductIdsChannel = Channel<List<String>>(Channel.UNLIMITED)
+    val purchasedProductIds: Flow<List<String>> = purchasedProductIdsChannel.receiveAsFlow()
 
-    suspend fun purchaseProduct(
-        activityReference: WeakReference<Activity>,
-        productId: String,
-    ): Result<String>
+    abstract val billingClient: BC
+
+    abstract fun initialize()
+
+    abstract fun getBillingFlowParams(productId: String, onResult: (Result<FP>) -> Unit)
 }
