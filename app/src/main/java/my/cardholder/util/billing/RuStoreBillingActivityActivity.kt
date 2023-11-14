@@ -3,9 +3,10 @@ package my.cardholder.util.billing
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import javax.inject.Inject
 
-abstract class RuStoreBillingActivity : BillingActivity() {
+abstract class RuStoreBillingActivityActivity : AppCompatActivity(), BillingActivityInterface {
 
     @Inject
     lateinit var ruStoreBillingAssistant: RuStoreBillingAssistant
@@ -15,15 +16,12 @@ abstract class RuStoreBillingActivity : BillingActivity() {
         if (savedInstanceState == null) {
             ruStoreBillingAssistant.billingClient.onNewIntent(intent)
         }
+        ruStoreBillingAssistant.initialize()
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         ruStoreBillingAssistant.billingClient.onNewIntent(intent)
-    }
-
-    override fun initializeBilling() {
-        ruStoreBillingAssistant.initialize()
     }
 
     override fun purchaseProduct(productId: String) {

@@ -1,14 +1,17 @@
 package my.cardholder.util.billing
 
+import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import javax.inject.Inject
 
-abstract class GooglePlayBillingActivity : BillingActivity() {
+abstract class GooglePlayBillingActivityActivity : AppCompatActivity(), BillingActivityInterface {
 
     @Inject
     lateinit var googlePlayBillingAssistant: GooglePlayBillingAssistant
 
-    override fun initializeBilling() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         googlePlayBillingAssistant.initialize()
     }
 
@@ -16,7 +19,7 @@ abstract class GooglePlayBillingActivity : BillingActivity() {
         googlePlayBillingAssistant.apply {
             getBillingFlowParams(productId) { result ->
                 result.onSuccess {
-                    billingClient.launchBillingFlow(this@GooglePlayBillingActivity, it)
+                    billingClient.launchBillingFlow(this@GooglePlayBillingActivityActivity, it)
                 }.onFailure {
                     Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
                 }

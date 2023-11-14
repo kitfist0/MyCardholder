@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogCoffeeBinding
 import my.cardholder.ui.base.BaseDialogFragment
-import my.cardholder.util.billing.BillingActivity
+import my.cardholder.util.billing.BillingActivityInterface
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
@@ -15,7 +15,7 @@ class CoffeeDialog : BaseDialogFragment<DialogCoffeeBinding>(
 
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CoffeeAdapter {
-            (activity as? BillingActivity)?.purchaseProduct(it)
+            (activity as? BillingActivityInterface)?.purchaseProduct(it)
         }
     }
 
