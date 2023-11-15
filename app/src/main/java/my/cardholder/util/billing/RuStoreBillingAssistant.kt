@@ -18,7 +18,10 @@ class RuStoreBillingAssistant constructor(
         handlePurchases()
     }
 
-    override fun getBillingFlowParams(productId: String, onResult: (Result<RuStoreBillingFlowParams>) -> Unit) {
+    override fun getBillingFlowParams(
+        productId: ProductId,
+        onResult: (Result<RuStoreBillingFlowParams>) -> Unit
+    ) {
         onResult.invoke(
             Result.success(RuStoreBillingFlowParams(productId = productId))
         )
@@ -27,10 +30,10 @@ class RuStoreBillingAssistant constructor(
     private fun handlePurchases() {
         billingClient.purchases.getPurchases()
             .addOnSuccessListener { purchases ->
-                val purchasedIds = purchases
+                val purchasedProductIds = purchases
                     .filter { it.purchaseState == PurchaseState.CONFIRMED }
                     .map { it.productId }
-                purchasedProductIdsChannel.trySend(purchasedIds)
+                purchasedProductsChannel.trySend(purchasedProductIds)
             }
     }
 }

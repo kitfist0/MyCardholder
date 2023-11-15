@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.ui.base.BaseViewModel
-import my.cardholder.util.billing.GooglePlayBillingAssistant
+import my.cardholder.util.billing.PurchasedProductsProvider
 import javax.inject.Inject
 
 @HiltViewModel
 class CoffeeViewModel @Inject constructor(
-    billingAssistant: GooglePlayBillingAssistant,
+    purchasedProductsProvider: PurchasedProductsProvider,
     private val coffeeRepository: CoffeeRepository,
 ) : BaseViewModel() {
 
@@ -32,7 +32,7 @@ class CoffeeViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        billingAssistant.purchasedProductIds
+        purchasedProductsProvider.purchasedProducts
             .onEach { purchasedIds ->
                 coffeeRepository.updatePurchaseStatusOfCoffees(purchasedIds)
             }

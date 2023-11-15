@@ -4,14 +4,17 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
-abstract class BillingAssistant<BC, FP> {
+typealias ProductId = String
 
-    protected val purchasedProductIdsChannel = Channel<List<String>>(Channel.UNLIMITED)
-    val purchasedProductIds: Flow<List<String>> = purchasedProductIdsChannel.receiveAsFlow()
+abstract class BillingAssistant<BC, FP> : PurchasedProductsProvider {
+
+    protected val purchasedProductsChannel = Channel<List<ProductId>>(Channel.UNLIMITED)
+
+    override val purchasedProducts: Flow<List<ProductId>> = purchasedProductsChannel.receiveAsFlow()
 
     abstract val billingClient: BC
 
     abstract fun initialize()
 
-    abstract fun getBillingFlowParams(productId: String, onResult: (Result<FP>) -> Unit)
+    abstract fun getBillingFlowParams(productId: ProductId, onResult: (Result<FP>) -> Unit)
 }

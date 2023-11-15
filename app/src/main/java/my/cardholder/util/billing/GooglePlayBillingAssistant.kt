@@ -34,7 +34,10 @@ class GooglePlayBillingAssistant constructor(
         )
     }
 
-    override fun getBillingFlowParams(productId: String, onResult: (Result<BillingFlowParams>) -> Unit) {
+    override fun getBillingFlowParams(
+        productId: ProductId,
+        onResult: (Result<BillingFlowParams>) -> Unit
+    ) {
         val productList = listOf(
             QueryProductDetailsParams.Product.newBuilder()
                 .setProductId(productId)
@@ -68,7 +71,10 @@ class GooglePlayBillingAssistant constructor(
         }
     }
 
-    override fun onPurchasesUpdated(billingResult: BillingResult, purchases: MutableList<Purchase>?) {
+    override fun onPurchasesUpdated(
+        billingResult: BillingResult,
+        purchases: MutableList<Purchase>?
+    ) {
         if (billingResult.isOk() && purchases?.isNotEmpty() == true) {
             handlePurchases()
         }
@@ -80,11 +86,11 @@ class GooglePlayBillingAssistant constructor(
             .build()
         billingClient.queryPurchasesAsync(queryPurchasesParams) { billingResult, purchases ->
             if (billingResult.isOk() && purchases.isNotEmpty()) {
-                val purchasedIds = purchases
+                val purchasedProductIds = purchases
                     .filter { it.isPurchased() }
                     .also { acknowledgePurchases(it) }
                     .flatMap { purchase -> purchase.products }
-                purchasedProductIdsChannel.trySend(purchasedIds)
+                purchasedProductsChannel.trySend(purchasedProductIds)
             }
         }
     }
