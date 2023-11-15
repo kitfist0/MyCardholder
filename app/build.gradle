@@ -31,6 +31,17 @@ android {
         buildConfigField("String", "WEB_PAGE_GITHUB", "\"https://github.com/kitfist0/MyCardholder\"")
     }
 
+    flavorDimensions = ["billing"]
+
+    productFlavors {
+        googleplay {
+            dimension "billing"
+        }
+        rustore {
+            dimension "billing"
+        }
+    }
+
     signingConfigs {
         debug {
             storeFile = rootProject.file('cert/debug.keystore')
