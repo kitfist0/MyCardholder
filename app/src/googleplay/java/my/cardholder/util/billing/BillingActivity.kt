@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import javax.inject.Inject
 
-abstract class GooglePlayBillingActivityActivity : AppCompatActivity(), BillingActivityInterface {
+abstract class BillingActivity : AppCompatActivity(), BillingActivityInterface {
 
     @Inject
     lateinit var googlePlayBillingAssistant: GooglePlayBillingAssistant
@@ -19,7 +19,7 @@ abstract class GooglePlayBillingActivityActivity : AppCompatActivity(), BillingA
         googlePlayBillingAssistant.apply {
             getBillingFlowParams(productId) { result ->
                 result.onSuccess {
-                    billingClient.launchBillingFlow(this@GooglePlayBillingActivityActivity, it)
+                    billingClient.launchBillingFlow(this@BillingActivity, it)
                 }.onFailure {
                     Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
                 }

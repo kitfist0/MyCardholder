@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import javax.inject.Inject
 
-abstract class RuStoreBillingActivityActivity : AppCompatActivity(), BillingActivityInterface {
+abstract class BillingActivity : AppCompatActivity(), BillingActivityInterface {
 
     @Inject
     lateinit var ruStoreBillingAssistant: RuStoreBillingAssistant
