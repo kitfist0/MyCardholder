@@ -6,9 +6,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import my.cardholder.util.NightModeChecker
 import my.cardholder.util.billing.PurchasedProductsProvider
 import my.cardholder.util.billing.RuStoreBillingAssistant
 import ru.rustore.sdk.billingclient.RuStoreBillingClientFactory
+import ru.rustore.sdk.billingclient.presentation.BillingClientTheme
+import ru.rustore.sdk.billingclient.provider.BillingClientThemeProvider
 import javax.inject.Singleton
 
 @Module
@@ -22,12 +25,22 @@ interface RuStoreBillingModule {
         @Provides
         @Singleton
         fun provideRuStoreBillingAssistant(
-            context: Context
+            context: Context,
+            nightModeChecker: NightModeChecker,
         ): RuStoreBillingAssistant {
             val ruStoreBillingClient = RuStoreBillingClientFactory.create(
                 context = context,
                 consoleApplicationId = "2063489959",
                 deeplinkScheme = "cardholder",
+                themeProvider = object : BillingClientThemeProvider {
+                    override fun provide(): BillingClientTheme {
+                        return if (nightModeChecker.isEnabled) {
+                            BillingClientTheme.Dark
+                        } else {
+                            BillingClientTheme.Light
+                        }
+                    }
+                }
             )
             return RuStoreBillingAssistant(ruStoreBillingClient)
         }
