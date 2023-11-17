@@ -31,6 +31,17 @@ android {
         buildConfigField("String", "WEB_PAGE_GITHUB", "\"https://github.com/kitfist0/MyCardholder\"")
     }
 
+    flavorDimensions = ["billing"]
+
+    productFlavors {
+        googleplay {
+            dimension "billing"
+        }
+        rustore {
+            dimension "billing"
+        }
+    }
+
     signingConfigs {
         debug {
             storeFile = rootProject.file('cert/debug.keystore')
@@ -94,6 +105,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
     // Billing
     implementation 'com.android.billingclient:billing-ktx:6.0.1'
+    implementation 'ru.rustore.sdk:billingclient:3.0.0'
     // CameraX
     def camerax_version = '1.3.0'
     implementation "androidx.camera:camera-core:$camerax_version"

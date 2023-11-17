@@ -2,7 +2,6 @@ package my.cardholder.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -12,10 +11,11 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
+import my.cardholder.util.billing.BillingActivity
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BillingActivity() {
 
     private val destinationIdsWithBottomNav = setOf(
         R.id.permission_fragment,
