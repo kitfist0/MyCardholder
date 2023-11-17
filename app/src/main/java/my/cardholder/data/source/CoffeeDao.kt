@@ -8,7 +8,7 @@ import my.cardholder.data.model.Coffee
 
 @Dao
 interface CoffeeDao {
-    @Query("SELECT * FROM coffees ORDER BY id")
+    @Query("SELECT * FROM coffees")
     fun getCoffees(): Flow<List<Coffee>>
 
     @Query("SELECT (SELECT COUNT(*) FROM coffees) == 0")
