@@ -35,6 +35,7 @@ abstract class BillingActivity : AppCompatActivity(), BillingActivityInterface {
                         developerPayload = null,
                     ).addOnSuccessListener { paymentResult ->
                         paymentResult.toSimpleResult(productId)
+                            .onSuccess { ruStoreBillingAssistant.initialize() }
                             .onFailure { showToast(it.message) }
                     }.addOnFailureListener { throwable ->
                         showToast(throwable.message)
