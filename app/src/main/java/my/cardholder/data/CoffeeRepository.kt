@@ -31,8 +31,8 @@ class CoffeeRepository @Inject constructor(
     }
 
     suspend fun updatePurchaseStatusOfCoffees(purchasedIds: List<String>) {
-        val coffees = purchasedIds.map { coffeeId ->
-            Coffee(id = coffeeId, isPurchased = true)
+        val coffees = COFFEE_IDS.map { coffeeId ->
+            Coffee(id = coffeeId, isPurchased = purchasedIds.contains(coffeeId))
         }
         coffeeDao.upsert(coffees)
     }
