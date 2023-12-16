@@ -43,8 +43,13 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     override val viewModel: CardScanViewModel by viewModels()
 
     override fun initViews() {
-        binding.cardScanSelectFileFab.setOnClickListener {
-            viewModel.onSelectFileFabClicked()
+        with(binding) {
+            cardScanPreliminaryResultButton.setOnClickListener {
+                viewModel.onPreliminaryResultButtonClicked()
+            }
+            cardScanSelectFileFab.setOnClickListener {
+                viewModel.onSelectFileFabClicked()
+            }
         }
     }
 
@@ -68,6 +73,8 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             binding.cardScanExplanationMessageText.isVisible = state.withExplanation
+            binding.cardScanPreliminaryResultButton.text = state.preliminaryScanResult?.content
+            binding.cardScanPreliminaryResultButton.isVisible = state.preliminaryScanResult != null
             if (state.launchBarcodeFileSelectionRequest) {
                 barcodeFileSelectionRequest.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
                 viewModel.onBarcodeFileSelectionRequestLaunched()

@@ -32,12 +32,10 @@ class CardScanViewModel @Inject constructor(
         const val EXPLANATION_DURATION_MILLIS = 5000L
     }
 
-    private var prevCardContent: String? = null
-    private var prevSupportedFormat: SupportedFormat? = null
-
     private val _state = MutableStateFlow(
         CardScanState(
             withExplanation = true,
+            preliminaryScanResult = null,
             launchBarcodeFileSelectionRequest = false,
         )
     )
@@ -51,10 +49,8 @@ class CardScanViewModel @Inject constructor(
 
         scanResultRepository.cameraScanResult
             .onEach { scanResult ->
-                if (scanResult is ScanResult.Success) {
-                    insertNewCard(scanResult.content, scanResult.format)?.let { cardId ->
-                        navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-                    }
+                _state.update {
+                    it.copy(preliminaryScanResult = scanResult as? ScanResult.Success)
                 }
             }
             .launchIn(viewModelScope)
@@ -83,6 +79,16 @@ class CardScanViewModel @Inject constructor(
         scanResultRepository.scan(image)
     }
 
+    fun onPreliminaryResultButtonClicked() {
+        viewModelScope.launch {
+            _state.value.preliminaryScanResult?.let { scanResult ->
+                insertNewCard(scanResult.content, scanResult.format)?.let { cardId ->
+                    navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+                }
+            }
+        }
+    }
+
     fun onBarcodeFileSelectionRequestResult(inputImage: InputImage?) {
         inputImage?.let { scanResultRepository.scan(it) }
     }
@@ -95,12 +101,7 @@ class CardScanViewModel @Inject constructor(
         _state.update { it.copy(launchBarcodeFileSelectionRequest = true) }
     }
 
-    private suspend fun insertNewCard(content: String, supportedFormat: SupportedFormat): Long? {
-        if (content == prevCardContent && supportedFormat == prevSupportedFormat) {
-            return null
-        }
-        prevCardContent = content
-        prevSupportedFormat = supportedFormat
+    private suspend fun insertNewCard(content: String, supportedFormat: SupportedFormat): Long {
         return cardRepository.insertNewCard(content = content, format = supportedFormat)
     }
 }
