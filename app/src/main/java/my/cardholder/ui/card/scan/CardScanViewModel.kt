@@ -58,10 +58,10 @@ class CardScanViewModel @Inject constructor(
         scanResultRepository.fileScanResult
             .onEach { scanResult ->
                 when (scanResult) {
-                    is ScanResult.Success ->
-                        insertNewCard(scanResult.content, scanResult.format)?.let { cardId ->
-                            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-                        }
+                    is ScanResult.Success -> {
+                        val cardId = insertNewCard(scanResult.content, scanResult.format)
+                        navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+                    }
                     is ScanResult.Failure ->
                         showSnack(Text.Simple(scanResult.throwable.toString()))
                     ScanResult.Nothing ->
@@ -82,9 +82,8 @@ class CardScanViewModel @Inject constructor(
     fun onPreliminaryResultButtonClicked() {
         viewModelScope.launch {
             _state.value.preliminaryScanResult?.let { scanResult ->
-                insertNewCard(scanResult.content, scanResult.format)?.let { cardId ->
-                    navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-                }
+                val cardId = insertNewCard(scanResult.content, scanResult.format)
+                navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
             }
         }
     }
