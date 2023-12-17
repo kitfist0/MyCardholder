@@ -88,6 +88,7 @@ class CardScanViewModel @Inject constructor(
     fun onPreliminaryResultButtonClicked() {
         viewModelScope.launch {
             _state.value.preliminaryScanResult?.let { scanResult ->
+                _state.update { it.copy(preliminaryScanResult = null) }
                 val cardId = insertNewCard(scanResult.content, scanResult.format)
                 navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
             }
