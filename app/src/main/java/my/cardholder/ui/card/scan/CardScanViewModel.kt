@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,7 +32,7 @@ class CardScanViewModel @Inject constructor(
 
     private companion object {
         const val EXPLANATION_DURATION_MILLIS = 5000L
-        const val CAMERA_SCAN_RESULT_DELAY_MILLIS = 2000L
+        const val SCAN_RESULT_DEBOUNCE_TIME_MILLIS = 500L
     }
 
     private val _state = MutableStateFlow(
@@ -51,13 +52,9 @@ class CardScanViewModel @Inject constructor(
 
         scanResultRepository.cameraScanResult
             .distinctUntilChanged()
+            .debounce(SCAN_RESULT_DEBOUNCE_TIME_MILLIS)
             .onEach { scanResult ->
-                if (scanResult is ScanResult.Success) {
-                    _state.update { it.copy(preliminaryScanResult = scanResult) }
-                } else {
-                    delay(CAMERA_SCAN_RESULT_DELAY_MILLIS)
-                    _state.update { it.copy(preliminaryScanResult = null) }
-                }
+                _state.update { it.copy(preliminaryScanResult = scanResult as? ScanResult.Success) }
             }
             .launchIn(viewModelScope)
 
