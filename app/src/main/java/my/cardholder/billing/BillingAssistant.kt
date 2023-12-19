@@ -1,4 +1,4 @@
-package my.cardholder.util.billing
+package my.cardholder.billing
 
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow

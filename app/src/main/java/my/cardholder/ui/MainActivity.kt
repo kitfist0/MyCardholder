@@ -11,7 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
-import my.cardholder.util.billing.BillingActivity
+import my.cardholder.billing.BillingActivity
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint

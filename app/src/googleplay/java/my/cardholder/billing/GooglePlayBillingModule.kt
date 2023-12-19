@@ -1,4 +1,4 @@
-package my.cardholder.di
+package my.cardholder.billing
 
 import android.content.Context
 import com.android.billingclient.api.BillingClient
@@ -7,8 +7,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import my.cardholder.util.billing.GooglePlayBillingAssistant
-import my.cardholder.util.billing.PurchasedProductsProvider
 import javax.inject.Singleton
 
 @Module

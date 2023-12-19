@@ -1,4 +1,4 @@
-package my.cardholder.util.billing
+package my.cardholder.billing
 
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingResult

@@ -1,4 +1,4 @@
-package my.cardholder.util.billing
+package my.cardholder.billing
 
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
@@ -10,7 +10,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 
-class GooglePlayBillingAssistant constructor(
+class GooglePlayBillingAssistant(
     billingClientBuilder: BillingClient.Builder,
 ) : BillingAssistant<BillingClient, BillingFlowParams>(), PurchasesUpdatedListener {
 

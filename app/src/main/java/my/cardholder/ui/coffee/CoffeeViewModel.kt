@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.ui.base.BaseViewModel
-import my.cardholder.util.billing.PurchasedProductsProvider
+import my.cardholder.billing.PurchasedProductsProvider
 import javax.inject.Inject
 
 @HiltViewModel
