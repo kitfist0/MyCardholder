@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:clickable="false"
-        android:gravity="center"
         android:maxWidth="250dp"
         android:text="@string/card_scan_explanation_message"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
@@ -27,6 +26,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/card_scan_preliminary_result_button"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="48dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:visibility="gone"
+        app:icon="@drawable/ic_add_card"
+        app:iconPadding="4dp"
+        app:iconSize="28dp"
+        app:layout_constraintBottom_toTopOf="@+id/card_scan_select_file_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@tools:sample/lorem/random"
         tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

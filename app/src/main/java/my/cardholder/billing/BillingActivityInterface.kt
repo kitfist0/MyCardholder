@@ -1,4 +1,4 @@
-package my.cardholder.util.billing
+package my.cardholder.billing
 
 interface BillingActivityInterface {
     fun purchaseProduct(productId: String)

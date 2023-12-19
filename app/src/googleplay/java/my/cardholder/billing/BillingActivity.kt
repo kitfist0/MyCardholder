@@ -1,4 +1,4 @@
-package my.cardholder.util.billing
+package my.cardholder.billing
 
 import android.os.Bundle
 import android.widget.Toast

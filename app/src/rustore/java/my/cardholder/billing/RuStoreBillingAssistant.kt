@@ -1,4 +1,4 @@
-package my.cardholder.util.billing
+package my.cardholder.billing
 
 import ru.rustore.sdk.billingclient.RuStoreBillingClient
 import ru.rustore.sdk.billingclient.model.purchase.PurchaseState
@@ -10,7 +10,7 @@ data class RuStoreBillingFlowParams(
     val quantity: Int = 1,
 )
 
-class RuStoreBillingAssistant constructor(
+class RuStoreBillingAssistant(
     override val billingClient: RuStoreBillingClient,
 ) : BillingAssistant<RuStoreBillingClient, RuStoreBillingFlowParams>() {
 

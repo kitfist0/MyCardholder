@@ -1,4 +1,4 @@
-package my.cardholder.di
+package my.cardholder.billing
 
 import android.content.Context
 import dagger.Binds
@@ -7,8 +7,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.util.NightModeChecker
-import my.cardholder.util.billing.PurchasedProductsProvider
-import my.cardholder.util.billing.RuStoreBillingAssistant
 import ru.rustore.sdk.billingclient.RuStoreBillingClientFactory
 import ru.rustore.sdk.billingclient.presentation.BillingClientTheme
 import ru.rustore.sdk.billingclient.provider.BillingClientThemeProvider

@@ -1,4 +1,4 @@
-package my.cardholder.util.billing
+package my.cardholder.billing
 
 import android.content.Intent
 import android.os.Bundle

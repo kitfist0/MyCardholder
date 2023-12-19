@@ -7,6 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
@@ -30,14 +32,13 @@ class CardScanViewModel @Inject constructor(
 
     private companion object {
         const val EXPLANATION_DURATION_MILLIS = 5000L
+        const val SCAN_RESULT_DEBOUNCE_TIME_MILLIS = 500L
     }
-
-    private var prevCardContent: String? = null
-    private var prevSupportedFormat: SupportedFormat? = null
 
     private val _state = MutableStateFlow(
         CardScanState(
             withExplanation = true,
+            preliminaryScanResult = null,
             launchBarcodeFileSelectionRequest = false,
         )
     )
@@ -50,22 +51,20 @@ class CardScanViewModel @Inject constructor(
         }
 
         scanResultRepository.cameraScanResult
+            .distinctUntilChanged()
+            .debounce(SCAN_RESULT_DEBOUNCE_TIME_MILLIS)
             .onEach { scanResult ->
-                if (scanResult is ScanResult.Success) {
-                    insertNewCard(scanResult.content, scanResult.format)?.let { cardId ->
-                        navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-                    }
-                }
+                _state.update { it.copy(preliminaryScanResult = scanResult as? ScanResult.Success) }
             }
             .launchIn(viewModelScope)
 
         scanResultRepository.fileScanResult
             .onEach { scanResult ->
                 when (scanResult) {
-                    is ScanResult.Success ->
-                        insertNewCard(scanResult.content, scanResult.format)?.let { cardId ->
-                            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-                        }
+                    is ScanResult.Success -> {
+                        val cardId = insertNewCard(scanResult.content, scanResult.format)
+                        navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+                    }
                     is ScanResult.Failure ->
                         showSnack(Text.Simple(scanResult.throwable.toString()))
                     ScanResult.Nothing ->
@@ -83,6 +82,16 @@ class CardScanViewModel @Inject constructor(
         scanResultRepository.scan(image)
     }
 
+    fun onPreliminaryResultButtonClicked() {
+        viewModelScope.launch {
+            _state.value.preliminaryScanResult?.let { scanResult ->
+                _state.update { it.copy(preliminaryScanResult = null) }
+                val cardId = insertNewCard(scanResult.content, scanResult.format)
+                navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+            }
+        }
+    }
+
     fun onBarcodeFileSelectionRequestResult(inputImage: InputImage?) {
         inputImage?.let { scanResultRepository.scan(it) }
     }
@@ -95,12 +104,7 @@ class CardScanViewModel @Inject constructor(
         _state.update { it.copy(launchBarcodeFileSelectionRequest = true) }
     }
 
-    private suspend fun insertNewCard(content: String, supportedFormat: SupportedFormat): Long? {
-        if (content == prevCardContent && supportedFormat == prevSupportedFormat) {
-            return null
-        }
-        prevCardContent = content
-        prevSupportedFormat = supportedFormat
+    private suspend fun insertNewCard(content: String, supportedFormat: SupportedFormat): Long {
         return cardRepository.insertNewCard(content = content, format = supportedFormat)
     }
 }
