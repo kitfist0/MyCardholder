@@ -106,7 +106,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
     // Billing
     googleplayImplementation 'com.android.billingclient:billing-ktx:6.1.0'
-    rustoreImplementation 'ru.rustore.sdk:billingclient:3.0.0'
+    rustoreImplementation 'ru.rustore.sdk:billingclient:3.2.0'
     // CameraX
     def camerax_version = '1.3.1'
     implementation "androidx.camera:camera-core:$camerax_version"
