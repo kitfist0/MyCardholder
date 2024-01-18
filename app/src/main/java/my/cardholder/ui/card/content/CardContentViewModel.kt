@@ -24,7 +24,6 @@ class CardContentViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch {
             val cardContent = cardRepository.getCardAndCategory(cardId).first()?.card?.content
-            contentText = cardContent
             _state.value = CardContentState.Success(cardContent.orEmpty())
         }
     }
@@ -33,7 +32,7 @@ class CardContentViewModel @AssistedInject constructor(
         updateCardContentAndNavigateUp()
     }
 
-    fun onCardContentChanged(changedCardContent: String?) {
+    fun onCardContentTextChanged(changedCardContent: String?) {
         contentText = changedCardContent
     }
 
@@ -42,16 +41,13 @@ class CardContentViewModel @AssistedInject constructor(
     }
 
     private fun updateCardContentAndNavigateUp() {
-        viewModelScope.launch {
-            val cardContent = contentText?.trim()
-            when {
-                cardContent.isNullOrEmpty() ->
-                    showSnack(
-                        Text.Resource(R.string.card_content_empty_text_error_message)
-                    )
-                else ->
-                    cardRepository.updateCardContent(cardId, cardContent)
-                        .also { navigateUp() }
+        val cardContent = contentText?.trim()
+        if (cardContent.isNullOrEmpty()) {
+            showSnack(Text.Resource(R.string.card_content_empty_text_error_message))
+        } else {
+            viewModelScope.launch {
+                cardRepository.updateCardContent(cardId, cardContent)
+                navigateUp()
             }
         }
     }

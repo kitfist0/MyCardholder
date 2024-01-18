@@ -50,7 +50,7 @@ class CardContentFragment : BaseFragment<FragmentCardContentBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets()
             cardContentInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
             cardContentInputLayout.editText
-                ?.doAfterTextChanged { viewModel.onCardContentChanged(it?.toString()) }
+                ?.doAfterTextChanged { viewModel.onCardContentTextChanged(it?.toString()) }
             cardContentOkFab.setOnClickListener {
                 viewModel.onOkFabClicked()
             }
