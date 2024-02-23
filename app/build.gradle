@@ -103,8 +103,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.activity:activity-ktx:1.8.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
     // Billing
     googleplayImplementation 'com.android.billingclient:billing-ktx:6.1.0'
     rustoreImplementation 'ru.rustore.sdk:billingclient:3.2.0'
@@ -129,7 +129,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     // Kotlin CSV
-    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.9.2'
+    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.9.3'
     // Ml Kit
     implementation 'com.google.mlkit:barcode-scanning:17.2.0'
     // Navigation
