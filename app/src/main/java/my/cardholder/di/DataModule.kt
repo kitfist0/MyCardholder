@@ -14,6 +14,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import my.cardholder.data.model.Coffee
 import my.cardholder.data.source.AppDatabase
 import my.cardholder.data.source.CardDao
 import my.cardholder.data.source.CategoryDao
@@ -46,14 +47,9 @@ object DataModule {
                 object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-
-                        db.execSQL(
-                            """INSERT INTO coffees
-                               VALUES
-                                   ('coffee.espresso', 0),
-                                   ('coffee.cappuccino', 0),
-                                   ('coffee.latte', 0);""".trimMargin()
-                        )
+                        Coffee.COFFEE_IDS.forEach { coffeeId ->
+                            db.execSQL("INSERT INTO coffees VALUES ('$coffeeId', 0);")
+                        }
                     }
                 }
             )

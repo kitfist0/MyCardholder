@@ -11,18 +11,10 @@ class CoffeeRepository @Inject constructor(
     private val coffeeDao: CoffeeDao,
 ) {
 
-    private companion object {
-        val COFFEE_IDS = listOf(
-            "coffee.espresso",
-            "coffee.cappuccino",
-            "coffee.latte",
-        )
-    }
-
     val coffees: Flow<List<Coffee>> = coffeeDao.getCoffees()
 
     suspend fun updatePurchaseStatusOfCoffees(purchasedIds: List<String>) {
-        val coffees = COFFEE_IDS.map { coffeeId ->
+        val coffees = Coffee.COFFEE_IDS.map { coffeeId ->
             Coffee(id = coffeeId, isPurchased = purchasedIds.contains(coffeeId))
         }
         coffeeDao.upsert(coffees)

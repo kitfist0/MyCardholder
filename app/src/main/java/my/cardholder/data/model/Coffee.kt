@@ -10,6 +10,15 @@ data class Coffee(
     val id: String,
     val isPurchased: Boolean,
 ) {
+
     @Ignore
     val name: String = id.split(".").last().replaceFirstChar(Char::titlecase)
+
+    companion object {
+        val COFFEE_IDS = listOf(
+            "coffee.espresso",
+            "coffee.cappuccino",
+            "coffee.latte",
+        )
+    }
 }
