@@ -26,7 +26,6 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            coffeeRepository.initialize()
             purchasedProductsProvider.purchasedProducts.collect { purchasedIds ->
                 coffeeRepository.updatePurchaseStatusOfCoffees(purchasedIds)
             }

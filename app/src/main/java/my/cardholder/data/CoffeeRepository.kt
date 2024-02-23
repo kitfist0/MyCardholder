@@ -21,15 +21,6 @@ class CoffeeRepository @Inject constructor(
 
     val coffees: Flow<List<Coffee>> = coffeeDao.getCoffees()
 
-    suspend fun initialize() {
-        if (coffeeDao.isEmpty()) {
-            val coffees = COFFEE_IDS.map { coffeeId ->
-                Coffee(id = coffeeId, isPurchased = false)
-            }
-            coffeeDao.upsert(coffees)
-        }
-    }
-
     suspend fun updatePurchaseStatusOfCoffees(purchasedIds: List<String>) {
         val coffees = COFFEE_IDS.map { coffeeId ->
             Coffee(id = coffeeId, isPurchased = purchasedIds.contains(coffeeId))

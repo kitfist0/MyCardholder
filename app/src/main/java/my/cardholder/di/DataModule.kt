@@ -8,6 +8,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.preference.PreferenceManager
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,6 +42,21 @@ object DataModule {
         return Room.databaseBuilder(context, AppDatabase::class.java, "cardholder.db")
             .fallbackToDestructiveMigration()
             .allowMainThreadQueries()
+            .addCallback(
+                object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+
+                        db.execSQL(
+                            """INSERT INTO coffees
+                               VALUES
+                                   ('coffee.espresso', 0),
+                                   ('coffee.cappuccino', 0),
+                                   ('coffee.latte', 0);""".trimMargin()
+                        )
+                    }
+                }
+            )
             .build()
     }
 
