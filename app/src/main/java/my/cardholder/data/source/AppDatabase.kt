@@ -13,7 +13,7 @@ import my.cardholder.data.model.Coffee
         Coffee::class,
     ],
     version = 1,
-    exportSchema = false,
+    exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao

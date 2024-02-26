@@ -95,6 +95,10 @@ android {
             finalBundleFile.set(finalFile)
         }
     }
+
+    ksp {
+        arg('room.schemaLocation', "$projectDir/schemas")
+    }
 }
 
 dependencies {
