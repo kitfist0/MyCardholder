@@ -44,6 +44,7 @@ class CardRepository @Inject constructor(
         val newCard = Card(
             id = Card.NEW_CARD_ID,
             name = name,
+            isPinned = false,
             categoryId = categoryId,
             content = content,
             color = color,
