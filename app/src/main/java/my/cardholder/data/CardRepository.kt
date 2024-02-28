@@ -128,6 +128,14 @@ class CardRepository @Inject constructor(
         }
     }
 
+    suspend fun pinUnpinCard(cardId: Long, isPinned: Boolean) {
+        if (isPinned) {
+            cardDao.unpinCardWithId(cardId)
+        } else {
+            cardDao.pinCardWithId(cardId)
+        }
+    }
+
     private suspend fun getCard(cardId: Long): Card? {
         return cardDao.getCard(cardId)
     }
