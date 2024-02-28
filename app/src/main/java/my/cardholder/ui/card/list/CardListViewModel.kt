@@ -36,7 +36,7 @@ class CardListViewModel @Inject constructor(
     }
 
     fun onCardLongClicked(cardId: Long) {
-        navigate(CardListFragmentDirections.fromCardListToDeleteCard(cardId))
+        navigate(CardListFragmentDirections.fromCardListToCardAction(cardId))
     }
 
     fun onImportCardsFabClicked() {
