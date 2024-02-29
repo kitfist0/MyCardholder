@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -66,6 +67,7 @@ class CardListAdapter(
                         originalSize = false,
                     )
                 }
+                itemCardPushPinImage.isVisible = card.isPinned
                 itemCardNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.name
