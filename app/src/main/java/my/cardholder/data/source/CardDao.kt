@@ -17,6 +17,9 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCardAndCategory(id: Long): Flow<CardAndCategory?>
 
+    @Query("SELECT COUNT(id) FROM cards WHERE is_pinned = 1")
+    suspend fun getNumberOfPinnedCards(): Int
+
     @Query("SELECT * FROM cards WHERE id = :id")
     suspend fun getCard(id: Long): Card?
 

@@ -26,6 +26,10 @@ class CardRepository @Inject constructor(
         return cardDao.getCardAndCategory(cardId)
     }
 
+    suspend fun getNumberOfPinnedCards(): Int {
+        return cardDao.getNumberOfPinnedCards()
+    }
+
     suspend fun deleteCard(cardId: Long) {
         getCard(cardId)?.let { card ->
             card.barcodeFile?.delete()
