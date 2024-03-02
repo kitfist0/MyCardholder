@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Картхолдер</string>
 
+    <!--region CardAction-->
+    <string name="card_action_dialog_default_title">Выберите действие для карточки \"%s\"</string>
+    <string name="card_action_dialog_delete_button_text">Удалить карточку</string>
+    <string name="card_action_dialog_pin_card_button_text">Закрепить карточку</string>
+    <string name="card_action_dialog_unpin_card_button_text">Открепить карточку</string>
+    <!--endregion-->
+
     <!--region CardBackup-->
     <string name="card_backup_dialog_default_title">Импорт или экспорт карт</string>
     <string name="card_backup_dialog_export_button_text">Экспортировать карты в файл</string>

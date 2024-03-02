@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Tarjetero</string>
 
+    <!--region CardAction-->
+    <string name="card_action_dialog_default_title">Elige acción con tarjeta \"%s\"</string>
+    <string name="card_action_dialog_delete_button_text">Eliminar tarjeta</string>
+    <string name="card_action_dialog_pin_card_button_text">Fijar la tarjeta</string>
+    <string name="card_action_dialog_unpin_card_button_text">Desfijar la tarjeta</string>
+    <!--endregion-->
+
     <!--region CardBackup-->
     <string name="card_backup_dialog_default_title">Importar o exportar tarjetas</string>
     <string name="card_backup_dialog_export_button_text">Exportar tarjetas a archivo</string>

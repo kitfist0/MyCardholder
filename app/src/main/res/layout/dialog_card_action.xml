@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="Choose action with card %s"
+        android:text="@string/card_action_dialog_default_title"
         android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="Pin card"
+        android:text="@string/card_action_dialog_pin_card_button_text"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_pushpin_outlined" />
 
@@ -36,7 +36,7 @@
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="Delete card"
+        android:text="@string/card_action_dialog_delete_button_text"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_del" />
 

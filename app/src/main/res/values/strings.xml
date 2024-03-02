@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Cardholder</string>
 
+    <!--region CardAction-->
+    <string name="card_action_dialog_default_title">Choose action with card \"%s\"</string>
+    <string name="card_action_dialog_delete_button_text">Delete card</string>
+    <string name="card_action_dialog_pin_card_button_text">Pin card</string>
+    <string name="card_action_dialog_unpin_card_button_text">Unpin card</string>
+    <!--endregion-->
+
     <!--region CardBackup-->
     <string name="card_backup_dialog_default_title">Import or export cards</string>
     <string name="card_backup_dialog_export_button_text">Export cards to file</string>
