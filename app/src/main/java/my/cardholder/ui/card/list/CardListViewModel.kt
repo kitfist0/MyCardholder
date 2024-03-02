@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
@@ -19,16 +20,30 @@ class CardListViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        cardRepository.cardsAndCategories
-            .onEach { cardsAndCategories ->
+        viewModelScope.launch {
+            var prevNumOfPinnedCards = cardRepository.getNumberOfPinnedCards()
+            cardRepository.cardsAndCategories.collect { cardsAndCategories ->
                 val isMultiColumn = settingsRepository.multiColumnListEnabled.first()
+                val numOfPinnedCards = cardRepository.getNumberOfPinnedCards()
                 _state.value = if (cardsAndCategories.isNotEmpty()) {
-                    CardListState.Success(cardsAndCategories, if (isMultiColumn) 2 else 1)
+                    CardListState.Success(
+                        cardsAndCategories = cardsAndCategories,
+                        spanCount = if (isMultiColumn) 2 else 1,
+                        scrollUpEvent = numOfPinnedCards > prevNumOfPinnedCards,
+                    )
                 } else {
                     CardListState.Empty()
                 }
+                prevNumOfPinnedCards = numOfPinnedCards
             }
-            .launchIn(viewModelScope)
+        }
+    }
+
+    fun consumeScrollUpEvent() {
+        val currentState = _state.value
+        if (currentState is CardListState.Success) {
+            _state.value = currentState.copy(scrollUpEvent = false)
+        }
     }
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {

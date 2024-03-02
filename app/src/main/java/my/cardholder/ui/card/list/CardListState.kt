@@ -12,5 +12,6 @@ sealed class CardListState {
     data class Success(
         val cardsAndCategories: List<CardAndCategory>,
         val spanCount: Int,
+        val scrollUpEvent: Boolean,
     ) : CardListState()
 }
