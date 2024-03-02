@@ -26,7 +26,7 @@
         android:padding="@dimen/bottom_sheet_view_padding"
         android:text="Pin card"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        app:drawableStartCompat="@drawable/ic_pin" />
+        app:drawableStartCompat="@drawable/ic_pushpin_outlined" />
 
     <TextView
         android:id="@+id/card_action_delete_button"
