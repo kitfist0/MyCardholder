@@ -94,7 +94,12 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                     binding.cardListSearchFab.isVisible = true
                     binding.cardListImportCardsFab.isVisible = false
                     binding.cardListEmptyListMessageText.text = null
-                    listAdapter.submitList(state.cardsAndCategories)
+                    listAdapter.submitList(state.cardsAndCategories) {
+                        if (state.scrollUpEvent) {
+                            binding.cardListRecyclerView.scrollToPosition(0)
+                            viewModel.consumeScrollUpEvent()
+                        }
+                    }
                 }
             }
         }

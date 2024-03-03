@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Ignore
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.io.File
 
@@ -12,6 +13,7 @@ typealias BarcodeFilePath = String
 
 @Entity(
     tableName = "cards",
+    indices = [Index(value = ["category_id"])],
     foreignKeys = [
         ForeignKey(
             entity = Category::class,
@@ -25,6 +27,8 @@ data class Card(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val name: String,
+    @ColumnInfo("is_pinned")
+    val isPinned: Boolean,
     @ColumnInfo("category_id")
     val categoryId: Long? = null,
     val content: String,
