@@ -22,8 +22,10 @@ class CardListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             var prevNumOfPinnedCards = cardRepository.getNumberOfPinnedCards()
-            cardRepository.cardsAndCategories.collect { cardsAndCategories ->
-                val isMultiColumn = settingsRepository.multiColumnListEnabled.first()
+            combine(
+                cardRepository.cardsAndCategories,
+                settingsRepository.multiColumnListEnabled,
+            ) { cardsAndCategories, isMultiColumn ->
                 val numOfPinnedCards = cardRepository.getNumberOfPinnedCards()
                 _state.value = if (cardsAndCategories.isNotEmpty()) {
                     CardListState.Success(
@@ -35,7 +37,7 @@ class CardListViewModel @Inject constructor(
                     CardListState.Empty()
                 }
                 prevNumOfPinnedCards = numOfPinnedCards
-            }
+            }.collect()
         }
     }
 
