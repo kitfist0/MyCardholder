@@ -25,6 +25,7 @@ class DeleteCardDialog : BaseDialogFragment<DialogDeleteCardBinding>(
     }
 
     override fun initViews() {
+        dialog?.window?.setWindowAnimations(-1)
         binding.deleteCardConfirmationButton.setOnClickListener {
             viewModel.onDeleteConfirmationButtonClicked()
         }
