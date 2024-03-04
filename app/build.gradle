@@ -85,7 +85,7 @@ android {
 
     // Rename APKs and AABs
     applicationVariants.configureEach { variant ->
-        def artifactName = "${applicationId}-${variant.versionCode}-${variant.buildType.name}"
+        def artifactName = "${variant.flavorName.toLowerCase()}-${variant.versionCode}-${variant.buildType.name}"
         variant.outputs.configureEach {
             outputFileName = "${artifactName}.apk"
         }
