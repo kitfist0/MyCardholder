@@ -110,6 +110,8 @@
     <!--region Settings-->
     <string name="settings_about_app_button_text">Über App</string>
     <string name="settings_card_categories_button_text">Kartenkategorien</string>
+    <string name="settings_cloud_sync_activation_button_text">Karten mit der Cloud synchronisieren</string>
+    <string name="settings_cloud_sync_deactivation_button_text">Karten nicht mit der Cloud synchronisieren</string>
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
     <string name="settings_import_export_cards_button_text">Karten importieren oder exportieren</string>
     <string name="settings_label">Einstellungen</string>
