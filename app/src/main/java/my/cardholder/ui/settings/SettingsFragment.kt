@@ -30,6 +30,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             settingsImportExportCardsButton.setOnClickListener {
                 viewModel.onImportExportCardsButtonClicked()
             }
+            settingsCloudSyncButton.setOnClickListener {
+                viewModel.onCloudSyncButtonClicked()
+            }
             settingsCoffeeButton.setOnClickListener {
                 viewModel.onCoffeeButtonClicked()
             }
@@ -46,6 +49,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         collectWhenStarted(viewModel.state) { state ->
             setupColorThemeButtonState(state.nightModeEnabled)
             setupCardListViewButtonState(state.multiColumnListEnabled)
+            setupCloudSyncButtonState(state.cloudSyncEnabled)
         }
     }
 
@@ -78,6 +82,21 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
                     R.string.settings_switch_to_single_column_button_text
                 } else {
                     R.string.settings_switch_to_multi_column_button_text
+                }
+            )
+        }
+    }
+
+    private fun setupCloudSyncButtonState(cloudSyncEnabled: Boolean) {
+        binding.settingsCloudSyncButton.apply {
+            setIconResource(
+                if (cloudSyncEnabled) R.drawable.ic_cloud_off else R.drawable.ic_cloud_on
+            )
+            setText(
+                if (cloudSyncEnabled) {
+                    R.string.settings_cloud_sync_deactivation_button_text
+                } else {
+                    R.string.settings_cloud_sync_activation_button_text
                 }
             )
         }

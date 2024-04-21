@@ -17,11 +17,15 @@ class SettingsViewModel @Inject constructor(
         SettingsState(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
+            cloudSyncEnabled = false,
         )
     )
     val state = _state.asStateFlow()
 
     init {
+        settingsRepository.cloudSyncEnabled
+            .onEach { _state.value = _state.value.copy(cloudSyncEnabled = it) }
+            .launchIn(viewModelScope)
         settingsRepository.nightModeEnabled
             .onEach { _state.value = _state.value.copy(nightModeEnabled = it) }
             .launchIn(viewModelScope)
@@ -50,6 +54,13 @@ class SettingsViewModel @Inject constructor(
 
     fun onImportExportCardsButtonClicked() {
         navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
+    }
+
+    fun onCloudSyncButtonClicked() {
+        viewModelScope.launch {
+            val isEnabled = settingsRepository.cloudSyncEnabled.first()
+            settingsRepository.setCloudSyncEnabled(!isEnabled)
+        }
     }
 
     fun onCoffeeButtonClicked() {
