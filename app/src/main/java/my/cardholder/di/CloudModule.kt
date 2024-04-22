@@ -1,8 +1,13 @@
 package my.cardholder.di
 
 import android.content.Context
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.Scope
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
+import com.google.api.services.drive.DriveScopes
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +20,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object CloudModule {
+
+    @Provides
+    fun provideGoogleSignInClient(context: Context): GoogleSignInClient {
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestScopes(Scope(DriveScopes.DRIVE_APPDATA))
+            .build()
+        return GoogleSignIn.getClient(context, googleSignInOptions)
+    }
+
     @Provides
     @Singleton
     fun provideCloudAssistant(context: Context): CloudAssistant {
