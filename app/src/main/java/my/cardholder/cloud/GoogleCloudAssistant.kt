@@ -31,6 +31,9 @@ class GoogleCloudAssistant(
                     .build()
             }
 
+    override val isCloudAvailable: Boolean
+        get() = googleCredentialWrapper.getCredential(setOf(DriveScopes.DRIVE_APPDATA)) != null
+
     override fun downloadAppData(): Result<String> = runCatching {
         googleDrive ?: throw IOException("Google Drive is not initialized")
         var content = ""
