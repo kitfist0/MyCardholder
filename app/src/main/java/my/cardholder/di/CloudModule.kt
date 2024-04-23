@@ -21,10 +21,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object CloudModule {
 
+    private const val DRIVE_SCOPE = DriveScopes.DRIVE_APPDATA
+
     @Provides
     fun provideGoogleSignInClient(context: Context): GoogleSignInClient {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestScopes(Scope(DriveScopes.DRIVE_APPDATA))
+            .requestScopes(Scope(DRIVE_SCOPE))
             .build()
         return GoogleSignIn.getClient(context, googleSignInOptions)
     }
@@ -33,7 +35,7 @@ object CloudModule {
     @Singleton
     fun provideCloudAssistant(context: Context): CloudAssistant {
         return GoogleCloudAssistant(
-            googleCredentialWrapper = GoogleCredentialWrapper(context),
+            googleCredentialWrapper = GoogleCredentialWrapper(context, setOf(DRIVE_SCOPE)),
             gsonFactory = GsonFactory.getDefaultInstance(),
             netHttpTransport = NetHttpTransport(),
         )

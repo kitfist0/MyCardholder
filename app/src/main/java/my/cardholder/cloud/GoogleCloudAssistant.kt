@@ -4,7 +4,6 @@ import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
-import com.google.api.services.drive.DriveScopes
 import com.google.api.services.drive.model.File
 import my.cardholder.BuildConfig
 import my.cardholder.util.GoogleCredentialWrapper
@@ -24,7 +23,7 @@ class GoogleCloudAssistant(
     }
 
     private val googleDrive
-        get() = googleCredentialWrapper.getCredential(setOf(DriveScopes.DRIVE_APPDATA))
+        get() = googleCredentialWrapper.getCredential()
             ?.let { credential ->
                 Drive.Builder(netHttpTransport, gsonFactory, credential)
                     .setApplicationName(BuildConfig.APP_NAME)
@@ -32,7 +31,7 @@ class GoogleCloudAssistant(
             }
 
     override val isCloudAvailable: Boolean
-        get() = googleCredentialWrapper.getCredential(setOf(DriveScopes.DRIVE_APPDATA)) != null
+        get() = googleCredentialWrapper.getCredential() != null
 
     override fun downloadAppData(): Result<String> = runCatching {
         googleDrive ?: throw IOException("Google Drive is not initialized")
