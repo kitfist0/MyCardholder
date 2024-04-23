@@ -3,7 +3,6 @@ package my.cardholder.ui.settings
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -15,7 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val googleSignInClient: GoogleSignInClient,
     private val cloudAssistant: CloudAssistant,
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
@@ -66,8 +64,8 @@ class SettingsViewModel @Inject constructor(
 
     fun onCloudSyncButtonClicked() {
         if (cloudAssistant.isCloudAvailable) {
-            googleSignInClient.signOut()
-                .addOnSuccessListener { setCloudSyncEnabled(false) }
+            cloudAssistant.signOut()
+            setCloudSyncEnabled(false)
         } else {
             _state.update { it.copy(launchCloudSignInRequest = true) }
         }

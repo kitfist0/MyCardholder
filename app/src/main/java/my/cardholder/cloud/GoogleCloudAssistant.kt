@@ -1,5 +1,6 @@
 package my.cardholder.cloud
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
@@ -12,6 +13,7 @@ import java.io.IOException
 
 class GoogleCloudAssistant(
     private val googleCredentialWrapper: GoogleCredentialWrapper,
+    private val googleSignInClient: GoogleSignInClient,
     private val gsonFactory: GsonFactory,
     private val netHttpTransport: NetHttpTransport,
 ) : CloudAssistant {
@@ -59,6 +61,10 @@ class GoogleCloudAssistant(
                 .forEach { file -> files().delete(file.id).execute() }
             files().create(driveFile, driveFileContent).setFields("id").execute()
         }
+    }
+
+    override fun signOut() {
+        googleSignInClient.signOut()
     }
 
     private fun Drive.getAppDataFolderFiles(): List<File> {
