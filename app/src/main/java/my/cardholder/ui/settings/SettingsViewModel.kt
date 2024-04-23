@@ -1,15 +1,22 @@
 package my.cardholder.ui.settings
 
+import androidx.activity.result.ActivityResult
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.cloud.CloudAssistant
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.Text
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    private val googleSignInClient: GoogleSignInClient,
+    private val cloudAssistant: CloudAssistant,
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
@@ -17,7 +24,8 @@ class SettingsViewModel @Inject constructor(
         SettingsState(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
-            cloudSyncEnabled = false,
+            cloudSyncEnabled = cloudAssistant.isCloudAvailable,
+            launchCloudSignInRequest = false,
         )
     )
     val state = _state.asStateFlow()
@@ -57,10 +65,25 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onCloudSyncButtonClicked() {
-        viewModelScope.launch {
-            val isEnabled = settingsRepository.cloudSyncEnabled.first()
-            settingsRepository.setCloudSyncEnabled(!isEnabled)
+        if (cloudAssistant.isCloudAvailable) {
+            googleSignInClient.signOut()
+                .addOnSuccessListener { setCloudSyncEnabled(false) }
+        } else {
+            _state.update { it.copy(launchCloudSignInRequest = true) }
         }
+    }
+
+    fun onCloudSignInRequestLaunched() {
+        _state.update { it.copy(launchCloudSignInRequest = false) }
+    }
+
+    fun onCloudSignInRequestResult(activityResult: ActivityResult) {
+        GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
+            .addOnFailureListener { setCloudSyncEnabled(false) }
+            .addOnSuccessListener {
+                _state.value = _state.value.copy(cloudSyncEnabled = true)
+                setCloudSyncEnabled(true)
+            }
     }
 
     fun onCoffeeButtonClicked() {
@@ -73,5 +96,14 @@ class SettingsViewModel @Inject constructor(
 
     fun onAboutAppButtonClicked() {
         navigate(SettingsFragmentDirections.fromSettingsToInfo())
+    }
+
+    private fun setCloudSyncEnabled(isEnabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setCloudSyncEnabled(isEnabled)
+            showSnack(
+                Text.Simple(if (isEnabled) "Cloud sync enabled!" else "Cloud sync disabled!")
+            )
+        }
     }
 }
