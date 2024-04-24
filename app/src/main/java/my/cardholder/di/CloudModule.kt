@@ -33,9 +33,10 @@ object CloudModule {
 
     @Provides
     @Singleton
-    fun provideCloudAssistant(context: Context): CloudAssistant {
+    fun provideCloudAssistant(context: Context, googleSignInClient: GoogleSignInClient): CloudAssistant {
         return GoogleCloudAssistant(
             googleCredentialWrapper = GoogleCredentialWrapper(context, setOf(DRIVE_SCOPE)),
+            googleSignInClient = googleSignInClient,
             gsonFactory = GsonFactory.getDefaultInstance(),
             netHttpTransport = NetHttpTransport(),
         )

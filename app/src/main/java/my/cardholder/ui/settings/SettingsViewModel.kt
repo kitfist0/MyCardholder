@@ -64,8 +64,11 @@ class SettingsViewModel @Inject constructor(
 
     fun onCloudSyncButtonClicked() {
         if (cloudAssistant.isCloudAvailable) {
-            cloudAssistant.signOut()
-            setCloudSyncEnabled(false)
+            viewModelScope.launch {
+                cloudAssistant.signOut()
+                    .onSuccess { setCloudSyncEnabled(false) }
+                    .onFailure { showSnack(Text.Simple("${it.message}")) }
+            }
         } else {
             _state.update { it.copy(launchCloudSignInRequest = true) }
         }
@@ -77,11 +80,8 @@ class SettingsViewModel @Inject constructor(
 
     fun onCloudSignInRequestResult(activityResult: ActivityResult) {
         GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
+            .addOnSuccessListener { setCloudSyncEnabled(true) }
             .addOnFailureListener { setCloudSyncEnabled(false) }
-            .addOnSuccessListener {
-                _state.value = _state.value.copy(cloudSyncEnabled = true)
-                setCloudSyncEnabled(true)
-            }
     }
 
     fun onCoffeeButtonClicked() {
