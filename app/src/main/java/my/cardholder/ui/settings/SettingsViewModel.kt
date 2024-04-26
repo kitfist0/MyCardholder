@@ -22,7 +22,7 @@ class SettingsViewModel @Inject constructor(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
             cloudSyncEnabled = cloudAssistant.isCloudAvailable,
-            launchCloudSignInRequest = false,
+            launchCloudSignInRequest = null,
         )
     )
     val state = _state.asStateFlow()
@@ -69,12 +69,12 @@ class SettingsViewModel @Inject constructor(
                     .onFailure { showSnack(Text.Simple("${it.message}")) }
             }
         } else {
-            _state.update { it.copy(launchCloudSignInRequest = true) }
+            _state.update { it.copy(launchCloudSignInRequest = cloudAssistant.signInIntent) }
         }
     }
 
     fun onCloudSignInRequestLaunched() {
-        _state.update { it.copy(launchCloudSignInRequest = false) }
+        _state.update { it.copy(launchCloudSignInRequest = null) }
     }
 
     fun onCloudSignInRequestResult(activityResult: ActivityResult) {

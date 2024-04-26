@@ -1,5 +1,6 @@
 package my.cardholder.cloud
 
+import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -38,6 +39,9 @@ class GoogleCloudAssistant(
 
     override val isCloudAvailable: Boolean
         get() = googleCredentialWrapper.getCredential() != null
+
+    override val signInIntent: Intent
+        get() = googleSignInClient.signInIntent
 
     override suspend fun downloadAppData(): Result<String> = withContext(Dispatchers.IO) {
         runCatching {

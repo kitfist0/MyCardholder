@@ -2,22 +2,17 @@ package my.cardholder.ui.settings
 
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentSettingsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
-
-    @Inject
-    lateinit var googleSignInClient: GoogleSignInClient
 
     private val cloudSignInRequest = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -62,8 +57,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             setupColorThemeButtonState(state.nightModeEnabled)
             setupCardListViewButtonState(state.multiColumnListEnabled)
             setupCloudSyncButtonState(state.cloudSyncEnabled)
-            if (state.launchCloudSignInRequest) {
-                cloudSignInRequest.launch(googleSignInClient.signInIntent)
+            state.launchCloudSignInRequest?.let { intent ->
+                cloudSignInRequest.launch(intent)
                 viewModel.onCloudSignInRequestLaunched()
             }
         }
