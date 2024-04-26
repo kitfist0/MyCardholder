@@ -2,7 +2,6 @@ package my.cardholder.ui.settings
 
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -79,9 +78,11 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onCloudSignInRequestResult(activityResult: ActivityResult) {
-        GoogleSignIn.getSignedInAccountFromIntent(activityResult.data)
-            .addOnSuccessListener { setCloudSyncEnabled(true) }
-            .addOnFailureListener { setCloudSyncEnabled(false) }
+        if (activityResult.resultCode == -1 && cloudAssistant.isCloudAvailable) {
+            setCloudSyncEnabled(true)
+        } else {
+            setCloudSyncEnabled(false)
+        }
     }
 
     fun onCoffeeButtonClicked() {
