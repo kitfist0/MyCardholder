@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import my.cardholder.cloud.CloudAssistant
+import my.cardholder.cloud.CloudSignInAssistant
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val cloudAssistant: CloudAssistant,
+    private val cloudSignInAssistant: CloudSignInAssistant,
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
@@ -21,7 +21,7 @@ class SettingsViewModel @Inject constructor(
         SettingsState(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
-            cloudSyncEnabled = cloudAssistant.isCloudAvailable,
+            cloudSyncEnabled = cloudSignInAssistant.alreadySignedIn,
             launchCloudSignInRequest = null,
         )
     )
@@ -62,14 +62,14 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onCloudSyncButtonClicked() {
-        if (cloudAssistant.isCloudAvailable) {
+        if (cloudSignInAssistant.alreadySignedIn) {
             viewModelScope.launch {
-                cloudAssistant.signOut()
+                cloudSignInAssistant.signOut()
                     .onSuccess { setCloudSyncEnabled(false) }
                     .onFailure { showSnack(Text.Simple("${it.message}")) }
             }
         } else {
-            _state.update { it.copy(launchCloudSignInRequest = cloudAssistant.signInIntent) }
+            _state.update { it.copy(launchCloudSignInRequest = cloudSignInAssistant.signInIntent) }
         }
     }
 
@@ -78,7 +78,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onCloudSignInRequestResult(activityResult: ActivityResult) {
-        if (activityResult.resultCode == -1 && cloudAssistant.isCloudAvailable) {
+        if (activityResult.resultCode == -1 && cloudSignInAssistant.alreadySignedIn) {
             setCloudSyncEnabled(true)
         } else {
             setCloudSyncEnabled(false)

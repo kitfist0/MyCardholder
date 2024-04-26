@@ -1,7 +1,5 @@
 package my.cardholder.cloud
 
-import android.content.Intent
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
@@ -13,12 +11,9 @@ import my.cardholder.BuildConfig
 import my.cardholder.util.GoogleCredentialWrapper
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class GoogleCloudAssistant(
     private val googleCredentialWrapper: GoogleCredentialWrapper,
-    private val googleSignInClient: GoogleSignInClient,
     private val gsonFactory: GsonFactory,
     private val netHttpTransport: NetHttpTransport,
 ) : CloudAssistant {
@@ -36,12 +31,6 @@ class GoogleCloudAssistant(
                     .setApplicationName(BuildConfig.APP_NAME)
                     .build()
             }
-
-    override val isCloudAvailable: Boolean
-        get() = googleCredentialWrapper.getCredential() != null
-
-    override val signInIntent: Intent
-        get() = googleSignInClient.signInIntent
 
     override suspend fun downloadAppData(): Result<String> = withContext(Dispatchers.IO) {
         runCatching {
@@ -73,14 +62,6 @@ class GoogleCloudAssistant(
                 files().create(driveFile, driveFileContent).setFields("id").execute()
             }
             Unit
-        }
-    }
-
-    override suspend fun signOut(): Result<Unit> {
-        return suspendCoroutine { continuation ->
-            googleSignInClient.signOut()
-                .addOnSuccessListener { continuation.resume(Result.success(Unit)) }
-                .addOnFailureListener { continuation.resume(Result.failure(it)) }
         }
     }
 
