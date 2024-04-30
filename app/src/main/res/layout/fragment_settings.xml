@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:backgroundTint="?colorSecondaryContainer"
+            android:backgroundTint="?colorPrimaryContainer"
             app:strokeWidth="0dp">
 
             <com.google.android.material.materialswitch.MaterialSwitch
@@ -26,7 +26,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="16dp"
-                android:text="@string/settings_cloud_sync_activation_button_text"
+                android:text="@string/settings_cloud_sync_switch_text"
                 android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
 
         </com.google.android.material.card.MaterialCardView>

@@ -110,6 +110,7 @@
     <!--region Settings-->
     <string name="settings_about_app_button_text">Acerca de la aplicación</string>
     <string name="settings_card_categories_button_text">Categorías de tarjetas</string>
+    <string name="settings_cloud_sync_switch_text">Sincronización en la nube</string>
     <string name="settings_cloud_sync_activation_button_text">Sincronizar tarjetas con la nube</string>
     <string name="settings_cloud_sync_deactivation_button_text">No sincronice tarjetas con la nube</string>
     <string name="settings_coffee_button_text">Café para desarrolladores</string>
