@@ -39,6 +39,21 @@ class SettingsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun onCloudSyncSwitchCheckedChanged(isChecked: Boolean) {
+        if (isChecked && !cloudSignInAssistant.alreadySignedIn) {
+            _state.update { it.copy(launchCloudSignInRequest = cloudSignInAssistant.signInIntent) }
+        } else if (!isChecked && cloudSignInAssistant.alreadySignedIn) {
+            viewModelScope.launch {
+                cloudSignInAssistant.signOut()
+                    .onSuccess { setCloudSyncEnabled(false) }
+                    .onFailure {
+                        setCloudSyncEnabled(true)
+                        showSnack(Text.Simple("${it.message}"))
+                    }
+            }
+        }
+    }
+
     fun onColorThemeButtonClicked() {
         viewModelScope.launch {
             val isEnabled = settingsRepository.nightModeEnabled.first()
@@ -59,18 +74,6 @@ class SettingsViewModel @Inject constructor(
 
     fun onImportExportCardsButtonClicked() {
         navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
-    }
-
-    fun onCloudSyncButtonClicked() {
-        if (cloudSignInAssistant.alreadySignedIn) {
-            viewModelScope.launch {
-                cloudSignInAssistant.signOut()
-                    .onSuccess { setCloudSyncEnabled(false) }
-                    .onFailure { showSnack(Text.Simple("${it.message}")) }
-            }
-        } else {
-            _state.update { it.copy(launchCloudSignInRequest = cloudSignInAssistant.signInIntent) }
-        }
     }
 
     fun onCloudSignInRequestLaunched() {

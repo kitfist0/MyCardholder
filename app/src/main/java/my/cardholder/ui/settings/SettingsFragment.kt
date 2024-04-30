@@ -25,6 +25,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
+            settingsCloudSyncSwitch.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.onCloudSyncSwitchCheckedChanged(isChecked)
+            }
             settingsColorThemeButton.setOnClickListener {
                 viewModel.onColorThemeButtonClicked()
             }
@@ -36,9 +39,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             }
             settingsImportExportCardsButton.setOnClickListener {
                 viewModel.onImportExportCardsButtonClicked()
-            }
-            settingsCloudSyncButton.setOnClickListener {
-                viewModel.onCloudSyncButtonClicked()
             }
             settingsCoffeeButton.setOnClickListener {
                 viewModel.onCoffeeButtonClicked()
@@ -54,9 +54,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
+            binding.settingsCloudSyncSwitch.isChecked = state.cloudSyncEnabled
             setupColorThemeButtonState(state.nightModeEnabled)
             setupCardListViewButtonState(state.multiColumnListEnabled)
-            setupCloudSyncButtonState(state.cloudSyncEnabled)
             state.launchCloudSignInRequest?.let { intent ->
                 cloudSignInRequest.launch(intent)
                 viewModel.onCloudSignInRequestLaunched()
@@ -93,21 +93,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
                     R.string.settings_switch_to_single_column_button_text
                 } else {
                     R.string.settings_switch_to_multi_column_button_text
-                }
-            )
-        }
-    }
-
-    private fun setupCloudSyncButtonState(cloudSyncEnabled: Boolean) {
-        binding.settingsCloudSyncButton.apply {
-            setIconResource(
-                if (cloudSyncEnabled) R.drawable.ic_cloud_off else R.drawable.ic_cloud_on
-            )
-            setText(
-                if (cloudSyncEnabled) {
-                    R.string.settings_cloud_sync_deactivation_button_text
-                } else {
-                    R.string.settings_cloud_sync_activation_button_text
                 }
             )
         }
