@@ -111,8 +111,8 @@
     <string name="settings_about_app_button_text">About app</string>
     <string name="settings_card_categories_button_text">Card categories</string>
     <string name="settings_cloud_sync_switch_text">Cloud sync</string>
-    <string name="settings_cloud_sync_activation_button_text">Sync cards with the cloud</string>
-    <string name="settings_cloud_sync_deactivation_button_text">Don\'t sync cards with the cloud</string>
+    <string name="settings_cloud_sync_activation_message">Cloud sync enabled</string>
+    <string name="settings_cloud_sync_deactivation_message">Cloud sync disabled</string>
     <string name="settings_coffee_button_text">Coffee for developers</string>
     <string name="settings_import_export_cards_button_text">Import or export cards</string>
     <string name="settings_label">Settings</string>

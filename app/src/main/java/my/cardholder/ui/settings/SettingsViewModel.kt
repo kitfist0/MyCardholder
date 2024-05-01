@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.cloud.CloudSignInAssistant
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
@@ -81,10 +82,12 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onCloudSignInRequestResult(activityResult: ActivityResult) {
-        if (activityResult.resultCode == -1 && cloudSignInAssistant.alreadySignedIn) {
-            setCloudSyncEnabled(true)
-        } else {
-            setCloudSyncEnabled(false)
+        viewModelScope.launch {
+            if (activityResult.resultCode == -1 && cloudSignInAssistant.alreadySignedIn) {
+                setCloudSyncEnabled(true)
+            } else {
+                setCloudSyncEnabled(false)
+            }
         }
     }
 
@@ -100,12 +103,16 @@ class SettingsViewModel @Inject constructor(
         navigate(SettingsFragmentDirections.fromSettingsToInfo())
     }
 
-    private fun setCloudSyncEnabled(isEnabled: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.setCloudSyncEnabled(isEnabled)
-            showSnack(
-                Text.Simple(if (isEnabled) "Cloud sync enabled!" else "Cloud sync disabled!")
+    private suspend fun setCloudSyncEnabled(isEnabled: Boolean) {
+        settingsRepository.setCloudSyncEnabled(isEnabled)
+        showToast(
+            Text.Resource(
+                if (isEnabled) {
+                    R.string.settings_cloud_sync_activation_message
+                } else {
+                    R.string.settings_cloud_sync_deactivation_message
+                }
             )
-        }
+        )
     }
 }

@@ -111,8 +111,8 @@
     <string name="settings_about_app_button_text">О приложении</string>
     <string name="settings_card_categories_button_text">Категории карт</string>
     <string name="settings_cloud_sync_switch_text">Синхронизация с облаком</string>
-    <string name="settings_cloud_sync_activation_button_text">Синхронизировать карты с облаком</string>
-    <string name="settings_cloud_sync_deactivation_button_text">Не синхронизировать карты с облаком</string>
+    <string name="settings_cloud_sync_activation_message">Синхронизация включена</string>
+    <string name="settings_cloud_sync_deactivation_message">Синхронизация отключена</string>
     <string name="settings_coffee_button_text">Кофе для разработчиков</string>
     <string name="settings_import_export_cards_button_text">Импорт или экспорт карт</string>
     <string name="settings_label">Настройки</string>
