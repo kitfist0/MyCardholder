@@ -157,6 +157,8 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation 'androidx.hilt:hilt-work:1.2.0'
+    kapt 'androidx.hilt:hilt-compiler:1.2.0'
     // Kotlin CSV
     implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.9.3'
     // Ml Kit
@@ -173,6 +175,10 @@ dependencies {
     ksp "androidx.room:room-compiler:$room_version"
     // Splash
     implementation 'androidx.core:core-splashscreen:1.0.1'
+    // WorkManager
+    def work_version = "2.9.0"
+    implementation "androidx.work:work-runtime:$work_version"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
     // Zxing
     implementation 'com.google.zxing:core:3.5.0'
 
