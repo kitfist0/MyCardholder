@@ -20,7 +20,6 @@ class GoogleCloudAssistant(
 
     private companion object {
         const val APP_DATA_FOLDER = "appDataFolder"
-        const val FILE_NAME = "data.txt"
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
@@ -32,12 +31,13 @@ class GoogleCloudAssistant(
                     .build()
             }
 
-    override suspend fun downloadAppData(): Result<String> = withContext(Dispatchers.IO) {
+    override suspend fun downloadCsvFile(name: String): Result<String> = withContext(Dispatchers.IO) {
         runCatching {
             googleDrive ?: throw IOException("Google Drive is not initialized")
             var content = ""
             googleDrive?.apply {
-                getAppDataFolderFiles().firstOrNull()
+                getAppDataFolderFiles()
+                    .find { it.name == name }
                     ?.let { file ->
                         val outputStream = ByteArrayOutputStream()
                         files().get(file.id).executeMediaAndDownloadTo(outputStream)
@@ -48,16 +48,17 @@ class GoogleCloudAssistant(
         }
     }
 
-    override suspend fun uploadAppData(data: String): Result<Unit> = withContext(Dispatchers.IO) {
+    override suspend fun uploadCsvFile(name: String, content: String): Result<Unit> = withContext(Dispatchers.IO) {
         runCatching {
             googleDrive ?: throw IOException("Google Drive is not initialized")
             val driveFile = File().apply {
-                setName(FILE_NAME)
+                setName(name)
                 setParents(listOf(APP_DATA_FOLDER))
             }
-            val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, data.byteInputStream())
+            val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
             googleDrive?.run {
                 getAppDataFolderFiles()
+                    .filter { it.name == name }
                     .forEach { file -> files().delete(file.id).execute() }
                 files().create(driveFile, driveFileContent).setFields("id").execute()
             }

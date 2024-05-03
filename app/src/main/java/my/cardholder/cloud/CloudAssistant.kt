@@ -1,6 +1,6 @@
 package my.cardholder.cloud
 
 interface CloudAssistant {
-    suspend fun downloadAppData(): Result<String>
-    suspend fun uploadAppData(data: String): Result<Unit>
+    suspend fun downloadCsvFile(name: String): Result<String>
+    suspend fun uploadCsvFile(name: String, content: String): Result<Unit>
 }
