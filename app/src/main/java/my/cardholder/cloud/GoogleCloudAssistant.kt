@@ -23,17 +23,9 @@ class GoogleCloudAssistant(
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    private val googleDrive
-        get() = googleCredentialWrapper.getCredential()
-            ?.let { credential ->
-                Drive.Builder(netHttpTransport, gsonFactory, credential)
-                    .setApplicationName(BuildConfig.APP_NAME)
-                    .build()
-            }
-
     override suspend fun downloadFiles(names: List<String>) = withContext(Dispatchers.IO) {
         runCatching {
-            val drive = googleDrive ?: throw IOException("Google Drive is not initialized")
+            val drive = getDriveOrThrow()
             val contents = mutableListOf<String>()
             drive.getAppDataFolderFiles()
                 .filter { names.contains(it.name) }
@@ -48,7 +40,7 @@ class GoogleCloudAssistant(
 
     override suspend fun uploadFiles(namesAndContents: List<Pair<String, String>>) = withContext(Dispatchers.IO) {
         runCatching {
-            val drive = googleDrive ?: throw IOException("Google Drive is not initialized")
+            val drive = getDriveOrThrow()
 
             // Delete old files
             val names = namesAndContents.map { it.first }
@@ -73,5 +65,15 @@ class GoogleCloudAssistant(
         return files().list()
             .setSpaces(APP_DATA_FOLDER)
             .execute()?.files.orEmpty()
+    }
+
+    private fun getDriveOrThrow(): Drive {
+        return googleCredentialWrapper.getCredential()
+            ?.let { credential ->
+                Drive.Builder(netHttpTransport, gsonFactory, credential)
+                    .setApplicationName(BuildConfig.APP_NAME)
+                    .build()
+            }
+            ?: throw IOException("Google Drive is not initialized")
     }
 }
