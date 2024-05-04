@@ -31,38 +31,41 @@ class GoogleCloudAssistant(
                     .build()
             }
 
-    override suspend fun downloadCsvFile(name: String): Result<String> = withContext(Dispatchers.IO) {
+    override suspend fun downloadFiles(names: List<String>) = withContext(Dispatchers.IO) {
         runCatching {
-            googleDrive ?: throw IOException("Google Drive is not initialized")
-            var content = ""
-            googleDrive?.apply {
-                getAppDataFolderFiles()
-                    .find { it.name == name }
-                    ?.let { file ->
-                        val outputStream = ByteArrayOutputStream()
-                        files().get(file.id).executeMediaAndDownloadTo(outputStream)
-                        content = String(outputStream.toByteArray())
-                    }
-            }
-            content
+            val drive = googleDrive ?: throw IOException("Google Drive is not initialized")
+            val contents = mutableListOf<String>()
+            drive.getAppDataFolderFiles()
+                .filter { names.contains(it.name) }
+                .forEach { file ->
+                    val outputStream = ByteArrayOutputStream()
+                    drive.files().get(file.id).executeMediaAndDownloadTo(outputStream)
+                    contents.add(String(outputStream.toByteArray()))
+                }
+            contents
         }
     }
 
-    override suspend fun uploadCsvFile(name: String, content: String): Result<Unit> = withContext(Dispatchers.IO) {
+    override suspend fun uploadFiles(namesAndContents: List<Pair<String, String>>) = withContext(Dispatchers.IO) {
         runCatching {
-            googleDrive ?: throw IOException("Google Drive is not initialized")
-            val driveFile = File().apply {
-                setName(name)
-                setParents(listOf(APP_DATA_FOLDER))
+            val drive = googleDrive ?: throw IOException("Google Drive is not initialized")
+
+            // Delete old files
+            val names = namesAndContents.map { it.first }
+            drive.getAppDataFolderFiles()
+                .filter { names.contains(it.name) }
+                .forEach { file -> drive.files().delete(file.id).execute() }
+
+            // Upload new files
+            namesAndContents.forEach { nameAndContent ->
+                val (name, content) = nameAndContent
+                val driveFile = File().apply {
+                    setName(name)
+                    setParents(listOf(APP_DATA_FOLDER))
+                }
+                val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
+                drive.files().create(driveFile, driveFileContent).setFields("id").execute()
             }
-            val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
-            googleDrive?.run {
-                getAppDataFolderFiles()
-                    .filter { it.name == name }
-                    .forEach { file -> files().delete(file.id).execute() }
-                files().create(driveFile, driveFileContent).setFields("id").execute()
-            }
-            Unit
         }
     }
 

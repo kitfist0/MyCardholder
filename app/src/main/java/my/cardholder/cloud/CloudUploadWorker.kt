@@ -43,7 +43,7 @@ class CloudUploadWorker @AssistedInject constructor(
         if (fileName.isNullOrEmpty() || fileContent.isNullOrEmpty()) {
             return Result.failure()
         }
-        val uploadResult = cloudAssistant.uploadCsvFile(fileName, fileContent)
+        val uploadResult = cloudAssistant.uploadFiles(listOf(fileName to fileContent))
         return if (uploadResult.isSuccess) {
             Result.success()
         } else {
