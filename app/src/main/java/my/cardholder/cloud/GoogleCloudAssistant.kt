@@ -23,18 +23,14 @@ class GoogleCloudAssistant(
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    override suspend fun downloadFiles(names: List<String>) = withContext(Dispatchers.IO) {
+    override suspend fun downloadFiles() = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
-            val contents = mutableListOf<String>()
-            drive.getAppDataFolderFiles()
-                .filter { names.contains(it.name) }
-                .forEach { file ->
-                    val outputStream = ByteArrayOutputStream()
-                    drive.files().get(file.id).executeMediaAndDownloadTo(outputStream)
-                    contents.add(String(outputStream.toByteArray()))
-                }
-            contents
+            drive.getAppDataFolderFiles().map { file ->
+                val outputStream = ByteArrayOutputStream()
+                drive.files().get(file.id).executeMediaAndDownloadTo(outputStream)
+                file.name to String(outputStream.toByteArray())
+            }
         }
     }
 
