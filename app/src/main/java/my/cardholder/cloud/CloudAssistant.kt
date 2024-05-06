@@ -1,6 +1,10 @@
 package my.cardholder.cloud
 
+typealias FileNameAndContent = Pair<String, String>
+fun FileNameAndContent.getName() = first
+fun FileNameAndContent.getContent() = second
+
 interface CloudAssistant {
-    suspend fun downloadFiles(): Result<List<Pair<String, String>>>
-    suspend fun uploadFiles(namesAndContents: List<Pair<String, String>>): Result<Unit>
+    suspend fun download(): Result<List<FileNameAndContent>>
+    suspend fun upload(vararg fileNameAndContent: FileNameAndContent): Result<Unit>
 }

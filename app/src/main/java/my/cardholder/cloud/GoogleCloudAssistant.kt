@@ -23,7 +23,7 @@ class GoogleCloudAssistant(
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    override suspend fun downloadFiles() = withContext(Dispatchers.IO) {
+    override suspend fun download() = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
             drive.getAppDataFolderFiles().map { file ->
@@ -34,24 +34,23 @@ class GoogleCloudAssistant(
         }
     }
 
-    override suspend fun uploadFiles(namesAndContents: List<Pair<String, String>>) = withContext(Dispatchers.IO) {
+    override suspend fun upload(vararg fileNameAndContent: FileNameAndContent) = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
 
             // Delete old files
-            val names = namesAndContents.map { it.first }
+            val names = fileNameAndContent.map { it.getName() }
             drive.getAppDataFolderFiles()
                 .filter { names.contains(it.name) }
                 .forEach { file -> drive.files().delete(file.id).execute() }
 
             // Upload new files
-            namesAndContents.forEach { nameAndContent ->
-                val (name, content) = nameAndContent
+            fileNameAndContent.forEach {
                 val driveFile = File().apply {
-                    setName(name)
+                    setName(it.getName())
                     setParents(listOf(APP_DATA_FOLDER))
                 }
-                val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
+                val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, it.getContent().byteInputStream())
                 drive.files().create(driveFile, driveFileContent).setFields("id").execute()
             }
         }
