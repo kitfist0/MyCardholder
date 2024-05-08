@@ -54,6 +54,8 @@ class CardRepository @Inject constructor(
             color = color,
             format = format,
             path = barcodeFilePath,
+            changedAt = System.currentTimeMillis(),
+            syncedAt = 0L,
         )
         return upsertCard(newCard)
     }
@@ -149,6 +151,6 @@ class CardRepository @Inject constructor(
     }
 
     private suspend fun upsertCard(card: Card): Long {
-        return cardDao.upsert(card)
+        return cardDao.upsert(card.copy(changedAt = System.currentTimeMillis()))
     }
 }
