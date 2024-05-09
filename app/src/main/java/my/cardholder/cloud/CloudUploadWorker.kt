@@ -19,13 +19,10 @@ class CloudUploadWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     companion object {
-        private const val FILE_NAME = "file_name"
-        private const val FILE_CONTENT = "file_content"
-
-        fun getWorkRequest(fileName: String, fileContent: String): OneTimeWorkRequest {
+        fun getWorkRequest(list: List<FileNameAndContent>): OneTimeWorkRequest {
+            val keyValueMap = list.associate { it.getName() to it.getContent() }
             val inputData = Data.Builder()
-                .putString(FILE_NAME, fileName)
-                .putString(FILE_CONTENT, fileContent)
+                .putAll(keyValueMap)
                 .build()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -38,12 +35,14 @@ class CloudUploadWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork(): Result {
-        val fileName = params.inputData.getString(FILE_NAME)
-        val fileContent = params.inputData.getString(FILE_CONTENT)
-        if (fileName.isNullOrEmpty() || fileContent.isNullOrEmpty()) {
-            return Result.failure()
+        val keyValueMap = params.inputData.keyValueMap
+        if (keyValueMap.isEmpty()) {
+            return Result.success()
         }
-        val uploadResult = cloudAssistant.upload(fileName to fileContent)
+        val fileNameAndContent = keyValueMap.entries
+            .map { it.key to it.value.toString() }
+            .toTypedArray()
+        val uploadResult = cloudAssistant.upload(*fileNameAndContent)
         return if (uploadResult.isSuccess) {
             Result.success()
         } else {
