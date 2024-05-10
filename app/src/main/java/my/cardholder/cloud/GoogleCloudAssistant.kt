@@ -23,6 +23,15 @@ class GoogleCloudAssistant(
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
+    override suspend fun delete(vararg fileName: String) = withContext(Dispatchers.IO) {
+        runCatching {
+            val drive = getDriveOrThrow()
+            drive.getAppDataFolderFiles().forEach { file ->
+                drive.files().delete(file.id).execute()
+            }
+        }
+    }
+
     override suspend fun download() = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
