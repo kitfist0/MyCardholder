@@ -22,10 +22,12 @@ class CardRepository @Inject constructor(
 
     val cardsAndCategories: Flow<List<CardAndCategory>> = cardDao.getCardsAndCategories()
 
-    val cardsAndCategoriesForSync: Flow<List<CardAndCategory>> = cardDao.getCardsAndCategoriesForSync()
-
     fun getCardAndCategory(cardId: Long): Flow<CardAndCategory?> {
         return cardDao.getCardAndCategory(cardId)
+    }
+
+    suspend fun getCardsAndCategoriesForSync(): List<CardAndCategory> {
+        return cardDao.getCardsAndCategoriesForSync()
     }
 
     suspend fun getNumberOfPinnedCards(): Int {

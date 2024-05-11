@@ -14,12 +14,12 @@ interface CardDao {
     fun getCardsAndCategories(): Flow<List<CardAndCategory>>
 
     @Transaction
-    @Query("SELECT * FROM cards WHERE changed_at > synced_at ORDER BY changed_at")
-    fun getCardsAndCategoriesForSync(): Flow<List<CardAndCategory>>
-
-    @Transaction
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCardAndCategory(id: Long): Flow<CardAndCategory?>
+
+    @Transaction
+    @Query("SELECT * FROM cards WHERE changed_at > synced_at ORDER BY changed_at")
+    suspend fun getCardsAndCategoriesForSync(): List<CardAndCategory>
 
     @Query("SELECT COUNT(id) FROM cards WHERE is_pinned = 1")
     suspend fun getNumberOfPinnedCards(): Int
