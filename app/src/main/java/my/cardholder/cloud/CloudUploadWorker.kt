@@ -19,10 +19,13 @@ class CloudUploadWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     companion object {
-        fun getWorkRequest(list: List<FileNameAndContent>): OneTimeWorkRequest {
-            val keyValueMap = list.associate { it.getName() to it.getContent() }
+        private const val FILE_NAME_KEY = "file_name"
+        private const val FILE_CONTENT_KEY = "file_content"
+
+        fun getWorkRequest(fileName: String, fileContent: String): OneTimeWorkRequest {
             val inputData = Data.Builder()
-                .putAll(keyValueMap)
+                .putString(FILE_NAME_KEY, fileName)
+                .putString(FILE_CONTENT_KEY, fileContent)
                 .build()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -35,18 +38,16 @@ class CloudUploadWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork(): Result {
-        val keyValueMap = params.inputData.keyValueMap
-        if (keyValueMap.isEmpty()) {
-            return Result.success()
+        val fileName = params.inputData.getString(FILE_NAME_KEY)
+        val fileContent = params.inputData.getString(FILE_CONTENT_KEY)
+        if (fileName.isNullOrEmpty() || fileContent.isNullOrEmpty()) {
+            return Result.failure()
         }
-        val fileNameAndContent = keyValueMap.entries
-            .map { it.key to it.value.toString() }
-            .toTypedArray()
-        val uploadResult = cloudAssistant.upload(*fileNameAndContent)
+        val uploadResult = cloudAssistant.upload(fileName to fileContent)
         return if (uploadResult.isSuccess) {
             Result.success()
         } else {
-            Result.failure()
+            Result.retry()
         }
     }
 }
