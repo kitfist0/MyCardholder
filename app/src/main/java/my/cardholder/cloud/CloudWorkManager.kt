@@ -18,7 +18,7 @@ class CloudWorkManager @Inject constructor(
     fun enqueueCleanupWork(uniqueId: Long) {
         workManager.cancelUniqueWork(UPLOAD_WORK_NAME_PREFIX + uniqueId)
         val uniqueWorkName = CLEANUP_WORK_NAME_PREFIX + uniqueId
-        val workRequest = CloudCleanupWorker.getWorkRequest(listOf(uniqueId.toString()))
+        val workRequest = CloudCleanupWorker.getWorkRequest(fileName = uniqueId.toString())
         workManager.enqueueUniqueWork(uniqueWorkName, ExistingWorkPolicy.REPLACE, workRequest)
     }
 

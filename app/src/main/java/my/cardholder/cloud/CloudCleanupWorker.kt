@@ -19,11 +19,11 @@ class CloudCleanupWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     companion object {
-        private const val FILE_NAMES_KEY = "file_names"
+        private const val FILE_NAME_KEY = "file_name"
 
-        fun getWorkRequest(fileNames: List<String>): OneTimeWorkRequest {
+        fun getWorkRequest(fileName: String): OneTimeWorkRequest {
             val inputData = Data.Builder()
-                .putStringArray(FILE_NAMES_KEY, fileNames.toTypedArray())
+                .putString(FILE_NAME_KEY, fileName)
                 .build()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -36,14 +36,14 @@ class CloudCleanupWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork(): Result {
-        val fileNames = params.inputData.getStringArray(FILE_NAMES_KEY)
-        return fileNames?.let { names ->
-            val uploadResult = cloudAssistant.delete(*names)
+        val fileName = params.inputData.getString(FILE_NAME_KEY)
+        return fileName?.let { name ->
+            val uploadResult = cloudAssistant.delete(name)
             if (uploadResult.isSuccess) {
                 Result.success()
             } else {
-                Result.failure()
+                Result.retry()
             }
-        } ?: Result.success()
+        } ?: Result.failure()
     }
 }
