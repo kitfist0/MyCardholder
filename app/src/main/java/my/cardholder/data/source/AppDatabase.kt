@@ -33,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
             override fun migrate(db: SupportSQLiteDatabase) {
                 val time = System.currentTimeMillis()
                 db.execSQL("ALTER TABLE `cards` ADD COLUMN `changed_at` INTEGER NOT NULL DEFAULT $time")
-                db.execSQL("ALTER TABLE `cards` ADD COLUMN `synced_at` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `cards` ADD COLUMN `is_synced` INTEGER NOT NULL DEFAULT 0")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_cards_category_id` ON `cards` (`category_id`)")
             }
         }

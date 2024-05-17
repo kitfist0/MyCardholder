@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "0cce3e4ba10c2f1d4dc154baa196e1fb",
+    "identityHash": "5c47b8ab4e8cafc8a72f75fa5f6437f7",
     "entities": [
       {
         "tableName": "cards",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `is_pinned` INTEGER NOT NULL, `category_id` INTEGER, `content` TEXT NOT NULL, `color` TEXT NOT NULL, `format` TEXT NOT NULL, `path` TEXT, `changed_at` INTEGER NOT NULL, `synced_at` INTEGER NOT NULL, FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `is_pinned` INTEGER NOT NULL, `category_id` INTEGER, `content` TEXT NOT NULL, `color` TEXT NOT NULL, `format` TEXT NOT NULL, `path` TEXT, `changed_at` INTEGER NOT NULL, `is_synced` INTEGER NOT NULL, FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -63,8 +63,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "syncedAt",
-            "columnName": "synced_at",
+            "fieldPath": "isSynced",
+            "columnName": "is_synced",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -166,7 +166,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0cce3e4ba10c2f1d4dc154baa196e1fb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5c47b8ab4e8cafc8a72f75fa5f6437f7')"
     ]
   }
 }
