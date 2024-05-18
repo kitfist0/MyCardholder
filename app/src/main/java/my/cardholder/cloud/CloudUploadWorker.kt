@@ -6,10 +6,11 @@ import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class CloudUploadWorker @AssistedInject constructor(
@@ -19,35 +20,42 @@ class CloudUploadWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     companion object {
-        private const val FILE_NAME_KEY = "file_name"
-        private const val FILE_CONTENT_KEY = "file_content"
+        private const val REPEAT_INTERVAL_MINUTES = 15
+        private const val FLEX_INTERVAL_MINUTES = 10
 
-        fun getWorkRequest(fileName: String, fileContent: String): OneTimeWorkRequest {
+        fun getPeriodicWorkRequest(vararg fileNameAndContent: FileNameAndContent): PeriodicWorkRequest {
+            val keyValueMap = fileNameAndContent.associate { it.getName() to it.getContent() }
             val inputData = Data.Builder()
-                .putString(FILE_NAME_KEY, fileName)
-                .putString(FILE_CONTENT_KEY, fileContent)
+                .putAll(keyValueMap)
                 .build()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
-            return OneTimeWorkRequest.Builder(CloudUploadWorker::class.java)
-                .setConstraints(constraints)
-                .setInputData(inputData)
-                .build()
+            val workRequestBuilder = PeriodicWorkRequest.Builder(
+                CloudUploadWorker::class.java,
+                REPEAT_INTERVAL_MINUTES.toLong(), TimeUnit.MINUTES,
+                FLEX_INTERVAL_MINUTES.toLong(), TimeUnit.MINUTES
+            ).apply {
+                setConstraints(constraints)
+                setInputData(inputData)
+            }
+            return workRequestBuilder.build()
         }
     }
 
     override suspend fun doWork(): Result {
-        val fileName = params.inputData.getString(FILE_NAME_KEY)
-        val fileContent = params.inputData.getString(FILE_CONTENT_KEY)
-        if (fileName.isNullOrEmpty() || fileContent.isNullOrEmpty()) {
-            return Result.failure()
+        val keyValueMap = params.inputData.keyValueMap
+        if (keyValueMap.isEmpty()) {
+            return Result.success()
         }
-        val uploadResult = cloudAssistant.upload(fileName to fileContent)
+        val fileNameAndContent = keyValueMap.entries
+            .map { it.key to it.value.toString() }
+            .toTypedArray()
+        val uploadResult = cloudAssistant.upload(*fileNameAndContent)
         return if (uploadResult.isSuccess) {
             Result.success()
         } else {
-            Result.retry()
+            Result.failure()
         }
     }
 }
