@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
 
 @HiltWorker
-class CloudCleanupWorker @AssistedInject constructor(
+class CloudRemovalWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted private val params: WorkerParameters,
     private val cloudAssistant: CloudAssistant,
@@ -29,7 +29,7 @@ class CloudCleanupWorker @AssistedInject constructor(
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
             val workRequestBuilder = PeriodicWorkRequest.Builder(
-                CloudCleanupWorker::class.java,
+                CloudRemovalWorker::class.java,
                 REPEAT_INTERVAL_MINUTES.toLong(), TimeUnit.MINUTES,
                 FLEX_INTERVAL_MINUTES.toLong(), TimeUnit.MINUTES
             )

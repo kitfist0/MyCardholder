@@ -9,15 +9,15 @@ class CloudWorkManager @Inject constructor(
 ) {
 
     private companion object {
-        const val CLEANUP_WORK_NAME = "cleanup_work"
+        const val REMOVAL_WORK_NAME = "removal_work"
         const val UPLOAD_WORK_NAME = "upload_work"
     }
 
-    fun enqueuePeriodicCleanupWork() {
+    fun enqueuePeriodicRemovalWork() {
         workManager.enqueueUniquePeriodicWork(
-            CLEANUP_WORK_NAME,
+            REMOVAL_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
-            CloudCleanupWorker.getPeriodicWorkRequest()
+            CloudRemovalWorker.getPeriodicWorkRequest()
         )
     }
 
