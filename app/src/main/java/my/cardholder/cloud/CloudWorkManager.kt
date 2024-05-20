@@ -13,21 +13,19 @@ class CloudWorkManager @Inject constructor(
         const val UPLOAD_WORK_NAME = "upload_work"
     }
 
-    fun enqueueCleanupWork(vararg fileName: String) {
-        val workRequest = CloudCleanupWorker.getPeriodicWorkRequest(*fileName)
+    fun enqueuePeriodicCleanupWork() {
         workManager.enqueueUniquePeriodicWork(
             CLEANUP_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
-            workRequest
+            CloudCleanupWorker.getPeriodicWorkRequest()
         )
     }
 
-    fun enqueueUploadWork(vararg fileNameAndContent: FileNameAndContent) {
-        val workRequest = CloudUploadWorker.getPeriodicWorkRequest(*fileNameAndContent)
+    fun enqueuePeriodicUploadWork() {
         workManager.enqueueUniquePeriodicWork(
             UPLOAD_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
-            workRequest
+            CloudUploadWorker.getPeriodicWorkRequest()
         )
     }
 
