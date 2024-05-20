@@ -13,15 +13,12 @@ class CloudWorkManager @Inject constructor(
         const val UPLOAD_WORK_NAME = "upload_work"
     }
 
-    fun enqueuePeriodicRemovalWork() {
+    fun enqueueWork() {
         workManager.enqueueUniquePeriodicWork(
             REMOVAL_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             CloudRemovalWorker.getPeriodicWorkRequest()
         )
-    }
-
-    fun enqueuePeriodicUploadWork() {
         workManager.enqueueUniquePeriodicWork(
             UPLOAD_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
