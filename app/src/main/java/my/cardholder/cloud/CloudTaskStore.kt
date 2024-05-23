@@ -42,6 +42,7 @@ class CloudTaskStore @Inject constructor(
     }
 
     suspend fun addRemovalTask(task: RemovalTask) = dataStore.edit { preferences ->
+        removeUploadTaskBy(name = task.fileName)
         val set = preferences[REMOVAL_TASKS_KEY]?.toMutableSet()
             ?.also { it.add(task.fileName) }
             ?: setOf(task.fileName)
