@@ -14,7 +14,7 @@ interface CardDao {
     fun getCardsAndCategories(): Flow<List<CardAndCategory>>
 
     @Transaction
-    @Query("SELECT * FROM cards WHERE is_synced = 0 ORDER BY changed_at")
+    @Query("SELECT * FROM cards WHERE synced_at = 0 ORDER BY changed_at")
     fun getCardsAndCategoriesForSync(): Flow<List<CardAndCategory>>
 
     @Transaction
