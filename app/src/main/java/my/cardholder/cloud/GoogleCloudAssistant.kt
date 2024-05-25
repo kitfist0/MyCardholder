@@ -23,7 +23,7 @@ class GoogleCloudAssistant(
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    override suspend fun delete(vararg fileName: String) = withContext(Dispatchers.IO) {
+    override suspend fun delete(fileName: String) = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
             drive.getAppDataFolderFiles().forEach { file ->
@@ -38,35 +38,41 @@ class GoogleCloudAssistant(
             drive.getAppDataFolderFiles().map { file ->
                 val outputStream = ByteArrayOutputStream()
                 drive.files().get(file.id).executeMediaAndDownloadTo(outputStream)
-                file.name to String(outputStream.toByteArray())
+                CloudFile(
+                    fileNameAndContent = file.name to String(outputStream.toByteArray()),
+                    timestamp = file.createdTime.value,
+                )
             }
         }
     }
 
-    override suspend fun upload(vararg fileNameAndContent: FileNameAndContent) = withContext(Dispatchers.IO) {
+    override suspend fun upload(fileNameAndContent: FileNameAndContent) = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
 
-            // Delete old files
-            val names = fileNameAndContent.map { it.getName() }
+            // Delete old file
+            val name = fileNameAndContent.getName()
             drive.getAppDataFolderFiles()
-                .filter { names.contains(it.name) }
+                .filter { it.name == name }
                 .forEach { file -> drive.files().delete(file.id).execute() }
 
-            // Upload new files
-            fileNameAndContent.forEach {
-                val driveFile = File().apply {
-                    setName(it.getName())
-                    setParents(listOf(APP_DATA_FOLDER))
-                }
-                val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, it.getContent().byteInputStream())
-                drive.files().create(driveFile, driveFileContent).setFields("id").execute()
+            // Upload new file
+            val driveFile = File().apply {
+                setName(name)
+                setParents(listOf(APP_DATA_FOLDER))
             }
+            val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, fileNameAndContent.getContent().byteInputStream())
+            val file = drive.files().create(driveFile, driveFileContent).setFields("id").execute()
+            CloudFile(
+                fileNameAndContent = fileNameAndContent,
+                timestamp = file.createdTime.value,
+            )
         }
     }
 
     private fun Drive.getAppDataFolderFiles(): List<File> {
         return files().list()
+            .setFields("files(createdTime,id,name)")
             .setSpaces(APP_DATA_FOLDER)
             .execute()?.files.orEmpty()
     }
