@@ -145,6 +145,10 @@ class CardRepository @Inject constructor(
         }
     }
 
+    suspend fun setCardAsSynced(cardId: Long, syncedAt: Long) {
+        cardDao.setCardAsSynced(cardId, syncedAt)
+    }
+
     private suspend fun getCard(cardId: Long): Card? {
         return cardDao.getCard(cardId)
     }

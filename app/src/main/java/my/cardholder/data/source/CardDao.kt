@@ -42,6 +42,9 @@ interface CardDao {
     @Query("UPDATE cards SET is_pinned = 0 WHERE id = :id")
     suspend fun unpinCardWithId(id: Long)
 
+    @Query("UPDATE cards SET synced_at = :syncedTime WHERE id = :id")
+    suspend fun setCardAsSynced(id: Long, syncedTime: Long)
+
     @Query("DELETE FROM cards WHERE id = :id")
     suspend fun deleteCard(id: Long)
 
