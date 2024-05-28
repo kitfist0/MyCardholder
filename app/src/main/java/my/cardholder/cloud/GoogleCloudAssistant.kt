@@ -27,9 +27,9 @@ class GoogleCloudAssistant(
     override suspend fun delete(fileName: String) = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
-            drive.getAppDataFolderFiles().forEach { file ->
-                drive.files().delete(file.id).execute()
-            }
+            drive.getAppDataFolderFiles()
+                .filter { it.name == fileName }
+                .forEach { file -> drive.files().delete(file.id).execute() }
         }
     }
 
