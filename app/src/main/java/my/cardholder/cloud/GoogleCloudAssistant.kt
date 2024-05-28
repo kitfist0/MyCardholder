@@ -21,6 +21,7 @@ class GoogleCloudAssistant(
     private companion object {
         const val APP_DATA_FOLDER = "appDataFolder"
         const val MIME_TYPE_TEXT = "text/plain"
+        const val FIELDS = "id,name,createdTime,modifiedTime"
     }
 
     override suspend fun delete(fileName: String) = withContext(Dispatchers.IO) {
@@ -52,27 +53,36 @@ class GoogleCloudAssistant(
 
             // Delete old file
             val name = fileNameAndContent.getName()
-            drive.getAppDataFolderFiles()
+            val previousFiles = drive.getAppDataFolderFiles()
                 .filter { it.name == name }
-                .forEach { file -> drive.files().delete(file.id).execute() }
-
-            // Upload new file
-            val driveFile = File().apply {
-                setName(name)
-                setParents(listOf(APP_DATA_FOLDER))
+                .sortedBy { it.modifiedTime.value }
+            if (previousFiles.isNotEmpty()) {
+                previousFiles.subList(0, previousFiles.lastIndex)
+                    .forEach { file -> drive.files().delete(file.id).execute() }
             }
-            val driveFileContent = InputStreamContent(MIME_TYPE_TEXT, fileNameAndContent.getContent().byteInputStream())
-            val file = drive.files().create(driveFile, driveFileContent).setFields("id").execute()
+            val previousFile = previousFiles.lastOrNull()
+
+            // Update previous file or upload new file
+            val content = InputStreamContent(MIME_TYPE_TEXT, fileNameAndContent.getContent().byteInputStream())
+            val file = if (previousFile != null) {
+                drive.files().update(previousFile.id, null, content).setFields(FIELDS).execute()
+            } else {
+                val driveFile = File().apply {
+                    setName(name)
+                    setParents(listOf(APP_DATA_FOLDER))
+                }
+                drive.files().create(driveFile, content).setFields(FIELDS).execute()
+            }
             CloudFile(
                 fileNameAndContent = fileNameAndContent,
-                timestamp = file.createdTime.value,
+                timestamp = file.modifiedTime.value,
             )
         }
     }
 
     private fun Drive.getAppDataFolderFiles(): List<File> {
         return files().list()
-            .setFields("files(createdTime,id,name)")
+            .setFields("files($FIELDS)")
             .setSpaces(APP_DATA_FOLDER)
             .execute()?.files.orEmpty()
     }
