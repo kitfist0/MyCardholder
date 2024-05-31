@@ -41,7 +41,7 @@ class GoogleCloudAssistant(
                 drive.files().get(file.id).executeMediaAndDownloadTo(outputStream)
                 CloudFile(
                     fileNameAndContent = file.name to String(outputStream.toByteArray()),
-                    timestamp = file.createdTime.value,
+                    timestamp = file.modifiedTime.value,
                 )
             }
         }
