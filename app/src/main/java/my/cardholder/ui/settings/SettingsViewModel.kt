@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.cloud.CloudSignInAssistant
-import my.cardholder.cloud.CloudWorkManager
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
@@ -16,7 +15,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val cloudSignInAssistant: CloudSignInAssistant,
-    private val cloudWorkManager: CloudWorkManager,
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
@@ -34,7 +32,6 @@ class SettingsViewModel @Inject constructor(
         settingsRepository.cloudSyncEnabled
             .onEach { isEnabled ->
                 _state.value = _state.value.copy(cloudSyncEnabled = isEnabled)
-                if (isEnabled) cloudWorkManager.enqueueWork() else cloudWorkManager.cancelAllWork()
             }
             .launchIn(viewModelScope)
         settingsRepository.nightModeEnabled
