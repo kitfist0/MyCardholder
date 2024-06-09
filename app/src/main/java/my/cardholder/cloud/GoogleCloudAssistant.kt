@@ -20,63 +20,53 @@ class GoogleCloudAssistant(
 
     private companion object {
         const val APP_DATA_FOLDER = "appDataFolder"
-        const val MIME_TYPE_TEXT = "text/plain"
+        const val BACKUP_FILE_NAME = "myBackup"
         const val FIELDS = "id,name,createdTime,modifiedTime"
+        const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    override suspend fun delete(fileName: String) = withContext(Dispatchers.IO) {
+    override suspend fun getFileVersion() = withContext(Dispatchers.IO) {
+        runCatching {
+            val drive = getDriveOrThrow()
+            drive.getBackupFile()?.version ?: 0L
+        }
+    }
+
+    override suspend fun deleteFile() = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
             drive.getAppDataFolderFiles()
-                .filter { it.name == fileName }
                 .forEach { file -> drive.files().delete(file.id).execute() }
         }
     }
 
-    override suspend fun download() = withContext(Dispatchers.IO) {
+    override suspend fun downloadFileContent() = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
-            drive.getAppDataFolderFiles().map { file ->
+            val file = drive.getBackupFile()
+            file?.let {
                 val outputStream = ByteArrayOutputStream()
-                drive.files().get(file.id).executeMediaAndDownloadTo(outputStream)
-                CloudFile(
-                    fileNameAndContent = file.name to String(outputStream.toByteArray()),
-                    timestamp = file.modifiedTime.value,
-                )
+                drive.files().get(it.id).executeMediaAndDownloadTo(outputStream)
+                String(outputStream.toByteArray())
             }
         }
     }
 
-    override suspend fun upload(fileNameAndContent: FileNameAndContent) = withContext(Dispatchers.IO) {
+    override suspend fun uploadFileContent(content: String) = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
-
-            // Delete old file
-            val name = fileNameAndContent.getName()
-            val previousFiles = drive.getAppDataFolderFiles()
-                .filter { it.name == name }
-                .sortedBy { it.modifiedTime.value }
-            if (previousFiles.isNotEmpty()) {
-                previousFiles.subList(0, previousFiles.lastIndex)
-                    .forEach { file -> drive.files().delete(file.id).execute() }
-            }
-            val previousFile = previousFiles.lastOrNull()
-
-            // Update previous file or upload new file
-            val content = InputStreamContent(MIME_TYPE_TEXT, fileNameAndContent.getContent().byteInputStream())
-            val file = if (previousFile != null) {
-                drive.files().update(previousFile.id, null, content).setFields(FIELDS).execute()
+            val inputStreamContent = InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
+            val prevFile = drive.getBackupFile()
+            if (prevFile != null) {
+                drive.files().update(prevFile.id, null, inputStreamContent)
+                    .setFields(FIELDS).execute().version
             } else {
-                val driveFile = File().apply {
-                    setName(name)
-                    setParents(listOf(APP_DATA_FOLDER))
-                }
-                drive.files().create(driveFile, content).setFields(FIELDS).execute()
+                val newFile = File()
+                newFile.setName(BACKUP_FILE_NAME)
+                newFile.setParents(listOf(APP_DATA_FOLDER))
+                drive.files().create(newFile, inputStreamContent)
+                    .setFields(FIELDS).execute().version
             }
-            CloudFile(
-                fileNameAndContent = fileNameAndContent,
-                timestamp = file.modifiedTime.value,
-            )
         }
     }
 
@@ -85,6 +75,11 @@ class GoogleCloudAssistant(
             .setFields("files($FIELDS)")
             .setSpaces(APP_DATA_FOLDER)
             .execute()?.files.orEmpty()
+    }
+
+    private fun Drive.getBackupFile(): File? {
+        return getAppDataFolderFiles()
+            .firstOrNull { file -> file.name == BACKUP_FILE_NAME }
     }
 
     private fun getDriveOrThrow(): Drive {

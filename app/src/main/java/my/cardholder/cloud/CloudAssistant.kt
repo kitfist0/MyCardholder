@@ -1,13 +1,10 @@
 package my.cardholder.cloud
 
-typealias FileNameAndContent = Pair<String, String>
-fun FileNameAndContent.getName() = first
-fun FileNameAndContent.getContent() = second
-
-data class CloudFile(val fileNameAndContent: FileNameAndContent, val timestamp: Long)
+typealias FileVersion = Long
 
 interface CloudAssistant {
-    suspend fun delete(fileName: String): Result<Unit>
-    suspend fun download(): Result<List<CloudFile>>
-    suspend fun upload(fileNameAndContent: FileNameAndContent): Result<CloudFile>
+    suspend fun getFileVersion(): Result<FileVersion>
+    suspend fun deleteFile(): Result<Unit>
+    suspend fun downloadFileContent(): Result<String?>
+    suspend fun uploadFileContent(content: String): Result<FileVersion>
 }
