@@ -6,15 +6,12 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import my.cardholder.cloud.CloudTaskStore
-import my.cardholder.cloud.RemovalTask
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 
 class DeleteCardViewModel @AssistedInject constructor(
     @Assisted("card_id") private val cardId: Long,
     private val cardRepository: CardRepository,
-    private val cardTaskStore: CloudTaskStore,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(
@@ -33,7 +30,6 @@ class DeleteCardViewModel @AssistedInject constructor(
     fun onDeleteConfirmationButtonClicked() {
         viewModelScope.launch {
             cardRepository.deleteCard(cardId)
-            cardTaskStore.addRemovalTask(RemovalTask(cardId.toString()))
             navigate(DeleteCardDialogDirections.fromDeleteCardToCardList())
         }
     }
