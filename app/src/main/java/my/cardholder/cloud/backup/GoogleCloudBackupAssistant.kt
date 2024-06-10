@@ -1,4 +1,4 @@
-package my.cardholder.cloud
+package my.cardholder.cloud.backup
 
 import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -12,11 +12,11 @@ import my.cardholder.util.GoogleCredentialWrapper
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
-class GoogleCloudAssistant(
+class GoogleCloudBackupAssistant(
     private val googleCredentialWrapper: GoogleCredentialWrapper,
     private val gsonFactory: GsonFactory,
     private val netHttpTransport: NetHttpTransport,
-) : CloudAssistant {
+) : CloudBackupAssistant {
 
     private companion object {
         const val APP_DATA_FOLDER = "appDataFolder"
@@ -25,14 +25,14 @@ class GoogleCloudAssistant(
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    override suspend fun getFileVersion() = withContext(Dispatchers.IO) {
+    override suspend fun getBackupVersion() = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
             drive.getBackupFile()?.version ?: 0L
         }
     }
 
-    override suspend fun deleteFile() = withContext(Dispatchers.IO) {
+    override suspend fun deleteBackup() = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
             drive.getAppDataFolderFiles()
@@ -40,7 +40,7 @@ class GoogleCloudAssistant(
         }
     }
 
-    override suspend fun downloadFileContent() = withContext(Dispatchers.IO) {
+    override suspend fun downloadBackupContent() = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
             val file = drive.getBackupFile()
@@ -52,7 +52,7 @@ class GoogleCloudAssistant(
         }
     }
 
-    override suspend fun uploadFileContent(content: String) = withContext(Dispatchers.IO) {
+    override suspend fun uploadBackupContent(content: String) = withContext(Dispatchers.IO) {
         runCatching {
             val drive = getDriveOrThrow()
             val inputStreamContent = InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())

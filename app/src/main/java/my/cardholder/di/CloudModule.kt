@@ -12,9 +12,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import my.cardholder.cloud.CloudAssistant
+import my.cardholder.cloud.backup.CloudBackupAssistant
 import my.cardholder.cloud.CloudSignInAssistant
-import my.cardholder.cloud.GoogleCloudAssistant
+import my.cardholder.cloud.backup.GoogleCloudBackupAssistant
 import my.cardholder.cloud.GoogleCloudSignInAssistant
 import my.cardholder.util.GoogleCredentialWrapper
 import javax.inject.Singleton
@@ -35,8 +35,8 @@ object CloudModule {
 
     @Provides
     @Singleton
-    fun provideCloudAssistant(context: Context): CloudAssistant {
-        return GoogleCloudAssistant(
+    fun provideCloudAssistant(context: Context): CloudBackupAssistant {
+        return GoogleCloudBackupAssistant(
             googleCredentialWrapper = GoogleCredentialWrapper(context, setOf(DRIVE_SCOPE)),
             gsonFactory = GsonFactory.getDefaultInstance(),
             netHttpTransport = NetHttpTransport(),
