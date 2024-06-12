@@ -37,8 +37,6 @@ data class Card(
     val path: BarcodeFilePath?,
     @ColumnInfo(name = "changed_at")
     val changedAt: Long,
-    @ColumnInfo(name = "synced_at")
-    val syncedAt: Long,
 ) {
 
     @Ignore
