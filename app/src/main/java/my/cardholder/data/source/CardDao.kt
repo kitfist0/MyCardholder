@@ -14,10 +14,6 @@ interface CardDao {
     fun getCardsAndCategories(): Flow<List<CardAndCategory>>
 
     @Transaction
-    @Query("SELECT * FROM cards WHERE synced_at = 0 ORDER BY changed_at")
-    fun getCardsAndCategoriesForSync(): Flow<List<CardAndCategory>>
-
-    @Transaction
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCardAndCategory(id: Long): Flow<CardAndCategory?>
 
@@ -41,9 +37,6 @@ interface CardDao {
 
     @Query("UPDATE cards SET is_pinned = 0 WHERE id = :id")
     suspend fun unpinCardWithId(id: Long)
-
-    @Query("UPDATE cards SET synced_at = :syncedTime WHERE id = :id")
-    suspend fun setCardAsSynced(id: Long, syncedTime: Long)
 
     @Query("DELETE FROM cards WHERE id = :id")
     suspend fun deleteCard(id: Long)
