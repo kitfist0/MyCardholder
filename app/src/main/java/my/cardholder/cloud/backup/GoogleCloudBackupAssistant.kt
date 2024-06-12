@@ -21,7 +21,7 @@ class GoogleCloudBackupAssistant(
     private companion object {
         const val APP_DATA_FOLDER = "appDataFolder"
         const val BACKUP_FILE_NAME = "myBackup"
-        const val FIELDS = "id,name,createdTime,modifiedTime"
+        const val FIELDS = "id,name,createdTime,modifiedTime,version"
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
