@@ -135,6 +135,6 @@
     <!--endregion-->
 
     <!--region Sync-->
-    <string name="sync_success_toast_message" translatable="false">Synced</string>
+    <string name="sync_success_toast_message">Synced</string>
     <!--endregion-->
 </resources>

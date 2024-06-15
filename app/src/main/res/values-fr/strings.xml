@@ -133,4 +133,8 @@
     <string name="specs_label">Spécifications</string>
     <string name="specs_toolbar_title">Formats pris en charge</string>
     <!--endregion-->
+
+    <!--region Sync-->
+    <string name="sync_success_toast_message">Synchronisé</string>
+    <!--endregion-->
 </resources>
