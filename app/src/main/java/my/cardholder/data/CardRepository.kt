@@ -141,6 +141,10 @@ class CardRepository @Inject constructor(
         }
     }
 
+    suspend fun getChecksumOfAllCards(): Long {
+        return cardDao.getChecksumOfAllCards()
+    }
+
     private suspend fun getCard(cardId: Long): Card? {
         return cardDao.getCard(cardId)
     }

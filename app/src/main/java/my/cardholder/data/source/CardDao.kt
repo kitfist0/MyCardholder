@@ -17,7 +17,7 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCardAndCategory(id: Long): Flow<CardAndCategory?>
 
-    @Query("SELECT COUNT(id) FROM cards WHERE is_pinned = 1")
+    @Query("SELECT COUNT (id) FROM cards WHERE is_pinned = 1")
     suspend fun getNumberOfPinnedCards(): Int
 
     @Query("SELECT * FROM cards WHERE id = :id")
@@ -31,6 +31,9 @@ interface CardDao {
 
     @Query("SELECT * FROM cards WHERE category_id IN (:categoryId) AND name LIKE :name")
     suspend fun getCardsWithCategoryIdAndWithNamesLike(categoryId: Long, name: String): List<Card>
+
+    @Query("SELECT SUM (changed_at) FROM cards")
+    suspend fun getChecksumOfAllCards(): Long
 
     @Query("UPDATE cards SET is_pinned = 1 WHERE id = :id")
     suspend fun pinCardWithId(id: Long)
