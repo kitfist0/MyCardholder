@@ -21,10 +21,10 @@ class CloudDownloadUseCase @Inject constructor(
         if (!settingsRepository.cloudSyncEnabled.first()) {
             throw Throwable("Cloud sync disabled!")
         }
-        val latestSyncedVersion = settingsRepository.latestSyncedVersion.first() ?: 0
-        val cloudBackupVersion = cloudBackupAssistant.getBackupVersion().getOrThrow()
-        if (cloudBackupVersion > latestSyncedVersion) {
-            cloudBackupAssistant.downloadBackupContent().getOrThrow()
+        val latestChecksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0
+        val cloudBackupChecksum = cloudBackupAssistant.getBackupChecksum().getOrThrow()
+        if (cloudBackupChecksum > latestChecksum) {
+            cloudBackupAssistant.getBackupContent(cloudBackupChecksum).getOrThrow()
                 ?.let { emitAll(backupRepository.importFromBackupFile(it.byteInputStream())) }
                 ?: emit(BackupResult.Success(BackupOperationType.IMPORT))
         } else {

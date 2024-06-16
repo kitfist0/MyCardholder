@@ -1,10 +1,10 @@
 package my.cardholder.cloud.backup
 
-typealias BackupVersion = Long
+typealias BackupChecksum = Long
 
 interface CloudBackupAssistant {
-    suspend fun getBackupVersion(): Result<BackupVersion>
+    suspend fun getBackupChecksum(): Result<BackupChecksum>
+    suspend fun getBackupContent(checksum: BackupChecksum): Result<String?>
     suspend fun deleteBackup(): Result<Unit>
-    suspend fun downloadBackupContent(): Result<String?>
-    suspend fun uploadBackupContent(content: String): Result<BackupVersion>
+    suspend fun uploadBackup(content: String, checksum: BackupChecksum): Result<Unit>
 }
