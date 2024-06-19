@@ -29,6 +29,9 @@ class CloudUploadUseCase @Inject constructor(
         if (!settingsRepository.cloudSyncEnabled.first()) {
             throw Throwable("Cloud sync disabled!")
         }
+        if (checksum == cloudBackupAssistant.getBackupChecksum().getOrNull()) {
+            throw Throwable("Cloud sync has already been completed!")
+        }
         emitAll(backupRepository.exportToBackupFile(outputStream))
     }.onEach { backupResult ->
         if (backupResult is BackupResult.Success) {
