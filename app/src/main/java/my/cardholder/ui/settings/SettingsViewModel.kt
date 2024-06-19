@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
-import my.cardholder.cloud.CloudSignInAssistant
+import my.cardholder.cloud.signin.CloudSignInAssistant
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text

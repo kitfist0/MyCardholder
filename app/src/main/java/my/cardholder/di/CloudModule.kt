@@ -13,9 +13,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.cloud.backup.CloudBackupAssistant
-import my.cardholder.cloud.CloudSignInAssistant
+import my.cardholder.cloud.signin.CloudSignInAssistant
 import my.cardholder.cloud.backup.GoogleCloudBackupAssistant
-import my.cardholder.cloud.GoogleCloudSignInAssistant
+import my.cardholder.cloud.signin.GoogleCloudSignInAssistant
 import my.cardholder.util.GoogleCredentialWrapper
 import javax.inject.Singleton
 
