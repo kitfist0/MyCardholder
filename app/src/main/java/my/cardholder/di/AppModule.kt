@@ -2,6 +2,7 @@ package my.cardholder.di
 
 import android.app.Application
 import android.content.Context
+import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +16,10 @@ object AppModule {
     @Singleton
     fun provideContext(application: Application): Context {
         return application.applicationContext
+    }
+
+    @Provides
+    fun provideWorkManager(context: Context): WorkManager {
+        return WorkManager.getInstance(context)
     }
 }

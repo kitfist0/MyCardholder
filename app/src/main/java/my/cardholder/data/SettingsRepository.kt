@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import my.cardholder.util.NightModeChecker
@@ -17,8 +18,26 @@ class SettingsRepository @Inject constructor(
 ) {
 
     private companion object {
+        val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
+        val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
         val MULTI_COLUMN_LIST_KEY = booleanPreferencesKey("multi_column_list")
         val NIGHT_MODE_KEY = booleanPreferencesKey("night_mode")
+    }
+
+    suspend fun setCloudSyncEnabled(b: Boolean) = dataStore.edit { preferences ->
+        preferences[CLOUD_SYNC_ENABLED_KEY] = b
+    }
+
+    val cloudSyncEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[CLOUD_SYNC_ENABLED_KEY] ?: false
+    }
+
+    suspend fun setLatestSyncedBackupChecksum(l: Long) = dataStore.edit { preferences ->
+        preferences[LATEST_SYNCED_BACKUP_CHECKSUM_KEY] = l
+    }
+
+    val latestSyncedBackupChecksum: Flow<Long?> = dataStore.data.map { preferences ->
+        preferences[LATEST_SYNCED_BACKUP_CHECKSUM_KEY]
     }
 
     suspend fun setMultiColumnListEnabled(b: Boolean) = dataStore.edit { preferences ->

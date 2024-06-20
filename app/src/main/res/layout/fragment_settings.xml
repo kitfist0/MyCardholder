@@ -12,6 +12,25 @@
         android:orientation="vertical"
         android:splitMotionEvents="false">
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:backgroundTint="?colorPrimaryContainer"
+            app:strokeWidth="0dp">
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/settings_cloud_sync_switch"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="16dp"
+                android:text="@string/settings_cloud_sync_switch_text"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
+
+        </com.google.android.material.card.MaterialCardView>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/settings_color_theme_button"
             style="@style/Widget.Material3.Button.TextButton"

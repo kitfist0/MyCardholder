@@ -110,6 +110,9 @@
     <!--region Settings-->
     <string name="settings_about_app_button_text">Über App</string>
     <string name="settings_card_categories_button_text">Kartenkategorien</string>
+    <string name="settings_cloud_sync_switch_text">Cloud-Synchronisierung</string>
+    <string name="settings_cloud_sync_activation_message">Cloud-Synchronisierung aktiviert</string>
+    <string name="settings_cloud_sync_deactivation_message">Cloud-Synchronisierung deaktiviert</string>
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
     <string name="settings_import_export_cards_button_text">Karten importieren oder exportieren</string>
     <string name="settings_label">Einstellungen</string>
@@ -129,5 +132,9 @@
     <string name="specs_barcode_valid_characters_text">Gültige Zeichen: %s</string>
     <string name="specs_label">Spezifikationen</string>
     <string name="specs_toolbar_title">Unterstützte Formate</string>
+    <!--endregion-->
+
+    <!--region Sync-->
+    <string name="sync_success_toast_message">Synchronisiert</string>
     <!--endregion-->
 </resources>

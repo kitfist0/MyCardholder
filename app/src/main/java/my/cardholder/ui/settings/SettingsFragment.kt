@@ -1,5 +1,6 @@
 package my.cardholder.ui.settings
 
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
@@ -13,11 +14,20 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
 
+    private val cloudSignInRequest = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { activityResult ->
+        viewModel.onCloudSignInRequestResult(activityResult)
+    }
+
     override val viewModel: SettingsViewModel by viewModels()
 
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
+            settingsCloudSyncSwitch.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.onCloudSyncSwitchCheckedChanged(isChecked)
+            }
             settingsColorThemeButton.setOnClickListener {
                 viewModel.onColorThemeButtonClicked()
             }
@@ -44,8 +54,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
+            binding.settingsCloudSyncSwitch.isChecked = state.cloudSyncEnabled
             setupColorThemeButtonState(state.nightModeEnabled)
             setupCardListViewButtonState(state.multiColumnListEnabled)
+            state.launchCloudSignInRequest?.let { intent ->
+                cloudSignInRequest.launch(intent)
+                viewModel.onCloudSignInRequestLaunched()
+            }
         }
     }
 

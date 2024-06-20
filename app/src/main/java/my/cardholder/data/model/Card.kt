@@ -27,14 +27,16 @@ data class Card(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val name: String,
-    @ColumnInfo("is_pinned")
+    @ColumnInfo(name = "is_pinned")
     val isPinned: Boolean,
-    @ColumnInfo("category_id")
+    @ColumnInfo(name = "category_id")
     val categoryId: Long? = null,
     val content: String,
     val color: String,
     val format: SupportedFormat,
     val path: BarcodeFilePath?,
+    @ColumnInfo(name = "changed_at")
+    val changedAt: Long,
 ) {
 
     @Ignore
