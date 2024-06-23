@@ -1,6 +1,7 @@
 package my.cardholder.ui.settings
 
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
@@ -54,6 +55,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
+            binding.settingsCloudSyncCard.isVisible = state.cloudSyncAvailable
             binding.settingsCloudSyncSwitch.isChecked = state.cloudSyncEnabled
             setupColorThemeButtonState(state.nightModeEnabled)
             setupCardListViewButtonState(state.multiColumnListEnabled)

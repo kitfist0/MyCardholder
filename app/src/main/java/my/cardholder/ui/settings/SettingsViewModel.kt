@@ -9,11 +9,13 @@ import my.cardholder.R
 import my.cardholder.cloud.signin.CloudSignInAssistant
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.GmsAvailabilityChecker
 import my.cardholder.util.Text
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    gmsAvailabilityChecker: GmsAvailabilityChecker,
     private val cloudSignInAssistant: CloudSignInAssistant,
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
@@ -22,6 +24,7 @@ class SettingsViewModel @Inject constructor(
         SettingsState(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
+            cloudSyncAvailable = gmsAvailabilityChecker.isAvailable,
             cloudSyncEnabled = cloudSignInAssistant.alreadySignedIn,
             launchCloudSignInRequest = null,
         )
