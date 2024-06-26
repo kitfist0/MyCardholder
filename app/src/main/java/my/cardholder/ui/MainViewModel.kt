@@ -15,9 +15,9 @@ import my.cardholder.billing.PurchasedProductsProvider
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.data.SettingsRepository
-import my.cardholder.data.model.BackupResult
 import my.cardholder.usecase.CloudDownloadUseCase
 import my.cardholder.usecase.CloudUploadUseCase
+import my.cardholder.util.Result
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,8 +36,8 @@ class MainViewModel @Inject constructor(
         initialValue = false
     )
 
-    private val backupResultChannel = Channel<BackupResult>()
-    val backupResult = backupResultChannel.receiveAsFlow()
+    private val backupDownloadResultChannel = Channel<Result<String>>()
+    val backupDownloadResult = backupDownloadResultChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -47,7 +47,7 @@ class MainViewModel @Inject constructor(
         }
 
         cloudDownloadUseCase.execute()
-            .onEach { backupResult -> backupResultChannel.send(backupResult) }
+            .onEach { result -> backupDownloadResultChannel.send(result) }
             .launchIn(viewModelScope)
 
         cardRepository.checksumOfAllCards
