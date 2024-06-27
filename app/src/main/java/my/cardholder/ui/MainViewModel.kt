@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -49,16 +50,20 @@ class MainViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            val checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L
-            cloudDownloadUseCase.execute(checksum)
-                .collect { result ->
-                    updateLatestSyncedBackupChecksum(result)
-                    backupDownloadResultChannel.send(result)
-                }
+            if (isCloudSyncEnabled()) {
+                val checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L
+                cloudDownloadUseCase.execute(checksum)
+                    .collect { result ->
+                        updateLatestSyncedBackupChecksum(result)
+                        backupDownloadResultChannel.send(result)
+                    }
+            }
         }
 
         cardRepository.checksumOfAllCards
-            .flatMapLatest { checksum -> cloudUploadUseCase.execute(checksum) }
+            .flatMapLatest { checksum ->
+                if (isCloudSyncEnabled()) cloudUploadUseCase.execute(checksum) else emptyFlow()
+            }
             .onEach { result -> updateLatestSyncedBackupChecksum(result) }
             .launchIn(viewModelScope)
     }
@@ -67,5 +72,9 @@ class MainViewModel @Inject constructor(
         if (result is Result.Success) {
             settingsRepository.setLatestSyncedBackupChecksum(result.data)
         }
+    }
+
+    private suspend fun isCloudSyncEnabled(): Boolean {
+        return settingsRepository.cloudSyncEnabled.first()
     }
 }
