@@ -3,12 +3,11 @@ package my.cardholder.usecase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import my.cardholder.cloud.backup.BackupChecksum
 import my.cardholder.cloud.backup.CloudBackupAssistant
 import my.cardholder.data.BackupRepository
-import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.BackupResult
 import my.cardholder.util.Result
 import javax.inject.Inject
@@ -16,21 +15,11 @@ import javax.inject.Inject
 class CloudDownloadUseCase @Inject constructor(
     private val backupRepository: BackupRepository,
     private val cloudBackupAssistant: CloudBackupAssistant,
-    private val settingsRepository: SettingsRepository,
 ) {
-
-    private companion object {
-        const val SUCCESS_MESSAGE = "Download completed!"
-    }
-
-    fun execute(): Flow<Result<String>> = flow {
-        if (!settingsRepository.cloudSyncEnabled.first()) {
-            throw Throwable("Cloud sync disabled!")
-        }
-        val latestChecksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0
+    fun execute(checksum: BackupChecksum): Flow<Result<BackupChecksum>> = flow {
         emit(Result.Loading("Getting the backup checksum"))
         val cloudBackupChecksum = cloudBackupAssistant.getBackupChecksum().getOrThrow()
-        if (cloudBackupChecksum > latestChecksum) {
+        if (cloudBackupChecksum > checksum) {
             emit(Result.Loading("Downloading backup data"))
             val content = cloudBackupAssistant.getBackupContent(cloudBackupChecksum).getOrThrow()
             content ?: throw Throwable("No cloud backup data!")
@@ -39,12 +28,12 @@ class CloudDownloadUseCase @Inject constructor(
                     when (backupResult) {
                         is BackupResult.Error -> throw Throwable(backupResult.message)
                         is BackupResult.Progress -> Result.Loading("Importing backup data")
-                        is BackupResult.Success -> Result.Success(SUCCESS_MESSAGE)
+                        is BackupResult.Success -> Result.Success(cloudBackupChecksum)
                     }
                 }
             emitAll(resultFlow)
         } else {
-            emit(Result.Success(SUCCESS_MESSAGE))
+            emit(Result.Success(checksum))
         }
     }.catch {
         emit(Result.Error(it))

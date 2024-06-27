@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import my.cardholder.billing.PurchasedProductsProvider
+import my.cardholder.cloud.backup.BackupChecksum
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.data.SettingsRepository
@@ -26,8 +28,8 @@ class MainViewModel @Inject constructor(
     cloudDownloadUseCase: CloudDownloadUseCase,
     cloudUploadUseCase: CloudUploadUseCase,
     purchasedProductsProvider: PurchasedProductsProvider,
-    settingsRepository: SettingsRepository,
     private val coffeeRepository: CoffeeRepository,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
     val nightModeEnabled = settingsRepository.nightModeEnabled.stateIn(
@@ -36,7 +38,7 @@ class MainViewModel @Inject constructor(
         initialValue = false
     )
 
-    private val backupDownloadResultChannel = Channel<Result<String>>()
+    private val backupDownloadResultChannel = Channel<Result<BackupChecksum>>()
     val backupDownloadResult = backupDownloadResultChannel.receiveAsFlow()
 
     init {
@@ -46,12 +48,24 @@ class MainViewModel @Inject constructor(
             }
         }
 
-        cloudDownloadUseCase.execute()
-            .onEach { result -> backupDownloadResultChannel.send(result) }
-            .launchIn(viewModelScope)
+        viewModelScope.launch {
+            val checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L
+            cloudDownloadUseCase.execute(checksum)
+                .collect { result ->
+                    updateLatestSyncedBackupChecksum(result)
+                    backupDownloadResultChannel.send(result)
+                }
+        }
 
         cardRepository.checksumOfAllCards
             .flatMapLatest { checksum -> cloudUploadUseCase.execute(checksum) }
+            .onEach { result -> updateLatestSyncedBackupChecksum(result) }
             .launchIn(viewModelScope)
+    }
+
+    private suspend fun updateLatestSyncedBackupChecksum(result: Result<BackupChecksum>) {
+        if (result is Result.Success) {
+            settingsRepository.setLatestSyncedBackupChecksum(result.data)
+        }
     }
 }
