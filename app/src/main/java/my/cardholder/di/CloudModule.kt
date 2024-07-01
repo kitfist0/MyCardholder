@@ -29,6 +29,7 @@ object CloudModule {
     fun provideGoogleSignInClient(context: Context): GoogleSignInClient {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestScopes(Scope(DRIVE_SCOPE))
+            .requestEmail()
             .build()
         return GoogleSignIn.getClient(context, googleSignInOptions)
     }
