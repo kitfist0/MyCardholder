@@ -49,22 +49,29 @@ class MainViewModel @Inject constructor(
             }
         }
 
-        viewModelScope.launch {
-            if (isCloudSyncEnabled()) {
-                val checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L
-                cloudDownloadUseCase.execute(checksum)
-                    .collect { result ->
-                        updateLatestSyncedBackupChecksum(result)
-                        backupDownloadResultChannel.send(result)
-                    }
+        settingsRepository.cloudSyncEnabled
+            .flatMapLatest { syncEnabled ->
+                if (syncEnabled) {
+                    val checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L
+                    cloudDownloadUseCase.execute(checksum)
+                } else {
+                    emptyFlow()
+                }
             }
-        }
+            .onEach { result ->
+                updateLatestSyncedBackupChecksum(result)
+                backupDownloadResultChannel.send(result)
+            }
+            .launchIn(viewModelScope)
 
         cardRepository.checksumOfAllCards
             .flatMapLatest { checksum ->
-                if (isCloudSyncEnabled()) cloudUploadUseCase.execute(checksum) else emptyFlow()
+                val syncEnabled = settingsRepository.cloudSyncEnabled.first()
+                if (syncEnabled) cloudUploadUseCase.execute(checksum) else emptyFlow()
             }
-            .onEach { result -> updateLatestSyncedBackupChecksum(result) }
+            .onEach { result ->
+                updateLatestSyncedBackupChecksum(result)
+            }
             .launchIn(viewModelScope)
     }
 
@@ -72,9 +79,5 @@ class MainViewModel @Inject constructor(
         if (result is Result.Success) {
             settingsRepository.setLatestSyncedBackupChecksum(result.data)
         }
-    }
-
-    private suspend fun isCloudSyncEnabled(): Boolean {
-        return settingsRepository.cloudSyncEnabled.first()
     }
 }
