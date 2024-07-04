@@ -17,6 +17,11 @@ import my.cardholder.util.ext.collectWhenStarted
 @AndroidEntryPoint
 class MainActivity : BillingActivity() {
 
+    private companion object {
+        const val FADE_IN_ANIM_DELAY_MS = 1500L
+        const val FADE_IN_ANIM_DURATION_MS = 1000L
+    }
+
     private val destinationIdsWithBottomNav = setOf(
         R.id.permission_fragment,
         R.id.card_scan_fragment,
@@ -48,7 +53,21 @@ class MainActivity : BillingActivity() {
         }
 
         collectWhenStarted(viewModel.backupDownloadLog) { logMessage ->
-            binding.mainBottomNavMessageText.text = logMessage
+            binding.mainBottomNavMessageText.apply {
+                if (logMessage.isNullOrEmpty()) {
+                    this.animate()
+                        .alpha(0f)
+                        .setStartDelay(FADE_IN_ANIM_DELAY_MS)
+                        .setDuration(FADE_IN_ANIM_DURATION_MS)
+                        .withEndAction {
+                            isVisible = false
+                            text = null
+                        }
+                } else {
+                    isVisible = true
+                    text = logMessage
+                }
+            }
         }
     }
 

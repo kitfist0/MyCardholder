@@ -38,6 +38,7 @@
         android:paddingHorizontal="4dp"
         android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
         android:textColor="?colorOnSecondaryContainer"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/main_bottom_nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

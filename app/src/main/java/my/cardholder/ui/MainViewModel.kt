@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
         initialValue = false
     )
 
-    private val backupDownloadLogChannel = Channel<String>()
+    private val backupDownloadLogChannel = Channel<String?>()
     val backupDownloadLog = backupDownloadLogChannel.receiveAsFlow()
 
     init {
@@ -62,11 +62,14 @@ class MainViewModel @Inject constructor(
                 updateLatestSyncedBackupChecksum(result)
                 when (result) {
                     is Result.Error ->
-                        backupDownloadLogChannel.send("Download error: ${result.throwable}")
+                        backupDownloadLogChannel.send("Download error: ${result.throwable.message}")
                     is Result.Loading ->
                         backupDownloadLogChannel.send(result.message)
                     is Result.Success ->
                         backupDownloadLogChannel.send("Download completed")
+                }
+                if (result !is Result.Loading) {
+                    backupDownloadLogChannel.send(null)
                 }
             }
             .launchIn(viewModelScope)
