@@ -1,7 +1,6 @@
 package my.cardholder.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -13,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
 import my.cardholder.billing.BillingActivity
-import my.cardholder.util.Result
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
@@ -49,10 +47,8 @@ class MainActivity : BillingActivity() {
             setDefaultNightMode(isEnabled)
         }
 
-        collectWhenStarted(viewModel.backupDownloadResult) { result ->
-            if (result is Result.Success) {
-                Toast.makeText(this, getString(R.string.sync_success_toast_message), Toast.LENGTH_SHORT).show()
-            }
+        collectWhenStarted(viewModel.backupDownloadLog) { logMessage ->
+            binding.mainBottomNavMessageText.text = logMessage
         }
     }
 
