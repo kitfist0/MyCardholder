@@ -121,6 +121,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.8.2'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.2'
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
     // Billing
     googleplayImplementation 'com.android.billingclient:billing-ktx:7.0.0'
     rustoreImplementation 'ru.rustore.sdk:billingclient:5.1.1'
@@ -175,10 +176,6 @@ dependencies {
     ksp "androidx.room:room-compiler:$room_version"
     // Splash
     implementation 'androidx.core:core-splashscreen:1.0.1'
-    // WorkManager
-    def work_version = "2.9.0"
-    implementation "androidx.work:work-runtime:$work_version"
-    implementation "androidx.work:work-runtime-ktx:$work_version"
     // Zxing
     implementation 'com.google.zxing:core:3.5.0'
 
