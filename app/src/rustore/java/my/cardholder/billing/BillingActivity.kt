@@ -21,7 +21,7 @@ abstract class BillingActivity : AppCompatActivity(), BillingActivityInterface {
         ruStoreBillingAssistant.initialize()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         ruStoreBillingAssistant.billingClient.onNewIntent(intent)
     }
