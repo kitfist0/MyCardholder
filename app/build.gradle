@@ -1,12 +1,12 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.firebaseCrashlytics)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.gms)
-    alias(libs.plugins.hiltAndroid)
-    alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.safeargsKotlin)
+    alias(libs.plugins.safeargs.kotlin)
 }
 
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
@@ -156,8 +156,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     // Hilt
-    implementation "com.google.dagger:hilt-android:${libs.versions.hilt}"
-    kapt "com.google.dagger:hilt-compiler:${libs.versions.hilt}"
+    implementation "com.google.dagger:hilt-android:2.51"
+    kapt "com.google.dagger:hilt-compiler:2.51"
     implementation 'androidx.hilt:hilt-work:1.2.0'
     kapt 'androidx.hilt:hilt-compiler:1.2.0'
     // Kotlin CSV
@@ -165,8 +165,8 @@ dependencies {
     // Ml Kit
     implementation 'com.google.mlkit:barcode-scanning:17.2.0'
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:${libs.versions.navigation}"
-    implementation "androidx.navigation:navigation-ui-ktx:${libs.versions.navigation}"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
+    implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
     // Preference
     implementation 'androidx.preference:preference-ktx:1.2.1'
     // Room

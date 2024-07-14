@@ -8,12 +8,12 @@ ksp = "1.9.22-1.0.17"
 navigation = "2.7.7"
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
-firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 gms = { id = "com.google.gms.google-services", version.ref = "gms" }
-hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-safeargsKotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
