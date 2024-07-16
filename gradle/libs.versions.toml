@@ -42,9 +42,9 @@ coil-kt = { group = "io.coil-kt", name = "coil", version = "2.4.0" }
 # javadoc.io/doc/com.google.apis/google-api-services-drive/latest/index.html
 # mvnrepository.com/artifact/com.google.http-client/google-http-client-gson
 # mvnrepository.com/artifact/com.google.android.gms/play-services-auth
-google-api-client-android = { group = "com.google.api-client", name = "google-api-client-android", version = "2.3.0" }
-google-api-services-drive = { group = "com.google.apis", name = "google-api-services-drive", version = "v3-rev20240123-2.0.0" }
-google-http-client-gson = { group = "com.google.http-client", name = "google-http-client-gson", version = "1.44.1" }
+google-api-client-android = { group = "com.google.api-client", name = "google-api-client-android", version = "2.6.0" }
+google-api-services-drive = { group = "com.google.apis", name = "google-api-services-drive", version = "v3-rev20240628-2.0.0" }
+google-http-client-gson = { group = "com.google.http-client", name = "google-http-client-gson", version = "1.44.2" }
 google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version = "21.2.0" }
 
 # google firebase
