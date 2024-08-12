@@ -50,6 +50,9 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
             cardScanSelectFileFab.setOnClickListener {
                 viewModel.onSelectFileFabClicked()
             }
+            cardScanAddManuallyFab.setOnClickListener {
+                viewModel.onAddManuallyFabClicked()
+            }
         }
     }
 

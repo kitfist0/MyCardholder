@@ -104,6 +104,13 @@ class CardScanViewModel @Inject constructor(
         _state.update { it.copy(launchBarcodeFileSelectionRequest = true) }
     }
 
+    fun onAddManuallyFabClicked() {
+        viewModelScope.launch {
+            val cardId = cardRepository.insertNewCard()
+            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+        }
+    }
+
     private suspend fun insertNewCard(content: String, supportedFormat: SupportedFormat): Long {
         return cardRepository.insertNewCard(content = content, format = supportedFormat)
     }

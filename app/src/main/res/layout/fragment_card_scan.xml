@@ -41,18 +41,31 @@
         app:icon="@drawable/ic_add_card"
         app:iconPadding="4dp"
         app:iconSize="28dp"
-        app:layout_constraintBottom_toTopOf="@+id/card_scan_select_file_fab"
+        app:layout_constraintBottom_toTopOf="@id/card_scan_select_file_fab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="@tools:sample/lorem/random"
         tools:visibility="visible" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/card_scan_select_file_fab"
+        style="@style/Widget.Material3.FloatingActionButton.Surface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginVertical="16dp"
+        android:contentDescription="@string/card_scan_select_file_fab_title"
+        android:src="@drawable/ic_photo_library"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/card_scan_add_manually_fab"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/card_scan_add_manually_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:text="@string/card_scan_select_file_fab_title"
+        android:text="@string/permission_add_manually_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
