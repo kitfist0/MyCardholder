@@ -24,7 +24,7 @@ class InfoViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun onSourceCodeButtonClicked() {
-        startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_GITHUB)
+        startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_REPO)
     }
 
     fun onCopyrightButtonClicked() {
