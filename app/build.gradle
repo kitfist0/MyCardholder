@@ -173,6 +173,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    // Image Cropper
+    implementation(libs.image.cropper)
+
     // Kotlin CSV
     implementation(libs.kotlin.csv)
 
