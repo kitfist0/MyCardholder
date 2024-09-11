@@ -23,10 +23,30 @@
     </fragment>
 
     <fragment
+        android:id="@+id/card_crop_fragment"
+        android:name="my.cardholder.ui.card.crop.CardCropFragment"
+        android:label="@string/card_crop_label"
+        tools:layout="@layout/fragment_card_crop">
+        <argument
+            android:name="image_uri"
+            app:argType="string" />
+        <action
+            android:id="@+id/from_card_crop_to_card_display"
+            app:destination="@id/card_display_fragment"
+            app:popUpTo="@id/card_list_fragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
         android:id="@+id/card_scan_fragment"
         android:name="my.cardholder.ui.card.scan.CardScanFragment"
         android:label="@string/card_scan_label"
         tools:layout="@layout/fragment_card_scan">
+        <action
+            android:id="@+id/from_card_scan_to_card_crop"
+            app:destination="@id/card_crop_fragment"
+            app:popUpTo="@id/card_list_fragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/from_card_scan_to_permission"
             app:destination="@id/permission_fragment"
