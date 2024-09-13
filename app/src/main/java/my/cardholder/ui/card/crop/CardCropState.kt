@@ -1,6 +1,10 @@
 package my.cardholder.ui.card.crop
 
-data class CardCropState(
-    val selectedImageUri: String,
-    val cropButtonClickEvent: Boolean,
-)
+sealed class CardCropState {
+    data class Selection(
+        val selectedImageUri: String,
+        val startProcessingEvent: Boolean,
+    ) : CardCropState()
+
+    data object Processing : CardCropState()
+}

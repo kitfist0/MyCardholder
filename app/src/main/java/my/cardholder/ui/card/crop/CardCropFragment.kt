@@ -1,6 +1,7 @@
 package my.cardholder.ui.card.crop
 
 import android.net.Uri
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.canhub.cropper.CropImageOptions
 import com.google.mlkit.vision.common.InputImage
@@ -22,7 +23,7 @@ class CardCropFragment : BaseFragment<FragmentCardCropBinding>(
             cardCropImageView.setOnCropImageCompleteListener { _, result ->
                 val inputImage = result.bitmap
                     ?.let { InputImage.fromBitmap(it, 0) }
-                viewModel.onCropCompleted(inputImage)
+                viewModel.onProcessingCompleted(inputImage)
             }
             cardCropOkFab.setOnClickListener {
                 viewModel.onOkFabClicked()
@@ -32,12 +33,22 @@ class CardCropFragment : BaseFragment<FragmentCardCropBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            binding.cardCropImageView.apply {
-                imageUri ?: setImageUriAsync(Uri.parse(state.selectedImageUri))
-            }
-            if (state.cropButtonClickEvent) {
-                binding.cardCropImageView.croppedImageAsync()
-                viewModel.consumeCropButtonClickEvent()
+            when (state) {
+                is CardCropState.Selection -> {
+                    binding.cardCropOkFab.isVisible = true
+                    binding.cardCropImageView.apply {
+                        isVisible = true
+                        imageUri ?: setImageUriAsync(Uri.parse(state.selectedImageUri))
+                    }
+                    if (state.startProcessingEvent) {
+                        binding.cardCropImageView.croppedImageAsync()
+                        viewModel.onProcessingStarted()
+                    }
+                }
+                is CardCropState.Processing -> {
+                    binding.cardCropImageView.isVisible = false
+                    binding.cardCropOkFab.isVisible = false
+                }
             }
         }
     }

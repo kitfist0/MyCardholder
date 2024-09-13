@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
 import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.ScanResultRepository
@@ -24,10 +23,12 @@ class CardCropViewModel @Inject constructor(
     private val scanResultRepository: ScanResultRepository,
 ) : BaseViewModel() {
 
-    private val _state = MutableStateFlow(
-        CardCropState(
-            selectedImageUri = CardCropFragmentArgs.fromSavedStateHandle(savedStateHandle).imageUri,
-            cropButtonClickEvent = false,
+    private val imageUri = CardCropFragmentArgs.fromSavedStateHandle(savedStateHandle).imageUri
+
+    private val _state = MutableStateFlow<CardCropState>(
+        CardCropState.Selection(
+            selectedImageUri = imageUri,
+            startProcessingEvent = false,
         )
     )
     val state = _state.asStateFlow()
@@ -43,24 +44,35 @@ class CardCropViewModel @Inject constructor(
                         )
                         navigate(CardCropFragmentDirections.fromCardCropToCardDisplay(cardId))
                     }
-                    is ScanResult.Failure ->
+                    is ScanResult.Failure -> {
+                        setSelectionState()
                         showSnack(Text.Simple(scanResult.throwable.toString()))
-                    ScanResult.Nothing ->
+                    }
+                    is ScanResult.Nothing -> {
+                        setSelectionState()
                         showSnack(Text.Resource(R.string.snack_message_barcode_not_found))
+                    }
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    fun onCropCompleted(inputImage: InputImage?) {
+    fun onProcessingCompleted(inputImage: InputImage?) {
         inputImage?.let { scanResultRepository.scan(it) }
     }
 
     fun onOkFabClicked() {
-        _state.update { it.copy(cropButtonClickEvent = true) }
+        setSelectionState(startProcessing = true)
     }
 
-    fun consumeCropButtonClickEvent() {
-        _state.update { it.copy(cropButtonClickEvent = false) }
+    fun onProcessingStarted() {
+        _state.value = CardCropState.Processing
+    }
+
+    private fun setSelectionState(startProcessing: Boolean = false) {
+        _state.value = CardCropState.Selection(
+            selectedImageUri = imageUri,
+            startProcessingEvent = startProcessing,
+        )
     }
 }
