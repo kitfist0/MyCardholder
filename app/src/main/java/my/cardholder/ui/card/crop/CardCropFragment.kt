@@ -35,6 +35,7 @@ class CardCropFragment : BaseFragment<FragmentCardCropBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CardCropState.Selection -> {
+                    binding.cardCropProgress.isVisible = false
                     binding.cardCropOkFab.isVisible = true
                     binding.cardCropImageView.apply {
                         isVisible = true
@@ -46,6 +47,7 @@ class CardCropFragment : BaseFragment<FragmentCardCropBinding>(
                     }
                 }
                 is CardCropState.Processing -> {
+                    binding.cardCropProgress.isVisible = true
                     binding.cardCropImageView.isVisible = false
                     binding.cardCropOkFab.isVisible = false
                 }
