@@ -36,7 +36,7 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
     private var cameraProvider: ProcessCameraProvider? = null
 
     private val barcodeFileSelectionRequest = registerForActivityResult(PickVisualMedia()) { uri ->
-        viewModel.onBarcodeFileSelectionRequestResult(uri.toString())
+        viewModel.onBarcodeFileSelectionRequestResult(uri?.toString())
     }
 
     override val viewModel: CardScanViewModel by viewModels()
