@@ -1,28 +1,19 @@
 package my.cardholder.ui.card.delete
 
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogDeleteCardBinding
 import my.cardholder.ui.base.BaseDialogFragment
 import my.cardholder.ui.card.delete.DeleteCardState.Companion.getTitleText
-import my.cardholder.util.ext.assistedViewModels
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.textToString
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DeleteCardDialog : BaseDialogFragment<DialogDeleteCardBinding>(
     DialogDeleteCardBinding::inflate
 ) {
 
-    @Inject
-    lateinit var viewModelFactory: DeleteCardViewModelFactory
-
-    private val args: DeleteCardDialogArgs by navArgs()
-
-    override val viewModel: DeleteCardViewModel by assistedViewModels {
-        viewModelFactory.create(args.cardId)
-    }
+    override val viewModel: DeleteCardViewModel by viewModels()
 
     override fun initViews() {
         dialog?.window?.setWindowAnimations(-1)

@@ -1,10 +1,9 @@
 package my.cardholder.ui.card.edit
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
@@ -14,12 +13,16 @@ import my.cardholder.data.model.Category
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
+import javax.inject.Inject
 
-class CardEditViewModel @AssistedInject constructor(
-    @Assisted("card_id") private val cardId: Long,
+@HiltViewModel
+class CardEditViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val cardRepository: CardRepository,
     private val categoryRepository: CategoryRepository,
 ) : BaseViewModel() {
+
+    private val cardId = CardEditFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
 
     private var cardName: String? = null
     private var cardCategoryName: String? = null
@@ -103,11 +106,4 @@ class CardEditViewModel @AssistedInject constructor(
             cardRepository.updateCardFormat(cardId, SupportedFormat.valueOf(changedFormat))
         }
     }
-}
-
-@AssistedFactory
-interface CardEditViewModelFactory {
-    fun create(
-        @Assisted("card_id") cardId: Long,
-    ): CardEditViewModel
 }

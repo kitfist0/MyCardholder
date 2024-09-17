@@ -1,18 +1,21 @@
 package my.cardholder.ui.card.delete
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
+import javax.inject.Inject
 
-class DeleteCardViewModel @AssistedInject constructor(
-    @Assisted("card_id") private val cardId: Long,
+@HiltViewModel
+class DeleteCardViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
+
+    private val cardId = DeleteCardDialogArgs.fromSavedStateHandle(savedStateHandle).cardId
 
     private val _state = MutableStateFlow(
         DeleteCardState(cardName = "")
@@ -33,11 +36,4 @@ class DeleteCardViewModel @AssistedInject constructor(
             navigate(DeleteCardDialogDirections.fromDeleteCardToCardList())
         }
     }
-}
-
-@AssistedFactory
-interface DeleteCardViewModelFactory {
-    fun create(
-        @Assisted("card_id") cardId: Long,
-    ): DeleteCardViewModel
 }

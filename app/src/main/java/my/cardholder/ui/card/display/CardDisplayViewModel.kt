@@ -1,19 +1,22 @@
 package my.cardholder.ui.card.display
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.ui.base.BaseViewModel
+import javax.inject.Inject
 
-class CardDisplayViewModel @AssistedInject constructor(
-    @Assisted("card_id") private val cardId: Long,
+@HiltViewModel
+class CardDisplayViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     cardRepository: CardRepository,
 ) : BaseViewModel() {
+
+    private val cardId = CardDisplayFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
 
     private val _state = MutableStateFlow<CardDisplayState>(CardDisplayState.Loading)
     val state = _state.asStateFlow()
@@ -42,11 +45,4 @@ class CardDisplayViewModel @AssistedInject constructor(
     fun onEditFabClicked(extras: Navigator.Extras) {
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardEdit(cardId), extras)
     }
-}
-
-@AssistedFactory
-interface CardDisplayViewModelFactory {
-    fun create(
-        @Assisted("card_id") cardId: Long,
-    ): CardDisplayViewModel
 }

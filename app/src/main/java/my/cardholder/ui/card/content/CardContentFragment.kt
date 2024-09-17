@@ -6,31 +6,25 @@ import android.transition.TransitionSet
 import androidx.activity.OnBackPressedCallback
 import androidx.core.transition.doOnEnd
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardContentBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.util.ext.assistedViewModels
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.setTextAndSelectionIfRequired
 import my.cardholder.util.ext.setupUniqueTransitionName
 import my.cardholder.util.ext.showSoftInput
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CardContentFragment : BaseFragment<FragmentCardContentBinding>(
     FragmentCardContentBinding::inflate
 ) {
 
-    @Inject
-    lateinit var viewModelFactory: CardContentViewModelFactory
-
     private val args: CardContentFragmentArgs by navArgs()
 
-    override val viewModel: CardContentViewModel by assistedViewModels {
-        viewModelFactory.create(args.cardId)
-    }
+    override val viewModel: CardContentViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

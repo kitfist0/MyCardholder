@@ -3,23 +3,8 @@ package my.cardholder.util.ext
 import android.graphics.Rect
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.*
 import com.google.mlkit.vision.common.InputImage
 import my.cardholder.util.Text
-
-inline fun <reified T : ViewModel> Fragment.assistedViewModels(
-    crossinline viewModelProducer: () -> T,
-): Lazy<T> {
-    return viewModels {
-        object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return viewModelProducer() as T
-            }
-        }
-    }
-}
 
 fun Fragment.getStatusBarHeight(): Int {
     val rect = Rect()

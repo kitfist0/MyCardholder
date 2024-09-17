@@ -1,9 +1,8 @@
 package my.cardholder.ui.category.edit
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
@@ -11,11 +10,15 @@ import my.cardholder.data.CategoryRepository
 import my.cardholder.data.model.Category
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
+import javax.inject.Inject
 
-class CategoryEditViewModel @AssistedInject constructor(
-    @Assisted("category_id") private val categoryId: Long,
+@HiltViewModel
+class CategoryEditViewModel @Inject constructor(
+   savedStateHandle: SavedStateHandle,
     private val categoryRepository: CategoryRepository,
 ) : BaseViewModel() {
+
+    private val categoryId = CategoryEditFragmentArgs.fromSavedStateHandle(savedStateHandle).categoryId
 
     private var enteredCategoryName: String? = null
 
@@ -77,11 +80,4 @@ class CategoryEditViewModel @AssistedInject constructor(
             }
         }
     }
-}
-
-@AssistedFactory
-interface CategoryEditViewModelFactory {
-    fun create(
-        @Assisted("category_id") categoryId: Long,
-    ): CategoryEditViewModel
 }

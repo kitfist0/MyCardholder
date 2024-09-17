@@ -4,33 +4,27 @@ import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import androidx.core.transition.doOnEnd
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentCategoryEditBinding
 import my.cardholder.ui.base.BaseFragment
-import my.cardholder.util.ext.assistedViewModels
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.onImeActionDone
 import my.cardholder.util.ext.setTextAndSelectionIfRequired
 import my.cardholder.util.ext.setupUniqueTransitionName
 import my.cardholder.util.ext.showSoftInput
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CategoryEditFragment : BaseFragment<FragmentCategoryEditBinding>(
     FragmentCategoryEditBinding::inflate
 ) {
 
-    @Inject
-    lateinit var viewModelFactory: CategoryEditViewModelFactory
-
     private val args: CategoryEditFragmentArgs by navArgs()
 
-    override val viewModel: CategoryEditViewModel by assistedViewModels {
-        viewModelFactory.create(args.categoryId)
-    }
+    override val viewModel: CategoryEditViewModel by viewModels()
 
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)

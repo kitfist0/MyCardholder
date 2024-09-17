@@ -1,20 +1,23 @@
 package my.cardholder.ui.card.content
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
+import javax.inject.Inject
 
-class CardContentViewModel @AssistedInject constructor(
-    @Assisted("card_id") private val cardId: Long,
+@HiltViewModel
+class CardContentViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val cardRepository: CardRepository,
 ) : BaseViewModel() {
+
+    private val cardId = CardContentFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
 
     private var contentText: String? = null
 
@@ -51,11 +54,4 @@ class CardContentViewModel @AssistedInject constructor(
             }
         }
     }
-}
-
-@AssistedFactory
-interface CardContentViewModelFactory {
-    fun create(
-        @Assisted("card_id") cardId: Long,
-    ): CardContentViewModel
 }
