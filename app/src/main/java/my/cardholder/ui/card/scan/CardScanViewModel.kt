@@ -2,7 +2,6 @@ package my.cardholder.ui.card.scan
 
 import androidx.camera.core.ImageProxy
 import androidx.lifecycle.viewModelScope
-import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,14 +12,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.ScanResultRepository
 import my.cardholder.data.model.ScanResult
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.CameraPermissionHelper
-import my.cardholder.util.Text
 import javax.inject.Inject
 
 @HiltViewModel
@@ -58,21 +55,6 @@ class CardScanViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        scanResultRepository.fileScanResult
-            .onEach { scanResult ->
-                when (scanResult) {
-                    is ScanResult.Success -> {
-                        val cardId = insertNewCard(scanResult.content, scanResult.format)
-                        navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-                    }
-                    is ScanResult.Failure ->
-                        showSnack(Text.Simple(scanResult.throwable.toString()))
-                    ScanResult.Nothing ->
-                        showSnack(Text.Resource(R.string.snack_message_barcode_not_found))
-                }
-            }
-            .launchIn(viewModelScope)
-
         if (!cameraPermissionHelper.isPermissionGranted()) {
             navigate(CardScanFragmentDirections.fromCardScanToPermission())
         }
@@ -92,8 +74,8 @@ class CardScanViewModel @Inject constructor(
         }
     }
 
-    fun onBarcodeFileSelectionRequestResult(inputImage: InputImage?) {
-        inputImage?.let { scanResultRepository.scan(it) }
+    fun onBarcodeFileSelectionRequestResult(uri: String?) {
+        uri?.let { navigate(CardScanFragmentDirections.fromCardScanToCardCrop(it)) }
     }
 
     fun onBarcodeFileSelectionRequestLaunched() {

@@ -65,6 +65,9 @@ google-mlkit = { group = "com.google.mlkit", name = "barcode-scanning", version 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 
+# image cropper
+image-cropper = {group = "com.vanniktech", name = "android-image-cropper", version = "4.6.0"}
+
 # kotlin csv
 kotlin-csv = { module = "com.github.doyaaaaaken:kotlin-csv-jvm", version = "1.9.3"}
 

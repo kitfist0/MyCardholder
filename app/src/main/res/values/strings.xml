@@ -27,6 +27,11 @@
     <string name="card_content_title">Editing card text</string>
     <!--endregion-->
 
+    <!--region CardCrop-->
+    <string name="card_crop_label">Crop image</string>
+    <string name="card_crop_fab_title">Crop</string>
+    <!--endregion-->
+
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Delete card permanently</string>
     <string name="card_display_edit_fab_title">Edit</string>
