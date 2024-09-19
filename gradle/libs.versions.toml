@@ -3,14 +3,14 @@ agp = "8.5.2"
 camerax = "1.3.4"
 crashlytics = "3.0.2"
 gms = "4.4.2"
-hilt = "2.51"
+hilt = "2.52"
 kotlin = "1.9.24"
 ksp = "1.9.24-1.0.20"
-navigation = "2.7.7"
+navigation = "2.8.1"
 room = "2.6.1"
 
 [libraries]
-androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version = "1.9.0" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version = "1.9.2" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.0" }
 androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
 androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
@@ -20,7 +20,7 @@ androidx-concurrent-futures = { group = "androidx.concurrent", name = "concurren
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version = "2.1.4" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.13.1" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version = "1.1.1" }
-androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version = "2.8.3" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version = "2.8.6" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version = "1.2.1" }
@@ -28,11 +28,11 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version = "1.0.1" }
-androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version = "2.9.0" }
+androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version = "2.9.1" }
 
 # billing
 googleplay-billingclient = { group = "com.android.billingclient", name = "billing-ktx", version = "7.0.0" }
-rustore-billingclient = { group = "ru.rustore.sdk", name = "billingclient", version = "5.1.1" }
+rustore-billingclient = { group = "ru.rustore.sdk", name = "billingclient", version = "6.0.0" }
 
 # coil
 coil-kt = { group = "io.coil-kt", name = "coil", version = "2.4.0" }
@@ -48,7 +48,7 @@ google-http-client-gson = { group = "com.google.http-client", name = "google-htt
 google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version = "21.2.0" }
 
 # google firebase
-google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "33.1.2" }
+google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "33.3.0" }
 google-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 google-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 
@@ -59,7 +59,7 @@ google-flexbox = { group = "com.google.android.flexbox", name = "flexbox", versi
 google-material = { group = "com.google.android.material", name = "material", version = "1.12.0" }
 
 # google mlkit
-google-mlkit = { group = "com.google.mlkit", name = "barcode-scanning", version = "17.2.0"}
+google-mlkit = { group = "com.google.mlkit", name = "barcode-scanning", version = "17.3.0"}
 
 # hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
