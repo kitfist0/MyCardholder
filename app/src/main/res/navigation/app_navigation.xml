@@ -119,6 +119,9 @@
         <action
             android:id="@+id/from_card_display_to_card_content"
             app:destination="@id/card_content_fragment" />
+        <action
+            android:id="@+id/from_card_display_to_card_zoom"
+            app:destination="@id/card_zoom_fragment" />
     </fragment>
 
     <fragment
@@ -135,6 +138,16 @@
         <action
             android:id="@+id/from_card_edit_to_delete_card"
             app:destination="@id/delete_card_dialog" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/card_zoom_fragment"
+        android:name="my.cardholder.ui.card.zoom.CardZoomFragment"
+        android:label="@string/card_zoom_label"
+        tools:layout="@layout/fragment_card_zoom">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
     </fragment>
 
     <fragment
