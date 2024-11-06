@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.card.zoom.CardZoomFragment">
+
+    <ImageView
+        android:id="@+id/card_zoom_barcode_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="32dp"
+        android:scaleType="fitCenter"
+        android:transitionName="@string/transition_card_barcode"
+        tools:background="@sample/sample_cards.json/cards/color"
+        tools:ignore="ContentDescription"
+        tools:src="@sample/sample_cards.json/cards/image" />
+
+</FrameLayout>

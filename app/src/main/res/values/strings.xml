@@ -69,6 +69,10 @@
     <string name="card_scan_select_file_fab_title">Select file</string>
     <!--endregion-->
 
+    <!--region CardZoom-->
+    <string name="card_zoom_label">Card zoom</string>
+    <!--endregion-->
+
     <!--region CategoryEdit-->
     <string name="category_edit_category_name_hint">Name</string>
     <string name="category_edit_category_toolbar_title">Card category</string>
