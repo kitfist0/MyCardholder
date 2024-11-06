@@ -28,6 +28,10 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             cardDisplayBarcodeImage.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setPadding(getStatusBarHeight())
+                setOnClickListener {
+                    val extras = listOf(cardDisplayBarcodeImage).toNavExtras()
+                    viewModel.onBarcodeImageClicked(extras)
+                }
             }
             cardDisplayCardCategoryText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)

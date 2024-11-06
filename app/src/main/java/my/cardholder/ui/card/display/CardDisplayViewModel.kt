@@ -37,6 +37,10 @@ class CardDisplayViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun onBarcodeImageClicked(extras: Navigator.Extras) {
+        navigate(CardDisplayFragmentDirections.fromCardDisplayToCardZoom(cardId), extras)
+    }
+
     fun onCardContentTextLongClicked(extras: Navigator.Extras): Boolean {
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardContent(cardId), extras)
         return true
