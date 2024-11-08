@@ -26,12 +26,14 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
     override val viewModel: CardEditViewModel by viewModels()
 
     override fun initViews() {
+        childFragmentManager.addFragmentOnAttachListener { _, _ ->
+            binding.cardEditBarcodeImage.setPadding(size = getStatusBarHeight())
+        }
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
-            cardEditBarcodeImage.setPadding(getStatusBarHeight())
             cardEditDeleteCardButton.setOnClickListener {
                 viewModel.onDeleteCardButtonClicked()
             }

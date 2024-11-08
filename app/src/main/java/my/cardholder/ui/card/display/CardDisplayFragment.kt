@@ -20,6 +20,9 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
     override val viewModel: CardDisplayViewModel by viewModels()
 
     override fun initViews() {
+        childFragmentManager.addFragmentOnAttachListener { _, _ ->
+            binding.cardDisplayBarcodeImage.setPadding(size = getStatusBarHeight())
+        }
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
@@ -27,7 +30,6 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             val uniqueNameSuffix = args.cardId
             cardDisplayBarcodeImage.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
-                setPadding(getStatusBarHeight())
                 setOnClickListener {
                     val extras = listOf(cardDisplayBarcodeImage).toNavExtras()
                     viewModel.onBarcodeImageClicked(extras)
