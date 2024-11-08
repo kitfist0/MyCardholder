@@ -22,5 +22,7 @@
     <color name="cardholder_color_navigation_bar_night">#FF263238</color>
     <!--endregion-->
 
+    <color name="explanation_background_color">#EE212121</color>
+
     <color name="ic_launcher_background">#465B65</color>
 </resources>
