@@ -70,7 +70,7 @@
     <!--endregion-->
 
     <!--region CardZoom-->
-    <string name="card_zoom_label">Card zoom</string>
+    <string name="card_zoom_label">Zoom</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->

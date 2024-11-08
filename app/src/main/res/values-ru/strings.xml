@@ -27,6 +27,11 @@
     <string name="card_content_title">Редактирование текста карты</string>
     <!--endregion-->
 
+    <!--region CardCrop-->
+    <string name="card_crop_label">Обрезать изображение</string>
+    <string name="card_crop_fab_title">Обрезать</string>
+    <!--endregion-->
+
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Удалить карту навсегда</string>
     <string name="card_display_edit_fab_title">Редактировать</string>
@@ -62,6 +67,10 @@
     <string name="card_scan_explanation_message">Отсканируйте штрих-код, чтобы автоматически добавить новую карту</string>
     <string name="card_scan_label">Сканирование</string>
     <string name="card_scan_select_file_fab_title">Выбрать файл</string>
+    <!--endregion-->
+
+    <!--region CardZoom-->
+    <string name="card_zoom_label">Зум</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->

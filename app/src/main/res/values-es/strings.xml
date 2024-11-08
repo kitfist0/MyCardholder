@@ -27,6 +27,11 @@
     <string name="card_content_title">Edición del texto de la tarjeta</string>
     <!--endregion-->
 
+    <!--region CardCrop-->
+    <string name="card_crop_label">Recortar imagen</string>
+    <string name="card_crop_fab_title">Recortar</string>
+    <!--endregion-->
+
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Eliminar tarjeta de forma permanente</string>
     <string name="card_display_edit_fab_title">Editar</string>
@@ -62,6 +67,10 @@
     <string name="card_scan_explanation_message">Escanee un código de barras para agregar automáticamente una nueva tarjeta</string>
     <string name="card_scan_label">Escanear</string>
     <string name="card_scan_select_file_fab_title">Seleccione Archivo</string>
+    <!--endregion-->
+
+    <!--region CardZoom-->
+    <string name="card_zoom_label">Zoom</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->

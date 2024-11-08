@@ -27,6 +27,11 @@
     <string name="card_content_title">Kartentext bearbeiten</string>
     <!--endregion-->
 
+    <!--region CardCrop-->
+    <string name="card_crop_label">Bild zuschneiden</string>
+    <string name="card_crop_fab_title">Zuschneiden</string>
+    <!--endregion-->
+
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Karte dauerhaft löschen</string>
     <string name="card_display_edit_fab_title">Bearbeiten</string>
@@ -62,6 +67,10 @@
     <string name="card_scan_explanation_message">Scannen Sie einen Barcode, um automatisch eine neue Karte hinzuzufügen</string>
     <string name="card_scan_label">Kartenscan</string>
     <string name="card_scan_select_file_fab_title">Datei aussuchen</string>
+    <!--endregion-->
+
+    <!--region CardZoom-->
+    <string name="card_zoom_label">Zoom</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->
