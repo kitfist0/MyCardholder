@@ -35,6 +35,7 @@
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Supprimer définitivement la carte</string>
     <string name="card_display_edit_fab_title">Modifier</string>
+    <string name="card_display_explanation_message">Cliquez ici pour afficher en plein écran</string>
     <string name="card_display_label">Affichage de la carte</string>
     <!--endregion-->
 

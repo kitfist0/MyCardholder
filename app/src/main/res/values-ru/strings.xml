@@ -35,6 +35,7 @@
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Удалить карту навсегда</string>
     <string name="card_display_edit_fab_title">Редактировать</string>
+    <string name="card_display_explanation_message">Кликните здесь для отображения в полноэкранном режиме</string>
     <string name="card_display_label">Отображение карты</string>
     <!--endregion-->
 
