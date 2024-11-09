@@ -21,6 +21,24 @@
         tools:ignore="ContentDescription"
         tools:src="@sample/sample_cards.json/cards/image" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/card_display_explanation_message_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:maxWidth="250dp"
+        android:text="@string/card_display_explanation_message"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:backgroundTint="@color/explanation_background_color"
+        app:layout_constraintBottom_toBottomOf="@id/card_display_guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
     <com.google.android.material.chip.Chip
         android:id="@+id/card_display_card_category_text"
         android:layout_width="wrap_content"

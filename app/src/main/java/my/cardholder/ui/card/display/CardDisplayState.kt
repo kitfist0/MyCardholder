@@ -11,5 +11,6 @@ sealed class CardDisplayState {
         val cardName: String,
         val cardContent: String,
         val cardColor: Int,
+        val explanationIsVisible: Boolean,
     ) : CardDisplayState()
 }

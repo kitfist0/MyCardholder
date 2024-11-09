@@ -70,6 +70,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                             setBackgroundColor(state.cardColor)
                             loadBarcodeImage(state.barcodeFile)
                         }
+                        cardDisplayExplanationMessageText.isVisible = state.explanationIsVisible
                         cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
                         cardDisplayCardCategoryText.text = state.cardCategory
                         cardDisplayCardNameText.text = state.cardName
