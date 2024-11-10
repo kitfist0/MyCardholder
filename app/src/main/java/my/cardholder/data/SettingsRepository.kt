@@ -19,6 +19,8 @@ class SettingsRepository @Inject constructor(
 
     private companion object {
         val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
+        val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_zoom_test0")
+        val EXPLANATION_CARD_SCAN_KEY = booleanPreferencesKey("explanation_scan")
         val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
         val MULTI_COLUMN_LIST_KEY = booleanPreferencesKey("multi_column_list")
         val NIGHT_MODE_KEY = booleanPreferencesKey("night_mode")
@@ -30,6 +32,22 @@ class SettingsRepository @Inject constructor(
 
     val cloudSyncEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[CLOUD_SYNC_ENABLED_KEY] ?: false
+    }
+
+    suspend fun disableExplanationAboutBarcodeZoom() = dataStore.edit { preferences ->
+        preferences[EXPLANATION_BARCODE_ZOOM_KEY] = false
+    }
+
+    val explanationAboutBarcodeZoomIsRequired: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[EXPLANATION_BARCODE_ZOOM_KEY] ?: true
+    }
+
+    suspend fun disableExplanationAboutCardScan() = dataStore.edit { preferences ->
+        preferences[EXPLANATION_CARD_SCAN_KEY] = false
+    }
+
+    val explanationAboutCardScanIsRequired: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[EXPLANATION_CARD_SCAN_KEY] ?: true
     }
 
     suspend fun setLatestSyncedBackupChecksum(l: Long) = dataStore.edit { preferences ->
