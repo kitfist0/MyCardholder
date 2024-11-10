@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
+import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class CardDisplayViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     cardRepository: CardRepository,
+    settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
     private companion object {
@@ -32,23 +34,25 @@ class CardDisplayViewModel @Inject constructor(
             .filterNotNull()
             .onEach { cardAndCategory ->
                 val card = cardAndCategory.card
+                val expIsRequired = settingsRepository.explanationAboutBarcodeZoomIsRequired.first()
                 _state.value = CardDisplayState.Success(
                     barcodeFile = card.barcodeFile,
                     cardCategory = cardAndCategory.category?.name.orEmpty(),
                     cardName = card.name,
                     cardContent = card.content,
                     cardColor = card.getColorInt(),
-                    explanationIsVisible = true,
+                    explanationIsVisible = expIsRequired,
                 )
             }
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
-            delay(EXPLANATION_DURATION_MILLIS)
-            (_state.value as? CardDisplayState.Success)
-                ?.let { successState ->
-                    _state.value = successState.copy(explanationIsVisible = false)
-                }
+            if (settingsRepository.explanationAboutBarcodeZoomIsRequired.first()) {
+                delay(EXPLANATION_DURATION_MILLIS)
+                settingsRepository.disableExplanationAboutBarcodeZoom()
+                (_state.value as? CardDisplayState.Success)
+                    ?.let { _state.value = it.copy(explanationIsVisible = false) }
+            }
         }
     }
 
