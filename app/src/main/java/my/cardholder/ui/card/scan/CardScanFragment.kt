@@ -74,7 +74,7 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            binding.cardScanExplanationMessageText.isVisible = state.withExplanation
+            binding.cardScanExplanationMessageText.isVisible = state.explanationIsVisible
             binding.cardScanPreliminaryResultButton.text = state.preliminaryScanResult?.content
             binding.cardScanPreliminaryResultButton.isVisible = state.preliminaryScanResult != null
             if (state.launchBarcodeFileSelectionRequest) {

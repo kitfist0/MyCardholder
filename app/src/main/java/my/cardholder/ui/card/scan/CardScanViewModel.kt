@@ -8,12 +8,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.ScanResultRepository
+import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.ScanResult
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
@@ -25,6 +27,7 @@ class CardScanViewModel @Inject constructor(
     cameraPermissionHelper: CameraPermissionHelper,
     private val cardRepository: CardRepository,
     private val scanResultRepository: ScanResultRepository,
+    private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
     private companion object {
@@ -34,7 +37,7 @@ class CardScanViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(
         CardScanState(
-            withExplanation = true,
+            explanationIsVisible = false,
             preliminaryScanResult = null,
             launchBarcodeFileSelectionRequest = false,
         )
@@ -43,8 +46,13 @@ class CardScanViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(EXPLANATION_DURATION_MILLIS)
-            _state.update { it.copy(withExplanation = false) }
+            val expIsRequired = settingsRepository.explanationAboutCardScanIsRequired.first()
+            if (expIsRequired) {
+                _state.update { it.copy(explanationIsVisible = true) }
+                delay(EXPLANATION_DURATION_MILLIS)
+                settingsRepository.disableExplanationAboutCardScan()
+                _state.update { it.copy(explanationIsVisible = false) }
+            }
         }
 
         scanResultRepository.cameraScanResult
