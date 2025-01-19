@@ -26,7 +26,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "APP_NAME", "\"MyCardholder\"")
         buildConfigField("String", "DEV_NAME", "\"MidnightDev\"")
-        buildConfigField("String", "YEAR", "\"2024\"")
+        buildConfigField("String", "YEAR", "\"2025\"")
     }
 
     flavorDimensions = ["billing"]
