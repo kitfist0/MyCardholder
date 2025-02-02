@@ -6,7 +6,6 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.View
-import android.view.WindowInsets
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
@@ -16,6 +15,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.navigation.fragment.FragmentNavigator
@@ -56,10 +56,10 @@ fun View.updateVerticalPaddingAfterApplyingWindowInsets(
 ) {
     setOnApplyWindowInsetsListener { view, windowInsets ->
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val systemWindowInsets = windowInsets.getInsets(WindowInsets.Type.systemBars())
+            val bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
             view.updatePadding(
-                top = if (top) systemWindowInsets.top else 0,
-                bottom = if (bottom) systemWindowInsets.bottom else 0,
+                top = if (top) bars.top else 0,
+                bottom = if (bottom) bars.bottom else 0,
             )
         } else {
             @Suppress("DEPRECATION")
