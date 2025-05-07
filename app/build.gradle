@@ -12,7 +12,7 @@ plugins {
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 
 android {
-    compileSdk 34
+    compileSdk 35
 
     namespace 'my.cardholder'
 
