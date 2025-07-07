@@ -5,6 +5,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
@@ -16,7 +17,9 @@ class GooglePlayBillingAssistant(
 
     override val billingClient: BillingClient = billingClientBuilder
         .setListener(this)
-        .enablePendingPurchases()
+        .enablePendingPurchases(
+            PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()
+        )
         .build()
 
     override fun initialize() {
@@ -47,12 +50,12 @@ class GooglePlayBillingAssistant(
         val productDetailsParams = QueryProductDetailsParams.newBuilder()
             .setProductList(productList)
             .build()
-        billingClient.queryProductDetailsAsync(productDetailsParams) { billingResult, productDetailsList ->
+        billingClient.queryProductDetailsAsync(productDetailsParams) { billingResult, productDetailsResult ->
             val productDetailsParamsList =
-                if (billingResult.isOk() && productDetailsList.isNotEmpty()) {
+                if (billingResult.isOk() && productDetailsResult.productDetailsList.isNotEmpty()) {
                     listOf(
                         BillingFlowParams.ProductDetailsParams.newBuilder()
-                            .setProductDetails(productDetailsList.first())
+                            .setProductDetails(productDetailsResult.productDetailsList.first())
                             .build()
                     )
                 } else {
