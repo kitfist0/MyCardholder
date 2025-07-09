@@ -1,7 +1,6 @@
 package my.cardholder.ui.base
 
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -12,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.textToString
+import androidx.core.net.toUri
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -25,7 +25,7 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
             is BaseEvent.SnackMessage ->
                 Snackbar.make(requireView(), textToString(event.text), Snackbar.LENGTH_LONG).show()
             is BaseEvent.StartActivity -> event.uriString
-                ?.let { uriString -> startActivity(Intent(event.action, Uri.parse(uriString))) }
+                ?.let { uriString -> startActivity(Intent(event.action, uriString.toUri())) }
                 ?: startActivity(Intent(event.action))
             is BaseEvent.ToastMessage ->
                 Toast.makeText(requireContext(), textToString(event.text), Toast.LENGTH_LONG).show()

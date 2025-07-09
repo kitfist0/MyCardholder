@@ -1,6 +1,5 @@
 package my.cardholder.ui.card.crop
 
-import android.net.Uri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.canhub.cropper.CropImageOptions
@@ -9,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardCropBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class CardCropFragment : BaseFragment<FragmentCardCropBinding>(
@@ -39,7 +39,7 @@ class CardCropFragment : BaseFragment<FragmentCardCropBinding>(
                     binding.cardCropOkFab.isVisible = true
                     binding.cardCropImageView.apply {
                         isVisible = true
-                        imageUri ?: setImageUriAsync(Uri.parse(state.selectedImageUri))
+                        imageUri ?: setImageUriAsync(state.selectedImageUri.toUri())
                     }
                     if (state.startProcessingEvent) {
                         binding.cardCropImageView.croppedImageAsync()
