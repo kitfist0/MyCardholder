@@ -14,7 +14,7 @@ import my.cardholder.data.model.Coffee
         Category::class,
         Coffee::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -34,6 +34,12 @@ abstract class AppDatabase : RoomDatabase() {
                 val time = System.currentTimeMillis()
                 db.execSQL("ALTER TABLE `cards` ADD COLUMN `changed_at` INTEGER NOT NULL DEFAULT $time")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_cards_category_id` ON `cards` (`category_id`)")
+            }
+        }
+
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `cards` ADD COLUMN `logo` TEXT DEFAULT NULL")
             }
         }
     }
