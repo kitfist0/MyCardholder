@@ -104,6 +104,19 @@ fun ImageView.loadBarcodeImage(
     }
 }
 
+fun ImageView.loadLogoImage(
+    logoUrl: String?
+) {
+    load(logoUrl) {
+        size(512)
+        transformations(
+            RoundedCornersTransformation(
+                resources.getDimensionPixelSize(R.dimen.card_item_square_logo_corner_radius).toFloat()
+            )
+        )
+    }
+}
+
 fun EditText.onImeActionDone(callback: () -> Unit) {
     setOnEditorActionListener { _, actionId, _ ->
         if (actionId == EditorInfo.IME_ACTION_DONE) {

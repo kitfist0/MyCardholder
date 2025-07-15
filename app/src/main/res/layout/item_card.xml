@@ -18,15 +18,14 @@
         android:padding="@dimen/card_item_content_padding">
 
         <ImageView
-            android:id="@+id/item_card_barcode_image"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/card_item_square_barcode_height"
-            android:maxWidth="@dimen/card_item_rectangle_barcode_width"
-            android:minWidth="@dimen/card_item_square_barcode_width"
+            android:id="@+id/item_card_logo_image"
+            android:layout_width="@dimen/card_item_square_logo_width"
+            android:layout_height="@dimen/card_item_square_logo_height"
+            android:background="@drawable/bg_white_square"
             android:scaleType="fitStart"
             android:transitionName="@string/transition_card_barcode"
             tools:ignore="ContentDescription"
-            tools:src="@sample/sample_cards.json/cards/image" />
+            tools:src="@drawable/ic_launcher_foreground" />
 
         <TextView
             android:id="@+id/item_card_name_text"
