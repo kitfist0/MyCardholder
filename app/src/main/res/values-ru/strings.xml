@@ -45,6 +45,7 @@
     <string name="card_edit_color_hint">Цвет</string>
     <string name="card_edit_content_hint">Текст</string>
     <string name="card_edit_label">Редактирование карты</string>
+    <string name="card_edit_logo_hint">Логотип</string>
     <string name="card_edit_name_hint">Имя</string>
     <string name="card_edit_invalid_value_error_message">Значение недопустимо для выбранного типа штрих-кода</string>
     <!--endregion-->
