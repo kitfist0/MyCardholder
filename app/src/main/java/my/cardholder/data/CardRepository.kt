@@ -42,6 +42,7 @@ class CardRepository @Inject constructor(
 
     suspend fun insertNewCard(
         name: String = DEFAULT_CARD_NAME,
+        logo: String? = null,
         categoryId: Long? = null,
         content: String = DEFAULT_CARD_CONTENT,
         color: String = Card.COLORS.random(),
@@ -51,6 +52,7 @@ class CardRepository @Inject constructor(
         val newCard = Card(
             id = Card.NEW_CARD_ID,
             name = name,
+            logo = logo,
             isPinned = false,
             categoryId = categoryId,
             content = content,
@@ -109,6 +111,16 @@ class CardRepository @Inject constructor(
                 val barcodeFilePath = writeNewBarcodeFile(card.content, format)
                 upsertCard(
                     card.copy(format = format, path = barcodeFilePath)
+                )
+            }
+        }
+    }
+
+    suspend fun updateCardLogo(cardId: Long, logo: String?) {
+        getCard(cardId)?.let { card ->
+            if (card.logo != logo) {
+                upsertCard(
+                    card.copy(logo = logo?.trim())
                 )
             }
         }
