@@ -23,6 +23,7 @@
             android:layout_height="@dimen/card_item_square_logo_height"
             android:background="@drawable/bg_white_square"
             android:scaleType="fitStart"
+            android:padding="8dp"
             android:transitionName="@string/transition_card_barcode"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_launcher_foreground" />
