@@ -60,19 +60,33 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
+    <ImageView
+        android:id="@+id/card_display_card_logo_image"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_surface_container"
+        android:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_display_guideline_horizontal"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/card_display_card_name_text"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_margin="8dp"
+        android:background="@drawable/bg_surface_container"
         android:ellipsize="marquee"
+        android:gravity="center_vertical"
         android:lines="1"
-        android:padding="4dp"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+        android:paddingHorizontal="8dp"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
         android:transitionName="@string/transition_card_name"
+        app:layout_constraintBottom_toBottomOf="@id/card_display_card_logo_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/card_display_guideline_horizontal"
+        app:layout_constraintStart_toEndOf="@id/card_display_card_logo_image"
+        app:layout_constraintTop_toTopOf="@id/card_display_card_logo_image"
         tools:text="@sample/sample_cards.json/cards/name" />
 
     <androidx.cardview.widget.CardView
@@ -82,7 +96,7 @@
         android:layout_margin="8dp"
         android:transitionName="@string/transition_card_content"
         app:cardBackgroundColor="?colorSurfaceContainer"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:contentPadding="4dp"
         app:layout_constraintStart_toStartOf="parent"
