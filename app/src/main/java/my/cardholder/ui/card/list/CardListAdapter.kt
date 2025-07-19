@@ -10,8 +10,10 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import my.cardholder.R
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.CardAndCategory
+import my.cardholder.data.model.isSquare
 import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.ext.loadLogoImage
 import my.cardholder.util.ext.setupUniqueTransitionName
@@ -62,7 +64,11 @@ class CardListAdapter(
                 itemCardLayout.background = getCardGradientDrawable(card.getColorInt())
                 itemCardLogoImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
-                    loadLogoImage(logoUrl = card.logo)
+                    card.logo?.let {
+                        loadLogoImage(it) }
+                        ?: setImageResource(
+                            if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode
+                        )
                 }
                 itemCardPushPinImage.isVisible = card.isPinned
                 itemCardNameText.apply {
