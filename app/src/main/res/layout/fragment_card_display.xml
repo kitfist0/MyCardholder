@@ -39,20 +39,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/card_display_card_category_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="4dp"
-        android:backgroundTint="#88000000"
-        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-        android:textColor="#FFEAEAEA"
-        android:transitionName="@string/transition_card_category"
-        app:chipStrokeColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="@id/card_display_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@sample/sample_cards.json/cards/category" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/card_display_guideline_horizontal"
         android:layout_width="wrap_content"
@@ -65,8 +51,8 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_margin="8dp"
-        android:padding="4dp"
         android:background="@drawable/bg_surface_container"
+        android:padding="8dp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_display_guideline_horizontal"
@@ -114,6 +100,20 @@
             tools:text="@sample/sample_cards.json/cards/content" />
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/card_display_card_category_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_surface_container"
+        android:backgroundTint="?colorSecondaryContainer"
+        android:padding="8dp"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:transitionName="@string/transition_card_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_display_card_content_card_view"
+        tools:text="@sample/sample_cards.json/cards/category" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_display_edit_fab"

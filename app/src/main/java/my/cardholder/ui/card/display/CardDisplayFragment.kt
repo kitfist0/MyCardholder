@@ -82,8 +82,8 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                             loadBarcodeImage(state.barcodeFile)
                         }
                         cardDisplayExplanationMessageText.isVisible = state.explanationIsVisible
-                        cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
                         cardDisplayCardCategoryText.text = state.cardCategory
+                        cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
                         cardDisplayCardLogoImage.loadLogoImage(state.cardLogo)
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
