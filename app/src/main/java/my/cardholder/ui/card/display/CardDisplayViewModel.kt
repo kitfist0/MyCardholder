@@ -38,6 +38,7 @@ class CardDisplayViewModel @Inject constructor(
                 _state.value = CardDisplayState.Success(
                     barcodeFile = card.barcodeFile,
                     cardCategory = cardAndCategory.category?.name.orEmpty(),
+                    cardLogo = card.logo,
                     cardName = card.name,
                     cardContent = card.content,
                     cardColor = card.getColorInt(),

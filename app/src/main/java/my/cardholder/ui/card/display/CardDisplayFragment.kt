@@ -75,7 +75,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                         cardDisplayExplanationMessageText.isVisible = state.explanationIsVisible
                         cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
                         cardDisplayCardCategoryText.text = state.cardCategory
-                        cardDisplayCardLogoImage.setImageResource(R.drawable.ic_launcher_foreground)
+                        cardDisplayCardLogoImage.loadLogoImage(state.cardLogo)
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
                         cardDisplayEditFab.isClickable = true

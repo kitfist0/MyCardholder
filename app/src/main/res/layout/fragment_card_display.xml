@@ -65,6 +65,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_margin="8dp"
+        android:padding="4dp"
         android:background="@drawable/bg_surface_container"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
