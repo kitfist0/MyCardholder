@@ -1,12 +1,14 @@
 package my.cardholder.ui.card.display
 
 import android.transition.TransitionInflater
+import android.transition.TransitionSet
+import androidx.core.transition.doOnEnd
+import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.R
 import my.cardholder.databinding.FragmentCardDisplayBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.*
@@ -54,6 +56,13 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                     cardDisplayEditFab,
                 ).toNavExtras()
                 viewModel.onEditFabClicked(extras)
+            }
+            val transitionSet = sharedElementEnterTransition as TransitionSet
+            transitionSet.doOnStart {
+                cardDisplayCardLogoImage.isVisible = false
+            }
+            transitionSet.doOnEnd {
+                cardDisplayCardLogoImage.animateVisibilityChange()
             }
         }
     }
