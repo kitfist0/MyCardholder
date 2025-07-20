@@ -12,7 +12,8 @@
         android:layout_height="0dp"
         android:padding="32dp"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@id/card_edit_guideline_horizontal"
+        android:transitionName="@string/transition_card_barcode"
+        app:layout_constraintDimensionRatio="H,2:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,15 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:icon="@drawable/ic_delete"
-        app:layout_constraintBottom_toTopOf="@id/card_edit_guideline_horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/card_edit_barcode_image"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/card_edit_guideline_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"

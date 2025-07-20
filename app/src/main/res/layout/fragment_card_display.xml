@@ -13,7 +13,7 @@
         android:padding="32dp"
         android:scaleType="fitCenter"
         android:transitionName="@string/transition_card_barcode"
-        app:layout_constraintBottom_toTopOf="@id/card_display_guideline_horizontal"
+        app:layout_constraintDimensionRatio="H,3:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,18 +33,11 @@
         android:textStyle="bold"
         android:visibility="gone"
         app:backgroundTint="@color/explanation_background_color"
-        app:layout_constraintBottom_toBottomOf="@id/card_display_guideline_horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/card_display_barcode_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/card_display_guideline_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
 
     <ImageView
         android:id="@+id/card_display_card_logo_image"
@@ -55,7 +48,7 @@
         android:padding="8dp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_display_guideline_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/card_display_barcode_image"
         tools:ignore="ContentDescription" />
 
     <TextView
