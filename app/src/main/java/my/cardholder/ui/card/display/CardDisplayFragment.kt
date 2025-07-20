@@ -50,6 +50,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             cardDisplayEditFab.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayEditFab.setOnClickListener {
                 val extras = listOf(
+                    cardDisplayBarcodeImage,
                     cardDisplayCardNameText,
                     cardDisplayCardContentCardView,
                     cardDisplayCardCategoryText,
