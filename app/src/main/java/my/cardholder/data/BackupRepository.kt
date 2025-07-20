@@ -99,11 +99,7 @@ class BackupRepository @Inject constructor(
             }
             cardRepository.insertNewCard(
                 name = row[NAME_INDEX_SINCE_V1],
-                logo = try {
-                    row[LOGO_INDEX_SINCE_V2]
-                } catch (_: ArrayIndexOutOfBoundsException) {
-                    null
-                },
+                logo = runCatching { row[LOGO_INDEX_SINCE_V2] }.getOrNull(),
                 categoryId = categoryId,
                 content = content,
                 color = row[COLOR_INDEX_SINCE_V1],
