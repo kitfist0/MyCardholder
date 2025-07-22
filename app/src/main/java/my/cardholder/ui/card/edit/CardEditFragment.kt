@@ -7,7 +7,6 @@ import androidx.core.graphics.toColorInt
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -26,15 +25,15 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
     override val viewModel: CardEditViewModel by viewModels()
 
     override fun initViews() {
-        childFragmentManager.addFragmentOnAttachListener { _, _ ->
-            binding.cardEditBarcodeImage.setPadding(size = getStatusBarHeight())
-        }
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
-            cardEditBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
+            cardEditBarcodeImage.apply {
+                updateVerticalPaddingAfterApplyingWindowInsets()
+                setupUniqueTransitionName(uniqueNameSuffix)
+            }
             cardEditDeleteCardButton.setOnClickListener {
                 viewModel.onDeleteCardButtonClicked()
             }
@@ -65,13 +64,11 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
-                cardEditDeleteCardButton.isVisible = false
                 cardEditCardColorInputLayout.isVisible = false
                 cardEditCardLogoInputLayout.isVisible = false
                 cardEditBarcodeFormatInputLayout.isVisible = false
             }
             transitionSet.doOnEnd {
-                cardEditDeleteCardButton.animateVisibilityChange()
                 cardEditCardColorInputLayout.animateVisibilityChange()
                 cardEditCardLogoInputLayout.animateVisibilityChange()
                 cardEditBarcodeFormatInputLayout.animateVisibilityChange()

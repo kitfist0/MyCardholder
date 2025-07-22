@@ -5,7 +5,6 @@ import android.transition.TransitionSet
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,15 +22,13 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
     override val viewModel: CardDisplayViewModel by viewModels()
 
     override fun initViews() {
-        childFragmentManager.addFragmentOnAttachListener { _, _ ->
-            binding.cardDisplayBarcodeImage.setPadding(size = getStatusBarHeight())
-        }
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
             cardDisplayBarcodeImage.apply {
+                updateVerticalPaddingAfterApplyingWindowInsets()
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener {
                     val extras = listOf(cardDisplayBarcodeImage).toNavExtras()
