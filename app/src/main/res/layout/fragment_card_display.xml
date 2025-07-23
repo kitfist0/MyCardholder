@@ -13,7 +13,7 @@
         android:padding="32dp"
         android:scaleType="fitCenter"
         android:transitionName="@string/transition_card_barcode"
-        app:layout_constraintDimensionRatio="H,3:2"
+        app:layout_constraintDimensionRatio="H,5:4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,7 +57,7 @@
         android:layout_height="56dp"
         android:layout_margin="8dp"
         android:background="@drawable/bg_surface_container"
-        android:ellipsize="marquee"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         android:lines="1"
         android:paddingHorizontal="8dp"
@@ -71,7 +71,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_display_card_content_card_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:transitionName="@string/transition_card_content"
@@ -79,6 +79,7 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:contentPadding="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_display_card_name_text">
 
