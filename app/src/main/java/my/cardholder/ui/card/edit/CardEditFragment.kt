@@ -64,11 +64,13 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
+                cardEditDeleteCardButton.isVisible = false
                 cardEditCardColorInputLayout.isVisible = false
                 cardEditCardLogoInputLayout.isVisible = false
                 cardEditBarcodeFormatInputLayout.isVisible = false
             }
             transitionSet.doOnEnd {
+                cardEditDeleteCardButton.animateVisibilityChange()
                 cardEditCardColorInputLayout.animateVisibilityChange()
                 cardEditCardLogoInputLayout.animateVisibilityChange()
                 cardEditBarcodeFormatInputLayout.animateVisibilityChange()
