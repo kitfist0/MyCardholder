@@ -1,66 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.card.edit.CardEditFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/card_edit_app_bar"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/card_edit_collapsing_toolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?colorSecondaryContainer"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/card_edit_barcode_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom|center"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:padding="32dp"
                 android:scaleType="fitCenter"
                 android:transitionName="@string/transition_card_barcode"
-                app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                app:layout_constraintDimensionRatio="H,3:2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:background="@sample/sample_cards.json/cards/color"
                 tools:ignore="ContentDescription"
-                tools:src="@sample/sample.jpg" />
+                tools:src="@sample/sample_cards.json/cards/image" />
 
             <Button
                 android:id="@+id/card_edit_delete_card_button"
                 style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
                 android:layout_margin="8dp"
-                app:icon="@drawable/ic_delete" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/card_edit_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                app:layout_collapseMode="pin" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                app:icon="@drawable/ic_delete"
+                app:layout_constraintBottom_toBottomOf="@id/card_edit_barcode_image"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/card_edit_card_name_input_layout"
@@ -69,7 +46,10 @@
                 android:layout_margin="8dp"
                 android:hint="@string/card_edit_name_hint"
                 android:transitionName="@string/transition_card_name"
-                app:hintAnimationEnabled="false">
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_barcode_image">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -87,7 +67,10 @@
                 android:layout_margin="8dp"
                 android:hint="@string/card_edit_content_hint"
                 android:transitionName="@string/transition_card_content"
-                app:hintAnimationEnabled="false">
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_name_input_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -107,7 +90,10 @@
                 android:hint="@string/card_edit_category_hint"
                 android:labelFor="@id/card_edit_card_category_auto_complete_text"
                 android:transitionName="@string/transition_card_category"
-                app:hintAnimationEnabled="false">
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_content_input_layout">
 
                 <AutoCompleteTextView
                     android:id="@+id/card_edit_card_category_auto_complete_text"
@@ -126,7 +112,10 @@
                 android:layout_margin="8dp"
                 android:hint="@string/card_edit_color_hint"
                 android:labelFor="@id/card_edit_card_color_auto_complete_text"
-                app:hintAnimationEnabled="false">
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_category_input_layout">
 
                 <AutoCompleteTextView
                     android:id="@+id/card_edit_card_color_auto_complete_text"
@@ -144,7 +133,10 @@
                 android:layout_margin="8dp"
                 android:hint="@string/card_edit_logo_hint"
                 app:expandedHintEnabled="false"
-                app:hintAnimationEnabled="false">
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_color_input_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -163,7 +155,10 @@
                 android:layout_margin="8dp"
                 android:hint="@string/card_edit_barcode_format_hint"
                 android:labelFor="@id/card_edit_barcode_format_auto_complete_text"
-                app:hintAnimationEnabled="false">
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_logo_input_layout">
 
                 <AutoCompleteTextView
                     android:id="@+id/card_edit_barcode_format_auto_complete_text"
@@ -173,7 +168,8 @@
                     tools:text="QR_CODE" />
 
             </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -185,4 +181,4 @@
         android:transitionName="@string/transition_card_fab"
         app:icon="@drawable/ic_done" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>
