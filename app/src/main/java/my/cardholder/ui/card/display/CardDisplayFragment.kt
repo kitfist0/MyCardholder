@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.R
 import my.cardholder.databinding.FragmentCardDisplayBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.*
@@ -82,7 +83,9 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                         cardDisplayExplanationMessageText.isVisible = state.explanationIsVisible
                         cardDisplayCardCategoryText.text = state.cardCategory
                         cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
-                        cardDisplayCardLogoImage.loadLogoImage(state.cardLogo)
+                        state.cardLogo
+                            ?.let { cardDisplayCardLogoImage.loadLogoImage(state.cardLogo) }
+                            ?: cardDisplayCardLogoImage.setImageResource(R.drawable.ic_broken_img)
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
                         cardDisplayEditFab.isClickable = true

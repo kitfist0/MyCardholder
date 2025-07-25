@@ -46,10 +46,10 @@
         android:layout_margin="8dp"
         android:background="@drawable/bg_surface_container"
         android:padding="8dp"
-        android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_display_barcode_image"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_broken_img" />
 
     <TextView
         android:id="@+id/card_display_card_name_text"
