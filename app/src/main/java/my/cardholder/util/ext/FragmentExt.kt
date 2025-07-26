@@ -1,16 +1,9 @@
 package my.cardholder.util.ext
 
-import android.graphics.Rect
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.google.mlkit.vision.common.InputImage
 import my.cardholder.util.Text
-
-fun Fragment.getStatusBarHeight(): Int {
-    val rect = Rect()
-    requireActivity().window.decorView.getWindowVisibleDisplayFrame(rect)
-    return rect.top
-}
 
 fun Fragment.getActionBarSize(): Int {
     val typedArray = requireContext().theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
