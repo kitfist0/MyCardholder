@@ -65,7 +65,7 @@ class BackupRepository @Inject constructor(
         }
         reader.openAsync(inputStream) {
             val version = readNext()?.first()?.toInt() ?: 0
-            val rows = readAllAsSequence().toList()
+            val rows = readAllAsSequence().toList().reversed()
             val numOfCards = rows.count()
             if (numOfCards == 0) {
                 throw Throwable("Backup file is empty")
