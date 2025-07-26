@@ -10,10 +10,12 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import my.cardholder.R
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.CardAndCategory
+import my.cardholder.data.model.isSquare
 import my.cardholder.databinding.ItemCardBinding
-import my.cardholder.util.ext.loadBarcodeImage
+import my.cardholder.util.ext.loadLogoImage
 import my.cardholder.util.ext.setupUniqueTransitionName
 import my.cardholder.util.ext.toNavExtras
 
@@ -41,7 +43,7 @@ class CardListAdapter(
             itemView.setOnClickListener {
                 val cardAndCategory = getItem(adapterPosition)
                 val extras = listOf(
-                    binding.itemCardBarcodeImage,
+                    binding.itemCardLogoImage,
                     binding.itemCardNameText,
                     binding.itemCardContentText,
                     binding.itemCardCategoryText,
@@ -60,12 +62,13 @@ class CardListAdapter(
                 val card = cardAndCategory.card
                 val uniqueNameSuffix = card.id
                 itemCardLayout.background = getCardGradientDrawable(card.getColorInt())
-                itemCardBarcodeImage.apply {
+                itemCardLogoImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
-                    loadBarcodeImage(
-                        barcodeFile = card.barcodeFile,
-                        originalSize = false,
-                    )
+                    card.logo?.let {
+                        loadLogoImage(it) }
+                        ?: setImageResource(
+                            if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode
+                        )
                 }
                 itemCardPushPinImage.isVisible = card.isPinned
                 itemCardNameText.apply {

@@ -45,6 +45,7 @@
     <string name="card_edit_color_hint">Color</string>
     <string name="card_edit_content_hint">Texto</string>
     <string name="card_edit_label">Editar</string>
+    <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Nombre</string>
     <string name="card_edit_invalid_value_error_message">El valor no es válido para el tipo de código de barras seleccionado</string>
     <!--endregion-->

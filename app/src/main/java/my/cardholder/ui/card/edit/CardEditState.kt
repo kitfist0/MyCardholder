@@ -13,9 +13,10 @@ sealed class CardEditState {
         val cardContent: String,
         val cardCategoryName: String,
         val cardCategoryNames: List<String>,
-        val barcodeFormatName: String,
-        val barcodeFormatNames: List<String> = SupportedFormat.values().map { it.toString() },
         val cardColor: String,
         val cardColors: List<String> = Card.COLORS.toList(),
+        val cardLogo: String,
+        val barcodeFormatName: String,
+        val barcodeFormatNames: List<String> = SupportedFormat.entries.map { it.toString() },
     ) : CardEditState()
 }

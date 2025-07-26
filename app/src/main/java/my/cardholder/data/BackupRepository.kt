@@ -23,28 +23,30 @@ class BackupRepository @Inject constructor(
 ) {
 
     private companion object {
-        const val V1_CSV_SCHEME = 1
-        const val V1_CARD_NAME_INDEX = 0
-        const val V1_CARD_CATEGORY_INDEX = 1
-        const val V1_CARD_CONTENT_INDEX = 2
-        const val V1_CARD_COLOR_INDEX = 3
-        const val V1_CARD_FORMAT_INDEX = 4
+        const val CSV_SCHEME_VERSION = 2
+        const val NAME_INDEX_SINCE_V1 = 0
+        const val CATEGORY_INDEX_SINCE_V1 = 1
+        const val CONTENT_INDEX_SINCE_V1 = 2
+        const val COLOR_INDEX_SINCE_V1 = 3
+        const val FORMAT_INDEX_SINCE_V1 = 4
+        const val LOGO_INDEX_SINCE_V2 = 5
     }
 
     fun exportToBackupFile(outputStream: OutputStream): Flow<BackupResult> = channelFlow {
         val cardsAndCategories = cardRepository.cardsAndCategories.first().reversed()
         val numOfCards = cardsAndCategories.size
         csvWriter().openAsync(outputStream) {
-            writeRow(V1_CSV_SCHEME)
+            writeRow(CSV_SCHEME_VERSION)
             cardsAndCategories.forEachIndexed { index, cardAndCategory ->
                 val card = cardAndCategory.card
                 val categoryName = cardAndCategory.category?.name.orEmpty()
                 val row = mutableListOf<Any>()
-                row.add(V1_CARD_NAME_INDEX, card.name)
-                row.add(V1_CARD_CATEGORY_INDEX, categoryName)
-                row.add(V1_CARD_CONTENT_INDEX, card.content)
-                row.add(V1_CARD_COLOR_INDEX, card.color)
-                row.add(V1_CARD_FORMAT_INDEX, card.format)
+                row.add(NAME_INDEX_SINCE_V1, card.name)
+                row.add(CATEGORY_INDEX_SINCE_V1, categoryName)
+                row.add(CONTENT_INDEX_SINCE_V1, card.content)
+                row.add(COLOR_INDEX_SINCE_V1, card.color)
+                row.add(FORMAT_INDEX_SINCE_V1, card.format)
+                row.add(LOGO_INDEX_SINCE_V2, card.logo.orEmpty())
                 writeRow(row)
                 sendProgress(
                     backupOperationType = BackupOperationType.EXPORT,
@@ -62,45 +64,45 @@ class BackupRepository @Inject constructor(
             insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.IGNORE
         }
         reader.openAsync(inputStream) {
-            val version = readNext()?.first()?.toInt()
+            val version = readNext()?.first()?.toInt() ?: 0
             val rows = readAllAsSequence().toList()
             val numOfCards = rows.count()
             if (numOfCards == 0) {
                 throw Throwable("Backup file is empty")
             }
-            when (version) {
-                V1_CSV_SCHEME ->
-                    rows.forEachIndexed { index, row ->
-                        importCardAccordingToV1Schema(row)
-                        sendProgress(
-                            backupOperationType = BackupOperationType.IMPORT,
-                            current = index + 1,
-                            total = numOfCards,
-                        )
-                    }
-                else -> throw Throwable("Invalid file format")
+            if (version == 0 || version > CSV_SCHEME_VERSION) {
+                throw Throwable("Invalid file format")
+            }
+            rows.forEachIndexed { index, row ->
+                importCard(row)
+                sendProgress(
+                    backupOperationType = BackupOperationType.IMPORT,
+                    current = index + 1,
+                    total = numOfCards,
+                )
             }
         }
     }.catch {
         emit(BackupResult.Error(it.message.orEmpty()))
     }
 
-    private suspend fun importCardAccordingToV1Schema(row: List<String>) {
-        val name = row[V1_CARD_NAME_INDEX]
-        val content = row[V1_CARD_CONTENT_INDEX]
-        val format = SupportedFormat.valueOf(row[V1_CARD_FORMAT_INDEX])
+    private suspend fun importCard(row: List<String>) {
+        val name = row[NAME_INDEX_SINCE_V1]
+        val content = row[CONTENT_INDEX_SINCE_V1]
+        val format = SupportedFormat.valueOf(row[FORMAT_INDEX_SINCE_V1])
         if (!cardRepository.isCardWithSuchDataExists(name, content, format)) {
-            val categoryName = row[V1_CARD_CATEGORY_INDEX]
+            val categoryName = row[CATEGORY_INDEX_SINCE_V1]
             val categoryId = if (categoryName.isNotEmpty()) {
                 categoryRepository.upsertCategoryIfCategoryNameIsNew(categoryName = categoryName)
             } else {
                 null
             }
             cardRepository.insertNewCard(
-                name = row[V1_CARD_NAME_INDEX],
+                name = row[NAME_INDEX_SINCE_V1],
+                logo = runCatching { row[LOGO_INDEX_SINCE_V2] }.getOrNull(),
                 categoryId = categoryId,
                 content = content,
-                color = row[V1_CARD_COLOR_INDEX],
+                color = row[COLOR_INDEX_SINCE_V1],
                 format = format,
             )
         }

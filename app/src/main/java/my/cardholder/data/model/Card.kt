@@ -27,6 +27,7 @@ data class Card(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val name: String,
+    val logo: String? = null,
     @ColumnInfo(name = "is_pinned")
     val isPinned: Boolean,
     @ColumnInfo(name = "category_id")

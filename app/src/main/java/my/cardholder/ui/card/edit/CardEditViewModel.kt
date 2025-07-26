@@ -27,6 +27,7 @@ class CardEditViewModel @Inject constructor(
     private var cardName: String? = null
     private var cardCategoryName: String? = null
     private var cardColor: String? = null
+    private var cardLogo: String? = null
     private var cardFormat: String? = null
 
     private val _state = MutableStateFlow<CardEditState>(CardEditState.Loading)
@@ -44,8 +45,9 @@ class CardEditViewModel @Inject constructor(
                     cardContent = card.content,
                     cardCategoryName = cardAndCategory.category?.name ?: Category.NULL_NAME,
                     cardCategoryNames = listOf(Category.NULL_NAME).plus(categoryNames),
-                    barcodeFormatName = card.format.toString(),
                     cardColor = card.color,
+                    cardLogo = card.logo.orEmpty(),
+                    barcodeFormatName = card.format.toString(),
                 )
                 if (card.barcodeFile?.exists() == false) {
                     showSnack(Text.Resource(R.string.card_edit_invalid_value_error_message))
@@ -94,6 +96,16 @@ class CardEditViewModel @Inject constructor(
         cardColor = changedColor
         viewModelScope.launch {
             cardRepository.updateCardColor(cardId, changedColor)
+        }
+    }
+
+    fun onCardLogoChanged(changedLogo: String?) {
+        if (changedLogo == null || cardLogo == changedLogo) {
+            return
+        }
+        cardLogo = changedLogo.ifEmpty { null }
+        viewModelScope.launch {
+            cardRepository.updateCardLogo(cardId, cardLogo)
         }
     }
 

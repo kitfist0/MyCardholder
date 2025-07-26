@@ -1,159 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.card.edit.CardEditFragment">
 
-    <ImageView
-        android:id="@+id/card_edit_barcode_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="32dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@id/card_edit_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@sample/sample_cards.json/cards/color"
-        tools:ignore="ContentDescription"
-        tools:src="@sample/sample_cards.json/cards/image" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/card_edit_delete_card_button"
-        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:icon="@drawable/ic_delete"
-        app:layout_constraintBottom_toTopOf="@id/card_edit_guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/card_edit_guideline_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/card_edit_card_name_input_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:hint="@string/card_edit_name_hint"
-        android:transitionName="@string/transition_card_name"
-        app:hintAnimationEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/card_edit_guideline_horizontal">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="textShortMessage"
-            tools:text="@sample/sample_cards.json/cards/name" />
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:id="@+id/card_edit_barcode_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="32dp"
+                android:scaleType="fitCenter"
+                android:transitionName="@string/transition_card_barcode"
+                app:layout_constraintDimensionRatio="H,3:2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@sample/sample_cards.json/cards/color"
+                tools:ignore="ContentDescription"
+                tools:src="@sample/sample_cards.json/cards/image" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/card_edit_card_content_input_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:hint="@string/card_edit_content_hint"
-        android:transitionName="@string/transition_card_content"
-        app:hintAnimationEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_edit_card_name_input_layout">
+            <Button
+                android:id="@+id/card_edit_delete_card_button"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:icon="@drawable/ic_delete"
+                app:layout_constraintBottom_toBottomOf="@id/card_edit_barcode_image"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:inputType="textShortMessage"
-            tools:text="@sample/sample_cards.json/cards/content" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_edit_card_name_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:hint="@string/card_edit_name_hint"
+                android:transitionName="@string/transition_card_name"
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_barcode_image">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textShortMessage"
+                    tools:text="@sample/sample_cards.json/cards/name" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/card_edit_card_category_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:hint="@string/card_edit_category_hint"
-        android:labelFor="@id/card_edit_card_category_auto_complete_text"
-        android:transitionName="@string/transition_card_category"
-        app:hintAnimationEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_edit_card_content_input_layout">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/card_edit_card_category_auto_complete_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            tools:text="@sample/sample_cards.json/cards/category" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_edit_card_content_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:hint="@string/card_edit_content_hint"
+                android:transitionName="@string/transition_card_content"
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_name_input_layout">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:inputType="textShortMessage"
+                    tools:text="@sample/sample_cards.json/cards/content" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/card_edit_card_color_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:hint="@string/card_edit_color_hint"
-        android:labelFor="@id/card_edit_card_color_auto_complete_text"
-        app:hintAnimationEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_edit_card_category_input_layout">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/card_edit_card_color_auto_complete_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            tools:text="@sample/sample_cards.json/cards/color" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_edit_card_category_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:hint="@string/card_edit_category_hint"
+                android:labelFor="@id/card_edit_card_category_auto_complete_text"
+                android:transitionName="@string/transition_card_category"
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_content_input_layout">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/card_edit_card_category_auto_complete_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    tools:text="@sample/sample_cards.json/cards/category" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/card_edit_barcode_format_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:hint="@string/card_edit_barcode_format_hint"
-        android:labelFor="@id/card_edit_barcode_format_auto_complete_text"
-        app:hintAnimationEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_edit_card_color_input_layout">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <AutoCompleteTextView
-            android:id="@+id/card_edit_barcode_format_auto_complete_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"
-            tools:text="QR_CODE" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_edit_card_color_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:hint="@string/card_edit_color_hint"
+                android:labelFor="@id/card_edit_card_color_auto_complete_text"
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_category_input_layout">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/card_edit_card_color_auto_complete_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    tools:text="@sample/sample_cards.json/cards/color" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_edit_card_logo_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:hint="@string/card_edit_logo_hint"
+                app:expandedHintEnabled="false"
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_color_input_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textShortMessage"
+                    tools:text="@tools:sample/lorem" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_edit_barcode_format_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:hint="@string/card_edit_barcode_format_hint"
+                android:labelFor="@id/card_edit_barcode_format_auto_complete_text"
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_logo_input_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/card_edit_barcode_format_auto_complete_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    tools:text="QR_CODE" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_edit_ok_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_margin="32dp"
         android:transitionName="@string/transition_card_fab"
-        app:icon="@drawable/ic_done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:icon="@drawable/ic_done" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

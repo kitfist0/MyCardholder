@@ -7,7 +7,6 @@ import androidx.core.graphics.toColorInt
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -26,14 +25,15 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
     override val viewModel: CardEditViewModel by viewModels()
 
     override fun initViews() {
-        childFragmentManager.addFragmentOnAttachListener { _, _ ->
-            binding.cardEditBarcodeImage.setPadding(size = getStatusBarHeight())
-        }
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
+            cardEditBarcodeImage.apply {
+                updateVerticalPaddingAfterApplyingWindowInsets()
+                setupUniqueTransitionName(uniqueNameSuffix)
+            }
             cardEditDeleteCardButton.setOnClickListener {
                 viewModel.onDeleteCardButtonClicked()
             }
@@ -54,6 +54,8 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             cardEditCardColorInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardColorChanged(it?.toString()) }
+            cardEditCardLogoInputLayout.editText
+                ?.doAfterTextChanged { viewModel.onCardLogoChanged(it?.toString()) }
             cardEditBarcodeFormatInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
             cardEditOkFab.apply {
@@ -64,11 +66,13 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             transitionSet.doOnStart {
                 cardEditDeleteCardButton.isVisible = false
                 cardEditCardColorInputLayout.isVisible = false
+                cardEditCardLogoInputLayout.isVisible = false
                 cardEditBarcodeFormatInputLayout.isVisible = false
             }
             transitionSet.doOnEnd {
                 cardEditDeleteCardButton.animateVisibilityChange()
                 cardEditCardColorInputLayout.animateVisibilityChange()
+                cardEditCardLogoInputLayout.animateVisibilityChange()
                 cardEditBarcodeFormatInputLayout.animateVisibilityChange()
             }
         }
@@ -82,6 +86,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditCardContentInputLayout.isEnabled = false
                     cardEditCardCategoryInputLayout.isEnabled = false
                     cardEditCardColorInputLayout.isEnabled = false
+                    cardEditCardLogoInputLayout.isEnabled = false
                     cardEditBarcodeFormatInputLayout.isEnabled = false
                 }
                 is CardEditState.Success -> with(binding) {
@@ -106,6 +111,10 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     (cardEditCardColorInputLayout.editText as? AutoCompleteTextView)?.apply {
                         setTextAndSelectionIfRequired(state.cardColor)
                         adapter ?: setAdapter(CardEditColorAdapter(context, state.cardColors))
+                    }
+                    cardEditCardLogoInputLayout.apply {
+                        isEnabled = true
+                        editText?.setTextAndSelectionIfRequired(state.cardLogo)
                     }
                     cardEditBarcodeFormatInputLayout.isEnabled = true
                     (cardEditBarcodeFormatInputLayout.editText as? AutoCompleteTextView)?.apply {
