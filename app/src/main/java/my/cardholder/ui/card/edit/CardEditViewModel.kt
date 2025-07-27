@@ -103,7 +103,7 @@ class CardEditViewModel @Inject constructor(
         if (changedLogo == null || cardLogo == changedLogo) {
             return
         }
-        cardLogo = changedLogo.ifEmpty { null }
+        cardLogo = changedLogo.ifBlank { null }
         viewModelScope.launch {
             cardRepository.updateCardLogo(cardId, cardLogo)
         }
