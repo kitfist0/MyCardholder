@@ -110,6 +110,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditCardColorInputLayout.isEnabled = true
                     (cardEditCardColorInputLayout.editText as? AutoCompleteTextView)?.apply {
                         setTextAndSelectionIfRequired(state.cardColor)
+                        setStartColoredSquareIcon(state.cardColor)
                         adapter ?: setAdapter(CardEditColorAdapter(context, state.cardColors))
                     }
                     cardEditCardLogoInputLayout.apply {

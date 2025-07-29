@@ -5,6 +5,9 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RoundRectShape
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -31,6 +34,29 @@ import com.google.android.material.textfield.TextInputLayout
 import my.cardholder.R
 import java.io.File
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.toColorInt
+
+fun EditText.setStartColoredSquareIcon(color: String) {
+    val sizePx = (24 * context.resources.displayMetrics.density).toInt()
+    val cornerRadiusPx = 4 * context.resources.displayMetrics.density
+    val radii = floatArrayOf(
+        cornerRadiusPx, cornerRadiusPx,
+        cornerRadiusPx, cornerRadiusPx,
+        cornerRadiusPx, cornerRadiusPx,
+        cornerRadiusPx, cornerRadiusPx
+    )
+    val ovalDrawable = object : ShapeDrawable(RoundRectShape(radii, null, null)) {
+        init {
+            paint.color = color.toColorInt()
+            paint.style = Paint.Style.FILL
+            paint.isAntiAlias = true
+            intrinsicWidth = sizePx
+            intrinsicHeight = sizePx
+        }
+    }
+    ovalDrawable.setBounds(0, 0, sizePx, sizePx)
+    setCompoundDrawablesRelative(ovalDrawable, null, null, null)
+}
 
 fun EditText.setStartIconFromUrl(imageUrl: String?) {
     val sizePx = (24 * context.resources.displayMetrics.density).toInt()
