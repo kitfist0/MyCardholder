@@ -121,6 +121,7 @@
                     android:id="@+id/card_edit_card_color_auto_complete_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
                     android:inputType="none"
                     tools:text="@sample/sample_cards.json/cards/color" />
 
@@ -141,6 +142,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
                     android:imeOptions="actionDone"
                     android:inputType="textShortMessage"
                     tools:text="@tools:sample/lorem" />
