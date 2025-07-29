@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -21,12 +22,40 @@ import androidx.core.view.updatePadding
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.imageLoader
 import coil.load
+import coil.request.ImageRequest
 import coil.size.Size
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.textfield.TextInputLayout
 import my.cardholder.R
 import java.io.File
+import androidx.core.graphics.drawable.toDrawable
+
+fun EditText.setStartIconFromUrl(imageUrl: String?) {
+    val sizePx = (24 * context.resources.displayMetrics.density).toInt()
+    val cornerRadiusPx = 4 * context.resources.displayMetrics.density
+
+    if (imageUrl.isNullOrEmpty()) return
+
+    val requestBuilder = ImageRequest.Builder(context)
+        .data(imageUrl)
+        .size(sizePx, sizePx)
+        .transformations(RoundedCornersTransformation(cornerRadiusPx))
+        .target(
+            onSuccess = {
+                it.setBounds(0, 0, sizePx, sizePx)
+                setCompoundDrawablesRelative(it, null, null, null)
+            },
+            onError = {
+                val emptyDrawable = Color.TRANSPARENT.toDrawable()
+                emptyDrawable.setBounds(0, 0, sizePx, sizePx)
+                setCompoundDrawablesRelative(emptyDrawable, null, null, null)
+            }
+        )
+
+    context.imageLoader.enqueue(requestBuilder.build())
+}
 
 @Suppress("MagicNumber")
 fun View.animateVisibilityChange() {

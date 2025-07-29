@@ -114,6 +114,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     }
                     cardEditCardLogoInputLayout.apply {
                         isEnabled = true
+                        editText?.setStartIconFromUrl(state.cardLogo)
                         editText?.setTextAndSelectionIfRequired(state.cardLogo)
                     }
                     cardEditBarcodeFormatInputLayout.isEnabled = true
