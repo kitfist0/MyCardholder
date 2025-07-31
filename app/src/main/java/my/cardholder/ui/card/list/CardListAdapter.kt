@@ -64,8 +64,8 @@ class CardListAdapter(
                 itemCardLayout.background = getCardGradientDrawable(card.getColorInt())
                 itemCardLogoImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
-                    card.logo?.let {
-                        loadLogoImage(it) }
+                    card.logo
+                        ?.let { loadLogoImage(it) }
                         ?: setImageResource(
                             if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode
                         )
@@ -88,7 +88,10 @@ class CardListAdapter(
 
         private fun getCardGradientDrawable(colorInt: Int): GradientDrawable {
             val bottomLeftColor = ColorUtils.blendARGB(colorInt, Color.TRANSPARENT, 0.2f)
-            return GradientDrawable(GradientDrawable.Orientation.BL_TR, intArrayOf(bottomLeftColor, colorInt))
+            return GradientDrawable(
+                GradientDrawable.Orientation.BL_TR,
+                intArrayOf(bottomLeftColor, colorInt)
+            )
         }
     }
 
