@@ -23,13 +23,14 @@ class BackupRepository @Inject constructor(
 ) {
 
     private companion object {
-        const val CSV_SCHEME_VERSION = 2
+        const val CSV_SCHEME_VERSION = 3
         const val NAME_INDEX_SINCE_V1 = 0
         const val CATEGORY_INDEX_SINCE_V1 = 1
         const val CONTENT_INDEX_SINCE_V1 = 2
         const val COLOR_INDEX_SINCE_V1 = 3
         const val FORMAT_INDEX_SINCE_V1 = 4
         const val LOGO_INDEX_SINCE_V2 = 5
+        const val POSITION_INDEX_SINCE_V3 = 6
     }
 
     fun exportToBackupFile(outputStream: OutputStream): Flow<BackupResult> = channelFlow {
@@ -47,6 +48,7 @@ class BackupRepository @Inject constructor(
                 row.add(COLOR_INDEX_SINCE_V1, card.color)
                 row.add(FORMAT_INDEX_SINCE_V1, card.format)
                 row.add(LOGO_INDEX_SINCE_V2, card.logo.orEmpty())
+                row.add(POSITION_INDEX_SINCE_V3, card.position)
                 writeRow(row)
                 sendProgress(
                     backupOperationType = BackupOperationType.EXPORT,
@@ -99,6 +101,7 @@ class BackupRepository @Inject constructor(
             }
             cardRepository.insertNewCard(
                 name = row[NAME_INDEX_SINCE_V1],
+                position = runCatching { row[POSITION_INDEX_SINCE_V3].toInt() }.getOrNull(),
                 logo = runCatching { row[LOGO_INDEX_SINCE_V2] }.getOrNull(),
                 categoryId = categoryId,
                 content = content,

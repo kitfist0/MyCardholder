@@ -20,6 +20,9 @@ interface CardDao {
     @Query("SELECT SUM (changed_at) FROM cards")
     fun getChecksumOfAllCards(): Flow<Long>
 
+    @Query("SELECT COUNT (id) FROM cards")
+    suspend fun getNumberOfCards(): Int
+
     @Query("SELECT COUNT (id) FROM cards WHERE is_pinned = 1")
     suspend fun getNumberOfPinnedCards(): Int
 

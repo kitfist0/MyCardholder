@@ -42,6 +42,7 @@ class CardRepository @Inject constructor(
 
     suspend fun insertNewCard(
         name: String = DEFAULT_CARD_NAME,
+        position: Int? = null,
         logo: String? = null,
         categoryId: Long? = null,
         content: String = DEFAULT_CARD_CONTENT,
@@ -52,6 +53,7 @@ class CardRepository @Inject constructor(
         val newCard = Card(
             id = Card.NEW_CARD_ID,
             name = name,
+            position = position ?: cardDao.getNumberOfCards(),
             logo = logo,
             isPinned = false,
             categoryId = categoryId,
