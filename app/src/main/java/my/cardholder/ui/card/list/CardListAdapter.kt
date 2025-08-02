@@ -1,13 +1,16 @@
 package my.cardholder.ui.card.list
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.R
@@ -18,10 +21,10 @@ import my.cardholder.databinding.ItemCardBinding
 import my.cardholder.util.ext.loadLogoImage
 import my.cardholder.util.ext.setupUniqueTransitionName
 import my.cardholder.util.ext.toNavExtras
+import java.util.Collections
 
 class CardListAdapter(
     private val onItemClicked: (cardId: Long, navExtras: FragmentNavigator.Extras) -> Unit,
-    private val onItemLongClicked: (cardId: Long) -> Unit,
     private val onItemCountIncreased: () -> Unit,
 ) : ListAdapter<CardAndCategory, CardListAdapter.CardViewHolder>(CardDiffCallback) {
 
@@ -35,8 +38,39 @@ class CardListAdapter(
         }
     }
 
+    private var touchHelper: ItemTouchHelper? = null
+
+    fun attachToRecyclerView(recyclerView: RecyclerView) {
+        val callback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+            0
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val fromPos = viewHolder.absoluteAdapterPosition
+                val toPos = target.absoluteAdapterPosition
+                val items = currentList.toMutableList()
+                Collections.swap(items, fromPos, toPos)
+                submitList(items)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+
+            override fun isLongPressDragEnabled() = true
+        }
+
+        touchHelper = ItemTouchHelper(callback)
+        touchHelper?.attachToRecyclerView(recyclerView)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     inner class CardViewHolder(
         private val binding: ItemCardBinding,
+        private val onDragStart: (RecyclerView.ViewHolder) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -50,10 +84,11 @@ class CardListAdapter(
                 ).toNavExtras()
                 onItemClicked.invoke(cardAndCategory.card.id, extras)
             }
-            itemView.setOnLongClickListener {
-                val cardAndCategory = getItem(adapterPosition)
-                onItemLongClicked.invoke(cardAndCategory.card.id)
-                true
+            itemView.setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    onDragStart(this)
+                }
+                false
             }
         }
 
@@ -97,7 +132,9 @@ class CardListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val binding = ItemCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CardViewHolder(binding)
+        return CardViewHolder(binding) { holder ->
+            touchHelper?.startDrag(holder)
+        }
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {

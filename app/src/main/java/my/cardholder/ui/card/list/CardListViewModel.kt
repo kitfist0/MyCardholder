@@ -14,7 +14,7 @@ import javax.inject.Inject
 class CardListViewModel @Inject constructor(
     cardRepository: CardRepository,
     settingsRepository: SettingsRepository,
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _state = MutableStateFlow<CardListState>(CardListState.Empty())
     val state = _state.asStateFlow()
@@ -50,10 +50,6 @@ class CardListViewModel @Inject constructor(
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
         navigate(CardListFragmentDirections.fromCardListToCardDisplay(cardId), extras)
-    }
-
-    fun onCardLongClicked(cardId: Long) {
-        navigate(CardListFragmentDirections.fromCardListToCardAction(cardId))
     }
 
     fun onImportCardsFabClicked() {
