@@ -50,8 +50,8 @@ class CardListAdapter(
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                val fromPos = viewHolder.absoluteAdapterPosition
-                val toPos = target.absoluteAdapterPosition
+                val fromPos = viewHolder.adapterPosition
+                val toPos = target.adapterPosition
                 val items = currentList.toMutableList()
                 Collections.swap(items, fromPos, toPos)
                 submitList(items)
