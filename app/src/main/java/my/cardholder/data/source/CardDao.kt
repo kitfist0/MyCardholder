@@ -10,7 +10,7 @@ import my.cardholder.data.model.SupportedFormat
 interface CardDao {
 
     @Transaction
-    @Query("SELECT * FROM cards ORDER BY is_pinned DESC")
+    @Query("SELECT * FROM cards ORDER BY position")
     fun getCardsAndCategories(): Flow<List<CardAndCategory>>
 
     @Transaction
