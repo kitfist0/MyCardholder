@@ -106,4 +106,9 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
             }
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.updateCardPositions(listAdapter.currentList)
+    }
 }

@@ -49,4 +49,7 @@ interface CardDao {
 
     @Upsert
     suspend fun upsert(card: Card): Long
+
+    @Upsert
+    suspend fun upsert(cards: List<Card>)
 }

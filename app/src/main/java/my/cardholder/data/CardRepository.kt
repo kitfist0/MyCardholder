@@ -66,6 +66,13 @@ class CardRepository @Inject constructor(
         return upsertCard(newCard)
     }
 
+    suspend fun updateCardPositions(rightOrderedCards: List<Card>) {
+        val cards = rightOrderedCards.mapIndexed { index, card ->
+            card.copy(position = index)
+        }
+        cardDao.upsert(cards)
+    }
+
     suspend fun isCardWithSuchDataExists(
         name: String,
         content: String,

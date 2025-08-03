@@ -7,12 +7,13 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsRepository
+import my.cardholder.data.model.CardAndCategory
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CardListViewModel @Inject constructor(
-    cardRepository: CardRepository,
+    private val cardRepository: CardRepository,
     settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
@@ -38,6 +39,13 @@ class CardListViewModel @Inject constructor(
                 }
                 prevNumOfPinnedCards = numOfPinnedCards
             }.collect()
+        }
+    }
+
+    fun updateCardPositions(cardsAndCategories: List<CardAndCategory>) {
+        viewModelScope.launch {
+            val cards = cardsAndCategories.map { it.card }
+            cardRepository.updateCardPositions(cards)
         }
     }
 
