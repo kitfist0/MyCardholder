@@ -35,9 +35,6 @@ class CardActionViewModel @Inject constructor(
     }
 
     fun onPinUnpinButtonClicked() {
-        viewModelScope.launch {
-            cardRepository.pinUnpinCard(cardId, state.value.isPinned)
-        }
         navigateUp()
     }
 

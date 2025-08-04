@@ -23,9 +23,6 @@ interface CardDao {
     @Query("SELECT COUNT (id) FROM cards")
     suspend fun getNumberOfCards(): Int
 
-    @Query("SELECT COUNT (id) FROM cards WHERE is_pinned = 1")
-    suspend fun getNumberOfPinnedCards(): Int
-
     @Query("SELECT * FROM cards WHERE id = :id")
     suspend fun getCard(id: Long): Card?
 
@@ -37,12 +34,6 @@ interface CardDao {
 
     @Query("SELECT * FROM cards WHERE category_id IN (:categoryId) AND name LIKE :name")
     suspend fun getCardsWithCategoryIdAndWithNamesLike(categoryId: Long, name: String): List<Card>
-
-    @Query("UPDATE cards SET is_pinned = 1 WHERE id = :id")
-    suspend fun pinCardWithId(id: Long)
-
-    @Query("UPDATE cards SET is_pinned = 0 WHERE id = :id")
-    suspend fun unpinCardWithId(id: Long)
 
     @Query("DELETE FROM cards WHERE id = :id")
     suspend fun deleteCard(id: Long)

@@ -29,10 +29,6 @@ class CardRepository @Inject constructor(
         return cardDao.getCardAndCategory(cardId)
     }
 
-    suspend fun getNumberOfPinnedCards(): Int {
-        return cardDao.getNumberOfPinnedCards()
-    }
-
     suspend fun deleteCard(cardId: Long) {
         getCard(cardId)?.let { card ->
             card.barcodeFile?.delete()
@@ -154,14 +150,6 @@ class CardRepository @Inject constructor(
             }
         } else {
             emptyList()
-        }
-    }
-
-    suspend fun pinUnpinCard(cardId: Long, isPinned: Boolean) {
-        if (isPinned) {
-            cardDao.unpinCardWithId(cardId)
-        } else {
-            cardDao.pinCardWithId(cardId)
         }
     }
 

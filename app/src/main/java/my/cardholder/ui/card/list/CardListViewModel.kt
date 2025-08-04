@@ -21,25 +21,20 @@ class CardListViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            var prevNumOfPinnedCards = cardRepository.getNumberOfPinnedCards()
-            combine(
-                cardRepository.cardsAndCategories,
-                settingsRepository.multiColumnListEnabled,
-            ) { cardsAndCategories, isMultiColumn ->
-                val numOfPinnedCards = cardRepository.getNumberOfPinnedCards()
+        cardRepository.cardsAndCategories
+            .onEach { cardsAndCategories ->
+                val isMultiColumn = settingsRepository.multiColumnListEnabled.first()
                 _state.value = if (cardsAndCategories.isNotEmpty()) {
                     CardListState.Success(
                         cardsAndCategories = cardsAndCategories,
                         spanCount = if (isMultiColumn) 2 else 1,
-                        scrollUpEvent = numOfPinnedCards > prevNumOfPinnedCards,
+                        scrollUpEvent = false,
                     )
                 } else {
                     CardListState.Empty()
                 }
-                prevNumOfPinnedCards = numOfPinnedCards
-            }.collect()
-        }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun updateCardPositions(cardsAndCategories: List<CardAndCategory>) {
