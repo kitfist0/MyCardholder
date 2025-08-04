@@ -22,8 +22,8 @@
             android:layout_width="@dimen/card_item_square_logo_width"
             android:layout_height="@dimen/card_item_square_logo_height"
             android:background="@drawable/bg_white_square"
-            android:scaleType="fitStart"
             android:padding="8dp"
+            android:scaleType="fitStart"
             android:transitionName="@string/transition_card_barcode"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_launcher_foreground" />
@@ -62,22 +62,5 @@
             tools:text="@sample/sample_cards.json/cards/category" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/item_card_push_pin_image"
-        style="?attr/materialIconButtonFilledStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_margin="4dp"
-        android:alpha="0.5"
-        android:elevation="48dp"
-        android:enabled="false"
-        android:scaleX="0.75"
-        android:scaleY="0.75"
-        app:backgroundTint="?attr/colorSurfaceInverse"
-        app:icon="@drawable/ic_pushpin_filled"
-        app:iconTint="?attr/colorOnSurfaceInverse"
-        tools:ignore="ContentDescription" />
 
 </com.google.android.material.card.MaterialCardView>

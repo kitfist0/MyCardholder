@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -105,7 +104,6 @@ class CardListAdapter(
                             if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode
                         )
                 }
-                itemCardPushPinImage.isVisible = card.isPinned
                 itemCardNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = card.name
