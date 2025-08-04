@@ -10,7 +10,7 @@ import my.cardholder.data.model.SupportedFormat
 interface CardDao {
 
     @Transaction
-    @Query("SELECT * FROM cards ORDER BY is_pinned DESC")
+    @Query("SELECT * FROM cards ORDER BY position")
     fun getCardsAndCategories(): Flow<List<CardAndCategory>>
 
     @Transaction
@@ -19,6 +19,9 @@ interface CardDao {
 
     @Query("SELECT SUM (changed_at) FROM cards")
     fun getChecksumOfAllCards(): Flow<Long>
+
+    @Query("SELECT COUNT (id) FROM cards")
+    suspend fun getNumberOfCards(): Int
 
     @Query("SELECT COUNT (id) FROM cards WHERE is_pinned = 1")
     suspend fun getNumberOfPinnedCards(): Int
@@ -46,4 +49,7 @@ interface CardDao {
 
     @Upsert
     suspend fun upsert(card: Card): Long
+
+    @Upsert
+    suspend fun upsert(cards: List<Card>)
 }

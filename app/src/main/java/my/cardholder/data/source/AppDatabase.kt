@@ -14,7 +14,7 @@ import my.cardholder.data.model.Coffee
         Category::class,
         Coffee::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -39,6 +39,25 @@ abstract class AppDatabase : RoomDatabase() {
             object : Migration(3, 4) {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE `cards` ADD COLUMN `logo` TEXT DEFAULT NULL")
+                }
+            },
+            object : Migration(4, 5) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE cards ADD COLUMN position INTEGER NOT NULL DEFAULT 0")
+                    val cursor = db.query("SELECT * FROM cards ORDER BY is_pinned")
+                    var hasItem = cursor.moveToFirst()
+                    var position = 0
+                    while (hasItem) {
+                        val idIndex = cursor.getColumnIndex("id")
+                        val posIndex = cursor.getColumnIndex("position")
+                        if (idIndex != -1 && posIndex != -1) {
+                            val id = cursor.getLong(idIndex)
+                            db.execSQL("UPDATE cards SET position = '$position' WHERE id = $id")
+                        }
+                        hasItem = cursor.moveToNext()
+                        position++
+                    }
+                    cursor.close()
                 }
             },
         )

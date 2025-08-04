@@ -28,7 +28,6 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
     private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CardListAdapter(
             onItemClicked = { cardId, extras -> viewModel.onCardClicked(cardId, extras) },
-            onItemLongClicked = { cardId -> viewModel.onCardLongClicked(cardId) },
             onItemCountIncreased = { binding.cardListRecyclerView.smoothScrollToPosition(0) },
         )
     }
@@ -39,9 +38,11 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
         with(binding) {
             cardListRecyclerView.apply {
                 clipToPadding = false
+                setHasFixedSize(true)
                 updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
                 layoutManager = GridLayoutManager(context, 1)
                 adapter = listAdapter
+                listAdapter.attachToRecyclerView(this)
                 postponeEnterTransition()
                 viewTreeObserver.addOnPreDrawListener {
                     startPostponedEnterTransition()
@@ -89,6 +90,7 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                     binding.cardListEmptyListMessageText.setText(state.messageRes)
                     listAdapter.submitList(null)
                 }
+
                 is CardListState.Success -> {
                     binding.cardListRecyclerView.updateSpanCountIfRequired(state.spanCount)
                     binding.cardListSearchFab.isVisible = true
@@ -103,5 +105,10 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.updateCardPositions(listAdapter.currentList)
     }
 }

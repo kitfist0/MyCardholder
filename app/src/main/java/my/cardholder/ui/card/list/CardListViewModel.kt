@@ -7,14 +7,15 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsRepository
+import my.cardholder.data.model.CardAndCategory
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CardListViewModel @Inject constructor(
-    cardRepository: CardRepository,
+    private val cardRepository: CardRepository,
     settingsRepository: SettingsRepository,
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _state = MutableStateFlow<CardListState>(CardListState.Empty())
     val state = _state.asStateFlow()
@@ -41,6 +42,13 @@ class CardListViewModel @Inject constructor(
         }
     }
 
+    fun updateCardPositions(cardsAndCategories: List<CardAndCategory>) {
+        viewModelScope.launch {
+            val cards = cardsAndCategories.map { it.card }
+            cardRepository.updateCardPositions(cards)
+        }
+    }
+
     fun consumeScrollUpEvent() {
         val currentState = _state.value
         if (currentState is CardListState.Success) {
@@ -50,10 +58,6 @@ class CardListViewModel @Inject constructor(
 
     fun onCardClicked(cardId: Long, extras: Navigator.Extras) {
         navigate(CardListFragmentDirections.fromCardListToCardDisplay(cardId), extras)
-    }
-
-    fun onCardLongClicked(cardId: Long) {
-        navigate(CardListFragmentDirections.fromCardListToCardAction(cardId))
     }
 
     fun onImportCardsFabClicked() {
