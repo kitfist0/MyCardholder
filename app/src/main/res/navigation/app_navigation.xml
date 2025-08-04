@@ -71,9 +71,6 @@
             android:id="@+id/from_card_list_to_card_search"
             app:destination="@id/card_search_fragment" />
         <action
-            android:id="@+id/from_card_list_to_card_action"
-            app:destination="@id/card_action_dialog" />
-        <action
             android:id="@+id/from_card_list_to_card_backup"
             app:destination="@id/card_backup_dialog" />
     </fragment>
@@ -181,24 +178,6 @@
         <action
             android:id="@+id/from_delete_card_to_card_list"
             app:destination="@id/card_list_fragment"
-            app:popUpTo="@id/card_list_fragment" />
-    </dialog>
-
-    <dialog
-        android:id="@+id/card_action_dialog"
-        android:name="my.cardholder.ui.card.action.CardActionDialog"
-        android:label="Card action"
-        tools:layout="@layout/dialog_card_action">
-        <argument
-            android:name="card_id"
-            app:argType="long" />
-        <action
-            android:id="@+id/from_card_action_to_card_list"
-            app:destination="@id/card_list_fragment"
-            app:popUpTo="@id/card_list_fragment" />
-        <action
-            android:id="@+id/from_card_action_to_delete_card"
-            app:destination="@id/delete_card_dialog"
             app:popUpTo="@id/card_list_fragment" />
     </dialog>
 
