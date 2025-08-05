@@ -6,6 +6,8 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.os.Build
@@ -18,6 +20,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -33,19 +36,20 @@ import coil.transform.RoundedCornersTransformation
 import com.google.android.material.textfield.TextInputLayout
 import my.cardholder.R
 import java.io.File
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.toColorInt
+import com.google.android.material.color.MaterialColors
 
 fun EditText.setStartColoredSquareIcon(color: String) {
-    val sizePx = (24 * context.resources.displayMetrics.density).toInt()
-    val cornerRadiusPx = 4 * context.resources.displayMetrics.density
+    val sizePx = dpToPx(24)
+    val cornerRadiusPx = dpToPx(4).toFloat()
+
     val radii = floatArrayOf(
         cornerRadiusPx, cornerRadiusPx,
         cornerRadiusPx, cornerRadiusPx,
         cornerRadiusPx, cornerRadiusPx,
         cornerRadiusPx, cornerRadiusPx
     )
-    val ovalDrawable = object : ShapeDrawable(RoundRectShape(radii, null, null)) {
+    val squareDrawable = object : ShapeDrawable(RoundRectShape(radii, null, null)) {
         init {
             paint.color = color.toColorInt()
             paint.style = Paint.Style.FILL
@@ -54,15 +58,13 @@ fun EditText.setStartColoredSquareIcon(color: String) {
             intrinsicHeight = sizePx
         }
     }
-    ovalDrawable.setBounds(0, 0, sizePx, sizePx)
-    setCompoundDrawablesRelative(ovalDrawable, null, null, null)
+    squareDrawable.setBounds(0, 0, sizePx, sizePx)
+    setCompoundDrawablesRelative(squareDrawable, null, null, null)
 }
 
 fun EditText.setStartIconFromUrl(imageUrl: String?) {
-    val sizePx = (24 * context.resources.displayMetrics.density).toInt()
-    val cornerRadiusPx = 4 * context.resources.displayMetrics.density
-
-    if (imageUrl.isNullOrEmpty()) return
+    val sizePx = dpToPx(24)
+    val cornerRadiusPx = dpToPx(4).toFloat()
 
     val requestBuilder = ImageRequest.Builder(context)
         .data(imageUrl)
@@ -74,9 +76,18 @@ fun EditText.setStartIconFromUrl(imageUrl: String?) {
                 setCompoundDrawablesRelative(it, null, null, null)
             },
             onError = {
-                val emptyDrawable = Color.TRANSPARENT.toDrawable()
-                emptyDrawable.setBounds(0, 0, sizePx, sizePx)
-                setCompoundDrawablesRelative(emptyDrawable, null, null, null)
+                val backColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurfaceContainer, Color.LTGRAY)
+                val backDrawable = GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    setColor(backColor)
+                    cornerRadius = cornerRadiusPx
+                }
+                val imageDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_broken_img)?.mutate()
+                val insetSizePx = dpToPx(1)
+                val errorDrawable = LayerDrawable(arrayOf(backDrawable, imageDrawable))
+                errorDrawable.setLayerInset(1, insetSizePx, insetSizePx, insetSizePx, insetSizePx)
+                errorDrawable.setBounds(0, 0, sizePx, sizePx)
+                setCompoundDrawablesRelative(errorDrawable, null, null, null)
             }
         )
 
@@ -100,6 +111,8 @@ fun View.animateVisibilityChange() {
         )
         .start()
 }
+
+fun View.dpToPx(sizeDp: Int): Int = (sizeDp * resources.displayMetrics.density).toInt()
 
 fun View.setupUniqueTransitionName(uniqueSuffix: Long) {
     ViewCompat.setTransitionName(this, transitionName.format(uniqueSuffix))
