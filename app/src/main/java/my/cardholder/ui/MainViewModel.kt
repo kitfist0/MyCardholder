@@ -3,6 +3,7 @@ package my.cardholder.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.emptyFlow
@@ -23,6 +24,7 @@ import my.cardholder.usecase.CloudUploadUseCase
 import my.cardholder.util.Result
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class MainViewModel @Inject constructor(
     cardRepository: CardRepository,
@@ -63,8 +65,10 @@ class MainViewModel @Inject constructor(
                 when (result) {
                     is Result.Error ->
                         backupDownloadLogChannel.send("Download error: ${result.throwable.message}")
+
                     is Result.Loading ->
                         backupDownloadLogChannel.send(result.message)
+
                     is Result.Success ->
                         backupDownloadLogChannel.send("Download completed")
                 }
