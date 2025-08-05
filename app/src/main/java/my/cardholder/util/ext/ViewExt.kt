@@ -18,8 +18,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -206,15 +204,6 @@ fun <T> AutoCompleteTextView.setDefaultAdapter(values: List<T>) {
     setAdapter(ArrayAdapter(context, android.R.layout.select_dialog_item, values))
 }
 
-fun TextView.setDrawables(
-    @DrawableRes start: Int = 0,
-    @DrawableRes top: Int = 0,
-    @DrawableRes end: Int = 0,
-    @DrawableRes bottom: Int = 0,
-) {
-    setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end, bottom)
-}
-
 fun RecyclerView.updateSpanCountIfRequired(count: Int) {
     (layoutManager as? GridLayoutManager)?.apply {
         if (spanCount != count) spanCount = count
@@ -224,5 +213,5 @@ fun RecyclerView.updateSpanCountIfRequired(count: Int) {
 fun TextInputLayout.showSoftInput() {
     requestFocus()
     (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
-        ?.showSoftInput(editText, 1)
+        ?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
 }
