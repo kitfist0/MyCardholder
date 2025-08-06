@@ -1,12 +1,12 @@
 [versions]
-agp = "8.11.1"
+agp = "8.12.0"
 camerax = "1.4.2"
 crashlytics = "3.0.5"
 gms = "4.4.3"
 hilt = "2.57"
 kotlin = "2.2.0"
 ksp = "2.2.0-2.0.2"
-navigation = "2.9.2"
+navigation = "2.9.3"
 room = "2.7.2"
 
 [libraries]
@@ -28,7 +28,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version = "1.0.1" }
-androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version = "2.10.2" }
+androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version = "2.10.3" }
 
 # billing
 googleplay-billingclient = { group = "com.android.billingclient", name = "billing-ktx", version = "8.0.0" }
@@ -76,8 +76,8 @@ zxing-core = { group = "com.google.zxing", name = "core", version = "3.5.3"}
 
 # test
 junit = { group = "junit", name = "junit", version = "4.13.2" }
-androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version = "1.2.1" }
-androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.6.1" }
+androidx-test-ext = { group = "androidx.test.ext", name = "junit-ktx", version = "1.3.0" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.7.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
