@@ -63,10 +63,20 @@ class CardRepository @Inject constructor(
     }
 
     suspend fun updateCardPositions(rightOrderedCards: List<Card>) {
-        val cards = rightOrderedCards.mapIndexed { index, card ->
-            card.copy(position = index)
+        val timestamp = System.currentTimeMillis()
+        val changedCards = rightOrderedCards.mapIndexedNotNull { index, card ->
+            if (card.position != index) {
+                card.copy(
+                    position = index,
+                    changedAt = timestamp,
+                )
+            } else {
+                null
+            }
         }
-        cardDao.upsert(cards)
+        if (changedCards.isNotEmpty()) {
+            cardDao.upsert(changedCards)
+        }
     }
 
     suspend fun isCardWithSuchDataExists(
