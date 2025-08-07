@@ -11,6 +11,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.R
 import my.cardholder.databinding.FragmentCardEditBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.*
@@ -115,6 +116,11 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     }
                     cardEditCardLogoInputLayout.apply {
                         isEnabled = true
+                        helperText = if (state.cardLogo.isBlank()) {
+                            getString(R.string.card_edit_logo_helper_text)
+                        } else {
+                            null
+                        }
                         editText?.setStartIconFromUrl(state.cardLogo)
                         editText?.setTextAndSelectionIfRequired(state.cardLogo)
                     }
