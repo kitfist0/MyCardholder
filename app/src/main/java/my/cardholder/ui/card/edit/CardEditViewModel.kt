@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
@@ -12,6 +14,7 @@ import my.cardholder.data.CategoryRepository
 import my.cardholder.data.model.Category
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.ImageUrlValidator
 import my.cardholder.util.Text
 import javax.inject.Inject
 
@@ -20,7 +23,12 @@ class CardEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val cardRepository: CardRepository,
     private val categoryRepository: CategoryRepository,
+    private val imageUrlValidator: ImageUrlValidator,
 ) : BaseViewModel() {
+
+    private companion object {
+        const val LOGO_VALIDATION_DELAY_MILLIS = 800L
+    }
 
     private val cardId = CardEditFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
 
@@ -29,6 +37,8 @@ class CardEditViewModel @Inject constructor(
     private var cardColor: String? = null
     private var cardLogo: String? = null
     private var cardFormat: String? = null
+
+    private var logoValidationJob: Job? = null
 
     private val _state = MutableStateFlow<CardEditState>(CardEditState.Loading)
     val state = _state.asStateFlow()
@@ -104,8 +114,17 @@ class CardEditViewModel @Inject constructor(
             return
         }
         cardLogo = changedLogo.ifBlank { null }
-        viewModelScope.launch {
+
+        logoValidationJob?.cancel()
+        logoValidationJob = null
+        logoValidationJob = viewModelScope.launch {
             cardRepository.updateCardLogo(cardId, cardLogo)
+            cardLogo?.let {
+                delay(LOGO_VALIDATION_DELAY_MILLIS)
+                if (!imageUrlValidator.isValid(it)) {
+                    showToast(Text.Resource(R.string.card_edit_invalid_link_toast_message))
+                }
+            }
         }
     }
 

@@ -49,6 +49,7 @@
     <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Nom</string>
     <string name="card_edit_invalid_value_error_message">La valeur n\'est pas valide pour le type de code-barres sélectionné</string>
+    <string name="card_edit_invalid_link_toast_message">Lien d\'image invalide !</string>
     <!--endregion-->
 
     <!--region CardList-->

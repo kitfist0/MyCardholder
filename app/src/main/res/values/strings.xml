@@ -49,6 +49,7 @@
     <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Name</string>
     <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>
+    <string name="card_edit_invalid_link_toast_message">Invalid image link!</string>
     <!--endregion-->
 
     <!--region CardList-->
