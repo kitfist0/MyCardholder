@@ -45,6 +45,7 @@
     <string name="card_edit_color_hint">Couleur</string>
     <string name="card_edit_content_hint">Texte</string>
     <string name="card_edit_label">Modifier</string>
+    <string name="card_edit_logo_helper_text">Vous pouvez insérer un lien d\'image ici ☝</string>
     <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Nom</string>
     <string name="card_edit_invalid_value_error_message">La valeur n\'est pas valide pour le type de code-barres sélectionné</string>
