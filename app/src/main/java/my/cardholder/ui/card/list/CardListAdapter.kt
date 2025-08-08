@@ -1,10 +1,8 @@
 package my.cardholder.ui.card.list
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
 import androidx.navigation.fragment.FragmentNavigator
@@ -66,7 +64,6 @@ class CardListAdapter(
         touchHelper?.attachToRecyclerView(recyclerView)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     inner class CardViewHolder(
         private val binding: ItemCardBinding,
         private val onDragStart: (RecyclerView.ViewHolder) -> Unit
@@ -74,20 +71,20 @@ class CardListAdapter(
 
         init {
             itemView.setOnClickListener {
-                val cardAndCategory = getItem(adapterPosition)
-                val extras = listOf(
-                    binding.itemCardLogoImage,
-                    binding.itemCardNameText,
-                    binding.itemCardContentText,
-                    binding.itemCardCategoryText,
-                ).toNavExtras()
-                onItemClicked.invoke(cardAndCategory.card.id, extras)
-            }
-            itemView.setOnTouchListener { _, event ->
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    onDragStart(this)
+                if (itemView.isPressed) {
+                    val cardAndCategory = getItem(adapterPosition)
+                    val extras = listOf(
+                        binding.itemCardLogoImage,
+                        binding.itemCardNameText,
+                        binding.itemCardContentText,
+                        binding.itemCardCategoryText,
+                    ).toNavExtras()
+                    onItemClicked.invoke(cardAndCategory.card.id, extras)
                 }
-                false
+            }
+            itemView.setOnLongClickListener {
+                onDragStart(this)
+                true
             }
         }
 
