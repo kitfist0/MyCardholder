@@ -186,6 +186,14 @@ dependencies {
     // Kotlin CSV
     implementation(libs.kotlin.csv)
 
+    // Okhttp and Retrofit
+    implementation(libs.squareup.okhttp3.okhttp)
+    implementation(libs.squareup.retrofit2.retrofit)
+    implementation(libs.squareup.retrofit2.converter)
+
+    // Yandex
+    implementation(libs.yandex.authsdk)
+
     // Zxing
     implementation(libs.zxing.core)
 
