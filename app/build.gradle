@@ -7,10 +7,16 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.safeargs.kotlin)
+    alias(libs.plugins.secrets.gradle)
 }
 
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+secrets {
+    // Ignore all keys matching regex "sdk.*"
+    ignoreList.add("sdk.*")
+}
 
 android {
     compileSdkVersion 35
