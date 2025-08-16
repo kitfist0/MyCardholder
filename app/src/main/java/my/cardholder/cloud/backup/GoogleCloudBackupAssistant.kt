@@ -27,14 +27,11 @@ class GoogleCloudBackupAssistant(
 
     override suspend fun getBackupChecksum() = withContext(Dispatchers.IO) {
         runCatching {
-            val drive = getDriveOrThrow()
-            val files = drive.getAppDataFolderFiles()
-                .sortedBy { file -> file.name }
-            if (files.isNotEmpty()) {
-                val filesToDelete = files.subList(0, files.lastIndex)
-                drive.deleteFiles(filesToDelete)
-            }
-            files.lastOrNull()?.getChecksum() ?: 0L
+            getDriveOrThrow()
+                .getAppDataFolderFiles()
+                .maxByOrNull { file -> file.getChecksum() }
+                ?.getChecksum()
+                ?: 0L
         }
     }
 
