@@ -8,6 +8,7 @@ import com.google.api.services.drive.model.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import my.cardholder.BuildConfig
+import my.cardholder.cloud.backup.CloudBackupAssistant.Companion.fileNameToChecksum
 import my.cardholder.util.GoogleCredentialWrapper
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -83,7 +84,7 @@ class GoogleCloudBackupAssistant(
     }
 
     private fun File.getChecksum(): BackupChecksum {
-        return name.toLong()
+        return name.fileNameToChecksum()
     }
 
     private fun getDriveOrThrow(): Drive {
