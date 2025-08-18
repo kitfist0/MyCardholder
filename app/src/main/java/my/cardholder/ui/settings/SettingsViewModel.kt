@@ -88,11 +88,8 @@ class SettingsViewModel @Inject constructor(
 
     fun onCloudSignInRequestResult(activityResult: ActivityResult) {
         viewModelScope.launch {
-            if (activityResult.resultCode == -1 && cloudSignInAssistant.alreadySignedIn) {
-                setCloudSyncEnabled(true)
-            } else {
-                setCloudSyncEnabled(false)
-            }
+            val result = cloudSignInAssistant.onSignInResult(activityResult)
+            setCloudSyncEnabled(result.isSuccess)
         }
     }
 

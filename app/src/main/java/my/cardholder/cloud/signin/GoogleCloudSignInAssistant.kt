@@ -1,6 +1,7 @@
 package my.cardholder.cloud.signin
 
 import android.content.Intent
+import androidx.activity.result.ActivityResult
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import my.cardholder.util.GoogleCredentialWrapper
 import kotlin.coroutines.resume
@@ -16,6 +17,14 @@ class GoogleCloudSignInAssistant(
 
     override val signInIntent: Intent
         get() = googleSignInClient.signInIntent
+
+    override suspend fun onSignInResult(activityResult: ActivityResult): Result<Unit> {
+        return if (activityResult.resultCode == -1 && alreadySignedIn) {
+            Result.success(Unit)
+        } else {
+            Result.failure(Throwable())
+        }
+    }
 
     override suspend fun signOut(): Result<Unit> {
         return suspendCoroutine { continuation ->
