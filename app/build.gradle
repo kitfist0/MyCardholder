@@ -50,6 +50,13 @@ android {
             buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/LICENSE\"")
             buildConfigField("String", "WEB_PAGE_POLICY", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/POLICY.md\"")
             buildConfigField("String", "WEB_PAGE_REPO", "\"https://gitverse.ru/kitfist0/MyCardholder\"")
+
+            // Don't forget to specify Yandex ClientID in ./local.properties! As shown below:
+            // YANDEX_CLIENT_ID=0123456789abcdef0123456789abcdef
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            def yandexClientIdToken = properties.getProperty('YANDEX_CLIENT_ID')
+            manifestPlaceholders = [YANDEX_CLIENT_ID: yandexClientIdToken]
         }
     }
 
