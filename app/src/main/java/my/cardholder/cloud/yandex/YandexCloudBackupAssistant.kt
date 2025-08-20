@@ -1,9 +1,10 @@
-package my.cardholder.cloud.backup
+package my.cardholder.cloud.yandex
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import my.cardholder.cloud.YandexPreferences
-import my.cardholder.cloud.backup.CloudBackupAssistant.Companion.fileNameToChecksum
+import my.cardholder.cloud.BackupChecksum
+import my.cardholder.cloud.CloudBackupAssistant
+import my.cardholder.cloud.CloudBackupAssistant.Companion.fileNameToChecksum
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request

@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import my.cardholder.cloud.backup.BackupChecksum
-import my.cardholder.cloud.backup.CloudBackupAssistant
+import my.cardholder.cloud.BackupChecksum
+import my.cardholder.cloud.CloudBackupAssistant
 import my.cardholder.data.BackupRepository
 import my.cardholder.data.model.BackupResult
 import my.cardholder.util.Result

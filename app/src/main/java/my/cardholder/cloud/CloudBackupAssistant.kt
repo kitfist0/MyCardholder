@@ -1,4 +1,4 @@
-package my.cardholder.cloud.backup
+package my.cardholder.cloud
 
 typealias BackupChecksum = Long
 

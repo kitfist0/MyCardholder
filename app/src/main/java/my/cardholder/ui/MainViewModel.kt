@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import my.cardholder.billing.PurchasedProductsProvider
-import my.cardholder.cloud.backup.BackupChecksum
+import my.cardholder.cloud.BackupChecksum
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.data.SettingsRepository

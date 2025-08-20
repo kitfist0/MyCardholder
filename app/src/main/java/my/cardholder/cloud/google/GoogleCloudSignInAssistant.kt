@@ -1,4 +1,4 @@
-package my.cardholder.cloud.signin
+package my.cardholder.cloud
 
 import android.content.Intent
 import androidx.activity.result.ActivityResult

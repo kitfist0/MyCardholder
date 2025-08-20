@@ -1,4 +1,4 @@
-package my.cardholder.cloud.backup
+package my.cardholder.cloud
 
 import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -8,7 +8,7 @@ import com.google.api.services.drive.model.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import my.cardholder.BuildConfig
-import my.cardholder.cloud.backup.CloudBackupAssistant.Companion.fileNameToChecksum
+import my.cardholder.cloud.CloudBackupAssistant.Companion.fileNameToChecksum
 import my.cardholder.util.GoogleCredentialWrapper
 import java.io.ByteArrayOutputStream
 import java.io.IOException

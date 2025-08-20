@@ -1,4 +1,4 @@
-package my.cardholder.cloud.signin
+package my.cardholder.cloud.yandex
 
 import android.content.Context
 import android.content.Intent
@@ -12,7 +12,7 @@ import com.yandex.authsdk.YandexAuthSdkContract
 import com.yandex.authsdk.YandexAuthToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import my.cardholder.cloud.YandexPreferences
+import my.cardholder.cloud.CloudSignInAssistant
 import my.cardholder.util.JwtTokenDecoder
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -33,7 +33,7 @@ class YandexCloudSignInAssistant(
         get() = !yandexPreferences.getLogin().isNullOrEmpty()
 
     override val signInIntent: Intent
-        get() = YandexAuthSdk.create(YandexAuthOptions(context)).contract
+        get() = YandexAuthSdk.Companion.create(YandexAuthOptions(context)).contract
             .createIntent(context, YandexAuthLoginOptions())
 
     override suspend fun onSignInResult(activityResult: ActivityResult): Result<Unit> {

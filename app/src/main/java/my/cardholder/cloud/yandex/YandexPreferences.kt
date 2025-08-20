@@ -1,4 +1,4 @@
-package my.cardholder.cloud
+package my.cardholder.cloud.yandex
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
