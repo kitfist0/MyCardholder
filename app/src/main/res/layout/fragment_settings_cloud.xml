@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:splitMotionEvents="false"
+    tools:context=".ui.settings.cloud.CloudSettingsFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="?colorPrimaryContainer"
+        app:strokeWidth="0dp">
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/settings_cloud_sync_switch"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="16dp"
+            android:text="@string/settings_cloud_sync_switch_text"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="?colorSurfaceContainer"
+        app:contentPadding="16dp"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/settings_google_drive_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:button="@drawable/btn_radio"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
+                android:layoutDirection="rtl"
+                android:paddingVertical="16dp"
+                android:text="Google Drive"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                app:drawableEndCompat="@drawable/ic_cloud_google"
+                tools:checked="true"
+                tools:ignore="HardcodedText" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="4dp" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/settings_yandex_disk_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:button="@drawable/btn_radio"
+                android:drawablePadding="16dp"
+                android:gravity="center_vertical"
+                android:layoutDirection="rtl"
+                android:paddingVertical="16dp"
+                android:text="Yandex Disk"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                app:drawableEndCompat="@drawable/ic_cloud_yandex"
+                tools:checked="false"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
