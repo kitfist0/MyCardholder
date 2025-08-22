@@ -8,12 +8,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CloudSettingsViewModel @Inject constructor(): BaseViewModel() {
-    private val _state = MutableStateFlow(
-        CloudSettingsState(
-            cloudSyncIsEnabled = false,
-            googleCloudProviderIsChecked = false,
-            yandexCloudProviderIsChecked = false,
-        )
-    )
+    private val _state = MutableStateFlow(CloudSettingsState.Loading)
     val state = _state.asStateFlow()
 }

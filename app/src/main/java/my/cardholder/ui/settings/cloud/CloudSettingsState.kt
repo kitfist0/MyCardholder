@@ -1,7 +1,9 @@
 package my.cardholder.ui.settings.cloud
 
-data class CloudSettingsState(
-    val cloudSyncIsEnabled: Boolean,
-    val googleCloudProviderIsChecked: Boolean,
-    val yandexCloudProviderIsChecked: Boolean,
-)
+import my.cardholder.data.model.CloudProvider
+
+sealed class CloudSettingsState {
+    data class Disabled(val availableProviders: List<CloudProvider>) : CloudSettingsState()
+    data class Enabled(val cloudProvider: CloudProvider, val login: String) : CloudSettingsState()
+    data object Loading : CloudSettingsState()
+}
