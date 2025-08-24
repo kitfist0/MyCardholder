@@ -23,7 +23,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="16dp"
-            android:text="@string/settings_cloud_sync_switch_text"
+            android:text="@string/settings_cloud_sync_switch_off_text"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
 
     </com.google.android.material.card.MaterialCardView>
