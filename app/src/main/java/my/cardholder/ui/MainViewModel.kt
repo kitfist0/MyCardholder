@@ -54,8 +54,10 @@ class MainViewModel @Inject constructor(
         settingsRepository.cloudSyncEnabled
             .flatMapLatest { syncEnabled ->
                 if (syncEnabled) {
-                    val checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L
-                    cloudDownloadUseCase.execute(checksum)
+                    cloudDownloadUseCase.execute(
+                        cloudProvider = settingsRepository.cloudProvider.first(),
+                        checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L,
+                    )
                 } else {
                     emptyFlow()
                 }
