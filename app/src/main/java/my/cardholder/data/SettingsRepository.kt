@@ -4,9 +4,11 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import my.cardholder.data.model.CloudProvider
 import my.cardholder.util.NightModeChecker
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,6 +21,7 @@ class SettingsRepository @Inject constructor(
 
     private companion object {
         val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
+        val CLOUD_PROVIDER_KEY = intPreferencesKey("cloud_provider")
         val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_zoom_test0")
         val EXPLANATION_CARD_SCAN_KEY = booleanPreferencesKey("explanation_scan")
         val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
@@ -32,6 +35,16 @@ class SettingsRepository @Inject constructor(
 
     val cloudSyncEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[CLOUD_SYNC_ENABLED_KEY] ?: false
+    }
+
+    suspend fun setCloudProvider(cloud: CloudProvider) = dataStore.edit { preferences ->
+        preferences[CLOUD_PROVIDER_KEY] = cloud.ordinal
+    }
+
+    val cloudProvider: Flow<CloudProvider> = dataStore.data.map { preferences ->
+        preferences[CLOUD_PROVIDER_KEY]
+            ?.let { CloudProvider.entries[it] }
+            ?: CloudProvider.GOOGLE
     }
 
     suspend fun disableExplanationAboutBarcodeZoom() = dataStore.edit { preferences ->
