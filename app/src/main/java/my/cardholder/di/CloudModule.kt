@@ -14,6 +14,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import my.cardholder.cloud.CloudBackupAssistant
 import my.cardholder.cloud.google.GoogleCloudBackupAssistant
 import my.cardholder.cloud.google.GoogleCloudSignInAssistant
 import my.cardholder.cloud.yandex.YandexCloudBackupAssistant
@@ -26,7 +27,16 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class Google
+
+@Retention(AnnotationRetention.BINARY)
+@Qualifier
+annotation class Yandex
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -44,9 +54,10 @@ object CloudModule {
         return GoogleSignIn.getClient(context, googleSignInOptions)
     }
 
+    @Google
     @Provides
     @Singleton
-    fun provideGoogleCloudAssistant(context: Context): GoogleCloudBackupAssistant {
+    fun provideGoogleCloudBackupAssistant(context: Context): CloudBackupAssistant {
         return GoogleCloudBackupAssistant(
             googleCredentialWrapper = GoogleCredentialWrapper(context, setOf(DRIVE_SCOPE)),
             gsonFactory = GsonFactory.getDefaultInstance(),
@@ -89,13 +100,14 @@ object CloudModule {
             .create(YandexDiskRestApi::class.java)
     }
 
+    @Yandex
     @Provides
     @Singleton
-    fun provideYandexCloudAssistant(
+    fun provideYandexCloudBackupAssistant(
         okHttpClient: OkHttpClient,
         yandexDiskRestApi: YandexDiskRestApi,
         yandexPreferences: YandexPreferences,
-    ): YandexCloudBackupAssistant {
+    ): CloudBackupAssistant {
         return YandexCloudBackupAssistant(
             okHttpClient = okHttpClient,
             yandexDiskRestApi = yandexDiskRestApi,

@@ -1,4 +1,4 @@
-package my.cardholder.cloud
+package my.cardholder.cloud.google
 
 import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -8,6 +8,8 @@ import com.google.api.services.drive.model.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import my.cardholder.BuildConfig
+import my.cardholder.cloud.BackupChecksum
+import my.cardholder.cloud.CloudBackupAssistant
 import my.cardholder.cloud.CloudBackupAssistant.Companion.fileNameToChecksum
 import my.cardholder.util.GoogleCredentialWrapper
 import java.io.ByteArrayOutputStream
@@ -56,18 +58,20 @@ class GoogleCloudBackupAssistant(
         }
     }
 
-    override suspend fun uploadBackup(content: String, checksum: BackupChecksum) = withContext(Dispatchers.IO) {
-        deleteBackup()
-        runCatching {
-            val drive = getDriveOrThrow()
-            val inputStreamContent = InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
-            val newFile = File()
-            newFile.setName(checksum.toString())
-            newFile.setParents(listOf(APP_DATA_FOLDER))
-            drive.files().create(newFile, inputStreamContent).setFields(FIELDS).execute()
-            Unit
+    override suspend fun uploadBackup(content: String, checksum: BackupChecksum) =
+        withContext(Dispatchers.IO) {
+            deleteBackup()
+            runCatching {
+                val drive = getDriveOrThrow()
+                val inputStreamContent =
+                    InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
+                val newFile = File()
+                newFile.setName(checksum.toString())
+                newFile.setParents(listOf(APP_DATA_FOLDER))
+                drive.files().create(newFile, inputStreamContent).setFields(FIELDS).execute()
+                Unit
+            }
         }
-    }
 
     private fun Drive.getAppDataFolderFiles(): List<File> {
         return files().list()
