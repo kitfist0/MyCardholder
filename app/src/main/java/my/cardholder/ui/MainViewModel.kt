@@ -83,8 +83,9 @@ class MainViewModel @Inject constructor(
         settingsRepository.cloudSyncEnabled
             .flatMapLatest { syncEnabled ->
                 if (syncEnabled) {
+                    val cloudProvider = settingsRepository.cloudProvider.first()
                     val checksum = cardRepository.checksumOfAllCards.first()
-                    cloudUploadUseCase.execute(checksum)
+                    cloudUploadUseCase.execute(cloudProvider, checksum)
                 } else {
                     emptyFlow()
                 }
@@ -97,7 +98,8 @@ class MainViewModel @Inject constructor(
         cardRepository.checksumOfAllCards
             .flatMapLatest { checksum ->
                 val syncEnabled = settingsRepository.cloudSyncEnabled.first()
-                if (syncEnabled) cloudUploadUseCase.execute(checksum) else emptyFlow()
+                val cloudProvider = settingsRepository.cloudProvider.first()
+                if (syncEnabled) cloudUploadUseCase.execute(cloudProvider, checksum) else emptyFlow()
             }
             .onEach { result ->
                 updateLatestSyncedBackupChecksum(result)

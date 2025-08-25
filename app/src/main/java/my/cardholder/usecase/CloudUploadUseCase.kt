@@ -9,22 +9,31 @@ import my.cardholder.cloud.BackupChecksum
 import my.cardholder.cloud.CloudBackupAssistant
 import my.cardholder.data.BackupRepository
 import my.cardholder.data.model.BackupResult
+import my.cardholder.data.model.CloudProvider
+import my.cardholder.di.Google
+import my.cardholder.di.Yandex
 import my.cardholder.util.Result
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class CloudUploadUseCase @Inject constructor(
     private val backupRepository: BackupRepository,
-    private val cloudBackupAssistant: CloudBackupAssistant,
+    @Google private val googleCloudBackupAssistant: CloudBackupAssistant,
+    @Yandex private val yandexCloudBackupAssistant: CloudBackupAssistant,
 ) {
 
-    fun execute(checksum: BackupChecksum): Flow<Result<BackupChecksum>> = uploadBackup(checksum)
+    fun execute(
+        cloudProvider: CloudProvider,
+        checksum: BackupChecksum,
+    ): Flow<Result<BackupChecksum>> = uploadBackup(cloudProvider, checksum)
 
     private fun uploadBackup(
+        cloudProvider: CloudProvider,
         checksum: BackupChecksum,
         outputStream: ByteArrayOutputStream = ByteArrayOutputStream(),
     ): Flow<Result<BackupChecksum>> = flow {
         emit(Result.Loading("Getting the backup checksum"))
+        val cloudBackupAssistant = getCloudBackupAssistant(cloudProvider)
         if (checksum == cloudBackupAssistant.getBackupChecksum().getOrNull()) {
             emit(Result.Success(checksum))
         } else {
@@ -34,7 +43,8 @@ class CloudUploadUseCase @Inject constructor(
                         is BackupResult.Error -> throw Throwable(backupResult.message)
                         is BackupResult.Progress -> Result.Loading("Uploading backup data")
                         is BackupResult.Success -> {
-                            cloudBackupAssistant.uploadBackup(String(outputStream.toByteArray()), checksum)
+                            val content = String(outputStream.toByteArray())
+                            cloudBackupAssistant.uploadBackup(content, checksum)
                                 .onFailure { throwable -> throw throwable }
                             Result.Success(checksum)
                         }
@@ -44,5 +54,12 @@ class CloudUploadUseCase @Inject constructor(
         }
     }.catch {
         emit(Result.Error(it))
+    }
+
+    private fun getCloudBackupAssistant(cloudProvider: CloudProvider): CloudBackupAssistant {
+        return when (cloudProvider) {
+            CloudProvider.GOOGLE -> googleCloudBackupAssistant
+            CloudProvider.YANDEX -> yandexCloudBackupAssistant
+        }
     }
 }
