@@ -1,6 +1,6 @@
 package my.cardholder.ui.settings
 
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,19 +15,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
 
-    private val cloudSignInRequest = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { activityResult ->
-        viewModel.onCloudSignInRequestResult(activityResult)
-    }
-
     override val viewModel: SettingsViewModel by viewModels()
 
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
-            settingsCloudSyncSwitch.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.onCloudSyncSwitchCheckedChanged(isChecked)
+            settingsCloudSyncCard.setOnClickListener {
+                viewModel.onCloudSyncCardClicked()
             }
             settingsColorThemeButton.setOnClickListener {
                 viewModel.onColorThemeButtonClicked()
@@ -56,14 +50,20 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             binding.settingsCloudSyncCard.isVisible = state.cloudSyncAvailable
-            binding.settingsCloudSyncSwitch.isChecked = state.cloudSyncEnabled
+            setCloudSyncTextIcon(state.cloudSyncEnabled)
             setupColorThemeButtonState(state.nightModeEnabled)
             setupCardListViewButtonState(state.multiColumnListEnabled)
-            state.launchCloudSignInRequest?.let { intent ->
-                cloudSignInRequest.launch(intent)
-                viewModel.onCloudSignInRequestLaunched()
-            }
         }
+    }
+
+    private fun setCloudSyncTextIcon(isSyncEnabled: Boolean) {
+        val drawable = ContextCompat.getDrawable(
+            requireContext(),
+            if (isSyncEnabled) R.drawable.ic_cloud_on else R.drawable.ic_cloud_off
+        )
+        binding.settingsCloudSyncText.setCompoundDrawablesWithIntrinsicBounds(
+            null, null, drawable, null
+        )
     }
 
     private fun setupColorThemeButtonState(isNightMode: Boolean) {

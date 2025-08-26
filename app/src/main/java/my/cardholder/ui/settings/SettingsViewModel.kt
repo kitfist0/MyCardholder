@@ -1,12 +1,10 @@
 package my.cardholder.ui.settings
 
-import androidx.activity.result.ActivityResult
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
-import my.cardholder.cloud.CloudSignInAssistant
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.GmsAvailabilityChecker
@@ -16,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     gmsAvailabilityChecker: GmsAvailabilityChecker,
-    private val cloudSignInAssistant: CloudSignInAssistant,
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
@@ -25,7 +22,8 @@ class SettingsViewModel @Inject constructor(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
             cloudSyncAvailable = gmsAvailabilityChecker.isAvailable,
-            cloudSyncEnabled = cloudSignInAssistant.alreadySignedIn,
+            cloudSyncCardText = Text.Simple(""),
+            cloudSyncEnabled = false,
             launchCloudSignInRequest = null,
         )
     )
@@ -34,30 +32,39 @@ class SettingsViewModel @Inject constructor(
     init {
         settingsRepository.cloudSyncEnabled
             .onEach { isEnabled ->
-                _state.value = _state.value.copy(cloudSyncEnabled = isEnabled)
+                val cardText = if (isEnabled) {
+                    val cloudProvider = settingsRepository.cloudProvider.first().toString()
+                    Text.ResourceAndParams(
+                        R.string.settings_cloud_sync_switch_on_text,
+                        listOf(cloudProvider)
+                    )
+                } else {
+                    Text.Resource(R.string.settings_cloud_sync_switch_off_text)
+                }
+                _state.update {
+                    it.copy(
+                        cloudSyncCardText = cardText,
+                        cloudSyncEnabled = isEnabled
+                    )
+                }
             }
             .launchIn(viewModelScope)
+
         settingsRepository.nightModeEnabled
-            .onEach { _state.value = _state.value.copy(nightModeEnabled = it) }
+            .onEach { isEnabled ->
+                _state.update { it.copy(nightModeEnabled = isEnabled) }
+            }
             .launchIn(viewModelScope)
+
         settingsRepository.multiColumnListEnabled
-            .onEach { _state.value = _state.value.copy(multiColumnListEnabled = it) }
+            .onEach { isEnabled ->
+                _state.update { it.copy(multiColumnListEnabled = isEnabled) }
+            }
             .launchIn(viewModelScope)
     }
 
-    fun onCloudSyncSwitchCheckedChanged(isChecked: Boolean) {
-        if (isChecked && !cloudSignInAssistant.alreadySignedIn) {
-            _state.update { it.copy(launchCloudSignInRequest = cloudSignInAssistant.signInIntent) }
-        } else if (!isChecked && cloudSignInAssistant.alreadySignedIn) {
-            viewModelScope.launch {
-                cloudSignInAssistant.signOut()
-                    .onSuccess { setCloudSyncEnabled(false) }
-                    .onFailure {
-                        setCloudSyncEnabled(true)
-                        showSnack(Text.Simple("${it.message}"))
-                    }
-            }
-        }
+    fun onCloudSyncCardClicked() {
+        navigate(SettingsFragmentDirections.fromSettingsToCloudSettings())
     }
 
     fun onColorThemeButtonClicked() {
@@ -80,17 +87,6 @@ class SettingsViewModel @Inject constructor(
 
     fun onImportExportCardsButtonClicked() {
         navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
-    }
-
-    fun onCloudSignInRequestLaunched() {
-        _state.update { it.copy(launchCloudSignInRequest = null) }
-    }
-
-    fun onCloudSignInRequestResult(activityResult: ActivityResult) {
-        viewModelScope.launch {
-            val result = cloudSignInAssistant.onSignInResult(activityResult)
-            setCloudSyncEnabled(result.isSuccess)
-        }
     }
 
     fun onCoffeeButtonClicked() {
