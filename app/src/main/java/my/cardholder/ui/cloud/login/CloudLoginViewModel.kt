@@ -26,7 +26,7 @@ class CloudLoginViewModel @Inject constructor(
     init {
         settingsRepository.cloudProvider
             .onEach { provider ->
-                _state.value = CloudLoginState.Choice(selectedCloudProvider = provider)
+                _state.value = CloudLoginState.Selection(selectedCloudProvider = provider)
             }
             .launchIn(viewModelScope)
     }
