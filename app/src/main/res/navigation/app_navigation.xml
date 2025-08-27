@@ -187,8 +187,8 @@
         android:label="@string/settings_label"
         tools:layout="@layout/fragment_settings">
         <action
-            android:id="@+id/from_settings_to_cloud_settings"
-            app:destination="@id/settings_cloud_fragment" />
+            android:id="@+id/from_settings_to_cloud_login"
+            app:destination="@id/cloud_login_fragment" />
         <action
             android:id="@+id/from_settings_to_specs"
             app:destination="@id/specs_fragment" />
@@ -207,10 +207,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/settings_cloud_fragment"
-        android:name="my.cardholder.ui.settings.cloud.CloudSettingsFragment"
-        android:label="@string/settings_label"
-        tools:layout="@layout/fragment_settings_cloud" />
+        android:id="@+id/cloud_login_fragment"
+        android:name="my.cardholder.ui.cloud.login.CloudLoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_cloud_login" />
 
     <fragment
         android:id="@+id/specs_fragment"

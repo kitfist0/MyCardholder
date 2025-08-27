@@ -64,7 +64,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onCloudSyncCardClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToCloudSettings())
+        navigate(SettingsFragmentDirections.fromSettingsToCloudLogin())
     }
 
     fun onColorThemeButtonClicked() {

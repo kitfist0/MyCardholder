@@ -1,11 +1,10 @@
-package my.cardholder.ui.settings.cloud
+package my.cardholder.ui.cloud.login
 
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -16,23 +15,18 @@ import my.cardholder.util.GmsAvailabilityChecker
 import javax.inject.Inject
 
 @HiltViewModel
-class CloudSettingsViewModel @Inject constructor(
+class CloudLoginViewModel @Inject constructor(
     private val gmsAvailabilityChecker: GmsAvailabilityChecker,
     private val settingsRepository: SettingsRepository,
-): BaseViewModel() {
+) : BaseViewModel() {
 
-    private val _state = MutableStateFlow<CloudSettingsState>(CloudSettingsState.Loading)
+    private val _state = MutableStateFlow<CloudLoginState>(CloudLoginState.Loading)
     val state = _state.asStateFlow()
 
     init {
-        settingsRepository.cloudSyncEnabled
-            .onEach { isEnabled ->
-                if (isEnabled) {
-                    val cloudProvider = settingsRepository.cloudProvider.first()
-                    _state.value = CloudSettingsState.Enabled(cloudProvider, "")
-                } else {
-                    _state.value = CloudSettingsState.Disabled(CloudProvider.entries.toList())
-                }
+        settingsRepository.cloudProvider
+            .onEach { provider ->
+                _state.value = CloudLoginState.Choice(selectedCloudProvider = provider)
             }
             .launchIn(viewModelScope)
     }
@@ -40,7 +34,7 @@ class CloudSettingsViewModel @Inject constructor(
     fun onGoogleCloudSignInRequestResult(activityResult: ActivityResult) {
     }
 
-    fun onGoogleCloudSignInRequestLaunched() {
+    fun onCloudSignInRequestLaunched() {
     }
 
     fun onGoogleDriveButtonClicked() {
@@ -49,7 +43,7 @@ class CloudSettingsViewModel @Inject constructor(
         }
     }
 
-    fun onYandexDiskRadioButtonChecked() {
+    fun onYandexDiskButtonChecked() {
         viewModelScope.launch {
             settingsRepository.setCloudProvider(CloudProvider.YANDEX)
         }

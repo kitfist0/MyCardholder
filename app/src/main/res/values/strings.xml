@@ -94,6 +94,12 @@
     <string name="category_list_label">Card categories</string>
     <!--endregion-->
 
+    <!--region CloudLogin-->
+    <string name="cloud_login_fab_text" translatable="false">Login</string>
+    <string name="cloud_login_help_text" translatable="false">You can only select one cloud service to sync cards</string>
+    <string name="cloud_login_toolbar_title" translatable="false">Select cloud for sync</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Coffee</string>
     <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>
