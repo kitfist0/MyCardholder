@@ -100,6 +100,12 @@
     <string name="cloud_login_toolbar_title" translatable="false">Select cloud for sync</string>
     <!--endregion-->
 
+    <!--region CloudLogout-->
+    <string name="cloud_logout_fab_text" translatable="false">Logout</string>
+    <string name="cloud_logout_help_text" translatable="false">If you want to set up synchronization with another cloud service, you need to log out</string>
+    <string name="cloud_logout_toolbar_title" translatable="false">You are logged in</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Coffee</string>
     <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>
