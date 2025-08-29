@@ -190,6 +190,9 @@
             android:id="@+id/from_settings_to_cloud_login"
             app:destination="@id/cloud_login_fragment" />
         <action
+            android:id="@+id/from_settings_to_cloud_logout"
+            app:destination="@id/cloud_logout_fragment" />
+        <action
             android:id="@+id/from_settings_to_specs"
             app:destination="@id/specs_fragment" />
         <action
@@ -211,6 +214,12 @@
         android:name="my.cardholder.ui.cloud.login.CloudLoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_cloud_login" />
+
+    <fragment
+        android:id="@+id/cloud_logout_fragment"
+        android:name="my.cardholder.ui.cloud.logout.CloudLogoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/fragment_cloud_logout" />
 
     <fragment
         android:id="@+id/specs_fragment"
