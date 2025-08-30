@@ -15,6 +15,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import my.cardholder.cloud.CloudBackupAssistant
+import my.cardholder.cloud.CloudSignInAssistant
 import my.cardholder.cloud.google.GoogleCloudBackupAssistant
 import my.cardholder.cloud.google.GoogleCloudSignInAssistant
 import my.cardholder.cloud.yandex.YandexCloudBackupAssistant
@@ -65,12 +66,13 @@ object CloudModule {
         )
     }
 
+    @Google
     @Provides
     @Singleton
     fun provideGoogleCloudSignInAssistant(
         context: Context,
         googleSignInClient: GoogleSignInClient,
-    ): GoogleCloudSignInAssistant {
+    ): CloudSignInAssistant {
         return GoogleCloudSignInAssistant(
             googleCredentialWrapper = GoogleCredentialWrapper(context, setOf(DRIVE_SCOPE)),
             googleSignInClient = googleSignInClient,
@@ -115,12 +117,13 @@ object CloudModule {
         )
     }
 
+    @Yandex
     @Provides
     @Singleton
     fun provideYandexCloudSignInAssistant(
         context: Context,
         yandexPreferences: YandexPreferences,
-    ): YandexCloudSignInAssistant {
+    ): CloudSignInAssistant {
         return YandexCloudSignInAssistant(
             context = context,
             jwtTokenDecoder = JwtTokenDecoder(),
