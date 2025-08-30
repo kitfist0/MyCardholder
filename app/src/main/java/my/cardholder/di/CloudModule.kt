@@ -74,6 +74,7 @@ object CloudModule {
         googleSignInClient: GoogleSignInClient,
     ): CloudSignInAssistant {
         return GoogleCloudSignInAssistant(
+            context = context,
             googleCredentialWrapper = GoogleCredentialWrapper(context, setOf(DRIVE_SCOPE)),
             googleSignInClient = googleSignInClient,
         )
