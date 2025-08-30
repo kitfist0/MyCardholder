@@ -32,12 +32,12 @@
             android:id="@+id/cloud_login_google_cloud_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
+            android:text="Google Drive"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             app:drawableStartCompat="@drawable/ic_cloud_google"
-            tools:text="Google Drive" />
+            tools:ignore="HardcodedText" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -59,29 +59,38 @@
             android:id="@+id/cloud_login_yandex_cloud_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
+            android:text="Yandex Disk"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             app:drawableStartCompat="@drawable/ic_cloud_yandex"
             tools:drawableEnd="@drawable/ic_done"
-            tools:text="Yandex Disk" />
+            tools:ignore="HardcodedText" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/cloud_logout_help_text"
+        android:id="@+id/cloud_login_help_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginVertical="8dp"
-        android:background="?selectableItemBackground"
         android:gravity="center_vertical"
         android:text="@string/cloud_login_help_text"
         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cloud_login_yandex_cloud_card" />
+
+    <ProgressBar
+        android:id="@+id/cloud_login_loading_progress"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toTopOf="@id/cloud_login_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cloud_login_help_text"
+        tools:progress="50" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/cloud_login_fab"
