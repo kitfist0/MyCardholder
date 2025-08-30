@@ -25,7 +25,6 @@ class CloudLogoutViewModel @Inject constructor(
                 _state.value = CloudLogoutState.Info(
                     selectedCloudProvider = provider,
                     accountNameText = Text.Simple(""),
-                    lastSyncTimeText = Text.Simple(""),
                 )
             }
             .launchIn(viewModelScope)

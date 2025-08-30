@@ -7,7 +7,6 @@ sealed class CloudLogoutState {
     data class Info(
         val selectedCloudProvider: CloudProvider,
         val accountNameText: Text,
-        val lastSyncTimeText: Text,
     ) : CloudLogoutState()
 
     data object Loading : CloudLogoutState()
