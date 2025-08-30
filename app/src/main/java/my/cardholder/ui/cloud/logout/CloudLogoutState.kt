@@ -4,7 +4,7 @@ import my.cardholder.data.model.CloudProvider
 import my.cardholder.util.Text
 
 sealed class CloudLogoutState {
-    data class Info(
+    data class Default(
         val selectedCloudProvider: CloudProvider,
         val accountNameText: Text,
     ) : CloudLogoutState()
