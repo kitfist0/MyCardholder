@@ -32,6 +32,9 @@ class YandexCloudSignInAssistant(
     override val alreadySignedIn: Boolean
         get() = !yandexPreferences.getLogin().isNullOrEmpty()
 
+    override val signedInAccountName: String?
+        get() = yandexPreferences.getLogin()
+
     override val signInIntent: Intent
         get() = YandexAuthSdk.Companion.create(YandexAuthOptions(context)).contract
             .createIntent(context, YandexAuthLoginOptions())
