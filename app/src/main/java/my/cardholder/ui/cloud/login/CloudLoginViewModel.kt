@@ -56,7 +56,11 @@ class CloudLoginViewModel @Inject constructor(
 
                 CloudProvider.YANDEX ->
                     yandexCloudSignInAssistant.onSignInResult(activityResult)
-            }.onSuccess { navigateUp() }
+            }
+                .onSuccess {
+                    settingsRepository.setCloudSyncEnabled(true)
+                    navigateUp()
+                }
                 .onFailure {
                     showToast(Text.Simple("ERROR: ${it.message}"))
                     _state.value = CloudLoginState.Selection(selectedCloudProvider = provider)

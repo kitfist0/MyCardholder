@@ -45,7 +45,11 @@ class CloudLogoutViewModel @Inject constructor(
             when (cloudProvider) {
                 CloudProvider.GOOGLE -> googleCloudSignInAssistant.signOut()
                 CloudProvider.YANDEX -> yandexCloudSignInAssistant.signOut()
-            }.onSuccess { navigateUp() }
+            }
+                .onSuccess {
+                    settingsRepository.setCloudSyncEnabled(false)
+                    navigateUp()
+                }
                 .onFailure {
                     showToast(Text.Simple("ERROR: ${it.message}"))
                     setDefaultState(cloudProvider)
