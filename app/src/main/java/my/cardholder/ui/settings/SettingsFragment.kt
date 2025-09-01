@@ -1,13 +1,13 @@
 package my.cardholder.ui.settings
 
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentSettingsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.setStartEndCompoundDrawables
+import my.cardholder.util.ext.textToString
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -49,21 +49,19 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            binding.settingsCloudSyncCard.isVisible = state.cloudSyncAvailable
-            setCloudSyncTextIcon(state.cloudSyncEnabled)
+            binding.settingsCloudSyncText.apply {
+                text = textToString(state.cloudSyncCardText)
+                setStartEndCompoundDrawables(
+                    endDrawableResId = if (state.cloudSyncEnabled) {
+                        R.drawable.ic_cloud_on
+                    } else {
+                        R.drawable.ic_cloud_off
+                    }
+                )
+            }
             setupColorThemeButtonState(state.nightModeEnabled)
             setupCardListViewButtonState(state.multiColumnListEnabled)
         }
-    }
-
-    private fun setCloudSyncTextIcon(isSyncEnabled: Boolean) {
-        val drawable = ContextCompat.getDrawable(
-            requireContext(),
-            if (isSyncEnabled) R.drawable.ic_cloud_on else R.drawable.ic_cloud_off
-        )
-        binding.settingsCloudSyncText.setCompoundDrawablesWithIntrinsicBounds(
-            null, null, drawable, null
-        )
     }
 
     private fun setupColorThemeButtonState(isNightMode: Boolean) {

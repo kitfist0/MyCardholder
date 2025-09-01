@@ -7,13 +7,11 @@ import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
-import my.cardholder.util.GmsAvailabilityChecker
 import my.cardholder.util.Text
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    gmsAvailabilityChecker: GmsAvailabilityChecker,
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
@@ -21,7 +19,6 @@ class SettingsViewModel @Inject constructor(
         SettingsState(
             nightModeEnabled = false,
             multiColumnListEnabled = false,
-            cloudSyncAvailable = gmsAvailabilityChecker.isAvailable,
             cloudSyncCardText = Text.Simple(""),
             cloudSyncEnabled = false,
             launchCloudSignInRequest = null,
@@ -64,7 +61,13 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun onCloudSyncCardClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToCloudLogin())
+        viewModelScope.launch {
+            if (settingsRepository.cloudSyncEnabled.first()) {
+                navigate(SettingsFragmentDirections.fromSettingsToCloudLogout())
+            } else {
+                navigate(SettingsFragmentDirections.fromSettingsToCloudLogin())
+            }
+        }
     }
 
     fun onColorThemeButtonClicked() {
@@ -99,18 +102,5 @@ class SettingsViewModel @Inject constructor(
 
     fun onAboutAppButtonClicked() {
         navigate(SettingsFragmentDirections.fromSettingsToInfo())
-    }
-
-    private suspend fun setCloudSyncEnabled(isEnabled: Boolean) {
-        settingsRepository.setCloudSyncEnabled(isEnabled)
-        showToast(
-            Text.Resource(
-                if (isEnabled) {
-                    R.string.settings_cloud_sync_activation_message
-                } else {
-                    R.string.settings_cloud_sync_deactivation_message
-                }
-            )
-        )
     }
 }
