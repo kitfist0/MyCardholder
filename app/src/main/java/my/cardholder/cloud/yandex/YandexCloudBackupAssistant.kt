@@ -25,6 +25,7 @@ class YandexCloudBackupAssistant(
     override suspend fun getBackupChecksum() = withContext(Dispatchers.IO) {
         runCatching {
             yandexDiskRestApi.listFiles(getOauthTokenOrThrow(), APP_FOLDER).body()
+                ?.embedded?.items
                 ?.maxByOrNull { it.getChecksum() }
                 ?.getChecksum() ?: 0L
         }
@@ -34,6 +35,7 @@ class YandexCloudBackupAssistant(
         runCatching {
             val token = getOauthTokenOrThrow()
             val backupFilePath = yandexDiskRestApi.listFiles(token, APP_FOLDER).body()
+                ?.embedded?.items
                 ?.find { it.getChecksum() == checksum }
                 ?.path
             backupFilePath?.let { path ->
@@ -58,7 +60,7 @@ class YandexCloudBackupAssistant(
         runCatching {
             val token = getOauthTokenOrThrow()
             val filesResponse = yandexDiskRestApi.listFiles(token, APP_FOLDER)
-            val diskFiles = filesResponse.body() ?: emptyList()
+            val diskFiles = filesResponse.body()?.embedded?.items ?: emptyList()
             if (diskFiles.isNotEmpty()) deleteFiles(token, diskFiles)
         }
     }

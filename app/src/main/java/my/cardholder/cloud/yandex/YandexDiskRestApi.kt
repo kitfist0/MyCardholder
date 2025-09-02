@@ -1,6 +1,7 @@
 package my.cardholder.cloud.yandex
 
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -19,6 +20,21 @@ data class DiskFile(
     val path: String,
     val name: String,
     val type: String,
+)
+
+@Keep
+data class DiskResources(
+    @SerializedName("_embedded") val embedded: Embedded?,
+    val items: List<DiskFile> = emptyList(),
+)
+
+@Keep
+data class Embedded(
+    val items: List<DiskFile>,
+    val limit: Int,
+    val offset: Int,
+    val path: String,
+    val total: Int,
 )
 
 interface YandexDiskRestApi {
@@ -44,7 +60,8 @@ interface YandexDiskRestApi {
         @Header("Authorization") token: String,
         @Query("path") path: String,
         @Query("limit") limit: Int = 1000,
-    ): Response<List<DiskFile>>
+        @Query("offset") offset: Int = 0,
+    ): Response<DiskResources>
 
     @DELETE("resources")
     suspend fun deleteFile(
