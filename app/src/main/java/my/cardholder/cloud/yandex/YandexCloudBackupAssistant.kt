@@ -18,7 +18,7 @@ class YandexCloudBackupAssistant(
 ) : CloudBackupAssistant {
 
     private companion object {
-        const val APP_FOLDER = "app:/MyCardholder"
+        const val APP_FOLDER = "app:/"
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
@@ -69,7 +69,7 @@ class YandexCloudBackupAssistant(
         content: String,
         checksum: BackupChecksum,
     ) = withContext(Dispatchers.IO) {
-        val filePath = "$APP_FOLDER/$checksum"
+        val filePath = "$APP_FOLDER$checksum"
         runCatching {
             val href = yandexDiskRestApi.getUploadLink(getOauthTokenOrThrow(), filePath).body()
                 ?.href
