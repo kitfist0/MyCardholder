@@ -69,6 +69,7 @@ class YandexCloudBackupAssistant(
         content: String,
         checksum: BackupChecksum,
     ) = withContext(Dispatchers.IO) {
+        deleteBackup()
         val filePath = "$APP_FOLDER$checksum"
         runCatching {
             val href = yandexDiskRestApi.getUploadLink(getOauthTokenOrThrow(), filePath).body()
