@@ -4,7 +4,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
-import my.cardholder.data.model.CloudProvider
+import my.cardholder.data.model.CloudProvider.Companion.getDrawableRes
 import my.cardholder.databinding.FragmentCloudLogoutBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
@@ -36,18 +36,15 @@ class CloudLogoutFragment : BaseFragment<FragmentCloudLogoutBinding>(
                     binding.cloudLogoutLoadingProgress.isVisible = false
 
                     binding.cloudLogoutCloudProviderText.apply {
-                        val provider = state.selectedCloudProvider
-                        text = provider.cloudName
+                        text = state.selectedCloudProvider.cloudName
                         setStartEndCompoundDrawables(
-                            startDrawableResId = when (provider) {
-                                CloudProvider.GOOGLE -> R.drawable.ic_cloud_google
-                                CloudProvider.YANDEX -> R.drawable.ic_cloud_yandex
-                            },
+                            startDrawableResId = state.selectedCloudProvider.getDrawableRes(),
                             endDrawableResId = R.drawable.ic_done
                         )
                     }
                     binding.cloudLogoutCloudAccountNameText.text = textToString(state.accountNameText)
                 }
+
                 is CloudLogoutState.Loading -> {
                     enableOrDisableCards(false)
                     binding.cloudLogoutLoadingProgress.isVisible = true

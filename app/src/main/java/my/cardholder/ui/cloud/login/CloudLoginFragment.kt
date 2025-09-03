@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.data.model.CloudProvider
+import my.cardholder.data.model.CloudProvider.Companion.getDrawableRes
 import my.cardholder.databinding.FragmentCloudLoginBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
@@ -58,12 +59,12 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
                     val selectedProvider = state.selectedCloudProvider
                     binding.cloudLoginGoogleCloudText.text = CloudProvider.GOOGLE.cloudName
                     binding.cloudLoginGoogleCloudText.setStartEndCompoundDrawables(
-                        startDrawableResId = R.drawable.ic_cloud_google,
+                        startDrawableResId = CloudProvider.GOOGLE.getDrawableRes(),
                         endDrawableResId = if (selectedProvider == CloudProvider.GOOGLE) R.drawable.ic_done else null
                     )
                     binding.cloudLoginYandexCloudText.text = CloudProvider.YANDEX.cloudName
                     binding.cloudLoginYandexCloudText.setStartEndCompoundDrawables(
-                        startDrawableResId = R.drawable.ic_cloud_yandex,
+                        startDrawableResId = CloudProvider.YANDEX.getDrawableRes(),
                         endDrawableResId = if (selectedProvider == CloudProvider.YANDEX) R.drawable.ic_done else null
                     )
                 }
