@@ -42,7 +42,7 @@ class CloudLoginViewModel @Inject constructor(
     init {
         settingsRepository.cloudProvider
             .onEach { provider ->
-                _state.value = CloudLoginState.Selection(selectedCloudProvider = provider)
+                _state.value = getSelectionStateFor(provider)
             }
             .launchIn(viewModelScope)
     }
@@ -63,7 +63,7 @@ class CloudLoginViewModel @Inject constructor(
                 }
                 .onFailure {
                     showToast(Text.Simple("ERROR: ${it.message}"))
-                    _state.value = CloudLoginState.Selection(selectedCloudProvider = provider)
+                    _state.value = getSelectionStateFor(provider)
                 }
         }
     }
@@ -92,5 +92,17 @@ class CloudLoginViewModel @Inject constructor(
                     loginIntentChannel.send(yandexCloudSignInAssistant.signInIntent)
             }
         }
+    }
+
+    private fun getSelectionStateFor(selectedProvider: CloudProvider): CloudLoginState.Selection {
+        return CloudLoginState.Selection(
+            cloudItemStates = CloudProvider.entries.map {
+                CloudItemState(
+                    cloudProvider = it,
+                    isSelected = it == selectedProvider,
+                    isAvailable = true,
+                )
+            }
+        )
     }
 }

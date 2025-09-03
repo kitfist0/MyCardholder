@@ -56,17 +56,22 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
                     enableOrDisableCards(true)
                     binding.cloudLoginLoadingProgress.isVisible = false
 
-                    val selectedProvider = state.selectedCloudProvider
-                    binding.cloudLoginGoogleCloudText.text = CloudProvider.GOOGLE.cloudName
-                    binding.cloudLoginGoogleCloudText.setStartEndCompoundDrawables(
-                        startDrawableResId = CloudProvider.GOOGLE.getDrawableRes(),
-                        endDrawableResId = if (selectedProvider == CloudProvider.GOOGLE) R.drawable.ic_done else null
-                    )
-                    binding.cloudLoginYandexCloudText.text = CloudProvider.YANDEX.cloudName
-                    binding.cloudLoginYandexCloudText.setStartEndCompoundDrawables(
-                        startDrawableResId = CloudProvider.YANDEX.getDrawableRes(),
-                        endDrawableResId = if (selectedProvider == CloudProvider.YANDEX) R.drawable.ic_done else null
-                    )
+                    state.cloudItemStates.forEach { cloudItemState ->
+                        val cloudProvider = cloudItemState.cloudProvider
+                        if (cloudProvider == CloudProvider.GOOGLE) {
+                            binding.cloudLoginGoogleCloudText.text = cloudProvider.cloudName
+                            binding.cloudLoginGoogleCloudText.setStartEndCompoundDrawables(
+                                startDrawableResId = cloudProvider.getDrawableRes(),
+                                endDrawableResId = if (cloudItemState.isSelected) R.drawable.ic_done else null
+                            )
+                        } else if (cloudProvider == CloudProvider.YANDEX) {
+                            binding.cloudLoginYandexCloudText.text = cloudProvider.cloudName
+                            binding.cloudLoginYandexCloudText.setStartEndCompoundDrawables(
+                                startDrawableResId = cloudProvider.getDrawableRes(),
+                                endDrawableResId = if (cloudItemState.isSelected) R.drawable.ic_done else null
+                            )
+                        }
+                    }
                 }
             }
         }
