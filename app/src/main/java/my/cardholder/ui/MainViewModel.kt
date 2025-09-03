@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -81,30 +82,16 @@ class MainViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
         settingsRepository.cloudSyncEnabled
-            .flatMapLatest { syncEnabled ->
-                if (syncEnabled) {
-                    val cloudProvider = settingsRepository.cloudProvider.first()
-                    val checksum = cardRepository.checksumOfAllCards.first()
-                    cloudUploadUseCase.execute(cloudProvider, checksum)
-                } else {
-                    emptyFlow()
+            .combine(cardRepository.checksumOfAllCards) { isEnabled, checksum -> isEnabled to checksum }
+                .flatMapLatest { (isEnabled, checksum) ->
+                    if (isEnabled) {
+                        cloudUploadUseCase.execute(settingsRepository.cloudProvider.first(), checksum)
+                    } else {
+                        emptyFlow()
+                    }
                 }
-            }
-            .onEach { result ->
-                updateLatestSyncedBackupChecksum(result)
-            }
-            .launchIn(viewModelScope)
-
-        cardRepository.checksumOfAllCards
-            .flatMapLatest { checksum ->
-                val syncEnabled = settingsRepository.cloudSyncEnabled.first()
-                val cloudProvider = settingsRepository.cloudProvider.first()
-                if (syncEnabled) cloudUploadUseCase.execute(cloudProvider, checksum) else emptyFlow()
-            }
-            .onEach { result ->
-                updateLatestSyncedBackupChecksum(result)
-            }
-            .launchIn(viewModelScope)
+                .onEach { result -> updateLatestSyncedBackupChecksum(result) }
+                .launchIn(viewModelScope)
     }
 
     private suspend fun updateLatestSyncedBackupChecksum(result: Result<BackupChecksum>) {
