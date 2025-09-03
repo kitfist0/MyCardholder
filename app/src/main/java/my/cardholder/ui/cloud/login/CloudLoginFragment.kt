@@ -56,10 +56,12 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
                     binding.cloudLoginLoadingProgress.isVisible = false
 
                     val selectedProvider = state.selectedCloudProvider
+                    binding.cloudLoginGoogleCloudText.text = CloudProvider.GOOGLE.cloudName
                     binding.cloudLoginGoogleCloudText.setStartEndCompoundDrawables(
                         startDrawableResId = R.drawable.ic_cloud_google,
                         endDrawableResId = if (selectedProvider == CloudProvider.GOOGLE) R.drawable.ic_done else null
                     )
+                    binding.cloudLoginYandexCloudText.text = CloudProvider.YANDEX.cloudName
                     binding.cloudLoginYandexCloudText.setStartEndCompoundDrawables(
                         startDrawableResId = R.drawable.ic_cloud_yandex,
                         endDrawableResId = if (selectedProvider == CloudProvider.YANDEX) R.drawable.ic_done else null

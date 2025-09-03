@@ -37,7 +37,7 @@ class CloudLogoutFragment : BaseFragment<FragmentCloudLogoutBinding>(
 
                     binding.cloudLogoutCloudProviderText.apply {
                         val provider = state.selectedCloudProvider
-                        text = provider.toString()
+                        text = provider.cloudName
                         setStartEndCompoundDrawables(
                             startDrawableResId = when (provider) {
                                 CloudProvider.GOOGLE -> R.drawable.ic_cloud_google

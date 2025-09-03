@@ -30,10 +30,10 @@ class SettingsViewModel @Inject constructor(
         settingsRepository.cloudSyncEnabled
             .onEach { isEnabled ->
                 val cardText = if (isEnabled) {
-                    val cloudProvider = settingsRepository.cloudProvider.first().toString()
+                    val cloudName = settingsRepository.cloudProvider.first().cloudName
                     Text.ResourceAndParams(
                         R.string.settings_cloud_sync_switch_on_text,
-                        listOf(cloudProvider)
+                        listOf(cloudName)
                     )
                 } else {
                     Text.Resource(R.string.settings_cloud_sync_switch_off_text)
