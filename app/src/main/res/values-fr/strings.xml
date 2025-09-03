@@ -94,6 +94,18 @@
     <string name="category_list_label">Catégories de cartes</string>
     <!--endregion-->
 
+    <!--region CloudLogin-->
+    <string name="cloud_login_fab_text">Se connecter</string>
+    <string name="cloud_login_help_text">Vous ne pouvez sélectionner qu\'un seul service cloud pour synchroniser les cartes</string>
+    <string name="cloud_login_toolbar_title">Cloud pour la synchronisation</string>
+    <!--endregion-->
+
+    <!--region CloudLogout-->
+    <string name="cloud_logout_fab_text">Se déconnecter</string>
+    <string name="cloud_logout_help_text">Si vous souhaitez configurer la synchronisation avec un autre service cloud, vous devez vous déconnecter</string>
+    <string name="cloud_logout_toolbar_title">Synchronisation active</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Café</string>
     <string name="coffee_dialog_title">Soutenez cette application en achetant du café pour les développeurs</string>

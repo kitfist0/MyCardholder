@@ -94,6 +94,18 @@
     <string name="category_list_label">Categorías de tarjetas</string>
     <!--endregion-->
 
+    <!--region CloudLogin-->
+    <string name="cloud_login_fab_text">Acceso</string>
+    <string name="cloud_login_help_text">Solo puedes seleccionar un servicio en la nube para sincronizar tarjetas</string>
+    <string name="cloud_login_toolbar_title">Seleccionar la nube para sincronizar</string>
+    <!--endregion-->
+
+    <!--region CloudLogout-->
+    <string name="cloud_logout_fab_text">Finalizar la sesión</string>
+    <string name="cloud_logout_help_text">Si desea configurar la sincronización con otro servicio en la nube, debe cerrar la sesión</string>
+    <string name="cloud_logout_toolbar_title">Sincronización activa</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Café</string>
     <string name="coffee_dialog_title">Apoya esta aplicación comprando café para desarrolladores</string>

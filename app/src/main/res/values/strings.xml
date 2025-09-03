@@ -95,15 +95,15 @@
     <!--endregion-->
 
     <!--region CloudLogin-->
-    <string name="cloud_login_fab_text" translatable="false">Login</string>
-    <string name="cloud_login_help_text" translatable="false">You can only select one cloud service to sync cards</string>
-    <string name="cloud_login_toolbar_title" translatable="false">Select cloud for sync</string>
+    <string name="cloud_login_fab_text">Login</string>
+    <string name="cloud_login_help_text">You can only select one cloud service to sync cards</string>
+    <string name="cloud_login_toolbar_title">Select cloud for sync</string>
     <!--endregion-->
 
     <!--region CloudLogout-->
-    <string name="cloud_logout_fab_text" translatable="false">Logout</string>
-    <string name="cloud_logout_help_text" translatable="false">If you want to set up synchronization with another cloud service, you need to log out</string>
-    <string name="cloud_logout_toolbar_title" translatable="false">You are logged in</string>
+    <string name="cloud_logout_fab_text">Logout</string>
+    <string name="cloud_logout_help_text">If you want to set up synchronization with another cloud service, you need to log out</string>
+    <string name="cloud_logout_toolbar_title">Synchronization active</string>
     <!--endregion-->
 
     <!--region Coffee-->
