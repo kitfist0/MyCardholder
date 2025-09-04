@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.MaterialColors
 import my.cardholder.R
 import my.cardholder.data.model.CloudProvider
 import my.cardholder.data.model.CloudProvider.Companion.getDrawableRes
@@ -37,9 +38,25 @@ class CloudProviderAdapter(
         }
 
         fun bind(cloudProviderState: CloudProviderState) {
+            val cloudProvider = cloudProviderState.cloudProvider
+            val providerIsAvailable = cloudProviderState.isAvailable
+
+            binding.itemCloudProviderCard.apply {
+                val cardColorAttr = if (providerIsAvailable) {
+                    com.google.android.material.R.attr.colorSurfaceContainer
+                } else {
+                    com.google.android.material.R.attr.colorErrorContainer
+                }
+                background.setTint(MaterialColors.getColor(this, cardColorAttr))
+            }
             binding.itemCloudProviderText.apply {
-                val cloudProvider = cloudProviderState.cloudProvider
+                val textColorAttr = if (providerIsAvailable) {
+                    com.google.android.material.R.attr.colorOnSurface
+                } else {
+                    com.google.android.material.R.attr.colorOnErrorContainer
+                }
                 text = cloudProvider.cloudName
+                setTextColor(MaterialColors.getColor(this, textColorAttr))
                 setStartEndCompoundDrawables(
                     startDrawableResId = cloudProvider.getDrawableRes(),
                     endDrawableResId = if (cloudProviderState.isSelected) R.drawable.ic_done else null
