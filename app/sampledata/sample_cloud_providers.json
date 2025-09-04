@@ -1,0 +1,14 @@
+{
+  "providers": [
+    {
+      "name": "Google Drive",
+      "icon": "@drawable/ic_cloud_google",
+      "selected": "@drawable/ic_done"
+    },
+    {
+      "name": "Yandex Disk",
+      "icon": "@drawable/ic_cloud_yandex",
+      "selected": "@null"
+    }
+  ]
+}
