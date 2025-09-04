@@ -68,15 +68,9 @@ class CloudLoginViewModel @Inject constructor(
         }
     }
 
-    fun onGoogleCloudCardClicked() {
+    fun onCloudProviderClicked(cloudProvider: CloudProvider) {
         viewModelScope.launch {
-            settingsRepository.setCloudProvider(CloudProvider.GOOGLE)
-        }
-    }
-
-    fun onYandexCloudCardClicked() {
-        viewModelScope.launch {
-            settingsRepository.setCloudProvider(CloudProvider.YANDEX)
+            settingsRepository.setCloudProvider(cloudProvider)
         }
     }
 
@@ -96,8 +90,8 @@ class CloudLoginViewModel @Inject constructor(
 
     private fun getSelectionStateFor(selectedProvider: CloudProvider): CloudLoginState.Selection {
         return CloudLoginState.Selection(
-            cloudItemStates = CloudProvider.entries.map {
-                CloudItemState(
+            cloudProviderStates = CloudProvider.entries.map {
+                CloudProviderState(
                     cloudProvider = it,
                     isSelected = it == selectedProvider,
                     isAvailable = true,

@@ -3,14 +3,11 @@ package my.cardholder.ui.cloud.login
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.R
-import my.cardholder.data.model.CloudProvider
-import my.cardholder.data.model.CloudProvider.Companion.getDrawableRes
 import my.cardholder.databinding.FragmentCloudLoginBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
-import my.cardholder.util.ext.setStartEndCompoundDrawables
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -24,16 +21,20 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
         viewModel.onLoginRequestResult(activityResult)
     }
 
+    private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        CloudProviderAdapter {
+            viewModel.onCloudProviderClicked(it)
+        }
+    }
+
     override val viewModel: CloudLoginViewModel by viewModels()
 
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
-            cloudLoginGoogleCloudCard.setOnClickListener {
-                viewModel.onGoogleCloudCardClicked()
-            }
-            cloudLoginYandexCloudCard.setOnClickListener {
-                viewModel.onYandexCloudCardClicked()
+            binding.cloudLoginRecyclerView.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = listAdapter
             }
             cloudLoginFab.setOnClickListener {
                 viewModel.onLoginFabClicked()
@@ -48,42 +49,22 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CloudLoginState.Loading -> {
-                    enableOrDisableCards(false)
+                    enableOrDisableRecyclerView(false)
                     binding.cloudLoginLoadingProgress.isVisible = true
                 }
 
                 is CloudLoginState.Selection -> {
-                    enableOrDisableCards(true)
+                    enableOrDisableRecyclerView(true)
                     binding.cloudLoginLoadingProgress.isVisible = false
-
-                    state.cloudItemStates.forEach { cloudItemState ->
-                        val cloudProvider = cloudItemState.cloudProvider
-                        if (cloudProvider == CloudProvider.GOOGLE) {
-                            binding.cloudLoginGoogleCloudText.text = cloudProvider.cloudName
-                            binding.cloudLoginGoogleCloudText.setStartEndCompoundDrawables(
-                                startDrawableResId = cloudProvider.getDrawableRes(),
-                                endDrawableResId = if (cloudItemState.isSelected) R.drawable.ic_done else null
-                            )
-                        } else if (cloudProvider == CloudProvider.YANDEX) {
-                            binding.cloudLoginYandexCloudText.text = cloudProvider.cloudName
-                            binding.cloudLoginYandexCloudText.setStartEndCompoundDrawables(
-                                startDrawableResId = cloudProvider.getDrawableRes(),
-                                endDrawableResId = if (cloudItemState.isSelected) R.drawable.ic_done else null
-                            )
-                        }
-                    }
+                    listAdapter.submitList(state.cloudProviderStates)
                 }
             }
         }
     }
 
-    private fun enableOrDisableCards(areEnabled: Boolean) {
+    private fun enableOrDisableRecyclerView(areEnabled: Boolean) {
         val alphaValue = if (areEnabled) 1.0f else 0.5f
-        binding.cloudLoginGoogleCloudCard.apply {
-            alpha = alphaValue
-            isEnabled = areEnabled
-        }
-        binding.cloudLoginYandexCloudCard.apply {
+        binding.cloudLoginRecyclerView.apply {
             alpha = alphaValue
             isEnabled = areEnabled
         }
