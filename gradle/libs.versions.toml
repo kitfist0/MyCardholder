@@ -7,6 +7,7 @@ hilt = "2.57"
 kotlin = "2.2.0"
 ksp = "2.2.0-2.0.2"
 navigation = "2.9.3"
+retrofit = "3.0.0"
 room = "2.7.2"
 
 [libraries]
@@ -71,6 +72,14 @@ image-cropper = {group = "com.vanniktech", name = "android-image-cropper", versi
 # kotlin csv
 kotlin-csv = { module = "com.github.doyaaaaaken:kotlin-csv-jvm", version = "1.10.0"}
 
+# okhttp and retrofit
+squareup-okhttp3-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version = "5.1.0" }
+squareup-retrofit2-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+squareup-retrofit2-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+
+# yandex
+yandex-authsdk = { group = "com.yandex.android", name = "authsdk", version = "3.1.3" }
+
 # zxing
 zxing-core = { group = "com.google.zxing", name = "core", version = "3.5.3"}
 
@@ -89,3 +98,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version = "2.0.1"}

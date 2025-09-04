@@ -7,10 +7,16 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.safeargs.kotlin)
+    alias(libs.plugins.secrets.gradle)
 }
 
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+secrets {
+    // Ignore all keys matching regex "sdk.*"
+    ignoreList.add("sdk.*")
+}
 
 android {
     compileSdkVersion 35
@@ -44,6 +50,13 @@ android {
             buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/LICENSE\"")
             buildConfigField("String", "WEB_PAGE_POLICY", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/POLICY.md\"")
             buildConfigField("String", "WEB_PAGE_REPO", "\"https://gitverse.ru/kitfist0/MyCardholder\"")
+
+            // Don't forget to specify Yandex ClientID in ./local.properties! As shown below:
+            // YANDEX_CLIENT_ID=0123456789abcdef0123456789abcdef
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            def yandexClientIdToken = properties.getProperty('YANDEX_CLIENT_ID')
+            manifestPlaceholders = [YANDEX_CLIENT_ID: yandexClientIdToken]
         }
     }
 
@@ -185,6 +198,14 @@ dependencies {
 
     // Kotlin CSV
     implementation(libs.kotlin.csv)
+
+    // Okhttp and Retrofit
+    implementation(libs.squareup.okhttp3.okhttp)
+    implementation(libs.squareup.retrofit2.retrofit)
+    implementation(libs.squareup.retrofit2.converter)
+
+    // Yandex
+    implementation(libs.yandex.authsdk)
 
     // Zxing
     implementation(libs.zxing.core)

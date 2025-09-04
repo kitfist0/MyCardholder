@@ -1,13 +1,13 @@
 package my.cardholder.ui.settings
 
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentSettingsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.setStartEndCompoundDrawables
+import my.cardholder.util.ext.textToString
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -15,19 +15,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
 
-    private val cloudSignInRequest = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { activityResult ->
-        viewModel.onCloudSignInRequestResult(activityResult)
-    }
-
     override val viewModel: SettingsViewModel by viewModels()
 
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
-            settingsCloudSyncSwitch.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.onCloudSyncSwitchCheckedChanged(isChecked)
+            settingsCloudSyncCard.setOnClickListener {
+                viewModel.onCloudSyncCardClicked()
             }
             settingsColorThemeButton.setOnClickListener {
                 viewModel.onColorThemeButtonClicked()
@@ -55,14 +49,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            binding.settingsCloudSyncCard.isVisible = state.cloudSyncAvailable
-            binding.settingsCloudSyncSwitch.isChecked = state.cloudSyncEnabled
+            binding.settingsCloudSyncText.apply {
+                text = textToString(state.cloudSyncCardText)
+                setStartEndCompoundDrawables(
+                    endDrawableResId = if (state.cloudSyncEnabled) {
+                        R.drawable.ic_cloud_on
+                    } else {
+                        R.drawable.ic_cloud_off
+                    }
+                )
+            }
             setupColorThemeButtonState(state.nightModeEnabled)
             setupCardListViewButtonState(state.multiColumnListEnabled)
-            state.launchCloudSignInRequest?.let { intent ->
-                cloudSignInRequest.launch(intent)
-                viewModel.onCloudSignInRequestLaunched()
-            }
         }
     }
 

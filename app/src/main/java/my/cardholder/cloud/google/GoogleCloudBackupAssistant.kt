@@ -1,4 +1,4 @@
-package my.cardholder.cloud.backup
+package my.cardholder.cloud.google
 
 import com.google.api.client.http.InputStreamContent
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -8,6 +8,9 @@ import com.google.api.services.drive.model.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import my.cardholder.BuildConfig
+import my.cardholder.cloud.BackupChecksum
+import my.cardholder.cloud.CloudBackupAssistant
+import my.cardholder.cloud.CloudBackupAssistant.Companion.fileNameToChecksum
 import my.cardholder.util.GoogleCredentialWrapper
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -26,14 +29,11 @@ class GoogleCloudBackupAssistant(
 
     override suspend fun getBackupChecksum() = withContext(Dispatchers.IO) {
         runCatching {
-            val drive = getDriveOrThrow()
-            val files = drive.getAppDataFolderFiles()
-                .sortedBy { file -> file.name }
-            if (files.isNotEmpty()) {
-                val filesToDelete = files.subList(0, files.lastIndex)
-                drive.deleteFiles(filesToDelete)
-            }
-            files.lastOrNull()?.getChecksum() ?: 0L
+            getDriveOrThrow()
+                .getAppDataFolderFiles()
+                .maxByOrNull { file -> file.getChecksum() }
+                ?.getChecksum()
+                ?: 0L
         }
     }
 
@@ -58,18 +58,20 @@ class GoogleCloudBackupAssistant(
         }
     }
 
-    override suspend fun uploadBackup(content: String, checksum: BackupChecksum) = withContext(Dispatchers.IO) {
-        deleteBackup()
-        runCatching {
-            val drive = getDriveOrThrow()
-            val inputStreamContent = InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
-            val newFile = File()
-            newFile.setName(checksum.toString())
-            newFile.setParents(listOf(APP_DATA_FOLDER))
-            drive.files().create(newFile, inputStreamContent).setFields(FIELDS).execute()
-            Unit
+    override suspend fun uploadBackup(content: String, checksum: BackupChecksum) =
+        withContext(Dispatchers.IO) {
+            deleteBackup()
+            runCatching {
+                val drive = getDriveOrThrow()
+                val inputStreamContent =
+                    InputStreamContent(MIME_TYPE_TEXT, content.byteInputStream())
+                val newFile = File()
+                newFile.setName(checksum.toString())
+                newFile.setParents(listOf(APP_DATA_FOLDER))
+                drive.files().create(newFile, inputStreamContent).setFields(FIELDS).execute()
+                Unit
+            }
         }
-    }
 
     private fun Drive.getAppDataFolderFiles(): List<File> {
         return files().list()
@@ -83,7 +85,7 @@ class GoogleCloudBackupAssistant(
     }
 
     private fun File.getChecksum(): BackupChecksum {
-        return name.toLong()
+        return name.fileNameToChecksum()
     }
 
     private fun getDriveOrThrow(): Drive {

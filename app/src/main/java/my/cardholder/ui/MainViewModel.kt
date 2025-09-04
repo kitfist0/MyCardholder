@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import my.cardholder.billing.PurchasedProductsProvider
-import my.cardholder.cloud.backup.BackupChecksum
+import my.cardholder.cloud.BackupChecksum
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.data.SettingsRepository
@@ -54,8 +55,10 @@ class MainViewModel @Inject constructor(
         settingsRepository.cloudSyncEnabled
             .flatMapLatest { syncEnabled ->
                 if (syncEnabled) {
-                    val checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L
-                    cloudDownloadUseCase.execute(checksum)
+                    cloudDownloadUseCase.execute(
+                        cloudProvider = settingsRepository.cloudProvider.first(),
+                        checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L,
+                    )
                 } else {
                     emptyFlow()
                 }
@@ -79,28 +82,16 @@ class MainViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
         settingsRepository.cloudSyncEnabled
-            .flatMapLatest { syncEnabled ->
-                if (syncEnabled) {
-                    val checksum = cardRepository.checksumOfAllCards.first()
-                    cloudUploadUseCase.execute(checksum)
-                } else {
-                    emptyFlow()
+            .combine(cardRepository.checksumOfAllCards) { isEnabled, checksum -> isEnabled to checksum }
+                .flatMapLatest { (isEnabled, checksum) ->
+                    if (isEnabled) {
+                        cloudUploadUseCase.execute(settingsRepository.cloudProvider.first(), checksum)
+                    } else {
+                        emptyFlow()
+                    }
                 }
-            }
-            .onEach { result ->
-                updateLatestSyncedBackupChecksum(result)
-            }
-            .launchIn(viewModelScope)
-
-        cardRepository.checksumOfAllCards
-            .flatMapLatest { checksum ->
-                val syncEnabled = settingsRepository.cloudSyncEnabled.first()
-                if (syncEnabled) cloudUploadUseCase.execute(checksum) else emptyFlow()
-            }
-            .onEach { result ->
-                updateLatestSyncedBackupChecksum(result)
-            }
-            .launchIn(viewModelScope)
+                .onEach { result -> updateLatestSyncedBackupChecksum(result) }
+                .launchIn(viewModelScope)
     }
 
     private suspend fun updateLatestSyncedBackupChecksum(result: Result<BackupChecksum>) {

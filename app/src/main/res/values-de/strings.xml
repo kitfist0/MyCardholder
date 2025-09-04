@@ -94,6 +94,18 @@
     <string name="category_list_label">Kartenkategorien</string>
     <!--endregion-->
 
+    <!--region CloudLogin-->
+    <string name="cloud_login_fab_text">Einloggen</string>
+    <string name="cloud_login_help_text">Sie können nur einen Cloud-Dienst zum Synchronisieren von Karten auswählen</string>
+    <string name="cloud_login_toolbar_title">Cloud für die Synchronisierung</string>
+    <!--endregion-->
+
+    <!--region CloudLogout-->
+    <string name="cloud_logout_fab_text">Ausloggen</string>
+    <string name="cloud_logout_help_text">Wenn Sie die Synchronisierung mit einem anderen Cloud-Dienst einrichten möchten, müssen Sie sich abmelden</string>
+    <string name="cloud_logout_toolbar_title">Synchronisierung aktiv</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Kaffee</string>
     <string name="coffee_dialog_title">Unterstützen Sie diese App, indem Sie Kaffee für Entwickler kaufen</string>
@@ -123,7 +135,8 @@
     <!--region Settings-->
     <string name="settings_about_app_button_text">Über App</string>
     <string name="settings_card_categories_button_text">Kartenkategorien</string>
-    <string name="settings_cloud_sync_switch_text">Cloud-Synchronisierung</string>
+    <string name="settings_cloud_sync_switch_on_text">Cloud-Synchronisierung mit %</string>
+    <string name="settings_cloud_sync_switch_off_text">Cloud-Synchronisierung</string>
     <string name="settings_cloud_sync_activation_message">Cloud-Synchronisierung aktiviert</string>
     <string name="settings_cloud_sync_deactivation_message">Cloud-Synchronisierung deaktiviert</string>
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
@@ -149,5 +162,9 @@
 
     <!--region Sync-->
     <string name="sync_success_toast_message">Synchronisiert</string>
+    <!--endregion-->
+
+    <!--region Toast-->
+    <string name="toast_gms_not_available_message">Auf diesem Gerät sind keine Google-Dienste verfügbar</string>
     <!--endregion-->
 </resources>

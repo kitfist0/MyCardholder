@@ -21,15 +21,19 @@
             android:backgroundTint="?colorPrimaryContainer"
             app:strokeWidth="0dp">
 
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/settings_cloud_sync_switch"
+            <TextView
+                android:id="@+id/settings_cloud_sync_text"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
+                android:drawablePadding="16dp"
                 android:ellipsize="end"
+                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:padding="16dp"
-                android:text="@string/settings_cloud_sync_switch_text"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
+                android:text="@string/settings_cloud_sync_switch_off_text"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                app:drawableEndCompat="@drawable/ic_cloud_off"
+                app:drawableTint="?colorOnPrimaryContainer" />
 
         </com.google.android.material.card.MaterialCardView>
 

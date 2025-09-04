@@ -94,6 +94,18 @@
     <string name="category_list_label">Категории карт</string>
     <!--endregion-->
 
+    <!--region CloudLogin-->
+    <string name="cloud_login_fab_text">Войти</string>
+    <string name="cloud_login_help_text">Вы можете выбрать только один облачный сервис для синхронизации карт</string>
+    <string name="cloud_login_toolbar_title">Облако для синхронизации</string>
+    <!--endregion-->
+
+    <!--region CloudLogout-->
+    <string name="cloud_logout_fab_text">Выйти</string>
+    <string name="cloud_logout_help_text">Если вы хотите настроить синхронизацию с другим облачным сервисом, то необходимо выйти</string>
+    <string name="cloud_logout_toolbar_title">Синхронизация активна</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Кофе</string>
     <string name="coffee_dialog_title">Поддержите приложение, купив кофе для разработчиков</string>
@@ -123,7 +135,8 @@
     <!--region Settings-->
     <string name="settings_about_app_button_text">О приложении</string>
     <string name="settings_card_categories_button_text">Категории карт</string>
-    <string name="settings_cloud_sync_switch_text">Синхронизация с облаком</string>
+    <string name="settings_cloud_sync_switch_on_text">Синхронизация с облаком %s</string>
+    <string name="settings_cloud_sync_switch_off_text">Синхронизация с облаком</string>
     <string name="settings_cloud_sync_activation_message">Синхронизация включена</string>
     <string name="settings_cloud_sync_deactivation_message">Синхронизация отключена</string>
     <string name="settings_coffee_button_text">Кофе для разработчиков</string>
@@ -149,5 +162,9 @@
 
     <!--region Sync-->
     <string name="sync_success_toast_message">Синхронизировано</string>
+    <!--endregion-->
+
+    <!--region Toast-->
+    <string name="toast_gms_not_available_message">Сервисы Google недоступны на этом устройстве</string>
     <!--endregion-->
 </resources>

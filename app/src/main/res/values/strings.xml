@@ -94,6 +94,18 @@
     <string name="category_list_label">Card categories</string>
     <!--endregion-->
 
+    <!--region CloudLogin-->
+    <string name="cloud_login_fab_text">Login</string>
+    <string name="cloud_login_help_text">You can only select one cloud service to sync cards</string>
+    <string name="cloud_login_toolbar_title">Select cloud for sync</string>
+    <!--endregion-->
+
+    <!--region CloudLogout-->
+    <string name="cloud_logout_fab_text">Logout</string>
+    <string name="cloud_logout_help_text">If you want to set up synchronization with another cloud service, you need to log out</string>
+    <string name="cloud_logout_toolbar_title">Synchronization active</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Coffee</string>
     <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>
@@ -123,7 +135,8 @@
     <!--region Settings-->
     <string name="settings_about_app_button_text">About app</string>
     <string name="settings_card_categories_button_text">Card categories</string>
-    <string name="settings_cloud_sync_switch_text">Cloud sync</string>
+    <string name="settings_cloud_sync_switch_on_text">Cloud sync with %s</string>
+    <string name="settings_cloud_sync_switch_off_text">Cloud sync</string>
     <string name="settings_cloud_sync_activation_message">Cloud sync enabled</string>
     <string name="settings_cloud_sync_deactivation_message">Cloud sync disabled</string>
     <string name="settings_coffee_button_text">Coffee for developers</string>
@@ -149,5 +162,9 @@
 
     <!--region Sync-->
     <string name="sync_success_toast_message">Synced</string>
+    <!--endregion-->
+
+    <!--region Toast-->
+    <string name="toast_gms_not_available_message">Google services are not available on this device</string>
     <!--endregion-->
 </resources>

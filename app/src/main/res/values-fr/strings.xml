@@ -94,6 +94,18 @@
     <string name="category_list_label">Catégories de cartes</string>
     <!--endregion-->
 
+    <!--region CloudLogin-->
+    <string name="cloud_login_fab_text">Se connecter</string>
+    <string name="cloud_login_help_text">Vous ne pouvez sélectionner qu\'un seul service cloud pour synchroniser les cartes</string>
+    <string name="cloud_login_toolbar_title">Cloud pour la synchronisation</string>
+    <!--endregion-->
+
+    <!--region CloudLogout-->
+    <string name="cloud_logout_fab_text">Se déconnecter</string>
+    <string name="cloud_logout_help_text">Si vous souhaitez configurer la synchronisation avec un autre service cloud, vous devez vous déconnecter</string>
+    <string name="cloud_logout_toolbar_title">Synchronisation active</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Café</string>
     <string name="coffee_dialog_title">Soutenez cette application en achetant du café pour les développeurs</string>
@@ -123,7 +135,8 @@
     <!--region Settings-->
     <string name="settings_about_app_button_text">À propos de l\'application</string>
     <string name="settings_card_categories_button_text">Catégories de cartes</string>
-    <string name="settings_cloud_sync_switch_text">Synchronisation dans le cloud</string>
+    <string name="settings_cloud_sync_switch_on_text">Synchronisation cloud avec %s</string>
+    <string name="settings_cloud_sync_switch_off_text">Synchronisation dans le cloud</string>
     <string name="settings_cloud_sync_activation_message">Synchronisation cloud activée</string>
     <string name="settings_cloud_sync_deactivation_message">Synchronisation cloud désactivée</string>
     <string name="settings_coffee_button_text">Café pour les développeurs</string>
@@ -149,5 +162,9 @@
 
     <!--region Sync-->
     <string name="sync_success_toast_message">Synchronisé</string>
+    <!--endregion-->
+
+    <!--region Toast-->
+    <string name="toast_gms_not_available_message">Les services Google ne sont pas disponibles sur cet appareil</string>
     <!--endregion-->
 </resources>

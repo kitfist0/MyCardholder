@@ -18,7 +18,10 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -90,6 +93,15 @@ fun EditText.setStartIconFromUrl(imageUrl: String?) {
         )
 
     context.imageLoader.enqueue(requestBuilder.build())
+}
+
+fun TextView.setStartEndCompoundDrawables(
+    @DrawableRes startDrawableResId: Int? = null,
+    @DrawableRes endDrawableResId: Int? = null,
+) {
+    val startDrawable = startDrawableResId?.let { ContextCompat.getDrawable(context, it) }
+    val endDrawable = endDrawableResId?.let { ContextCompat.getDrawable(context, it) }
+    setCompoundDrawablesRelativeWithIntrinsicBounds(startDrawable, null, endDrawable, null)
 }
 
 @Suppress("MagicNumber")
