@@ -59,7 +59,11 @@ class CloudProviderAdapter(
                 setTextColor(MaterialColors.getColor(this, textColorAttr))
                 setStartEndCompoundDrawables(
                     startDrawableResId = cloudProvider.getDrawableRes(),
-                    endDrawableResId = if (cloudProviderState.isSelected) R.drawable.ic_done else null
+                    endDrawableResId = when {
+                        !providerIsAvailable -> R.drawable.ic_error
+                        cloudProviderState.isSelected -> R.drawable.ic_done
+                        else -> null
+                    }
                 )
             }
         }
