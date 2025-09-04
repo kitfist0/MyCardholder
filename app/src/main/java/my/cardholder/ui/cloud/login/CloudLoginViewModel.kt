@@ -101,7 +101,10 @@ class CloudLoginViewModel @Inject constructor(
                 CloudProviderState(
                     cloudProvider = it,
                     isSelected = it == selectedProvider,
-                    isAvailable = if (it == CloudProvider.GOOGLE) gmsAvailabilityChecker.isAvailable else true,
+                    isAvailable = when (it) {
+                        CloudProvider.GOOGLE -> gmsAvailabilityChecker.isAvailable
+                        CloudProvider.YANDEX -> true
+                    },
                 )
             }
         )
