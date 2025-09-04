@@ -13,17 +13,20 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.cloud.CloudSignInAssistant
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.CloudProvider
 import my.cardholder.di.Google
 import my.cardholder.di.Yandex
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.GmsAvailabilityChecker
 import my.cardholder.util.Text
 import javax.inject.Inject
 
 @HiltViewModel
 class CloudLoginViewModel @Inject constructor(
+    private val gmsAvailabilityChecker: GmsAvailabilityChecker,
     @Google private val googleCloudSignInAssistant: CloudSignInAssistant,
     @Yandex private val yandexCloudSignInAssistant: CloudSignInAssistant,
     private val settingsRepository: SettingsRepository,
@@ -42,6 +45,10 @@ class CloudLoginViewModel @Inject constructor(
     init {
         settingsRepository.cloudProvider
             .onEach { provider ->
+                if (provider == CloudProvider.GOOGLE && !gmsAvailabilityChecker.isAvailable) {
+                    showToast(Text.Resource(R.string.toast_gms_not_available_message))
+                    settingsRepository.setCloudProvider(CloudProvider.YANDEX)
+                }
                 _state.value = getSelectionStateFor(provider)
             }
             .launchIn(viewModelScope)
@@ -94,7 +101,7 @@ class CloudLoginViewModel @Inject constructor(
                 CloudProviderState(
                     cloudProvider = it,
                     isSelected = it == selectedProvider,
-                    isAvailable = true,
+                    isAvailable = if (it == CloudProvider.GOOGLE) gmsAvailabilityChecker.isAvailable else true,
                 )
             }
         )

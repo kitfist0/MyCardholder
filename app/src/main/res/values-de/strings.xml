@@ -163,4 +163,8 @@
     <!--region Sync-->
     <string name="sync_success_toast_message">Synchronisiert</string>
     <!--endregion-->
+
+    <!--region Toast-->
+    <string name="toast_gms_not_available_message">Auf diesem Gerät sind keine Google-Dienste verfügbar</string>
+    <!--endregion-->
 </resources>
