@@ -109,11 +109,12 @@ class CardRepository @Inject constructor(
 
     suspend fun updateCardContent(cardId: Long, content: String) {
         getCard(cardId)?.let { card ->
-            if (card.content != content) {
+            val newContent = content.trim()
+            if (card.content != newContent) {
                 card.barcodeFile?.delete()
-                val barcodeFilePath = writeNewBarcodeFile(content, card.format)
+                val barcodeFilePath = writeNewBarcodeFile(newContent, card.format)
                 upsertCard(
-                    card.copy(content = content, path = barcodeFilePath)
+                    card.copy(content = newContent, path = barcodeFilePath)
                 )
             }
         }
@@ -132,20 +133,22 @@ class CardRepository @Inject constructor(
     }
 
     suspend fun updateCardLogo(cardId: Long, logo: String?) {
+        val newLogo = logo?.trim()
         getCard(cardId)?.let { card ->
-            if (card.logo != logo) {
+            if (card.logo != newLogo) {
                 upsertCard(
-                    card.copy(logo = logo?.trim())
+                    card.copy(logo = newLogo)
                 )
             }
         }
     }
 
     suspend fun updateCardName(cardId: Long, name: String) {
+        val newName = name.trim()
         getCard(cardId)?.let { card ->
-            if (card.name != name) {
+            if (card.name != newName) {
                 upsertCard(
-                    card.copy(name = name)
+                    card.copy(name = newName)
                 )
             }
         }
