@@ -48,12 +48,12 @@ class CardRepository @Inject constructor(
         val barcodeFilePath = writeNewBarcodeFile(content, format)
         val newCard = Card(
             id = Card.NEW_CARD_ID,
-            name = name,
+            name = name.trim(),
             position = position ?: cardDao.getNumberOfCards(),
-            logo = logo,
+            logo = logo?.trim()?.ifEmpty { null },
             isPinned = false,
             categoryId = categoryId,
-            content = content,
+            content = content.trim(),
             color = color,
             format = format,
             path = barcodeFilePath,
