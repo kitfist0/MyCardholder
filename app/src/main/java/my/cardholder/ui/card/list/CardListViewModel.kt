@@ -22,8 +22,7 @@ class CardListViewModel @Inject constructor(
 
     init {
         cardRepository.cardsAndCategories
-            .onEach { cardsAndCategories ->
-                val isMultiColumn = settingsRepository.multiColumnListEnabled.first()
+            .combine(settingsRepository.multiColumnListEnabled) { cardsAndCategories, isMultiColumn ->
                 _state.value = if (cardsAndCategories.isNotEmpty()) {
                     CardListState.Success(
                         cardsAndCategories = cardsAndCategories,
