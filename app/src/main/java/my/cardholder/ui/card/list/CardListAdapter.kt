@@ -95,11 +95,10 @@ class CardListAdapter(
                 itemCardLayout.background = getCardGradientDrawable(card.getColorInt())
                 itemCardLogoImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
-                    card.logo
-                        ?.let { loadLogoImage(it) }
-                        ?: setImageResource(
-                            if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode
-                        )
+                    loadLogoImage(
+                        logoUrl = card.logo,
+                        defaultDrawableRes = if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode,
+                    )
                 }
                 itemCardNameText.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)

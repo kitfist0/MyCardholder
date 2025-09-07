@@ -121,7 +121,10 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         } else {
                             null
                         }
-                        editText?.setStartIconFromUrl(state.cardLogo)
+                        editText?.setStartIconFromUrl(
+                            imageUrl = state.cardLogo,
+                            errorDrawableRes = R.drawable.ic_broken_img,
+                        )
                         editText?.setTextAndSelectionIfRequired(state.cardLogo)
                     }
                     cardEditBarcodeFormatInputLayout.isEnabled = true

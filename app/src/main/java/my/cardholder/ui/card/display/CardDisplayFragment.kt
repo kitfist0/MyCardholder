@@ -83,9 +83,10 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                         cardDisplayExplanationMessageText.isVisible = state.explanationIsVisible
                         cardDisplayCardCategoryText.text = state.cardCategory
                         cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
-                        state.cardLogo
-                            ?.let { cardDisplayCardLogoImage.loadLogoImage(state.cardLogo) }
-                            ?: cardDisplayCardLogoImage.setImageResource(R.drawable.ic_broken_img)
+                        cardDisplayCardLogoImage.loadLogoImage(
+                            logoUrl = state.cardLogo,
+                            defaultDrawableRes = R.drawable.ic_broken_img,
+                        )
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
                         cardDisplayEditFab.isClickable = true

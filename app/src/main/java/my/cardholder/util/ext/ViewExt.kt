@@ -63,7 +63,10 @@ fun EditText.setStartColoredSquareIcon(color: String) {
     setCompoundDrawablesRelative(squareDrawable, null, null, null)
 }
 
-fun EditText.setStartIconFromUrl(imageUrl: String?) {
+fun EditText.setStartIconFromUrl(
+    imageUrl: String?,
+    @DrawableRes errorDrawableRes: Int,
+) {
     val sizePx = dpToPx(24)
     val cornerRadiusPx = dpToPx(4).toFloat()
 
@@ -83,7 +86,7 @@ fun EditText.setStartIconFromUrl(imageUrl: String?) {
                     setColor(backColor)
                     cornerRadius = cornerRadiusPx
                 }
-                val imageDrawable = AppCompatResources.getDrawable(context, R.drawable.ic_broken_img)?.mutate()
+                val imageDrawable = AppCompatResources.getDrawable(context, errorDrawableRes)?.mutate()
                 val insetSizePx = dpToPx(1)
                 val errorDrawable = LayerDrawable(arrayOf(backDrawable, imageDrawable))
                 errorDrawable.setLayerInset(1, insetSizePx, insetSizePx, insetSizePx, insetSizePx)
@@ -183,16 +186,21 @@ fun ImageView.loadBarcodeImage(
 }
 
 fun ImageView.loadLogoImage(
-    logoUrl: String?
+    logoUrl: String?,
+    @DrawableRes defaultDrawableRes: Int,
 ) {
-    load(logoUrl) {
-        size(512)
-        transformations(
-            RoundedCornersTransformation(
-                resources.getDimensionPixelSize(R.dimen.card_item_square_logo_corner_radius).toFloat()
-            )
-        )
-    }
+    logoUrl?.ifEmpty { null }
+        ?.let {
+            load(it) {
+                size(512)
+                transformations(
+                    RoundedCornersTransformation(
+                        resources.getDimensionPixelSize(R.dimen.card_item_square_logo_corner_radius).toFloat()
+                    )
+                )
+            }
+        }
+        ?: setImageResource(defaultDrawableRes)
 }
 
 fun EditText.onImeActionDone(callback: () -> Unit) {
