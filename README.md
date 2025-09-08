@@ -4,6 +4,21 @@ An open source cardholder app to store you cards in one place.
 
 ![Screenshots](screenshots.jpg)
 
+## Backup download scheme
+
+```mermaid
+flowchart TD
+    A[Get backup checksum from cloud] --> B{Cloud checksum > Local checksum?}
+
+    B -- Yes --> C[Loading backup data]
+    C --> D[Importing backup data]
+
+    B -- No --> E[Backup is up-to-date]
+```
+
+* Cloud checksum - backup file name.
+* Local checksum - sum of all card timestamps. 
+
 ## Tech-stack
 
 * [Kotlin](https://kotlinlang.org/)
