@@ -4,20 +4,37 @@ An open source cardholder app to store you cards in one place.
 
 ![Screenshots](screenshots.jpg)
 
-## Backup download scheme
+## Backup logic
+
+The following terminology is used below:
+
+* **Cloud checksum** - backup file name.
+* **Local checksum** - sum of all card timestamps.
 
 ```mermaid
-flowchart TD
-    A[Get backup checksum from cloud] --> B{Cloud checksum > Local checksum?}
+sequenceDiagram
+    participant Client
+    participant Cloud
 
-    B -- Yes --> C[Loading backup data]
-    C --> D[Importing backup data]
-
-    B -- No --> E[Backup is up-to-date]
+    Note over Client, Cloud: Getting cloud checksum
+    Client->>Cloud: Get cloud checksum
+    Cloud-->>Client: Cloud checksum
+    
+    Note over Client: Comparison of checksums
+    Client->>Client: Compare Cloud checksum > Local checksum
+    alt New backup available
+        Note over Client, Cloud: Download backup file
+        Client->>Cloud: Get backup file
+        Cloud-->>Client: Backup file bytes
+        
+        Note over Client: Import data from backup file
+        Client->>Client: Import cards into the database
+        Client->>Client: Backup completed successfully
+    else No update needed
+        Note over Client: Skip Download
+        Client->>Client: Backup is up-to-date
+    end
 ```
-
-* Cloud checksum - backup file name.
-* Local checksum - sum of all card timestamps. 
 
 ## Tech-stack
 
