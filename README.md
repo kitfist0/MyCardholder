@@ -11,6 +11,8 @@ The following terminology is used below:
 * **Cloud checksum** - backup file name.
 * **Local checksum** - sum of all card timestamps.
 
+### Backup Download
+
 ```mermaid
 sequenceDiagram
     participant Client
@@ -28,10 +30,41 @@ sequenceDiagram
         Cloud-->>Client: Backup file bytes
         
         Note over Client: Import data from backup file
+        Client->>Client: Reading cards from a backup file
         Client->>Client: Import cards into the database
-        Client->>Client: Backup completed successfully
-    else No update needed
+
+        Client->>Client: Backup downloaded successfully
+    else No download required
         Note over Client: Skip Download
+        Client->>Client: Backup is up-to-date
+    end
+```
+
+### Backup Upload
+    
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Cloud
+
+    Note over Client, Cloud: Getting cloud checksum
+    Client->>Cloud: Get cloud checksum
+    Cloud-->>Client: Cloud checksum
+    
+    Note over Client: Comparison of checksums
+    Client->>Client: Compare Cloud checksum < Local checksum
+    alt Cloud upload required
+        Note over Client: Writing a new backup file
+        Client->>Client: Export cards from the database
+        Client->>Client: Writing cards to a backup file
+
+        Note over Client, Cloud: Upload backup file
+        Client->>Cloud: Backup file bytes
+        Cloud-->>Client: OK        
+
+        Client->>Client: Backup uploaded successfully
+    else No upload required
+        Note over Client: Skip Upload
         Client->>Client: Backup is up-to-date
     end
 ```
