@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.R
 import my.cardholder.data.model.Coffee
 import my.cardholder.databinding.ItemCoffeeBinding
+import my.cardholder.util.ext.setStartEndCompoundDrawables
 
 class CoffeeAdapter(
     private val onItemClick: (productId: String) -> Unit,
@@ -37,12 +38,13 @@ class CoffeeAdapter(
         fun bind(coffee: Coffee) {
             binding.itemCoffeeText.apply {
                 text = coffee.name
-                val leftDrawable = if (coffee.isPurchased) {
-                    R.drawable.ic_product_purchased
-                } else {
-                    R.drawable.ic_product_default
-                }
-                setCompoundDrawablesWithIntrinsicBounds(leftDrawable, 0, 0, 0)
+                setStartEndCompoundDrawables(
+                    startDrawableResId = if (coffee.isPurchased) {
+                        R.drawable.ic_product_purchased
+                    } else {
+                        R.drawable.ic_product_default
+                    }
+                )
             }
         }
     }
