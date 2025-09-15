@@ -21,7 +21,6 @@ class SettingsViewModel @Inject constructor(
             multiColumnListEnabled = false,
             cloudSyncCardText = Text.Simple(""),
             cloudSyncEnabled = false,
-            launchCloudSignInRequest = null,
         )
     )
     val state = _state.asStateFlow()

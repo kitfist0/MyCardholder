@@ -1,6 +1,5 @@
 package my.cardholder.ui.settings
 
-import android.content.Intent
 import my.cardholder.util.Text
 
 data class SettingsState(
@@ -8,5 +7,4 @@ data class SettingsState(
     val multiColumnListEnabled: Boolean,
     val cloudSyncCardText: Text,
     val cloudSyncEnabled: Boolean,
-    val launchCloudSignInRequest: Intent? = null,
 )
