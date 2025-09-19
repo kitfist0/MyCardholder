@@ -6,14 +6,16 @@ import com.google.zxing.common.BitMatrix
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.set
 
 fun File.writeBarcodeBitmap(bitMatrix: BitMatrix) {
     val width = bitMatrix.width
     val height = bitMatrix.height
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val bitmap = createBitmap(width, height)
     for (i in 0 until width) {
         for (j in 0 until height) {
-            bitmap.setPixel(i, j, if (bitMatrix[i, j]) Color.BLACK else Color.WHITE)
+            bitmap[i, j] = if (bitMatrix[i, j]) Color.BLACK else Color.WHITE
         }
     }
     val bos = ByteArrayOutputStream()
