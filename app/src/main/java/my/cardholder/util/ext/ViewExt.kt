@@ -29,9 +29,7 @@ import androidx.core.view.updatePadding
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.imageLoader
 import coil.load
-import coil.request.ImageRequest
 import coil.size.Size
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.textfield.TextInputLayout
@@ -39,6 +37,7 @@ import my.cardholder.R
 import java.io.File
 import androidx.core.graphics.toColorInt
 import com.google.android.material.color.MaterialColors
+import my.cardholder.util.LogoLoader
 
 fun EditText.setStartColoredSquareIcon(color: String) {
     val sizePx = dpToPx(24)
@@ -68,34 +67,31 @@ fun EditText.setStartIconFromUrl(
     @DrawableRes errorDrawableRes: Int,
 ) {
     val sizePx = dpToPx(24)
-    val cornerRadiusPx = dpToPx(4).toFloat()
+    val cornerRadiusPx = dpToPx(4)
 
-    val requestBuilder = ImageRequest.Builder(context)
-        .data(imageUrl)
-        .size(sizePx, sizePx)
-        .transformations(RoundedCornersTransformation(cornerRadiusPx))
-        .target(
-            onSuccess = {
-                it.setBounds(0, 0, sizePx, sizePx)
-                setCompoundDrawablesRelative(it, null, null, null)
-            },
-            onError = {
-                val backColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurfaceContainer, Color.LTGRAY)
-                val backDrawable = GradientDrawable().apply {
-                    shape = GradientDrawable.RECTANGLE
-                    setColor(backColor)
-                    cornerRadius = cornerRadiusPx
-                }
-                val imageDrawable = AppCompatResources.getDrawable(context, errorDrawableRes)?.mutate()
-                val insetSizePx = dpToPx(1)
-                val errorDrawable = LayerDrawable(arrayOf(backDrawable, imageDrawable))
-                errorDrawable.setLayerInset(1, insetSizePx, insetSizePx, insetSizePx, insetSizePx)
-                errorDrawable.setBounds(0, 0, sizePx, sizePx)
-                setCompoundDrawablesRelative(errorDrawable, null, null, null)
+    LogoLoader(context).load(
+        imageUrl = imageUrl,
+        sizePx = sizePx,
+        cornerRadiusPx = cornerRadiusPx,
+        onSuccess = {
+            it.setBounds(0, 0, sizePx, sizePx)
+            setCompoundDrawablesRelative(it, null, null, null)
+        },
+        onError = {
+            val backColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurfaceContainer, Color.LTGRAY)
+            val backDrawable = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                setColor(backColor)
+                cornerRadius = cornerRadiusPx.toFloat()
             }
-        )
-
-    context.imageLoader.enqueue(requestBuilder.build())
+            val imageDrawable = AppCompatResources.getDrawable(context, errorDrawableRes)?.mutate()
+            val insetSizePx = dpToPx(1)
+            val errorDrawable = LayerDrawable(arrayOf(backDrawable, imageDrawable))
+            errorDrawable.setLayerInset(1, insetSizePx, insetSizePx, insetSizePx, insetSizePx)
+            errorDrawable.setBounds(0, 0, sizePx, sizePx)
+            setCompoundDrawablesRelative(errorDrawable, null, null, null)
+        }
+    )
 }
 
 fun TextView.setStartEndCompoundDrawables(
@@ -191,14 +187,15 @@ fun ImageView.loadLogoImage(
 ) {
     logoUrl?.ifEmpty { null }
         ?.let {
-            load(it) {
-                size(512)
-                transformations(
-                    RoundedCornersTransformation(
-                        resources.getDimensionPixelSize(R.dimen.card_item_square_logo_corner_radius).toFloat()
-                    )
-                )
-            }
+            val sizePx = dpToPx(512)
+            val cornerRadiusPx = resources.getDimensionPixelSize(R.dimen.card_item_square_logo_corner_radius)
+            LogoLoader(context).load(
+                imageUrl = logoUrl,
+                sizePx = sizePx,
+                cornerRadiusPx = cornerRadiusPx,
+                onSuccess = { setImageDrawable(it) },
+                onError = { setImageResource(defaultDrawableRes) }
+            )
         }
         ?: setImageResource(defaultDrawableRes)
 }
