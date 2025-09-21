@@ -15,6 +15,7 @@ import my.cardholder.data.model.Category
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.ImageUrlValidator
+import my.cardholder.util.NetworkChecker
 import my.cardholder.util.Text
 import javax.inject.Inject
 
@@ -24,6 +25,7 @@ class CardEditViewModel @Inject constructor(
     private val cardRepository: CardRepository,
     private val categoryRepository: CategoryRepository,
     private val imageUrlValidator: ImageUrlValidator,
+    private val networkChecker: NetworkChecker,
 ) : BaseViewModel() {
 
     private companion object {
@@ -122,7 +124,11 @@ class CardEditViewModel @Inject constructor(
             cardLogo?.let {
                 delay(LOGO_VALIDATION_DELAY_MILLIS)
                 if (!imageUrlValidator.isValid(it)) {
-                    showToast(Text.Resource(R.string.card_edit_invalid_link_toast_message))
+                    if (networkChecker.isNetworkAvailable()) {
+                        showToast(Text.Resource(R.string.card_edit_invalid_link_toast_message))
+                    } else {
+                        showToast(Text.Resource(R.string.card_edit_no_connection_error_message))
+                    }
                 }
             }
         }

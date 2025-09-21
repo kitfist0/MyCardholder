@@ -50,6 +50,7 @@
     <string name="card_edit_name_hint">Name</string>
     <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
     <string name="card_edit_invalid_link_toast_message">Ungültiger Bildlink!</string>
+    <string name="card_edit_no_connection_error_message">Internetverbindung erforderlich!</string>
     <!--endregion-->
 
     <!--region CardList-->
