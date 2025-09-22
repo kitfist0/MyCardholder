@@ -44,12 +44,12 @@
     <string name="card_edit_category_hint">Catégorie</string>
     <string name="card_edit_color_hint">Couleur</string>
     <string name="card_edit_content_hint">Texte</string>
+    <string name="card_edit_invalid_image_link_error_message">Lien d\'image invalide !</string>
+    <string name="card_edit_invalid_value_error_message">La valeur n\'est pas valide pour le type de code-barres sélectionné</string>
     <string name="card_edit_label">Modifier</string>
-    <string name="card_edit_logo_helper_text">Vous pouvez insérer un lien d\'image ici ☝</string>
+    <string name="card_edit_logo_helper_text">Vous pouvez coller le lien vers l\'image ou simplement saisir l\'adresse du site Web ici ☝</string>
     <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Nom</string>
-    <string name="card_edit_invalid_value_error_message">La valeur n\'est pas valide pour le type de code-barres sélectionné</string>
-    <string name="card_edit_invalid_link_toast_message">Lien d\'image invalide !</string>
     <string name="card_edit_no_connection_error_message">Connexion Internet requise !</string>
     <!--endregion-->
 

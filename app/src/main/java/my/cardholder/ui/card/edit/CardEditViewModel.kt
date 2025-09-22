@@ -125,7 +125,7 @@ class CardEditViewModel @Inject constructor(
                 delay(LOGO_VALIDATION_DELAY_MILLIS)
                 if (!imageUrlValidator.isValid(it)) {
                     if (networkChecker.isNetworkAvailable()) {
-                        showToast(Text.Resource(R.string.card_edit_invalid_link_toast_message))
+                        showToast(Text.Resource(R.string.card_edit_invalid_image_link_error_message))
                     } else {
                         showToast(Text.Resource(R.string.card_edit_no_connection_error_message))
                     }

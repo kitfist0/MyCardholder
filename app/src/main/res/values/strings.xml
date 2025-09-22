@@ -44,12 +44,12 @@
     <string name="card_edit_category_hint">Category</string>
     <string name="card_edit_color_hint">Color</string>
     <string name="card_edit_content_hint">Text</string>
+    <string name="card_edit_invalid_image_link_error_message">Invalid image link!</string>
+    <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>
     <string name="card_edit_label">Edit</string>
-    <string name="card_edit_logo_helper_text">You can insert an image link here ☝</string>
+    <string name="card_edit_logo_helper_text">You can paste the link to the image or just enter the website address here ☝</string>
     <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Name</string>
-    <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>
-    <string name="card_edit_invalid_link_toast_message">Invalid image link!</string>
     <string name="card_edit_no_connection_error_message">Internet connection required!</string>
     <!--endregion-->
 

@@ -44,12 +44,12 @@
     <string name="card_edit_category_hint">Категория</string>
     <string name="card_edit_color_hint">Цвет</string>
     <string name="card_edit_content_hint">Текст</string>
+    <string name="card_edit_invalid_image_link_error_message">Некорректная ссылка на картинку!</string>
+    <string name="card_edit_invalid_value_error_message">Значение недопустимо для выбранного типа штрих-кода</string>
     <string name="card_edit_label">Редактирование карты</string>
-    <string name="card_edit_logo_helper_text">Сюда можно вставить ссылку на картинку ☝</string>
+    <string name="card_edit_logo_helper_text">Вы можете вставить ссылку на изображение или просто указать адрес сайта здесь ☝</string>
     <string name="card_edit_logo_hint">Логотип</string>
     <string name="card_edit_name_hint">Имя</string>
-    <string name="card_edit_invalid_value_error_message">Значение недопустимо для выбранного типа штрих-кода</string>
-    <string name="card_edit_invalid_link_toast_message">Некорректная ссылка на картинку!</string>
     <string name="card_edit_no_connection_error_message">Необходимо соединеие с интернетом!</string>
     <!--endregion-->
 

@@ -44,12 +44,12 @@
     <string name="card_edit_category_hint">Kategorie</string>
     <string name="card_edit_color_hint">Farbe</string>
     <string name="card_edit_content_hint">Text</string>
+    <string name="card_edit_invalid_image_link_error_message">Ungültiger Bildlink!</string>
+    <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
     <string name="card_edit_label">Kartenbearbeitung</string>
-    <string name="card_edit_logo_helper_text">Sie können hier einen Bildlink einfügen ☝</string>
+    <string name="card_edit_logo_helper_text">Sie können den Link zum Bild einfügen oder einfach die Website-Adresse hier eingeben ☝</string>
     <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Name</string>
-    <string name="card_edit_invalid_value_error_message">Der Wert ist für den ausgewählten Barcodetyp ungültig</string>
-    <string name="card_edit_invalid_link_toast_message">Ungültiger Bildlink!</string>
     <string name="card_edit_no_connection_error_message">Internetverbindung erforderlich!</string>
     <!--endregion-->
 
