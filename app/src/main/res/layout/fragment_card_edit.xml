@@ -25,9 +25,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@sample/sample_cards.json/cards/color"
+                tools:background="@sample/sample_card.json/color"
                 tools:ignore="ContentDescription"
-                tools:src="@sample/sample_cards.json/cards/image" />
+                tools:src="@sample/sample_card.json/image" />
 
             <Button
                 android:id="@+id/card_edit_delete_card_button"
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:inputType="textShortMessage"
-                    tools:text="@sample/sample_cards.json/cards/name" />
+                    tools:text="@sample/sample_card.json/name" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:inputType="textShortMessage"
-                    tools:text="@sample/sample_cards.json/cards/content" />
+                    tools:text="@sample/sample_card.json/content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    tools:text="@sample/sample_cards.json/cards/category" />
+                    tools:text="@sample/sample_card.json/category" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,7 +123,9 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
                     android:inputType="none"
-                    tools:text="@sample/sample_cards.json/cards/color" />
+                    tools:drawableStart="@drawable/ic_circle"
+                    tools:drawableTint="@sample/sample_card.json/color"
+                    tools:text="@sample/sample_card.json/color" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,6 +148,7 @@
                     android:drawablePadding="8dp"
                     android:imeOptions="actionDone"
                     android:inputType="textShortMessage"
+                    tools:drawableStart="@drawable/ic_broken_img"
                     tools:text="@tools:sample/lorem" />
 
             </com.google.android.material.textfield.TextInputLayout>
