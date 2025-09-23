@@ -59,6 +59,10 @@
     <string name="card_list_import_fab_title">Импортировать карты</string>
     <!--endregion-->
 
+    <!--region CardLogo-->
+    <string name="card_logo_dialog_title">В текстовое поле можно вставить ссылку на логотип или ввести адрес сайта, например, https://example.com. При вводе адреса сайта будет осуществлено извлечение иконки этого сайта. Извлеченная иконка может быть не самого лучшего разрешения или может отсутвовать, поэтому лучше использовать прямую ссылку на логотип.</string>
+    <!--endregion-->
+
     <!--region CardSearch-->
     <string name="card_search_add_categories_header_text">Добавить категории</string>
     <string name="card_search_in_all_categories_hint">Поиск во всех категориях</string>

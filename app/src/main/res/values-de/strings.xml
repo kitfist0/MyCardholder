@@ -59,6 +59,10 @@
     <string name="card_list_import_fab_title">Karten importieren</string>
     <!--endregion-->
 
+    <!--region CardLogo-->
+    <string name="card_logo_dialog_title">Sie können einen Logo-Link oder eine Website-Adresse, z. B. https://example.com, in das Textfeld einfügen. Durch die Eingabe einer Website-Adresse wird das Symbol der Website extrahiert. Das extrahierte Symbol hat möglicherweise nicht die beste Auflösung oder fehlt. Verwenden Sie daher am besten einen direkten Link zum Logo.</string>
+    <!--endregion-->
+
     <!--region CardSearch-->
     <string name="card_search_add_categories_header_text">Kategorien hinzufügen</string>
     <string name="card_search_in_all_categories_hint">Suche in allen Kategorien</string>
