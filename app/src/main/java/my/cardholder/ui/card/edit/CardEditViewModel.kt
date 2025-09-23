@@ -29,7 +29,7 @@ class CardEditViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private companion object {
-        const val LOGO_VALIDATION_DELAY_MILLIS = 800L
+        const val LOGO_VALIDATION_DELAY_MILLIS = 2000L
     }
 
     private val cardId = CardEditFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
