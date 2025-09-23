@@ -187,8 +187,8 @@ fun ImageView.loadLogoImage(
 ) {
     logoUrl?.ifEmpty { null }
         ?.let {
-            val sizePx = dpToPx(512)
-            val cornerRadiusPx = resources.getDimensionPixelSize(R.dimen.card_item_square_logo_corner_radius)
+            val sizePx = dpToPx(128)
+            val cornerRadiusPx = dpToPx(16)
             LogoLoader(context).load(
                 imageUrl = logoUrl,
                 sizePx = sizePx,

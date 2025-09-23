@@ -22,7 +22,6 @@
     <dimen name="card_item_rectangle_barcode_width">250dp</dimen>
     <dimen name="card_item_square_barcode_height">100dp</dimen>
     <dimen name="card_item_square_barcode_width">100dp</dimen>
-    <dimen name="card_item_square_logo_corner_radius">16dp</dimen>
     <dimen name="card_item_square_logo_height">100dp</dimen>
     <dimen name="card_item_square_logo_width">100dp</dimen>
     <!--endregion-->
