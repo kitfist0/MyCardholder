@@ -137,8 +137,14 @@
             app:destination="@id/delete_card_dialog" />
         <action
             android:id="@+id/from_card_edit_to_card_logo"
-            app:destination="@id/card_logo_dialog" />
+            app:destination="@id/card_logo_fragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/card_logo_fragment"
+        android:name="my.cardholder.ui.card.logo.CardLogoFragment"
+        android:label="Logo"
+        tools:layout="@layout/fragment_card_logo" />
 
     <fragment
         android:id="@+id/card_zoom_fragment"
@@ -247,11 +253,5 @@
         android:name="my.cardholder.ui.card.backup.CardBackupDialog"
         android:label="@string/card_backup_dialog_label"
         tools:layout="@layout/dialog_card_backup" />
-
-    <dialog
-        android:id="@+id/card_logo_dialog"
-        android:name="my.cardholder.ui.card.logo.LogoCardDialog"
-        android:label="Logo"
-        tools:layout="@layout/dialog_card_logo" />
 
 </navigation>
