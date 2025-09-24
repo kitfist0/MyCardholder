@@ -111,6 +111,10 @@ class CardEditViewModel @Inject constructor(
         }
     }
 
+    fun onCardLogoHelpIconClicked() {
+        navigate(CardEditFragmentDirections.fromCardEditToCardLogo())
+    }
+
     fun onCardLogoChanged(changedLogo: String?) {
         if (changedLogo == null || cardLogo == changedLogo) {
             return

@@ -145,6 +145,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_help"
                     android:drawablePadding="8dp"
                     android:imeOptions="actionDone"
                     android:inputType="textShortMessage"

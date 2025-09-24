@@ -2,6 +2,7 @@ package my.cardholder.util.ext
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -11,6 +12,7 @@ import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.os.Build
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -68,6 +70,7 @@ fun EditText.setStartIconFromUrl(
 ) {
     val sizePx = dpToPx(24)
     val cornerRadiusPx = dpToPx(4)
+    val endDrawable = compoundDrawables[2]
 
     LogoLoader(context).load(
         imageUrl = imageUrl,
@@ -75,7 +78,7 @@ fun EditText.setStartIconFromUrl(
         cornerRadiusPx = cornerRadiusPx,
         onSuccess = {
             it.setBounds(0, 0, sizePx, sizePx)
-            setCompoundDrawablesRelative(it, null, null, null)
+            setCompoundDrawablesRelative(it, null, endDrawable, null)
         },
         onError = {
             val backColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurfaceContainer, Color.LTGRAY)
@@ -89,7 +92,8 @@ fun EditText.setStartIconFromUrl(
             val errorDrawable = LayerDrawable(arrayOf(backDrawable, imageDrawable))
             errorDrawable.setLayerInset(1, insetSizePx, insetSizePx, insetSizePx, insetSizePx)
             errorDrawable.setBounds(0, 0, sizePx, sizePx)
-            setCompoundDrawablesRelative(errorDrawable, null, null, null)
+
+            setCompoundDrawablesRelative(errorDrawable, null, endDrawable, null)
         }
     )
 }
@@ -205,6 +209,36 @@ fun EditText.onImeActionDone(callback: () -> Unit) {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             callback.invoke()
             return@setOnEditorActionListener true
+        }
+        false
+    }
+}
+
+fun EditText.isClickOnDrawableEnd(event: MotionEvent): Boolean {
+    val drawableEnd = this.compoundDrawablesRelative[2]
+
+    if (drawableEnd != null) {
+        val drawableWidth = drawableEnd.intrinsicWidth
+        val totalWidth = this.width
+
+        val drawableStartX = totalWidth - this.paddingEnd - drawableWidth
+        val drawableEndX = totalWidth - this.paddingEnd
+
+        return event.x >= drawableStartX && event.x <= drawableEndX
+    }
+
+    return false
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun EditText.setDrawableEndClickListener(onClick: () -> Unit) {
+    this.setOnTouchListener { view, event ->
+        if (event.action == MotionEvent.ACTION_UP) {
+            val editText = view as EditText
+            if (editText.isClickOnDrawableEnd(event)) {
+                onClick()
+                return@setOnTouchListener true
+            }
         }
         false
     }
