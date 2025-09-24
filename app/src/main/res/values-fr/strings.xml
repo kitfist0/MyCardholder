@@ -60,7 +60,11 @@
     <!--endregion-->
 
     <!--region CardLogo-->
-    <string name="card_logo_dialog_title">Vous pouvez coller un lien vers un logo ou saisir l\'adresse d\'un site web, par exemple https://exemple.com, dans le champ de texte. La saisie de l\'adresse du site web extraira l\'icône correspondante. L\'icône extraite peut ne pas avoir la meilleure résolution ou être manquante ; il est donc préférable d\'utiliser un lien direct vers le logo.</string>
+    <string name="card_logo_explanation_text">Vous pouvez coller un lien vers un logo ou saisir l\'adresse d\'un site web, par exemple https://exemple.com, dans le champ de texte. La saisie de l\'adresse du site web extraira l\'icône correspondante. L\'icône extraite peut ne pas avoir la meilleure résolution ou être manquante ; il est donc préférable d\'utiliser un lien direct vers le logo.</string>
+    <string name="card_logo_link_to_image_hint">Lien vers l\'image</string>
+    <string name="card_logo_link_to_website_hint">Lien vers le site Web</string>
+    <string name="card_logo_fab_title">J\'ai compris</string>
+    <string name="card_logo_toolbar_title">Téléchargement de logos</string>
     <!--endregion-->
 
     <!--region CardSearch-->

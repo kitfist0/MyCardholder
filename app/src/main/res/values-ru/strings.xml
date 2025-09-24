@@ -60,7 +60,11 @@
     <!--endregion-->
 
     <!--region CardLogo-->
-    <string name="card_logo_dialog_title">В текстовое поле можно вставить ссылку на логотип или ввести адрес сайта, например, https://example.com. При вводе адреса сайта будет осуществлено извлечение иконки этого сайта. Извлеченная иконка может быть не самого лучшего разрешения или может отсутвовать, поэтому лучше использовать прямую ссылку на логотип.</string>
+    <string name="card_logo_explanation_text">В текстовое поле можно вставить ссылку на логотип или ввести адрес сайта, например, https://example.com. При вводе адреса сайта будет осуществлено извлечение иконки этого сайта. Извлеченная иконка может быть не самого лучшего разрешения или может отсутвовать, поэтому лучше использовать прямую ссылку на логотип.</string>
+    <string name="card_logo_link_to_image_hint">Ссылка на изображение</string>
+    <string name="card_logo_link_to_website_hint">Ссылка на сайт</string>
+    <string name="card_logo_fab_title">Понятно</string>
+    <string name="card_logo_toolbar_title">Загрузка логотипов</string>
     <!--endregion-->
 
     <!--region CardSearch-->

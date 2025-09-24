@@ -60,7 +60,11 @@
     <!--endregion-->
 
     <!--region CardLogo-->
-    <string name="card_logo_dialog_title">Sie können einen Logo-Link oder eine Website-Adresse, z. B. https://example.com, in das Textfeld einfügen. Durch die Eingabe einer Website-Adresse wird das Symbol der Website extrahiert. Das extrahierte Symbol hat möglicherweise nicht die beste Auflösung oder fehlt. Verwenden Sie daher am besten einen direkten Link zum Logo.</string>
+    <string name="card_logo_explanation_text">Sie können einen Logo-Link oder eine Website-Adresse, z. B. https://example.com, in das Textfeld einfügen. Durch die Eingabe einer Website-Adresse wird das Symbol der Website extrahiert. Das extrahierte Symbol hat möglicherweise nicht die beste Auflösung oder fehlt. Verwenden Sie daher am besten einen direkten Link zum Logo.</string>
+    <string name="card_logo_link_to_image_hint">Bildlink</string>
+    <string name="card_logo_link_to_website_hint">Website-Link</string>
+    <string name="card_logo_fab_title">Klar</string>
+    <string name="card_logo_toolbar_title">Logos herunterladen</string>
     <!--endregion-->
 
     <!--region CardSearch-->

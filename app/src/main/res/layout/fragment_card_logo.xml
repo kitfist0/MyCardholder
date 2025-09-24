@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.card.logo.CardLogoFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/card_logo_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/card_logo_toolbar_title" />
+
+    <TextView
+        android:id="@+id/card_logo_explanation_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:autoLink="web"
+        android:background="@drawable/bg_surface_container"
+        android:padding="8dp"
+        android:text="@string/card_logo_explanation_text"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_logo_toolbar" />
+
+    <ImageView
+        android:id="@+id/card_logo_website_icon_sample_image"
+        android:layout_width="@dimen/card_item_square_barcode_height"
+        android:layout_height="@dimen/card_item_square_barcode_height"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_white_square"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_logo_explanation_text"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_launcher_foreground" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/card_logo_website_icon_sample_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="@string/card_logo_link_to_website_hint"
+        app:layout_constraintBottom_toBottomOf="@id/card_logo_website_icon_sample_image"
+        app:layout_constraintEnd_toStartOf="@id/card_logo_website_icon_sample_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/card_logo_website_icon_sample_image">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/card_logo_link_to_website_hint"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            tools:text="https://play.google.com" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/card_logo_image_link_sample_image"
+        android:layout_width="@dimen/card_item_square_barcode_height"
+        android:layout_height="@dimen/card_item_square_barcode_height"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_white_square"
+        android:elevation="4dp"
+        android:ellipsize="end"
+        android:lines="4"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_logo_website_icon_sample_image"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_launcher_foreground" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/card_logo_image_link_sample_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="@string/card_logo_link_to_image_hint"
+        app:layout_constraintBottom_toBottomOf="@id/card_logo_image_link_sample_image"
+        app:layout_constraintEnd_toStartOf="@id/card_logo_image_link_sample_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/card_logo_image_link_sample_image">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:text="@string/card_logo_link_to_image_hint"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            tools:text="https://play-lh.googleusercontent.com/CukdHWulsmo9nwmiLmJg9tViyUv2UfWV5KUMw-Emm-wnAmKfjItajKidbdRw0MR8i6o=w480-h960-rw" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/card_logo_ok_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:text="@string/card_logo_fab_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -60,7 +60,11 @@
     <!--endregion-->
 
     <!--region CardLogo-->
-    <string name="card_logo_dialog_title">You can paste a logo link or enter a website address, such as https://example.com, into the text field. Entering a website address will extract the website\'s icon. The extracted icon may not be the best resolution or may be missing, so it\'s best to use a direct link to the logo.</string>
+    <string name="card_logo_explanation_text">You can paste a logo link or enter a website address, such as https://example.com, into the text field. Entering a website address will extract the website\'s icon. The extracted icon may not be the best resolution or may be missing, so it\'s best to use a direct link to the logo.</string>
+    <string name="card_logo_link_to_image_hint">Image link</string>
+    <string name="card_logo_link_to_website_hint">Website link</string>
+    <string name="card_logo_fab_title">Got it</string>
+    <string name="card_logo_toolbar_title">Downloading logos</string>
     <!--endregion-->
 
     <!--region CardSearch-->
