@@ -2,6 +2,7 @@ package my.cardholder.util
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
@@ -19,6 +20,7 @@ class LogoLoader(
         onError: () -> Unit,
     ) {
         val imageRequestBuilder = ImageRequest.Builder(context)
+            .decoderFactory(SvgDecoder.Factory())
             .data(imageUrl)
             .size(sizePx, sizePx)
             .allowHardware(false)

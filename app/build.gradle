@@ -167,7 +167,9 @@ dependencies {
     rustoreImplementation(libs.rustore.billingclient)
 
     // Coil
-    implementation(libs.coil.kt)
+    implementation(libs.coil)
+    implementation(libs.coil.base)
+    implementation(libs.coil.svg)
 
     // Drive
     implementation(libs.google.api.client.android) {

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.13.0"
 camerax = "1.4.2"
+coil = "2.7.0"
 crashlytics = "3.0.6"
 gms = "4.4.3"
 hilt = "2.57.1"
@@ -36,7 +37,9 @@ googleplay-billingclient = { group = "com.android.billingclient", name = "billin
 rustore-billingclient = { group = "ru.rustore.sdk", name = "billingclient", version = "9.0.1" }
 
 # coil
-coil-kt = { group = "io.coil-kt", name = "coil", version = "2.7.0" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+coil-base = { group = "io.coil-kt", name = "coil-base", version.ref = "coil" }
+coil-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
 
 # google drive
 # mvnrepository.com/artifact/com.google.api-client/google-api-client-android
