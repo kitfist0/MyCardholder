@@ -12,6 +12,7 @@ class ImageUrlValidator @Inject constructor(
         LogoLoader(context).load(
             imageUrl = url,
             sizePx = 1,
+            paddingPx = 0,
             cornerRadiusPx = 0,
             onSuccess = {
                 continuation.resume(true)

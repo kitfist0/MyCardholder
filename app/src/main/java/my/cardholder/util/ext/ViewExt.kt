@@ -69,12 +69,14 @@ fun EditText.setStartIconFromUrl(
     @DrawableRes errorDrawableRes: Int,
 ) {
     val sizePx = dpToPx(24)
+    val paddingPx = dpToPx(1)
     val cornerRadiusPx = dpToPx(4)
     val endDrawable = compoundDrawables[2]
 
     LogoLoader(context).load(
         imageUrl = imageUrl,
         sizePx = sizePx,
+        paddingPx = paddingPx,
         cornerRadiusPx = cornerRadiusPx,
         onSuccess = {
             it.setBounds(0, 0, sizePx, sizePx)
@@ -192,10 +194,12 @@ fun ImageView.loadLogoImage(
     logoUrl?.ifEmpty { null }
         ?.let {
             val sizePx = dpToPx(128)
+            val paddingPx = dpToPx(8)
             val cornerRadiusPx = dpToPx(16)
             LogoLoader(context).load(
                 imageUrl = logoUrl,
                 sizePx = sizePx,
+                paddingPx = paddingPx,
                 cornerRadiusPx = cornerRadiusPx,
                 onSuccess = { setImageDrawable(it) },
                 onError = { setImageResource(defaultDrawableRes) }

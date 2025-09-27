@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable
 import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
-import coil.transform.RoundedCornersTransformation
+import my.cardholder.util.logo.PaddedRoundedTransformation
 import java.net.URL
 
 class LogoLoader(
@@ -15,6 +15,7 @@ class LogoLoader(
     fun load(
         imageUrl: String?,
         sizePx: Int,
+        paddingPx: Int,
         cornerRadiusPx: Int,
         onSuccess: (Drawable) -> Unit,
         onError: () -> Unit,
@@ -24,7 +25,12 @@ class LogoLoader(
             .data(imageUrl)
             .size(sizePx, sizePx)
             .allowHardware(false)
-            .transformations(RoundedCornersTransformation(cornerRadiusPx.toFloat()))
+            .transformations(
+                PaddedRoundedTransformation(
+                    paddingPx = paddingPx,
+                    cornerRadiusPx = cornerRadiusPx,
+                )
+            )
             .target(
                 onSuccess = {
                     it.setBounds(0, 0, sizePx, sizePx)
@@ -36,7 +42,12 @@ class LogoLoader(
                         .data(favIconUrl)
                         .size(sizePx, sizePx)
                         .allowHardware(false)
-                        .transformations(RoundedCornersTransformation(cornerRadiusPx.toFloat()))
+                        .transformations(
+                            PaddedRoundedTransformation(
+                                paddingPx = paddingPx,
+                                cornerRadiusPx = cornerRadiusPx,
+                            )
+                        )
                         .target(
                             onSuccess = {
                                 it.setBounds(0, 0, sizePx, sizePx)
