@@ -71,7 +71,7 @@ fun EditText.setStartIconFromUrl(
     val sizePx = dpToPx(24)
     val paddingPx = dpToPx(1)
     val cornerRadiusPx = dpToPx(4)
-    val endDrawable = compoundDrawables[2]
+    val endDrawable = compoundDrawablesRelative[2]
 
     LogoLoader(context).load(
         imageUrl = imageUrl,
