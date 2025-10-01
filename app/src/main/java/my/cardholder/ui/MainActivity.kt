@@ -32,6 +32,7 @@ class MainActivity : BillingActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         installSplashScreen()
 
@@ -45,8 +46,6 @@ class MainActivity : BillingActivity() {
                 mainBottomNavView.isVisible = destinationIdsWithBottomNav.contains(destination.id)
             }
         }
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         collectWhenStarted(viewModel.nightModeEnabled) { isEnabled ->
             setDefaultNightMode(isEnabled)

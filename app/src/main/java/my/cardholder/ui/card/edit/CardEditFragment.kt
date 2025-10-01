@@ -31,10 +31,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets(top = false)
             val uniqueNameSuffix = args.cardId
-            cardEditBarcodeImage.apply {
-                updateVerticalPaddingAfterApplyingWindowInsets()
-                setupUniqueTransitionName(uniqueNameSuffix)
-            }
+            cardEditBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
             cardEditDeleteCardButton.setOnClickListener {
                 viewModel.onDeleteCardButtonClicked()
             }
