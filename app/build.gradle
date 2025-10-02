@@ -65,13 +65,7 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile = rootProject.file('cert/debug.keystore')
-            storePassword = 'android'
-            keyAlias = 'cardholder'
-            keyPassword = 'android'
-        }
-        release {
+        create("common") {
             storeFile = rootProject.file('cert/release.keystore')
             def propsFile = rootProject.file('cert/release.properties')
             def props = new Properties()
@@ -85,12 +79,12 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig = signingConfigs.getByName("common")
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.getByName("common")
         }
     }
 
