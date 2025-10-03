@@ -30,6 +30,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             val uniqueNameSuffix = args.cardId
             cardDisplayBarcodeImage.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
+                updateVerticalPaddingAfterApplyingWindowInsets()
                 setOnClickListener {
                     val extras = listOf(cardDisplayBarcodeImage).toNavExtras()
                     viewModel.onBarcodeImageClicked(extras)
