@@ -95,10 +95,6 @@ class SettingsViewModel @Inject constructor(
         navigate(SettingsFragmentDirections.fromSettingsToCoffee())
     }
 
-    fun onSupportedFormatsButtonClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToSpecs())
-    }
-
     fun onAboutAppButtonClicked() {
         navigate(SettingsFragmentDirections.fromSettingsToInfo())
     }

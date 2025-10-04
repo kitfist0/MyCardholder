@@ -38,9 +38,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             settingsCoffeeButton.setOnClickListener {
                 viewModel.onCoffeeButtonClicked()
             }
-            settingsSupportedFormatsButton.setOnClickListener {
-                viewModel.onSupportedFormatsButtonClicked()
-            }
             settingsAboutAppButton.setOnClickListener {
                 viewModel.onAboutAppButtonClicked()
             }
