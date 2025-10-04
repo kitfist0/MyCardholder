@@ -131,6 +131,7 @@
     <string name="info_dialog_label">Info</string>
     <string name="info_dialog_policy_button_text">Datenschutz-Bestimmungen</string>
     <string name="info_dialog_source_code_button_text">Quellcode</string>
+    <string name="info_dialog_supported_formats_button_text">Unterstützte Formate</string>
     <!--endregion-->
 
     <!--region Permission-->
@@ -155,7 +156,6 @@
     <string name="settings_switch_to_light_mode_button_text">Wechseln Sie in den Lichtmodus</string>
     <string name="settings_switch_to_multi_column_button_text">Zur mehrspaltigen Kartenliste wechseln</string>
     <string name="settings_switch_to_single_column_button_text">Zur einspaltigen Kartenliste wechseln</string>
-    <string name="settings_supported_formats_button_text">Unterstützte Formate</string>
     <!--endregion-->
 
     <!--region Snack-->

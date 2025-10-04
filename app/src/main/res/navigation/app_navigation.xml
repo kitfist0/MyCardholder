@@ -202,9 +202,6 @@
             android:id="@+id/from_settings_to_cloud_logout"
             app:destination="@id/cloud_logout_fragment" />
         <action
-            android:id="@+id/from_settings_to_specs"
-            app:destination="@id/specs_fragment" />
-        <action
             android:id="@+id/from_settings_to_info"
             app:destination="@id/info_dialog" />
         <action
@@ -240,7 +237,11 @@
         android:id="@+id/info_dialog"
         android:name="my.cardholder.ui.info.InfoDialog"
         android:label="@string/info_dialog_label"
-        tools:layout="@layout/dialog_info" />
+        tools:layout="@layout/dialog_info" >
+        <action
+            android:id="@+id/from_info_to_specs"
+            app:destination="@id/specs_fragment" />
+    </dialog>
 
     <dialog
         android:id="@+id/coffee_dialog"

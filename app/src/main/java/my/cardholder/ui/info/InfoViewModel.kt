@@ -19,6 +19,10 @@ class InfoViewModel @Inject constructor() : BaseViewModel() {
     )
     val dialogTitle = _dialogTitle.asStateFlow()
 
+    fun onSupportedFormatsButtonClicked() {
+        navigate(InfoDialogDirections.fromInfoToSpecs())
+    }
+
     fun onPrivacyPolicyButtonClicked() {
         startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_POLICY)
     }

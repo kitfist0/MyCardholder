@@ -25,6 +25,22 @@
         tools:text="MyCardholder v1.0.0\nMidnightDev, 2023" />
 
     <TextView
+        android:id="@+id/info_supported_formats_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_sheet_button_height"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
+        android:gravity="center_vertical"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="@string/info_dialog_supported_formats_button_text"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:drawableStartCompat="@drawable/ic_qr_code"
+        app:drawableTint="?colorControlNormal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info_dev_title_text" />
+
+    <TextView
         android:id="@+id/info_policy_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/bottom_sheet_button_height"
@@ -35,9 +51,10 @@
         android:text="@string/info_dialog_policy_button_text"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_policy"
+        app:drawableTint="?colorControlNormal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/info_dev_title_text" />
+        app:layout_constraintTop_toBottomOf="@id/info_supported_formats_button" />
 
     <TextView
         android:id="@+id/info_source_code_button"
@@ -50,6 +67,7 @@
         android:text="@string/info_dialog_source_code_button_text"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_source_code"
+        app:drawableTint="?colorControlNormal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/info_policy_button" />
@@ -65,6 +83,7 @@
         android:text="@string/info_dialog_copyright_button_text"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_copyright"
+        app:drawableTint="?colorControlNormal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/info_source_code_button" />

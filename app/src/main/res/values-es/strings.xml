@@ -131,6 +131,7 @@
     <string name="info_dialog_label">Información</string>
     <string name="info_dialog_policy_button_text">Política de privacidad</string>
     <string name="info_dialog_source_code_button_text">Código fuente</string>
+    <string name="info_dialog_supported_formats_button_text">Formatos admitidos</string>
     <!--endregion-->
 
     <!--region Permission-->
@@ -155,7 +156,6 @@
     <string name="settings_switch_to_light_mode_button_text">Cambiar al modo de luz</string>
     <string name="settings_switch_to_multi_column_button_text">Cambiar a una lista de tarjetas de varias columnas</string>
     <string name="settings_switch_to_single_column_button_text">Cambiar a una lista de tarjetas de una sola columna</string>
-    <string name="settings_supported_formats_button_text">Formatos admitidos</string>
     <!--endregion-->
 
     <!--region Snack-->

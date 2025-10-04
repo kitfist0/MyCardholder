@@ -131,6 +131,7 @@
     <string name="info_dialog_label">Информация</string>
     <string name="info_dialog_policy_button_text">Политика безопасности</string>
     <string name="info_dialog_source_code_button_text">Исходный код</string>
+    <string name="info_dialog_supported_formats_button_text">Поддерживаемые форматы</string>
     <!--endregion-->
 
     <!--region Permission-->
@@ -155,7 +156,6 @@
     <string name="settings_switch_to_light_mode_button_text">Включить светлую тему</string>
     <string name="settings_switch_to_multi_column_button_text">Включить отображение карт в несколько колонок</string>
     <string name="settings_switch_to_single_column_button_text">Включить отображение карт в одну колонку</string>
-    <string name="settings_supported_formats_button_text">Поддерживаемые форматы</string>
     <!--endregion-->
 
     <!--region Snack-->

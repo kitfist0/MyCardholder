@@ -15,6 +15,9 @@ class InfoDialog : BaseDialogFragment<DialogInfoBinding>(
 
     override fun initViews() {
         with(binding) {
+            infoSupportedFormatsButton.setOnClickListener {
+                viewModel.onSupportedFormatsButtonClicked()
+            }
             infoPolicyButton.setOnClickListener {
                 viewModel.onPrivacyPolicyButtonClicked()
             }
