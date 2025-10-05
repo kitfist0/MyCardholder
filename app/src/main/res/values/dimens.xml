@@ -40,6 +40,12 @@
     <dimen name="search_item_text_horizontal_padding">8dp</dimen>
     <!--endregion-->
 
+    <!--region SettingsItem-->
+    <dimen name="settings_item_content_padding">16dp</dimen>
+    <dimen name="settings_item_image_size">24dp</dimen>
+    <dimen name="settings_item_text_horizontal_padding">16dp</dimen>
+    <!--endregion-->
+
     <!--region SpecItem-->
     <dimen name="spec_item_content_padding">16dp</dimen>
     <dimen name="spec_item_image_height">75dp</dimen>
