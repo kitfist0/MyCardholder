@@ -8,7 +8,7 @@
     android:padding="@dimen/settings_item_content_padding">
 
     <ImageView
-        android:id="@+id/item_settings_image"
+        android:id="@+id/item_settings_default_image"
         android:layout_width="@dimen/settings_item_image_size"
         android:layout_height="@dimen/settings_item_image_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,31 +19,31 @@
         tools:src="@drawable/ic_menu_settings" />
 
     <TextView
-        android:id="@+id/item_settings_title_text"
+        android:id="@+id/item_settings_default_title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
         android:paddingHorizontal="@dimen/settings_item_text_horizontal_padding"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        app:layout_constraintBottom_toTopOf="@+id/item_settings_subtitle_text"
+        app:layout_constraintBottom_toTopOf="@id/item_settings_default_subtitle_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/item_settings_image"
-        app:layout_constraintTop_toTopOf="@id/item_settings_image"
+        app:layout_constraintStart_toEndOf="@id/item_settings_default_image"
+        app:layout_constraintTop_toTopOf="@id/item_settings_default_image"
         tools:text="Item title" />
 
     <TextView
-        android:id="@+id/item_settings_subtitle_text"
+        android:id="@+id/item_settings_default_subtitle_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
         android:paddingHorizontal="@dimen/settings_item_text_horizontal_padding"
         android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
-        app:layout_constraintBottom_toBottomOf="@id/item_settings_image"
-        app:layout_constraintStart_toEndOf="@id/item_settings_image"
-        app:layout_constraintStart_toStartOf="@+id/item_settings_title_text"
-        app:layout_constraintTop_toBottomOf="@id/item_settings_title_text"
+        app:layout_constraintBottom_toBottomOf="@id/item_settings_default_image"
+        app:layout_constraintStart_toEndOf="@id/item_settings_default_image"
+        app:layout_constraintStart_toStartOf="@id/item_settings_default_title_text"
+        app:layout_constraintTop_toBottomOf="@id/item_settings_default_title_text"
         tools:text="Subtitle text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
