@@ -10,8 +10,8 @@ enum class SettingsItem {
 }
 
 fun SettingsItem.getTitle(): String = when (this) {
-    SettingsItem.THEME -> "Theme"
-    SettingsItem.COLUMNS -> "List appearance"
+    SettingsItem.THEME -> "App theme"
+    SettingsItem.COLUMNS -> "Number of columns"
     SettingsItem.CATEGORIES -> "Card categories"
     SettingsItem.BACKUP -> "Import/export cards"
     SettingsItem.COFFEE -> "Coffee for developers"
