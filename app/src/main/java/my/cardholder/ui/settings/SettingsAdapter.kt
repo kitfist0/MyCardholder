@@ -92,25 +92,26 @@ class SettingsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_HEADER -> {
-                val binding = ItemSettingsHeaderBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+            TYPE_HEADER ->
+                HeaderViewHolder(
+                    ItemSettingsHeaderBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
-                HeaderViewHolder(binding)
-            }
 
-            TYPE_ITEM -> {
-                val binding = ItemSettingsDefaultBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+            TYPE_ITEM ->
+                ItemViewHolder(
+                    ItemSettingsDefaultBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
-                ItemViewHolder(binding)
-            }
 
-            else -> throw IllegalArgumentException("Unknown view type: $viewType")
+            else ->
+                throw IllegalArgumentException("Unknown view type: $viewType")
         }
     }
 
