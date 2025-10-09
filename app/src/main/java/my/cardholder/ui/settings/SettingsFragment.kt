@@ -1,13 +1,11 @@
 package my.cardholder.ui.settings
 
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import my.cardholder.R
 import my.cardholder.databinding.FragmentSettingsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
-import my.cardholder.util.ext.setStartEndCompoundDrawables
-import my.cardholder.util.ext.textToString
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -15,83 +13,25 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
 
+    private val listAdapter = SettingsAdapter(
+        onItemClicked = { viewModel.onListItemClicked(it) }
+    )
+
     override val viewModel: SettingsViewModel by viewModels()
 
     override fun initViews() {
-        with(binding) {
-            root.updateVerticalPaddingAfterApplyingWindowInsets()
-            settingsCloudSyncCard.setOnClickListener {
-                viewModel.onCloudSyncCardClicked()
-            }
-            settingsColorThemeButton.setOnClickListener {
-                viewModel.onColorThemeButtonClicked()
-            }
-            settingsCardListViewButton.setOnClickListener {
-                viewModel.onCardListViewButtonClicked()
-            }
-            settingsManageCategoriesButton.setOnClickListener {
-                viewModel.onManageCategoriesButtonClicked()
-            }
-            settingsImportExportCardsButton.setOnClickListener {
-                viewModel.onImportExportCardsButtonClicked()
-            }
-            settingsCoffeeButton.setOnClickListener {
-                viewModel.onCoffeeButtonClicked()
-            }
-            settingsAboutAppButton.setOnClickListener {
-                viewModel.onAboutAppButtonClicked()
-            }
+        binding.settingsRecyclerView.apply {
+            clipToPadding = false
+            setHasFixedSize(true)
+            updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
+            layoutManager = LinearLayoutManager(context)
+            adapter = listAdapter
         }
     }
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            binding.settingsCloudSyncText.apply {
-                text = textToString(state.cloudSyncCardText)
-                setStartEndCompoundDrawables(
-                    endDrawableResId = if (state.cloudSyncEnabled) {
-                        R.drawable.ic_cloud_on
-                    } else {
-                        R.drawable.ic_cloud_off
-                    }
-                )
-            }
-            setupColorThemeButtonState(state.nightModeEnabled)
-            setupCardListViewButtonState(state.multiColumnListEnabled)
-        }
-    }
-
-    private fun setupColorThemeButtonState(isNightMode: Boolean) {
-        binding.settingsColorThemeButton.apply {
-            setIconResource(
-                if (isNightMode) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
-            )
-            setText(
-                if (isNightMode) {
-                    R.string.settings_switch_to_light_mode_button_text
-                } else {
-                    R.string.settings_switch_to_dark_mode_button_text
-                }
-            )
-        }
-    }
-
-    private fun setupCardListViewButtonState(isMultiColumn: Boolean) {
-        binding.settingsCardListViewButton.apply {
-            setIconResource(
-                if (isMultiColumn) {
-                    R.drawable.ic_list_single_column
-                } else {
-                    R.drawable.ic_list_multi_column
-                }
-            )
-            setText(
-                if (isMultiColumn) {
-                    R.string.settings_switch_to_single_column_button_text
-                } else {
-                    R.string.settings_switch_to_multi_column_button_text
-                }
-            )
+            listAdapter.submitList(state.settingsItems)
         }
     }
 }

@@ -4,11 +4,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
-import my.cardholder.util.Text
 import javax.inject.Inject
+import kotlin.collections.indexOfFirst
+import kotlin.collections.toMutableList
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -17,10 +17,10 @@ class SettingsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(
         SettingsState(
-            nightModeEnabled = false,
-            multiColumnListEnabled = false,
-            cloudSyncCardText = Text.Simple(""),
-            cloudSyncEnabled = false,
+            settingsItems = listOf(SettingsListItem.Header(false))
+                .plus(
+                    SettingsItem.entries.map { SettingsListItem.Item(it) }
+                )
         )
     )
     val state = _state.asStateFlow()
@@ -28,38 +28,60 @@ class SettingsViewModel @Inject constructor(
     init {
         settingsRepository.cloudSyncEnabled
             .onEach { isEnabled ->
-                val cardText = if (isEnabled) {
-                    val cloudName = settingsRepository.cloudProvider.first().cloudName
-                    Text.ResourceAndParams(
-                        R.string.settings_cloud_sync_switch_on_text,
-                        listOf(cloudName)
-                    )
+                val cloudName = if (isEnabled) {
+                    settingsRepository.cloudProvider.first().cloudName
                 } else {
-                    Text.Resource(R.string.settings_cloud_sync_switch_off_text)
+                    null
                 }
-                _state.update {
-                    it.copy(
-                        cloudSyncCardText = cardText,
-                        cloudSyncEnabled = isEnabled
-                    )
-                }
+                updateState(
+                    predicate = { item -> item is SettingsListItem.Header },
+                    update = {
+                        SettingsListItem.Header(
+                            cloudSyncEnabled = isEnabled,
+                            cloudName = cloudName,
+                        )
+                    },
+                )
             }
             .launchIn(viewModelScope)
 
         settingsRepository.nightModeEnabled
             .onEach { isEnabled ->
-                _state.update { it.copy(nightModeEnabled = isEnabled) }
+                updateState(
+                    predicate = { item -> item is SettingsListItem.Item && item.id == SettingsItem.THEME },
+                    update = {
+                        SettingsListItem.Item(
+                            SettingsItem.THEME,
+                            if (isEnabled) "Night" else "Day"
+                        )
+                    },
+                )
             }
             .launchIn(viewModelScope)
 
         settingsRepository.multiColumnListEnabled
             .onEach { isEnabled ->
-                _state.update { it.copy(multiColumnListEnabled = isEnabled) }
+                updateState(
+                    predicate = { item -> item is SettingsListItem.Item && item.id == SettingsItem.COLUMNS },
+                    update = {
+                        SettingsListItem.Item(
+                            SettingsItem.COLUMNS,
+                            if (isEnabled) "2" else "1"
+                        )
+                    },
+                )
             }
             .launchIn(viewModelScope)
     }
 
-    fun onCloudSyncCardClicked() {
+    fun onListItemClicked(settingsListItem: SettingsListItem) {
+        when (settingsListItem) {
+            is SettingsListItem.Header -> onHeaderClicked()
+            is SettingsListItem.Item -> onItemClicked(settingsListItem.id)
+        }
+    }
+
+    private fun onHeaderClicked() {
         viewModelScope.launch {
             if (settingsRepository.cloudSyncEnabled.first()) {
                 navigate(SettingsFragmentDirections.fromSettingsToCloudLogout())
@@ -69,33 +91,49 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onColorThemeButtonClicked() {
-        viewModelScope.launch {
-            val isEnabled = settingsRepository.nightModeEnabled.first()
-            settingsRepository.setNightModeEnabled(!isEnabled)
+    private fun onItemClicked(settingsItem: SettingsItem) {
+        when (settingsItem) {
+            SettingsItem.THEME ->
+                viewModelScope.launch {
+                    val isEnabled = settingsRepository.nightModeEnabled.first()
+                    settingsRepository.setNightModeEnabled(!isEnabled)
+                }
+
+            SettingsItem.COLUMNS ->
+                viewModelScope.launch {
+                    val isEnabled = settingsRepository.multiColumnListEnabled.first()
+                    settingsRepository.setMultiColumnListEnabled(!isEnabled)
+                }
+
+            SettingsItem.CATEGORIES ->
+                navigate(SettingsFragmentDirections.fromSettingsToCategoryList())
+
+            SettingsItem.BACKUP ->
+                navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
+
+            SettingsItem.COFFEE ->
+                navigate(SettingsFragmentDirections.fromSettingsToCoffee())
+
+            SettingsItem.ABOUT ->
+                navigate(SettingsFragmentDirections.fromSettingsToInfo())
         }
     }
 
-    fun onCardListViewButtonClicked() {
-        viewModelScope.launch {
-            val isEnabled = settingsRepository.multiColumnListEnabled.first()
-            settingsRepository.setMultiColumnListEnabled(!isEnabled)
+    private fun updateState(
+        predicate: (SettingsListItem) -> Boolean,
+        update: (SettingsListItem) -> SettingsListItem,
+    ) {
+        _state.update {
+            val prevList = it.settingsItems
+            val index = prevList.indexOfFirst(predicate)
+            val newList = if (index != -1) {
+                prevList.toMutableList().apply { this[index] = update(this[index]) }
+            } else {
+                prevList
+            }
+            it.copy(
+                settingsItems = newList,
+            )
         }
-    }
-
-    fun onManageCategoriesButtonClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToCategoryList())
-    }
-
-    fun onImportExportCardsButtonClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
-    }
-
-    fun onCoffeeButtonClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToCoffee())
-    }
-
-    fun onAboutAppButtonClicked() {
-        navigate(SettingsFragmentDirections.fromSettingsToInfo())
     }
 }

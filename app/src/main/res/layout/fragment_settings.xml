@@ -1,114 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
     tools:context=".ui.settings.SettingsFragment">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/settings_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:splitMotionEvents="false">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_settings_default" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/settings_cloud_sync_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:backgroundTint="?colorPrimaryContainer"
-            app:strokeWidth="0dp">
-
-            <TextView
-                android:id="@+id/settings_cloud_sync_text"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:drawablePadding="16dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:text="@string/settings_cloud_sync_switch_off_text"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                app:drawableEndCompat="@drawable/ic_cloud_off"
-                app:drawableTint="?colorOnPrimaryContainer" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settings_color_theme_button"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:padding="20dp"
-            android:text="@string/settings_switch_to_dark_mode_button_text"
-            app:icon="@drawable/ic_dark_mode"
-            app:iconPadding="16dp"
-            app:iconSize="24dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settings_card_list_view_button"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:padding="20dp"
-            android:text="@string/settings_switch_to_multi_column_button_text"
-            app:icon="@drawable/ic_list_multi_column"
-            app:iconPadding="16dp"
-            app:iconSize="24dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settings_manage_categories_button"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:padding="20dp"
-            android:text="@string/settings_card_categories_button_text"
-            app:icon="@drawable/ic_category"
-            app:iconPadding="16dp"
-            app:iconSize="24dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settings_import_export_cards_button"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:padding="20dp"
-            android:text="@string/settings_import_export_cards_button_text"
-            app:icon="@drawable/ic_import_export"
-            app:iconPadding="16dp"
-            app:iconSize="24dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settings_coffee_button"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:padding="20dp"
-            android:text="@string/settings_coffee_button_text"
-            app:icon="@drawable/ic_coffee"
-            app:iconPadding="16dp"
-            app:iconSize="24dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/settings_about_app_button"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:padding="20dp"
-            android:text="@string/settings_about_app_button_text"
-            app:icon="@drawable/ic_info"
-            app:iconPadding="16dp"
-            app:iconSize="24dp" />
-
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>
