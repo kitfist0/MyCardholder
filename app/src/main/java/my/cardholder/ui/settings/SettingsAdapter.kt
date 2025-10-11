@@ -75,10 +75,13 @@ class SettingsAdapter(
         }
 
         fun bind(item: SettingsListItem.Item) {
-            binding.itemSettingsDefaultTitleText.text = item.id.getTitle()
-            binding.itemSettingsDefaultSubtitleText.apply {
-                text = item.subtitle
-                isGone = item.subtitle.isNullOrEmpty()
+            with(binding) {
+                itemSettingsDefaultImage.setImageResource(item.id.getImageRes())
+                itemSettingsDefaultTitleText.text = item.id.getTitle()
+                itemSettingsDefaultSubtitleText.apply {
+                    text = item.subtitle
+                    isGone = item.subtitle.isNullOrEmpty()
+                }
             }
         }
     }
