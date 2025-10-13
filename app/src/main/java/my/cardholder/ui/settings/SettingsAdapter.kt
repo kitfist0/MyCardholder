@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.R
 import my.cardholder.databinding.ItemSettingsDefaultBinding
 import my.cardholder.databinding.ItemSettingsHeaderBinding
+import my.cardholder.util.ext.setStartEndCompoundDrawables
 
 class SettingsAdapter(
     private val onItemClicked: (SettingsListItem) -> Unit,
@@ -54,13 +55,22 @@ class SettingsAdapter(
         }
 
         fun bind(header: SettingsListItem.Header) {
-            binding.itemSettingsHeaderText.setText(
-                if (header.cloudSyncEnabled) {
-                    R.string.settings_cloud_sync_switch_on_text
-                } else {
-                    R.string.settings_cloud_sync_switch_off_text
-                }
-            )
+            binding.itemSettingsHeaderText.apply {
+                setStartEndCompoundDrawables(
+                    endDrawableResId = if (header.cloudSyncEnabled) {
+                        R.drawable.ic_cloud_on
+                    } else {
+                        R.drawable.ic_cloud_off
+                    }
+                )
+                setText(
+                    if (header.cloudSyncEnabled) {
+                        R.string.settings_cloud_sync_switch_on_text
+                    } else {
+                        R.string.settings_cloud_sync_switch_off_text
+                    }
+                )
+            }
         }
     }
 
