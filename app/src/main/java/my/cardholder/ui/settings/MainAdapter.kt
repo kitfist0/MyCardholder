@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.databinding.ItemSettingsMainBinding
 
 class MainAdapter(
-    private val onOptionClicked: (String, String) -> Unit
+    private val onOptionClicked: (SettingId, String) -> Unit
 ) : ListAdapter<ListItem, MainAdapter.MainItemViewHolder>(MainDiffCallback()) {
 
-    private val expandedItems = mutableSetOf<String>()
+    private val expandedItems = mutableSetOf<SettingId>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainItemViewHolder {
         val binding = ItemSettingsMainBinding.inflate(
@@ -29,7 +29,7 @@ class MainAdapter(
         holder.bind(getItem(position))
     }
 
-    private fun onItemClick(itemId: String) {
+    private fun onItemClick(itemId: SettingId) {
         val position = currentList.indexOfFirst { it.id == itemId }
         if (position != -1) {
             val item = getItem(position)
@@ -39,11 +39,11 @@ class MainAdapter(
         }
     }
 
-    private fun isItemExpanded(itemId: String): Boolean {
+    private fun isItemExpanded(itemId: SettingId): Boolean {
         return expandedItems.contains(itemId)
     }
 
-    private fun toggleExpansion(itemId: String, position: Int) {
+    private fun toggleExpansion(itemId: SettingId, position: Int) {
         val wasExpanded = expandedItems.contains(itemId)
 
         if (wasExpanded) {
@@ -65,7 +65,7 @@ class MainAdapter(
         }
     }
 
-    fun collapseItem(itemId: String) {
+    fun collapseItem(itemId: SettingId) {
         if (expandedItems.contains(itemId)) {
             expandedItems.remove(itemId)
             val position = currentList.indexOfFirst { it.id == itemId }
@@ -91,13 +91,13 @@ class MainAdapter(
 
     class MainItemViewHolder(
         private val binding: ItemSettingsMainBinding,
-        private val onItemClicked: (String) -> Unit,
-        private val onOptionClicked: (String, String) -> Unit,
-        private val isItemExpanded: (String) -> Boolean
+        private val onItemClicked: (SettingId) -> Unit,
+        private val onOptionClicked: (SettingId, String) -> Unit,
+        private val isItemExpanded: (SettingId) -> Boolean
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ListItem) {
-            binding.settingsItemTitle.text = item.title
+            binding.settingsItemTitle.text = item.id.getTitle()
 
             if (item.options.isNotEmpty()) {
                 binding.settingsItemOptionsIcon.isVisible = true
@@ -116,7 +116,7 @@ class MainAdapter(
             animateOptionsList(item.id)
         }
 
-        private fun setupOptionsRecyclerView(options: List<ListItem.Option>, itemId: String) {
+        private fun setupOptionsRecyclerView(options: List<ListItem.Option>, itemId: SettingId) {
             val optionsAdapter = OptionsAdapter { optionId ->
                 onOptionClicked.invoke(itemId, optionId)
                 collapseOptionsWithCallback(itemId)
@@ -131,7 +131,7 @@ class MainAdapter(
             optionsAdapter.submitList(options)
         }
 
-        private fun animateOptionsList(itemId: String) {
+        private fun animateOptionsList(itemId: SettingId) {
             val isExpanded = isItemExpanded(itemId)
 
             if (isExpanded) {
@@ -160,7 +160,7 @@ class MainAdapter(
                 .start()
         }
 
-        private fun collapseOptionsWithCallback(itemId: String) {
+        private fun collapseOptionsWithCallback(itemId: SettingId) {
             (bindingAdapter as? MainAdapter)?.collapseItem(itemId)
         }
     }
