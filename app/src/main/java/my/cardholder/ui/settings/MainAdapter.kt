@@ -97,6 +97,7 @@ class MainAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ListItem) {
+            binding.settingsItemIcon.setImageResource(item.id.getImageRes())
             binding.settingsItemTitle.text = item.id.getTitle()
 
             if (item.options.isNotEmpty()) {
