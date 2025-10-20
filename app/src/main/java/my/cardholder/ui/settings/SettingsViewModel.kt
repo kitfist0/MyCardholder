@@ -17,10 +17,8 @@ class SettingsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(
         SettingsState(
-            settingsItems = listOf(SettingsListItem.Header(false))
-                .plus(
-                    SettingId.entries.map { SettingsListItem.Item(it) }
-                )
+            headerState = HeaderState(false),
+            settingsItems = SettingId.entries.map { ListItem(it) },
         )
     )
     val state = _state.asStateFlow()
@@ -33,28 +31,27 @@ class SettingsViewModel @Inject constructor(
                 } else {
                     null
                 }
-                updateState(
-                    predicate = { item -> item is SettingsListItem.Header },
-                    update = {
-                        SettingsListItem.Header(
-                            cloudSyncEnabled = isEnabled,
-                            cloudName = cloudName,
-                        )
-                    },
-                )
+                _state.update {
+                    it.copy(
+                        headerState = HeaderState(isEnabled, cloudName)
+                    )
+                }
             }
             .launchIn(viewModelScope)
 
         settingsRepository.nightModeEnabled
             .onEach { isEnabled ->
                 updateState(
-                    predicate = { item -> item is SettingsListItem.Item && item.id == SettingId.THEME },
+                    predicate = { item -> item.id == SettingId.THEME },
                     update = {
-                        SettingsListItem.Item(
-                            SettingId.THEME,
-                            if (isEnabled) "Night" else "Day"
+                        ListItem(
+                            id = SettingId.THEME,
+                            options = listOf(
+                                ListItem.Option("day", "Day", !isEnabled),
+                                ListItem.Option("night", "Night", isEnabled),
+                            )
                         )
-                    },
+                    }
                 )
             }
             .launchIn(viewModelScope)
@@ -62,23 +59,19 @@ class SettingsViewModel @Inject constructor(
         settingsRepository.multiColumnListEnabled
             .onEach { isEnabled ->
                 updateState(
-                    predicate = { item -> item is SettingsListItem.Item && item.id == SettingId.COLUMNS },
+                    predicate = { item -> item.id == SettingId.COLUMNS },
                     update = {
-                        SettingsListItem.Item(
-                            SettingId.COLUMNS,
-                            if (isEnabled) "2" else "1"
+                        ListItem(
+                            id = SettingId.COLUMNS,
+                            options = listOf(
+                                ListItem.Option("one", "1", !isEnabled),
+                                ListItem.Option("two", "2", isEnabled),
+                            )
                         )
-                    },
+                    }
                 )
             }
             .launchIn(viewModelScope)
-    }
-
-    fun onListItemClicked(settingsListItem: SettingsListItem) {
-        when (settingsListItem) {
-            is SettingsListItem.Header -> onHeaderClicked()
-            is SettingsListItem.Item -> onItemClicked(settingsListItem.id)
-        }
     }
 
     private fun onHeaderClicked() {
@@ -120,8 +113,8 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun updateState(
-        predicate: (SettingsListItem) -> Boolean,
-        update: (SettingsListItem) -> SettingsListItem,
+        predicate: (ListItem) -> Boolean,
+        update: (ListItem) -> ListItem,
     ) {
         _state.update {
             val prevList = it.settingsItems
@@ -131,9 +124,7 @@ class SettingsViewModel @Inject constructor(
             } else {
                 prevList
             }
-            it.copy(
-                settingsItems = newList,
-            )
+            it.copy(settingsItems = newList)
         }
     }
 }

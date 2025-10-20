@@ -1,10 +1,11 @@
 package my.cardholder.ui.settings
 
-sealed class SettingsListItem {
-    data class Header(val cloudSyncEnabled: Boolean, val cloudName: String? = null) : SettingsListItem()
-    data class Item(val id: SettingId, val subtitle: String? = null) : SettingsListItem()
-}
+data class HeaderState(
+    val cloudSyncEnabled: Boolean,
+    val cloudName: String? = null,
+)
 
 data class SettingsState(
-    val settingsItems: List<SettingsListItem>,
+    val headerState: HeaderState,
+    val settingsItems: List<ListItem>,
 )

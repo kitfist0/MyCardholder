@@ -13,17 +13,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
 
-    private val listAdapter = SettingsAdapter(
-        onItemClicked = { viewModel.onListItemClicked(it) }
+    private val listAdapter = MainAdapter(
+        onOptionClicked = { itemId, optionId ->
+        }
     )
 
     override val viewModel: SettingsViewModel by viewModels()
 
     override fun initViews() {
+        binding.root.updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
         binding.settingsRecyclerView.apply {
             clipToPadding = false
             setHasFixedSize(true)
-            updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
             layoutManager = LinearLayoutManager(context)
             adapter = listAdapter
         }
