@@ -13,7 +13,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
 
-    private val listAdapter = MainAdapter(
+    private val listAdapter = SettingsMainAdapter(
         onOptionClicked = { itemId, optionId ->
         }
     )

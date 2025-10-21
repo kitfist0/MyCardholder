@@ -10,22 +10,22 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.databinding.ItemSettingsMainBinding
 
-class MainAdapter(
+class SettingsMainAdapter(
     private val onOptionClicked: (SettingId, String) -> Unit
-) : ListAdapter<ListItem, MainAdapter.MainItemViewHolder>(MainDiffCallback()) {
+) : ListAdapter<ListItem, SettingsMainAdapter.ItemViewHolder>(MainDiffCallback()) {
 
     private val expandedItems = mutableSetOf<SettingId>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding = ItemSettingsMainBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MainItemViewHolder(binding, ::onItemClick, onOptionClicked, ::isItemExpanded)
+        return ItemViewHolder(binding, ::onItemClick, onOptionClicked, ::isItemExpanded)
     }
 
-    override fun onBindViewHolder(holder: MainItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
@@ -89,7 +89,7 @@ class MainAdapter(
         }
     }
 
-    class MainItemViewHolder(
+    class ItemViewHolder(
         private val binding: ItemSettingsMainBinding,
         private val onItemClicked: (SettingId) -> Unit,
         private val onOptionClicked: (SettingId, String) -> Unit,
@@ -118,18 +118,18 @@ class MainAdapter(
         }
 
         private fun setupOptionsRecyclerView(options: List<ListItem.Option>, itemId: SettingId) {
-            val optionsAdapter = OptionsAdapter { optionId ->
+            val settingsOptionsAdapter = SettingsOptionsAdapter { optionId ->
                 onOptionClicked.invoke(itemId, optionId)
                 collapseOptionsWithCallback(itemId)
             }
 
             binding.settingsItemOptionsRecyclerView.apply {
-                adapter = optionsAdapter
+                adapter = settingsOptionsAdapter
                 layoutManager = LinearLayoutManager(context)
                 itemAnimator = DefaultItemAnimator()
             }
 
-            optionsAdapter.submitList(options)
+            settingsOptionsAdapter.submitList(options)
         }
 
         private fun animateOptionsList(itemId: SettingId) {
@@ -162,7 +162,7 @@ class MainAdapter(
         }
 
         private fun collapseOptionsWithCallback(itemId: SettingId) {
-            (bindingAdapter as? MainAdapter)?.collapseItem(itemId)
+            (bindingAdapter as? SettingsMainAdapter)?.collapseItem(itemId)
         }
     }
 }
