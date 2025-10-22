@@ -15,6 +15,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     private val listAdapter = SettingsMainAdapter(
         onOptionClicked = { itemId, optionId ->
+            viewModel.onOptionClicked(itemId, optionId)
         }
     )
 

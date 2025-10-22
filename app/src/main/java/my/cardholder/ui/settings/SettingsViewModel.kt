@@ -15,6 +15,13 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
+    private companion object {
+        const val COLUMNS_OPTION_ONE = "one"
+        const val COLUMNS_OPTION_TWO = "two"
+        const val THEME_OPTION_DAY = "day"
+        const val THEME_OPTION_NIGHT = "night"
+    }
+
     private val _state = MutableStateFlow(
         SettingsState(
             headerState = HeaderState(false),
@@ -47,8 +54,8 @@ class SettingsViewModel @Inject constructor(
                         ListItem(
                             id = SettingId.THEME,
                             options = listOf(
-                                ListItem.Option("day", "Day", !isEnabled),
-                                ListItem.Option("night", "Night", isEnabled),
+                                ListItem.Option(THEME_OPTION_DAY, "Day", !isEnabled),
+                                ListItem.Option(THEME_OPTION_NIGHT, "Night", isEnabled),
                             )
                         )
                     }
@@ -64,8 +71,8 @@ class SettingsViewModel @Inject constructor(
                         ListItem(
                             id = SettingId.COLUMNS,
                             options = listOf(
-                                ListItem.Option("one", "1", !isEnabled),
-                                ListItem.Option("two", "2", isEnabled),
+                                ListItem.Option(COLUMNS_OPTION_ONE, "1", !isEnabled),
+                                ListItem.Option(COLUMNS_OPTION_TWO, "2", isEnabled),
                             )
                         )
                     }
@@ -74,7 +81,7 @@ class SettingsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    private fun onHeaderClicked() {
+    fun onHeaderClicked() {
         viewModelScope.launch {
             if (settingsRepository.cloudSyncEnabled.first()) {
                 navigate(SettingsFragmentDirections.fromSettingsToCloudLogout())
@@ -84,18 +91,18 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun onItemClicked(settingId: SettingId) {
+    fun onOptionClicked(settingId: SettingId, optionId: String) {
         when (settingId) {
             SettingId.THEME ->
                 viewModelScope.launch {
-                    val isEnabled = settingsRepository.nightModeEnabled.first()
-                    settingsRepository.setNightModeEnabled(!isEnabled)
+                    val nightModeEnabled = optionId == THEME_OPTION_NIGHT
+                    settingsRepository.setNightModeEnabled(nightModeEnabled)
                 }
 
             SettingId.COLUMNS ->
                 viewModelScope.launch {
-                    val isEnabled = settingsRepository.multiColumnListEnabled.first()
-                    settingsRepository.setMultiColumnListEnabled(!isEnabled)
+                    val multiColumnListEnabled = optionId == COLUMNS_OPTION_TWO
+                    settingsRepository.setMultiColumnListEnabled(multiColumnListEnabled)
                 }
 
             SettingId.CATEGORIES ->
