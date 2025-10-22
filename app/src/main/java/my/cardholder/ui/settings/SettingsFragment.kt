@@ -22,12 +22,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     override val viewModel: SettingsViewModel by viewModels()
 
     override fun initViews() {
-        binding.root.updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
-        binding.settingsRecyclerView.apply {
-            clipToPadding = false
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
-            adapter = listAdapter
+        with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
+            settingsHeaderCard.setOnClickListener {
+                viewModel.onHeaderClicked()
+            }
+            settingsRecyclerView.apply {
+                clipToPadding = false
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(context)
+                adapter = listAdapter
+            }
         }
     }
 
