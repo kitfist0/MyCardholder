@@ -97,19 +97,21 @@ class SettingsMainAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ListItem) {
-            binding.settingsItemIcon.setImageResource(item.id.getImageRes())
-            binding.settingsItemTitle.text = item.id.getTitle()
+            with(binding) {
+                settingsItemIcon.setImageResource(item.id.getImageRes())
+                settingsItemTitle.text = item.id.getTitle()
 
-            if (item.options.isNotEmpty()) {
-                binding.settingsItemOptionsIcon.isVisible = true
-                binding.root.setOnClickListener {
-                    onItemClicked.invoke(item.id)
+                if (item.options.isNotEmpty()) {
+                    settingsItemOptionsIcon.isVisible = true
+                    root.setOnClickListener {
+                        onItemClicked.invoke(item.id)
+                    }
+                    root.isClickable = true
+                } else {
+                    settingsItemOptionsIcon.isVisible = false
+                    root.setOnClickListener(null)
+                    root.isClickable = false
                 }
-                binding.root.isClickable = true
-            } else {
-                binding.settingsItemOptionsIcon.isVisible = false
-                binding.root.setOnClickListener(null)
-                binding.root.isClickable = false
             }
 
             setupOptionsRecyclerView(item.options, item.id)
@@ -135,24 +137,28 @@ class SettingsMainAdapter(
         private fun animateOptionsList(itemId: SettingId) {
             val isExpanded = isItemExpanded(itemId)
 
-            if (isExpanded) {
-                binding.settingsItemOptionsRecyclerView.isVisible = true
-                binding.settingsItemOptionsRecyclerView.alpha = 0f
-                binding.settingsItemOptionsRecyclerView.translationY = -20f
-                binding.settingsItemOptionsRecyclerView.animate()
-                    .alpha(1f)
-                    .translationY(0f)
-                    .setDuration(300)
-                    .start()
+            if (isItemExpanded(itemId)) {
+                binding.settingsItemOptionsRecyclerView.apply {
+                    isVisible = true
+                    alpha = 0f
+                    translationY = -20f
+                    animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setDuration(300)
+                        .start()
+                }
             } else {
-                binding.settingsItemOptionsRecyclerView.animate()
-                    .alpha(0f)
-                    .translationY(-20f)
-                    .setDuration(200)
-                    .withEndAction {
-                        binding.settingsItemOptionsRecyclerView.isVisible = false
-                    }
-                    .start()
+                binding.settingsItemOptionsRecyclerView.apply {
+                    animate()
+                        .alpha(0f)
+                        .translationY(-20f)
+                        .setDuration(200)
+                        .withEndAction {
+                            isVisible = false
+                        }
+                        .start()
+                }
             }
 
             binding.settingsItemOptionsIcon.animate()
