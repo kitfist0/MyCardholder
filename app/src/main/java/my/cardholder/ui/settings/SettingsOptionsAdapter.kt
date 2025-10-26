@@ -1,5 +1,6 @@
 package my.cardholder.ui.settings
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -30,9 +31,13 @@ class SettingsOptionsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(option: ListItem.Option) {
-            binding.settingsItemOptionTitle.text = option.title
-            binding.root.setOnClickListener {
-                onOptionClick(option.id)
+            with(binding) {
+                root.setOnClickListener {
+                    onOptionClick(option.id)
+                }
+                settingsItemOptionTitle.text = option.title
+                val textStyle = if (option.selected) Typeface.BOLD else Typeface.NORMAL
+                settingsItemOptionTitle.setTypeface(null, textStyle)
             }
         }
     }

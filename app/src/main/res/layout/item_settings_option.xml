@@ -9,5 +9,5 @@
     android:lines="1"
     android:paddingHorizontal="32dp"
     android:paddingVertical="16dp"
-    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
     tools:text="Option title" />
