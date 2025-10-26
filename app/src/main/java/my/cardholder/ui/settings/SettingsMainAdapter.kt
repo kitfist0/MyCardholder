@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.R
+import com.google.android.material.color.MaterialColors
 import my.cardholder.databinding.ItemSettingsMainBinding
 
 class SettingsMainAdapter(
@@ -138,6 +140,8 @@ class SettingsMainAdapter(
             val isExpanded = isItemExpanded(itemId)
 
             if (isItemExpanded(itemId)) {
+                val cardColor = MaterialColors.getColor(binding.root, R.attr.colorSurfaceContainer)
+                binding.settingsItemCard.setCardBackgroundColor(cardColor)
                 binding.settingsItemOptionsRecyclerView.apply {
                     isVisible = true
                     alpha = 0f
@@ -149,6 +153,8 @@ class SettingsMainAdapter(
                         .start()
                 }
             } else {
+                val cardColor = MaterialColors.getColor(binding.root, android.R.attr.windowBackground)
+                binding.settingsItemCard.setCardBackgroundColor(cardColor)
                 binding.settingsItemOptionsRecyclerView.apply {
                     animate()
                         .alpha(0f)
