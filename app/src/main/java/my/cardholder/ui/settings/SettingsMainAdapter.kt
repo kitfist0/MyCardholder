@@ -13,7 +13,8 @@ import com.google.android.material.color.MaterialColors
 import my.cardholder.databinding.ItemSettingsMainBinding
 
 class SettingsMainAdapter(
-    private val onOptionClicked: (SettingId, String) -> Unit
+    private val onItemWithoutOptionsClicked: (SettingId) -> Unit,
+    private val onItemOptionClicked: (SettingId, String) -> Unit,
 ) : ListAdapter<ListItem, SettingsMainAdapter.ItemViewHolder>(MainDiffCallback()) {
 
     private val expandedItems = mutableSetOf<SettingId>()
@@ -24,7 +25,7 @@ class SettingsMainAdapter(
             parent,
             false
         )
-        return ItemViewHolder(binding, ::onItemClick, onOptionClicked, ::isItemExpanded)
+        return ItemViewHolder(binding, ::onItemClick, onItemOptionClicked, ::isItemExpanded)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -37,6 +38,8 @@ class SettingsMainAdapter(
             val item = getItem(position)
             if (item.options.isNotEmpty()) {
                 toggleExpansion(itemId, position)
+            } else {
+                onItemWithoutOptionsClicked.invoke(itemId)
             }
         }
     }
@@ -102,17 +105,9 @@ class SettingsMainAdapter(
             with(binding) {
                 settingsItemIcon.setImageResource(item.iconRes)
                 settingsItemTitle.text = item.id.getTitle()
-
-                if (item.options.isNotEmpty()) {
-                    settingsItemOptionsIcon.isVisible = true
-                    root.setOnClickListener {
-                        onItemClicked.invoke(item.id)
-                    }
-                    root.isClickable = true
-                } else {
-                    settingsItemOptionsIcon.isVisible = false
-                    root.setOnClickListener(null)
-                    root.isClickable = false
+                settingsItemOptionsIcon.isVisible = item.options.isNotEmpty()
+                root.setOnClickListener {
+                    onItemClicked.invoke(item.id)
                 }
             }
 

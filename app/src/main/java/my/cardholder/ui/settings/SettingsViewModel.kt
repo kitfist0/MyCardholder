@@ -99,7 +99,26 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onOptionClicked(settingId: SettingId, optionId: String) {
+    fun onItemWithoutOptionsClicked(settingId: SettingId) {
+        when (settingId) {
+            SettingId.CATEGORIES ->
+                navigate(SettingsFragmentDirections.fromSettingsToCategoryList())
+
+            SettingId.BACKUP ->
+                navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
+
+            SettingId.COFFEE ->
+                navigate(SettingsFragmentDirections.fromSettingsToCoffee())
+
+            SettingId.ABOUT ->
+                navigate(SettingsFragmentDirections.fromSettingsToInfo())
+
+            else -> {
+            }
+        }
+    }
+
+    fun onItemOptionClicked(settingId: SettingId, optionId: String) {
         when (settingId) {
             SettingId.THEME ->
                 viewModelScope.launch {
@@ -113,17 +132,8 @@ class SettingsViewModel @Inject constructor(
                     settingsRepository.setMultiColumnListEnabled(multiColumnListEnabled)
                 }
 
-            SettingId.CATEGORIES ->
-                navigate(SettingsFragmentDirections.fromSettingsToCategoryList())
-
-            SettingId.BACKUP ->
-                navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
-
-            SettingId.COFFEE ->
-                navigate(SettingsFragmentDirections.fromSettingsToCoffee())
-
-            SettingId.ABOUT ->
-                navigate(SettingsFragmentDirections.fromSettingsToInfo())
+            else -> {
+            }
         }
     }
 
