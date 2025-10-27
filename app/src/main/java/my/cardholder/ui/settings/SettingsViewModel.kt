@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -25,7 +26,12 @@ class SettingsViewModel @Inject constructor(
     private val _state = MutableStateFlow(
         SettingsState(
             headerState = HeaderState(false),
-            settingsItems = SettingId.entries.map { ListItem(it) },
+            settingsItems = SettingId.entries.map {
+                ListItem(
+                    id = it,
+                    iconRes = it.getImageRes(),
+                )
+            },
         )
     )
     val state = _state.asStateFlow()
@@ -53,6 +59,7 @@ class SettingsViewModel @Inject constructor(
                     update = {
                         ListItem(
                             id = SettingId.THEME,
+                            iconRes = if (isEnabled) R.drawable.ic_dark_mode else R.drawable.ic_light_mode,
                             options = listOf(
                                 ListItem.Option(THEME_OPTION_DAY, "Day", !isEnabled),
                                 ListItem.Option(THEME_OPTION_NIGHT, "Night", isEnabled),
@@ -70,6 +77,7 @@ class SettingsViewModel @Inject constructor(
                     update = {
                         ListItem(
                             id = SettingId.COLUMNS,
+                            iconRes = if (isEnabled) R.drawable.ic_list_multi_column else R.drawable.ic_list_single_column,
                             options = listOf(
                                 ListItem.Option(COLUMNS_OPTION_ONE, "1", !isEnabled),
                                 ListItem.Option(COLUMNS_OPTION_TWO, "2", isEnabled),

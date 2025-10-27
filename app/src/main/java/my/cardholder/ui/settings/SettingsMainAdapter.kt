@@ -100,7 +100,7 @@ class SettingsMainAdapter(
 
         fun bind(item: ListItem) {
             with(binding) {
-                settingsItemIcon.setImageResource(item.id.getImageRes())
+                settingsItemIcon.setImageResource(item.iconRes)
                 settingsItemTitle.text = item.id.getTitle()
 
                 if (item.options.isNotEmpty()) {
