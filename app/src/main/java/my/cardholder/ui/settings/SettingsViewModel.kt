@@ -25,7 +25,7 @@ class SettingsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(
         SettingsState(
-            headerState = HeaderState(false),
+            headerState = SettingsState.HeaderState(false),
             settingsItems = SettingId.entries.map {
                 ListItem(
                     id = it,
@@ -46,7 +46,7 @@ class SettingsViewModel @Inject constructor(
                 }
                 _state.update {
                     it.copy(
-                        headerState = HeaderState(isEnabled, cloudName)
+                        headerState = SettingsState.HeaderState(isEnabled, cloudName)
                     )
                 }
             }
