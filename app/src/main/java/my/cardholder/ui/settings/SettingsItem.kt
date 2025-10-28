@@ -2,7 +2,7 @@ package my.cardholder.ui.settings
 
 import androidx.annotation.DrawableRes
 
-data class ListItem(
+data class SettingsItem(
     val id: SettingId,
     @param:DrawableRes val iconRes: Int,
     val options: List<Option> = emptyList(),

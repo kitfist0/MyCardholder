@@ -12,10 +12,10 @@ import com.google.android.material.R
 import com.google.android.material.color.MaterialColors
 import my.cardholder.databinding.ItemSettingsMainBinding
 
-class SettingsMainAdapter(
+class SettingsItemsAdapter(
     private val onItemWithoutOptionsClicked: (SettingId) -> Unit,
     private val onItemOptionClicked: (SettingId, String) -> Unit,
-) : ListAdapter<ListItem, SettingsMainAdapter.ItemViewHolder>(MainDiffCallback()) {
+) : ListAdapter<SettingsItem, SettingsItemsAdapter.ItemViewHolder>(MainDiffCallback()) {
 
     private val expandedItems = mutableSetOf<SettingId>()
 
@@ -101,7 +101,7 @@ class SettingsMainAdapter(
         private val isItemExpanded: (SettingId) -> Boolean
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ListItem) {
+        fun bind(item: SettingsItem) {
             with(binding) {
                 settingsItemIcon.setImageResource(item.iconRes)
                 settingsItemTitle.text = item.id.getTitle()
@@ -116,7 +116,7 @@ class SettingsMainAdapter(
             animateOptionsList(item.id)
         }
 
-        private fun setupOptionsRecyclerView(options: List<ListItem.Option>, itemId: SettingId) {
+        private fun setupOptionsRecyclerView(options: List<SettingsItem.Option>, itemId: SettingId) {
             val settingsOptionsAdapter = SettingsOptionsAdapter { optionId ->
                 onOptionClicked.invoke(itemId, optionId)
                 collapseOptionsWithCallback(itemId)
@@ -169,17 +169,17 @@ class SettingsMainAdapter(
         }
 
         private fun collapseOptionsWithCallback(itemId: SettingId) {
-            (bindingAdapter as? SettingsMainAdapter)?.collapseItem(itemId)
+            (bindingAdapter as? SettingsItemsAdapter)?.collapseItem(itemId)
         }
     }
 }
 
-private class MainDiffCallback : DiffUtil.ItemCallback<ListItem>() {
-    override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
+private class MainDiffCallback : DiffUtil.ItemCallback<SettingsItem>() {
+    override fun areItemsTheSame(oldItem: SettingsItem, newItem: SettingsItem): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
+    override fun areContentsTheSame(oldItem: SettingsItem, newItem: SettingsItem): Boolean {
         return oldItem == newItem
     }
 }

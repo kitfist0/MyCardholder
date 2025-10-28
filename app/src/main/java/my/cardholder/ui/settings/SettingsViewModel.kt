@@ -27,7 +27,7 @@ class SettingsViewModel @Inject constructor(
         SettingsState(
             headerState = SettingsState.HeaderState(false),
             settingsItems = SettingId.entries.map {
-                ListItem(
+                SettingsItem(
                     id = it,
                     iconRes = it.getImageRes(),
                 )
@@ -57,12 +57,12 @@ class SettingsViewModel @Inject constructor(
                 updateState(
                     predicate = { item -> item.id == SettingId.THEME },
                     update = {
-                        ListItem(
+                        SettingsItem(
                             id = SettingId.THEME,
                             iconRes = if (isEnabled) R.drawable.ic_dark_mode else R.drawable.ic_light_mode,
                             options = listOf(
-                                ListItem.Option(THEME_OPTION_DAY, "Day", !isEnabled),
-                                ListItem.Option(THEME_OPTION_NIGHT, "Night", isEnabled),
+                                SettingsItem.Option(THEME_OPTION_DAY, "Day", !isEnabled),
+                                SettingsItem.Option(THEME_OPTION_NIGHT, "Night", isEnabled),
                             )
                         )
                     }
@@ -75,12 +75,12 @@ class SettingsViewModel @Inject constructor(
                 updateState(
                     predicate = { item -> item.id == SettingId.COLUMNS },
                     update = {
-                        ListItem(
+                        SettingsItem(
                             id = SettingId.COLUMNS,
                             iconRes = if (isEnabled) R.drawable.ic_list_multi_column else R.drawable.ic_list_single_column,
                             options = listOf(
-                                ListItem.Option(COLUMNS_OPTION_ONE, "1", !isEnabled),
-                                ListItem.Option(COLUMNS_OPTION_TWO, "2", isEnabled),
+                                SettingsItem.Option(COLUMNS_OPTION_ONE, "1", !isEnabled),
+                                SettingsItem.Option(COLUMNS_OPTION_TWO, "2", isEnabled),
                             )
                         )
                     }
@@ -138,8 +138,8 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun updateState(
-        predicate: (ListItem) -> Boolean,
-        update: (ListItem) -> ListItem,
+        predicate: (SettingsItem) -> Boolean,
+        update: (SettingsItem) -> SettingsItem,
     ) {
         _state.update {
             val prevList = it.settingsItems

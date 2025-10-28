@@ -10,7 +10,7 @@ import my.cardholder.databinding.ItemSettingsOptionBinding
 
 class SettingsOptionsAdapter(
     private val onOptionClick: (String) -> Unit
-) : ListAdapter<ListItem.Option, SettingsOptionsAdapter.ItemViewHolder>(OptionsDiffCallback()) {
+) : ListAdapter<SettingsItem.Option, SettingsOptionsAdapter.ItemViewHolder>(OptionsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding = ItemSettingsOptionBinding.inflate(
@@ -30,7 +30,7 @@ class SettingsOptionsAdapter(
         private val onOptionClick: (String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(option: ListItem.Option) {
+        fun bind(option: SettingsItem.Option) {
             with(binding) {
                 root.setOnClickListener {
                     onOptionClick(option.id)
@@ -42,14 +42,14 @@ class SettingsOptionsAdapter(
         }
     }
 
-    private class OptionsDiffCallback : DiffUtil.ItemCallback<ListItem.Option>() {
-        override fun areItemsTheSame(oldItem: ListItem.Option, newItem: ListItem.Option): Boolean {
+    private class OptionsDiffCallback : DiffUtil.ItemCallback<SettingsItem.Option>() {
+        override fun areItemsTheSame(oldItem: SettingsItem.Option, newItem: SettingsItem.Option): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ListItem.Option,
-            newItem: ListItem.Option
+            oldItem: SettingsItem.Option,
+            newItem: SettingsItem.Option
         ): Boolean {
             return oldItem.selected == newItem.selected
         }

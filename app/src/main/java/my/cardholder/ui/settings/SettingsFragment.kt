@@ -13,7 +13,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
 
-    private val listAdapter = SettingsMainAdapter(
+    private val listAdapter = SettingsItemsAdapter(
         onItemWithoutOptionsClicked = { itemId ->
             viewModel.onItemWithoutOptionsClicked(itemId)
         },
