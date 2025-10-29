@@ -13,19 +13,29 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate
 ) {
 
-    private val listAdapter = SettingsAdapter(
-        onItemClicked = { viewModel.onListItemClicked(it) }
+    private val listAdapter = SettingsItemsAdapter(
+        onItemWithoutOptionsClicked = { itemId ->
+            viewModel.onItemWithoutOptionsClicked(itemId)
+        },
+        onItemOptionClicked = { itemId, optionId ->
+            viewModel.onItemOptionClicked(itemId, optionId)
+        }
     )
 
     override val viewModel: SettingsViewModel by viewModels()
 
     override fun initViews() {
-        binding.settingsRecyclerView.apply {
-            clipToPadding = false
-            setHasFixedSize(true)
-            updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
-            layoutManager = LinearLayoutManager(context)
-            adapter = listAdapter
+        with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
+            settingsHeaderCard.setOnClickListener {
+                viewModel.onHeaderClicked()
+            }
+            settingsRecyclerView.apply {
+                clipToPadding = false
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(context)
+                adapter = listAdapter
+            }
         }
     }
 

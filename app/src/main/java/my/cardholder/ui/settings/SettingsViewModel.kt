@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -15,12 +16,22 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
+    private companion object {
+        const val COLUMNS_OPTION_ONE = "one"
+        const val COLUMNS_OPTION_TWO = "two"
+        const val THEME_OPTION_DAY = "day"
+        const val THEME_OPTION_NIGHT = "night"
+    }
+
     private val _state = MutableStateFlow(
         SettingsState(
-            settingsItems = listOf(SettingsListItem.Header(false))
-                .plus(
-                    SettingsItem.entries.map { SettingsListItem.Item(it) }
+            headerState = SettingsState.HeaderState(false),
+            settingsItems = SettingId.entries.map {
+                SettingsItem(
+                    id = it,
+                    iconRes = it.getImageRes(),
                 )
+            },
         )
     )
     val state = _state.asStateFlow()
@@ -33,28 +44,28 @@ class SettingsViewModel @Inject constructor(
                 } else {
                     null
                 }
-                updateState(
-                    predicate = { item -> item is SettingsListItem.Header },
-                    update = {
-                        SettingsListItem.Header(
-                            cloudSyncEnabled = isEnabled,
-                            cloudName = cloudName,
-                        )
-                    },
-                )
+                _state.update {
+                    it.copy(
+                        headerState = SettingsState.HeaderState(isEnabled, cloudName)
+                    )
+                }
             }
             .launchIn(viewModelScope)
 
         settingsRepository.nightModeEnabled
             .onEach { isEnabled ->
                 updateState(
-                    predicate = { item -> item is SettingsListItem.Item && item.id == SettingsItem.THEME },
+                    predicate = { item -> item.id == SettingId.THEME },
                     update = {
-                        SettingsListItem.Item(
-                            SettingsItem.THEME,
-                            if (isEnabled) "Night" else "Day"
+                        SettingsItem(
+                            id = SettingId.THEME,
+                            iconRes = if (isEnabled) R.drawable.ic_dark_mode else R.drawable.ic_light_mode,
+                            options = listOf(
+                                SettingsItem.Option(THEME_OPTION_DAY, "Day", !isEnabled),
+                                SettingsItem.Option(THEME_OPTION_NIGHT, "Night", isEnabled),
+                            )
                         )
-                    },
+                    }
                 )
             }
             .launchIn(viewModelScope)
@@ -62,26 +73,23 @@ class SettingsViewModel @Inject constructor(
         settingsRepository.multiColumnListEnabled
             .onEach { isEnabled ->
                 updateState(
-                    predicate = { item -> item is SettingsListItem.Item && item.id == SettingsItem.COLUMNS },
+                    predicate = { item -> item.id == SettingId.COLUMNS },
                     update = {
-                        SettingsListItem.Item(
-                            SettingsItem.COLUMNS,
-                            if (isEnabled) "2" else "1"
+                        SettingsItem(
+                            id = SettingId.COLUMNS,
+                            iconRes = if (isEnabled) R.drawable.ic_list_multi_column else R.drawable.ic_list_single_column,
+                            options = listOf(
+                                SettingsItem.Option(COLUMNS_OPTION_ONE, "1", !isEnabled),
+                                SettingsItem.Option(COLUMNS_OPTION_TWO, "2", isEnabled),
+                            )
                         )
-                    },
+                    }
                 )
             }
             .launchIn(viewModelScope)
     }
 
-    fun onListItemClicked(settingsListItem: SettingsListItem) {
-        when (settingsListItem) {
-            is SettingsListItem.Header -> onHeaderClicked()
-            is SettingsListItem.Item -> onItemClicked(settingsListItem.id)
-        }
-    }
-
-    private fun onHeaderClicked() {
+    fun onHeaderClicked() {
         viewModelScope.launch {
             if (settingsRepository.cloudSyncEnabled.first()) {
                 navigate(SettingsFragmentDirections.fromSettingsToCloudLogout())
@@ -91,37 +99,47 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private fun onItemClicked(settingsItem: SettingsItem) {
-        when (settingsItem) {
-            SettingsItem.THEME ->
-                viewModelScope.launch {
-                    val isEnabled = settingsRepository.nightModeEnabled.first()
-                    settingsRepository.setNightModeEnabled(!isEnabled)
-                }
-
-            SettingsItem.COLUMNS ->
-                viewModelScope.launch {
-                    val isEnabled = settingsRepository.multiColumnListEnabled.first()
-                    settingsRepository.setMultiColumnListEnabled(!isEnabled)
-                }
-
-            SettingsItem.CATEGORIES ->
+    fun onItemWithoutOptionsClicked(settingId: SettingId) {
+        when (settingId) {
+            SettingId.CATEGORIES ->
                 navigate(SettingsFragmentDirections.fromSettingsToCategoryList())
 
-            SettingsItem.BACKUP ->
+            SettingId.BACKUP ->
                 navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
 
-            SettingsItem.COFFEE ->
+            SettingId.COFFEE ->
                 navigate(SettingsFragmentDirections.fromSettingsToCoffee())
 
-            SettingsItem.ABOUT ->
+            SettingId.ABOUT ->
                 navigate(SettingsFragmentDirections.fromSettingsToInfo())
+
+            else -> {
+            }
+        }
+    }
+
+    fun onItemOptionClicked(settingId: SettingId, optionId: String) {
+        when (settingId) {
+            SettingId.THEME ->
+                viewModelScope.launch {
+                    val nightModeEnabled = optionId == THEME_OPTION_NIGHT
+                    settingsRepository.setNightModeEnabled(nightModeEnabled)
+                }
+
+            SettingId.COLUMNS ->
+                viewModelScope.launch {
+                    val multiColumnListEnabled = optionId == COLUMNS_OPTION_TWO
+                    settingsRepository.setMultiColumnListEnabled(multiColumnListEnabled)
+                }
+
+            else -> {
+            }
         }
     }
 
     private fun updateState(
-        predicate: (SettingsListItem) -> Boolean,
-        update: (SettingsListItem) -> SettingsListItem,
+        predicate: (SettingsItem) -> Boolean,
+        update: (SettingsItem) -> SettingsItem,
     ) {
         _state.update {
             val prevList = it.settingsItems
@@ -131,9 +149,7 @@ class SettingsViewModel @Inject constructor(
             } else {
                 prevList
             }
-            it.copy(
-                settingsItems = newList,
-            )
+            it.copy(settingsItems = newList)
         }
     }
 }
