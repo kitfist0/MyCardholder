@@ -144,6 +144,7 @@
 
     <!--region Settings-->
     <string name="settings_about_app_button_text">About app</string>
+    <string name="settings_app_theme_title" translatable="false">App theme</string>
     <string name="settings_card_categories_button_text">Card categories</string>
     <string name="settings_cloud_sync_switch_on_text">Cloud sync with %s</string>
     <string name="settings_cloud_sync_switch_off_text">Cloud sync</string>
@@ -152,6 +153,7 @@
     <string name="settings_coffee_button_text">Coffee for developers</string>
     <string name="settings_import_export_cards_button_text">Import or export cards</string>
     <string name="settings_label">Settings</string>
+    <string name="settings_num_of_columns_title" translatable="false">Number of columns</string>
     <string name="settings_switch_to_dark_mode_button_text">Switch to dark mode</string>
     <string name="settings_switch_to_light_mode_button_text">Switch to light mode</string>
     <string name="settings_switch_to_multi_column_button_text">Switch to multi-column list of cards</string>

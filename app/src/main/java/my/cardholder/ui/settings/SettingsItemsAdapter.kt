@@ -104,7 +104,7 @@ class SettingsItemsAdapter(
         fun bind(item: SettingsItem) {
             with(binding) {
                 settingsItemIcon.setImageResource(item.iconRes)
-                settingsItemTitle.text = item.id.getTitle()
+                settingsItemTitle.setText(item.id.getTitle())
                 settingsItemOptionsIcon.isVisible = item.options.isNotEmpty()
                 root.setOnClickListener {
                     onItemClicked.invoke(item.id)

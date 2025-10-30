@@ -11,13 +11,13 @@ enum class SettingId {
     ABOUT
 }
 
-fun SettingId.getTitle(): String = when (this) {
-    SettingId.THEME -> "App theme"
-    SettingId.COLUMNS -> "Number of columns"
-    SettingId.CATEGORIES -> "Card categories"
-    SettingId.BACKUP -> "Import/export cards"
-    SettingId.COFFEE -> "Coffee for developers"
-    SettingId.ABOUT -> "About app"
+fun SettingId.getTitle(): Int = when (this) {
+    SettingId.THEME -> R.string.settings_app_theme_title
+    SettingId.COLUMNS -> R.string.settings_num_of_columns_title
+    SettingId.CATEGORIES -> R.string.settings_card_categories_button_text
+    SettingId.BACKUP -> R.string.settings_import_export_cards_button_text
+    SettingId.COFFEE -> R.string.coffee_dialog_title
+    SettingId.ABOUT -> R.string.settings_about_app_button_text
 }
 
 fun SettingId.getImageRes(): Int = when (this) {
