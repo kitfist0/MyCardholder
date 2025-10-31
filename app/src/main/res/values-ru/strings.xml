@@ -143,14 +143,15 @@
     <!--endregion-->
 
     <!--region Settings-->
-    <string name="settings_about_app_button_text">О приложении</string>
-    <string name="settings_card_categories_button_text">Категории карт</string>
+    <string name="settings_about_app_item_title">О приложении</string>
+    <string name="settings_app_theme_item_title">Тема приложения</string>
+    <string name="settings_card_categories_item_title">Категории карт</string>
     <string name="settings_cloud_sync_switch_on_text">Синхронизация с облаком %s</string>
     <string name="settings_cloud_sync_switch_off_text">Синхронизация с облаком</string>
     <string name="settings_cloud_sync_activation_message">Синхронизация включена</string>
     <string name="settings_cloud_sync_deactivation_message">Синхронизация отключена</string>
     <string name="settings_coffee_button_text">Кофе для разработчиков</string>
-    <string name="settings_import_export_cards_button_text">Импорт или экспорт карт</string>
+    <string name="settings_import_export_cards_item_title">Импорт или экспорт карт</string>
     <string name="settings_label">Настройки</string>
     <string name="settings_switch_to_dark_mode_button_text">Включить темную тему</string>
     <string name="settings_switch_to_light_mode_button_text">Включить светлую тему</string>

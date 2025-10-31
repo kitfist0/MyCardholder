@@ -143,14 +143,15 @@
     <!--endregion-->
 
     <!--region Settings-->
-    <string name="settings_about_app_button_text">Acerca de la aplicación</string>
-    <string name="settings_card_categories_button_text">Categorías de tarjetas</string>
+    <string name="settings_about_app_item_title">Acerca de la aplicación</string>
+    <string name="settings_app_theme_item_title">Tema de la aplicación</string>
+    <string name="settings_card_categories_item_title">Categorías de tarjetas</string>
     <string name="settings_cloud_sync_switch_on_text">Sincronización en la nube con %s</string>
     <string name="settings_cloud_sync_switch_off_text">Sincronización en la nube</string>
     <string name="settings_cloud_sync_activation_message">Sincronización en la nube habilitada</string>
     <string name="settings_cloud_sync_deactivation_message">Sincronización en la nube deshabilitada</string>
     <string name="settings_coffee_button_text">Café para desarrolladores</string>
-    <string name="settings_import_export_cards_button_text">Importar o exportar tarjetas</string>
+    <string name="settings_import_export_cards_item_title">Importar o exportar tarjetas</string>
     <string name="settings_label">Ajustes</string>
     <string name="settings_switch_to_dark_mode_button_text">Cambiar al modo oscuro</string>
     <string name="settings_switch_to_light_mode_button_text">Cambiar al modo de luz</string>
