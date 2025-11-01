@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.SettingsRepository
+import my.cardholder.data.model.AppTheme
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 import kotlin.collections.indexOfFirst
@@ -19,8 +20,6 @@ class SettingsViewModel @Inject constructor(
     private companion object {
         const val COLUMNS_OPTION_ONE = "one"
         const val COLUMNS_OPTION_TWO = "two"
-        const val THEME_OPTION_DAY = "day"
-        const val THEME_OPTION_NIGHT = "night"
     }
 
     private val _state = MutableStateFlow(
@@ -52,18 +51,25 @@ class SettingsViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        settingsRepository.nightModeEnabled
-            .onEach { isEnabled ->
+        settingsRepository.appTheme
+            .onEach { theme ->
                 updateState(
                     predicate = { item -> item.id == SettingId.THEME },
                     update = {
                         SettingsItem(
                             id = SettingId.THEME,
-                            iconRes = if (isEnabled) R.drawable.ic_dark_mode else R.drawable.ic_light_mode,
-                            options = listOf(
-                                SettingsItem.Option(THEME_OPTION_DAY, "Day", !isEnabled),
-                                SettingsItem.Option(THEME_OPTION_NIGHT, "Night", isEnabled),
-                            )
+                            iconRes = when (theme) {
+                                AppTheme.DARK -> R.drawable.ic_dark_mode
+                                AppTheme.LIGHT -> R.drawable.ic_light_mode
+                                AppTheme.SYSTEM -> R.drawable.ic_routine
+                            },
+                            options = AppTheme.entries.map {
+                                SettingsItem.Option(
+                                    id = it.name,
+                                    title = it.name.lowercase(),
+                                    selected = theme.name == it.name,
+                                )
+                            }
                         )
                     }
                 )
@@ -122,8 +128,7 @@ class SettingsViewModel @Inject constructor(
         when (settingId) {
             SettingId.THEME ->
                 viewModelScope.launch {
-                    val nightModeEnabled = optionId == THEME_OPTION_NIGHT
-                    settingsRepository.setNightModeEnabled(nightModeEnabled)
+                    settingsRepository.setAppTheme(AppTheme.valueOf(optionId))
                 }
 
             SettingId.COLUMNS ->

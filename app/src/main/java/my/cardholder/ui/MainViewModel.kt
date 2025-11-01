@@ -20,6 +20,7 @@ import my.cardholder.cloud.BackupChecksum
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CoffeeRepository
 import my.cardholder.data.SettingsRepository
+import my.cardholder.data.model.AppTheme
 import my.cardholder.usecase.CloudDownloadUseCase
 import my.cardholder.usecase.CloudUploadUseCase
 import my.cardholder.util.Result
@@ -36,10 +37,10 @@ class MainViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
-    val nightModeEnabled = settingsRepository.nightModeEnabled.stateIn(
+    val appTheme = settingsRepository.appTheme.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
-        initialValue = false
+        initialValue = AppTheme.SYSTEM
     )
 
     private val backupDownloadLogChannel = Channel<String?>()

@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
 import my.cardholder.billing.BillingActivity
+import my.cardholder.data.model.AppTheme
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
@@ -47,8 +48,8 @@ class MainActivity : BillingActivity() {
             }
         }
 
-        collectWhenStarted(viewModel.nightModeEnabled) { isEnabled ->
-            setDefaultNightMode(isEnabled)
+        collectWhenStarted(viewModel.appTheme) { theme ->
+            setAppTheme(theme)
         }
 
         collectWhenStarted(viewModel.backupDownloadLog) { logMessage ->
@@ -70,12 +71,12 @@ class MainActivity : BillingActivity() {
         }
     }
 
-    private fun setDefaultNightMode(isEnabled: Boolean) {
+    private fun setAppTheme(theme: AppTheme) {
         AppCompatDelegate.setDefaultNightMode(
-            if (isEnabled) {
-                AppCompatDelegate.MODE_NIGHT_YES
-            } else {
-                AppCompatDelegate.MODE_NIGHT_NO
+            when (theme) {
+                AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+                AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+                AppTheme.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
         )
     }

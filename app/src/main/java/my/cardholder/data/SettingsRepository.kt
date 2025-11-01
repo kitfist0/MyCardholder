@@ -8,25 +8,33 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import my.cardholder.data.model.AppTheme
 import my.cardholder.data.model.CloudProvider
-import my.cardholder.util.NightModeChecker
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SettingsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val nightModeChecker: NightModeChecker,
 ) {
 
     private companion object {
+        val APP_THEME_KEY = intPreferencesKey("app_theme")
         val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
         val CLOUD_PROVIDER_KEY = intPreferencesKey("cloud_provider")
         val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_zoom_test0")
         val EXPLANATION_CARD_SCAN_KEY = booleanPreferencesKey("explanation_scan")
         val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
         val MULTI_COLUMN_LIST_KEY = booleanPreferencesKey("multi_column_list")
-        val NIGHT_MODE_KEY = booleanPreferencesKey("night_mode")
+    }
+
+    suspend fun setAppTheme(theme: AppTheme) = dataStore.edit { preferences ->
+        preferences[APP_THEME_KEY] = theme.ordinal
+    }
+
+    val appTheme: Flow<AppTheme> = dataStore.data.map { preferences ->
+        val themeValue = preferences[APP_THEME_KEY] ?: AppTheme.SYSTEM.ordinal
+        AppTheme.entries[themeValue]
     }
 
     suspend fun setCloudSyncEnabled(b: Boolean) = dataStore.edit { preferences ->
@@ -77,13 +85,5 @@ class SettingsRepository @Inject constructor(
 
     val multiColumnListEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[MULTI_COLUMN_LIST_KEY] ?: false
-    }
-
-    suspend fun setNightModeEnabled(b: Boolean) = dataStore.edit { preferences ->
-        preferences[NIGHT_MODE_KEY] = b
-    }
-
-    val nightModeEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[NIGHT_MODE_KEY] ?: nightModeChecker.isEnabled
     }
 }
