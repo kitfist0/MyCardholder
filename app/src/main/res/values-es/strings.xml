@@ -153,6 +153,7 @@
     <string name="settings_coffee_button_text">Café para desarrolladores</string>
     <string name="settings_import_export_cards_item_title">Importar o exportar tarjetas</string>
     <string name="settings_label">Ajustes</string>
+    <string name="settings_num_of_columns_item_title">Número de columnas</string>
     <string name="settings_switch_to_dark_mode_button_text">Cambiar al modo oscuro</string>
     <string name="settings_switch_to_light_mode_button_text">Cambiar al modo de luz</string>
     <string name="settings_switch_to_multi_column_button_text">Cambiar a una lista de tarjetas de varias columnas</string>

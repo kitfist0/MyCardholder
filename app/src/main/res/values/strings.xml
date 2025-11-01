@@ -153,7 +153,7 @@
     <string name="settings_coffee_button_text">Coffee for developers</string>
     <string name="settings_import_export_cards_item_title">Import or export cards</string>
     <string name="settings_label">Settings</string>
-    <string name="settings_num_of_columns_item_title" translatable="false">Number of columns</string>
+    <string name="settings_num_of_columns_item_title">Number of columns</string>
     <string name="settings_switch_to_dark_mode_button_text">Switch to dark mode</string>
     <string name="settings_switch_to_light_mode_button_text">Switch to light mode</string>
     <string name="settings_switch_to_multi_column_button_text">Switch to multi-column list of cards</string>

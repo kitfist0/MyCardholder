@@ -153,6 +153,7 @@
     <string name="settings_coffee_button_text">Кофе для разработчиков</string>
     <string name="settings_import_export_cards_item_title">Импорт или экспорт карт</string>
     <string name="settings_label">Настройки</string>
+    <string name="settings_num_of_columns_item_title">Количество колонок</string>
     <string name="settings_switch_to_dark_mode_button_text">Включить темную тему</string>
     <string name="settings_switch_to_light_mode_button_text">Включить светлую тему</string>
     <string name="settings_switch_to_multi_column_button_text">Включить отображение карт в несколько колонок</string>

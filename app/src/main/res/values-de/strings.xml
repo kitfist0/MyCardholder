@@ -153,6 +153,7 @@
     <string name="settings_coffee_button_text">Kaffee für Entwickler</string>
     <string name="settings_import_export_cards_item_title">Karten importieren oder exportieren</string>
     <string name="settings_label">Einstellungen</string>
+    <string name="settings_num_of_columns_item_title">Anzahl der Spalten</string>
     <string name="settings_switch_to_dark_mode_button_text">Wechseln Sie in den dunklen Modus</string>
     <string name="settings_switch_to_light_mode_button_text">Wechseln Sie in den Lichtmodus</string>
     <string name="settings_switch_to_multi_column_button_text">Zur mehrspaltigen Kartenliste wechseln</string>
