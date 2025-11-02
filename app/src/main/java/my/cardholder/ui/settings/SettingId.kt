@@ -16,7 +16,7 @@ fun SettingId.getTitle(): Int = when (this) {
     SettingId.COLUMNS -> R.string.settings_num_of_columns_item_title
     SettingId.CATEGORIES -> R.string.settings_card_categories_item_title
     SettingId.BACKUP -> R.string.settings_import_export_cards_item_title
-    SettingId.COFFEE -> R.string.coffee_dialog_title
+    SettingId.COFFEE -> R.string.settings_coffee_item_title
     SettingId.ABOUT -> R.string.settings_about_app_item_title
 }
 

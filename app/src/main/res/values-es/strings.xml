@@ -150,7 +150,7 @@
     <string name="settings_cloud_sync_switch_off_text">Sincronización en la nube</string>
     <string name="settings_cloud_sync_activation_message">Sincronización en la nube habilitada</string>
     <string name="settings_cloud_sync_deactivation_message">Sincronización en la nube deshabilitada</string>
-    <string name="settings_coffee_button_text">Café para desarrolladores</string>
+    <string name="settings_coffee_item_title">Café para desarrolladores</string>
     <string name="settings_import_export_cards_item_title">Importar o exportar tarjetas</string>
     <string name="settings_label">Ajustes</string>
     <string name="settings_num_of_columns_item_title">Número de columnas</string>

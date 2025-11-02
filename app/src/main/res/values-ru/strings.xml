@@ -150,7 +150,7 @@
     <string name="settings_cloud_sync_switch_off_text">Синхронизация с облаком</string>
     <string name="settings_cloud_sync_activation_message">Синхронизация включена</string>
     <string name="settings_cloud_sync_deactivation_message">Синхронизация отключена</string>
-    <string name="settings_coffee_button_text">Кофе для разработчиков</string>
+    <string name="settings_coffee_item_title">Кофе для разработчиков</string>
     <string name="settings_import_export_cards_item_title">Импорт или экспорт карт</string>
     <string name="settings_label">Настройки</string>
     <string name="settings_num_of_columns_item_title">Количество колонок</string>
