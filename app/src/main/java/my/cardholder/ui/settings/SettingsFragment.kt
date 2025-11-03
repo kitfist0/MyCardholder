@@ -32,7 +32,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             }
             settingsRecyclerView.apply {
                 clipToPadding = false
-                setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = listAdapter
             }
