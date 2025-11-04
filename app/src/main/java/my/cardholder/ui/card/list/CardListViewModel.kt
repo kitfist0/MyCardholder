@@ -22,11 +22,11 @@ class CardListViewModel @Inject constructor(
 
     init {
         cardRepository.cardsAndCategories
-            .combine(settingsRepository.multiColumnListEnabled) { cardsAndCategories, isMultiColumn ->
+            .combine(settingsRepository.numOfColumns) { cardsAndCategories, numOfColumns ->
                 _state.value = if (cardsAndCategories.isNotEmpty()) {
                     CardListState.Success(
                         cardsAndCategories = cardsAndCategories,
-                        spanCount = if (isMultiColumn) 2 else 1,
+                        spanCount = numOfColumns.intValue,
                         scrollUpEvent = false,
                     )
                 } else {

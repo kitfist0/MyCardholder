@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.AppTheme
+import my.cardholder.data.model.NumOfColumns
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 import kotlin.collections.indexOfFirst
@@ -16,11 +17,6 @@ import kotlin.collections.toMutableList
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
-
-    private companion object {
-        const val COLUMNS_OPTION_ONE = "one"
-        const val COLUMNS_OPTION_TWO = "two"
-    }
 
     private val _state = MutableStateFlow(
         SettingsState(
@@ -76,18 +72,24 @@ class SettingsViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        settingsRepository.multiColumnListEnabled
-            .onEach { isEnabled ->
+        settingsRepository.numOfColumns
+            .onEach { numOfColumns ->
                 updateState(
                     predicate = { item -> item.id == SettingId.COLUMNS },
                     update = {
                         SettingsItem(
                             id = SettingId.COLUMNS,
-                            iconRes = if (isEnabled) R.drawable.ic_list_multi_column else R.drawable.ic_list_single_column,
-                            options = listOf(
-                                SettingsItem.Option(COLUMNS_OPTION_ONE, "1", !isEnabled),
-                                SettingsItem.Option(COLUMNS_OPTION_TWO, "2", isEnabled),
-                            )
+                            iconRes = when (numOfColumns) {
+                                NumOfColumns.ONE -> R.drawable.ic_list_single_column
+                                NumOfColumns.TWO -> R.drawable.ic_list_multi_column
+                            },
+                            options = NumOfColumns.entries.map {
+                                SettingsItem.Option(
+                                    id = it.name,
+                                    title = it.intValue.toString(),
+                                    selected = numOfColumns.name == it.name,
+                                )
+                            }
                         )
                     }
                 )
@@ -133,8 +135,7 @@ class SettingsViewModel @Inject constructor(
 
             SettingId.COLUMNS ->
                 viewModelScope.launch {
-                    val multiColumnListEnabled = optionId == COLUMNS_OPTION_TWO
-                    settingsRepository.setMultiColumnListEnabled(multiColumnListEnabled)
+                    settingsRepository.setNumOfColumns(NumOfColumns.valueOf(optionId))
                 }
 
             else -> {

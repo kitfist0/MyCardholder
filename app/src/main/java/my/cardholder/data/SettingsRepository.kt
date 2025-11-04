@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import my.cardholder.data.model.AppTheme
 import my.cardholder.data.model.CloudProvider
+import my.cardholder.data.model.NumOfColumns
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,7 +26,7 @@ class SettingsRepository @Inject constructor(
         val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_zoom_test0")
         val EXPLANATION_CARD_SCAN_KEY = booleanPreferencesKey("explanation_scan")
         val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
-        val MULTI_COLUMN_LIST_KEY = booleanPreferencesKey("multi_column_list")
+        val NUM_OF_COLUMNS = intPreferencesKey("columns_number")
     }
 
     suspend fun setAppTheme(theme: AppTheme) = dataStore.edit { preferences ->
@@ -79,11 +80,12 @@ class SettingsRepository @Inject constructor(
         preferences[LATEST_SYNCED_BACKUP_CHECKSUM_KEY]
     }
 
-    suspend fun setMultiColumnListEnabled(b: Boolean) = dataStore.edit { preferences ->
-        preferences[MULTI_COLUMN_LIST_KEY] = b
+    suspend fun setNumOfColumns(numOfColumns: NumOfColumns) = dataStore.edit { preferences ->
+        preferences[APP_THEME_KEY] = numOfColumns.ordinal
     }
 
-    val multiColumnListEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[MULTI_COLUMN_LIST_KEY] ?: false
+    val numOfColumns: Flow<NumOfColumns> = dataStore.data.map { preferences ->
+        val numOfColumnsValue = preferences[NUM_OF_COLUMNS] ?: NumOfColumns.ONE.ordinal
+        NumOfColumns.entries[numOfColumnsValue]
     }
 }
