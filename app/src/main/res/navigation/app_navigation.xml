@@ -237,7 +237,7 @@
         android:id="@+id/info_dialog"
         android:name="my.cardholder.ui.info.InfoDialog"
         android:label="@string/info_dialog_label"
-        tools:layout="@layout/dialog_info" >
+        tools:layout="@layout/dialog_info">
         <action
             android:id="@+id/from_info_to_specs"
             app:destination="@id/specs_fragment" />
@@ -253,6 +253,10 @@
         android:id="@+id/card_backup_dialog"
         android:name="my.cardholder.ui.card.backup.CardBackupDialog"
         android:label="@string/card_backup_dialog_label"
-        tools:layout="@layout/dialog_card_backup" />
+        tools:layout="@layout/dialog_card_backup">
+        <action
+            android:id="@+id/from_card_backup_to_cloud_login"
+            app:destination="@id/cloud_login_fragment" />
+    </dialog>
 
 </navigation>

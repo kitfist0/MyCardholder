@@ -43,6 +43,9 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
             cardBackupImportCardsButton.setOnClickListener {
                 viewModel.onImportCardsButtonClicked()
             }
+            cardBackupSyncCardsButton.setOnClickListener {
+                viewModel.onSyncCardsButtonClicked()
+            }
         }
     }
 
