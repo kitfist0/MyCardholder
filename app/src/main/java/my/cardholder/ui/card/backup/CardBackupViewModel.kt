@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import my.cardholder.R
 import my.cardholder.data.BackupRepository
+import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
 import my.cardholder.ui.base.BaseViewModel
@@ -22,15 +23,25 @@ import javax.inject.Inject
 @HiltViewModel
 class CardBackupViewModel @Inject constructor(
     private val backupRepository: BackupRepository,
+    settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
     private companion object {
         val DEFAULT_STATE = CardBackupState(
             titleRes = R.string.card_backup_dialog_default_title,
             progressPercentage = null,
+            syncCardsButtonIsVisible = true,
             launchBackupFileExport = false,
             launchBackupFileImport = false,
         )
+    }
+
+    init {
+        settingsRepository.cloudSyncEnabled
+            .onEach { isEnabled ->
+                _state.update { it.copy(syncCardsButtonIsVisible = !isEnabled) }
+            }
+            .launchIn(viewModelScope)
     }
 
     private val _state = MutableStateFlow(DEFAULT_STATE)
@@ -88,9 +99,11 @@ class CardBackupViewModel @Inject constructor(
                 _state.value = DEFAULT_STATE
                 showToast(Text.Simple(result.message))
             }
+
             is BackupResult.Progress -> {
                 _state.update { it.copy(progressPercentage = result.percentage) }
             }
+
             is BackupResult.Success -> {
                 _state.value = DEFAULT_STATE
                 showSuccessToast(result.type)
@@ -103,6 +116,7 @@ class CardBackupViewModel @Inject constructor(
         val text = when (type) {
             BackupOperationType.IMPORT ->
                 Text.Resource(R.string.card_backup_dialog_import_completed_message)
+
             BackupOperationType.EXPORT ->
                 Text.Resource(R.string.card_backup_dialog_export_completed_message)
         }
