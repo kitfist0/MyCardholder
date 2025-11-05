@@ -12,12 +12,14 @@
     <string name="card_backup_dialog_default_title">Importar o exportar tarjetas</string>
     <string name="card_backup_dialog_export_button_text">Exportar tarjetas a archivo</string>
     <string name="card_backup_dialog_export_completed_message">Exportación completada con éxito</string>
-    <string name="card_backup_dialog_export_title">Espere por favor. Exportación en curso</string>
+    <string name="card_backup_dialog_export_progress_title">Espere por favor. Exportación en curso</string>
     <string name="card_backup_dialog_import_button_text">Importar tarjetas desde un archivo</string>
     <string name="card_backup_dialog_import_completed_message">Importación completada con éxito</string>
-    <string name="card_backup_dialog_import_title">Espere por favor. Importación en curso</string>
+    <string name="card_backup_dialog_import_progress_title">Espere por favor. Importación en curso</string>
+    <string name="card_backup_dialog_import_title">Importar tarjetas</string>
     <string name="card_backup_dialog_label">Respaldo</string>
     <string name="card_backup_dialog_operation_canceled_message">Operación cancelada</string>
+    <string name="card_backup_dialog_sync_cards_button_text">Sincronizar tarjetas con la nube</string>
     <!--endregion-->
 
     <!--region CardContent-->

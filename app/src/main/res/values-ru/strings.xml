@@ -12,12 +12,14 @@
     <string name="card_backup_dialog_default_title">Импорт или экспорт карт</string>
     <string name="card_backup_dialog_export_button_text">Экспортировать карты в файл</string>
     <string name="card_backup_dialog_export_completed_message">Экспорт успешно завершен</string>
-    <string name="card_backup_dialog_export_title">Пожалуйста подождите. Выполняется экспорт</string>
+    <string name="card_backup_dialog_export_progress_title">Пожалуйста подождите. Выполняется экспорт</string>
     <string name="card_backup_dialog_import_button_text">Импортировать карты из файла</string>
     <string name="card_backup_dialog_import_completed_message">Импорт успешно завершен</string>
-    <string name="card_backup_dialog_import_title">Пожалуйста подождите. Выполняется импорт</string>
+    <string name="card_backup_dialog_import_progress_title">Пожалуйста подождите. Выполняется импорт</string>
+    <string name="card_backup_dialog_import_title">Импорт карт</string>
     <string name="card_backup_dialog_label">Бэкап</string>
     <string name="card_backup_dialog_operation_canceled_message">Операция отменена</string>
+    <string name="card_backup_dialog_sync_cards_button_text">Синхронизировать карты с облаком</string>
     <!--endregion-->
 
     <!--region CardContent-->

@@ -12,12 +12,14 @@
     <string name="card_backup_dialog_default_title">Karten importieren oder exportieren</string>
     <string name="card_backup_dialog_export_button_text">Exportieren Sie Karten in eine Datei</string>
     <string name="card_backup_dialog_export_completed_message">Kartenexport erfolgreich abgeschlossen</string>
-    <string name="card_backup_dialog_export_title">Warten Sie mal. Export läuft</string>
+    <string name="card_backup_dialog_export_progress_title">Warten Sie mal. Export läuft</string>
     <string name="card_backup_dialog_import_button_text">Importieren Sie Karten aus einer Datei</string>
     <string name="card_backup_dialog_import_completed_message">Kartenimport erfolgreich abgeschlossen</string>
-    <string name="card_backup_dialog_import_title">Warten Sie mal. Import läuft</string>
+    <string name="card_backup_dialog_import_progress_title">Warten Sie mal. Import läuft</string>
+    <string name="card_backup_dialog_import_title">Karten importieren</string>
     <string name="card_backup_dialog_label">Kartensicherung</string>
     <string name="card_backup_dialog_operation_canceled_message">Vorgang abgebrochen</string>
+    <string name="card_backup_dialog_sync_cards_button_text">Karten mit der Cloud synchronisieren</string>
     <!--endregion-->
 
     <!--region CardContent-->
