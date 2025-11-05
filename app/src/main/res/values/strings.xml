@@ -18,6 +18,7 @@
     <string name="card_backup_dialog_import_title">Please wait. Import in progress</string>
     <string name="card_backup_dialog_label">Backup</string>
     <string name="card_backup_dialog_operation_canceled_message">Operation canceled</string>
+    <string name="card_backup_dialog_sync_cards_button_text" translatable="false">Sync cards with the cloud</string>
     <!--endregion-->
 
     <!--region CardContent-->

@@ -51,4 +51,16 @@
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:drawableStartCompat="@drawable/ic_import" />
 
+    <TextView
+        android:id="@+id/card_backup_sync_cards_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_sheet_button_height"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
+        android:gravity="center_vertical"
+        android:padding="@dimen/bottom_sheet_view_padding"
+        android:text="@string/card_backup_dialog_sync_cards_button_text"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:drawableStartCompat="@drawable/ic_cloud" />
+
 </LinearLayout>
