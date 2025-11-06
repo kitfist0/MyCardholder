@@ -5,6 +5,8 @@ import androidx.annotation.StringRes
 data class CardBackupState(
     @StringRes val titleRes: Int,
     val progressPercentage: Int?,
+    val exportCardsButtonIsVisible: Boolean,
+    val importCardsButtonIsVisible: Boolean,
     val syncCardsButtonIsVisible: Boolean,
     val launchBackupFileExport: Boolean,
     val launchBackupFileImport: Boolean,

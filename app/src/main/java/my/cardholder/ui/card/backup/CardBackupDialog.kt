@@ -3,6 +3,7 @@ package my.cardholder.ui.card.backup
 import android.content.DialogInterface
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.BuildConfig
@@ -56,20 +57,36 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            val notCurrentlyInProgress = !state.currentlyInProgress()
-            binding.cardBackupTitleText.setText(state.titleRes)
-            binding.cardBackupProgressIndicator.apply {
-                progress = state.progressPercentage ?: 0
-                isInvisible = notCurrentlyInProgress
-            }
-            binding.cardBackupExportCardsButton.isEnabled = notCurrentlyInProgress
-            binding.cardBackupImportCardsButton.isEnabled = notCurrentlyInProgress
+            updateViews(state)
             if (state.launchBackupFileExport) {
                 backupFileExport.launch(EXPORTED_FILE_NAME)
                 viewModel.onBackupFileExportLaunched()
             } else if (state.launchBackupFileImport) {
                 backupFileImport.launch(MIME_TYPE)
                 viewModel.onBackupFileImportLaunched()
+            }
+        }
+    }
+
+    private fun updateViews(state: CardBackupState) {
+        val notCurrentlyInProgress = !state.currentlyInProgress()
+        with(binding) {
+            cardBackupTitleText.setText(state.titleRes)
+            cardBackupProgressIndicator.apply {
+                progress = state.progressPercentage ?: 0
+                isInvisible = notCurrentlyInProgress
+            }
+            cardBackupExportCardsButton.apply {
+                isVisible = state.exportCardsButtonIsVisible
+                isEnabled = notCurrentlyInProgress
+            }
+            cardBackupImportCardsButton.apply {
+                isVisible = state.importCardsButtonIsVisible
+                isEnabled = notCurrentlyInProgress
+            }
+            cardBackupSyncCardsButton.apply {
+                isVisible = state.syncCardsButtonIsVisible
+                isEnabled = notCurrentlyInProgress
             }
         }
     }

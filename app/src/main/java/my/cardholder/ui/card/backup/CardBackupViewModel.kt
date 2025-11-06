@@ -1,5 +1,6 @@
 package my.cardholder.ui.card.backup
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,18 +24,19 @@ import javax.inject.Inject
 @HiltViewModel
 class CardBackupViewModel @Inject constructor(
     private val backupRepository: BackupRepository,
+    savedStateHandle: SavedStateHandle,
     settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
-    private companion object {
-        val DEFAULT_STATE = CardBackupState(
-            titleRes = R.string.card_backup_dialog_default_title,
-            progressPercentage = null,
-            syncCardsButtonIsVisible = true,
-            launchBackupFileExport = false,
-            launchBackupFileImport = false,
-        )
-    }
+    val defaultState = CardBackupState(
+        titleRes = R.string.card_backup_dialog_default_title,
+        progressPercentage = null,
+        exportCardsButtonIsVisible = !CardBackupDialogArgs.fromSavedStateHandle(savedStateHandle).showOnlyImportButtons,
+        importCardsButtonIsVisible = true,
+        syncCardsButtonIsVisible = true,
+        launchBackupFileExport = false,
+        launchBackupFileImport = false,
+    )
 
     init {
         settingsRepository.cloudSyncEnabled
@@ -44,7 +46,7 @@ class CardBackupViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    private val _state = MutableStateFlow(DEFAULT_STATE)
+    private val _state = MutableStateFlow(defaultState)
     val state = _state.asStateFlow()
 
     fun onDialogDismiss() {
@@ -65,7 +67,7 @@ class CardBackupViewModel @Inject constructor(
         outputStream ?: return
         backupRepository.exportToBackupFile(outputStream)
             .onStart {
-                _state.update { it.copy(titleRes = R.string.card_backup_dialog_export_title) }
+                _state.update { it.copy(titleRes = R.string.card_backup_dialog_export_progress_title) }
             }
             .onEach { onEachBackupResult(it) }
             .launchIn(viewModelScope)
@@ -87,7 +89,7 @@ class CardBackupViewModel @Inject constructor(
         inputStream ?: return
         backupRepository.importFromBackupFile(inputStream)
             .onStart {
-                _state.update { it.copy(titleRes = R.string.card_backup_dialog_import_title) }
+                _state.update { it.copy(titleRes = R.string.card_backup_dialog_import_progress_title) }
             }
             .onEach { onEachBackupResult(it) }
             .launchIn(viewModelScope)
@@ -96,7 +98,7 @@ class CardBackupViewModel @Inject constructor(
     private fun onEachBackupResult(result: BackupResult) {
         when (result) {
             is BackupResult.Error -> {
-                _state.value = DEFAULT_STATE
+                _state.value = defaultState
                 showToast(Text.Simple(result.message))
             }
 
@@ -105,7 +107,7 @@ class CardBackupViewModel @Inject constructor(
             }
 
             is BackupResult.Success -> {
-                _state.value = DEFAULT_STATE
+                _state.value = defaultState
                 showSuccessToast(result.type)
                 navigateUp()
             }
