@@ -55,7 +55,7 @@ class CardListViewModel @Inject constructor(
     }
 
     fun onImportCardsFabClicked() {
-        navigate(CardListFragmentDirections.fromCardListToCardBackup())
+        navigate(CardListFragmentDirections.fromCardListToCardBackup(showOnlyImportButtons = true))
     }
 
     fun onSearchFabClicked(extras: Navigator.Extras) {

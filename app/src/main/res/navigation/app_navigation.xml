@@ -254,6 +254,10 @@
         android:name="my.cardholder.ui.card.backup.CardBackupDialog"
         android:label="@string/card_backup_dialog_label"
         tools:layout="@layout/dialog_card_backup">
+        <argument
+            android:name="show_only_import_buttons"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/from_card_backup_to_cloud_login"
             app:destination="@id/cloud_login_fragment" />
