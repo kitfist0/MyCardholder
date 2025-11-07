@@ -28,6 +28,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
             settingsHeaderCard.setOnClickListener {
+                listAdapter.collapseAll()
                 viewModel.onHeaderClicked()
             }
             settingsRecyclerView.apply {
