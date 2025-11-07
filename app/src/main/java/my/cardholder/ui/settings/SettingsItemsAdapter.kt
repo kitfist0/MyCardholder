@@ -39,6 +39,7 @@ class SettingsItemsAdapter(
             if (item.options.isNotEmpty()) {
                 toggleExpansion(itemId, position)
             } else {
+                collapseAll()
                 onItemWithoutOptionsClicked.invoke(itemId)
             }
         }
