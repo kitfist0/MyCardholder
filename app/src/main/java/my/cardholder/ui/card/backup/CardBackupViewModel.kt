@@ -28,10 +28,16 @@ class CardBackupViewModel @Inject constructor(
     settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
-    val defaultState = CardBackupState(
-        titleRes = R.string.card_backup_dialog_default_title,
+    private val showOnlyImportButtons = CardBackupDialogArgs.fromSavedStateHandle(savedStateHandle).showOnlyImportButtons
+
+    private val defaultState = CardBackupState(
+        titleRes = if (showOnlyImportButtons) {
+            R.string.card_backup_dialog_import_title
+        } else {
+            R.string.card_backup_dialog_default_title
+        },
         progressPercentage = null,
-        exportCardsButtonIsVisible = !CardBackupDialogArgs.fromSavedStateHandle(savedStateHandle).showOnlyImportButtons,
+        exportCardsButtonIsVisible = !showOnlyImportButtons,
         importCardsButtonIsVisible = true,
         syncCardsButtonIsVisible = true,
         launchBackupFileExport = false,
