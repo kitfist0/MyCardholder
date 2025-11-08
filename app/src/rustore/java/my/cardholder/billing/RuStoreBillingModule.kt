@@ -20,25 +20,28 @@ interface RuStoreBillingModule {
     fun bindPurchasedProductsProvider(assistant: RuStoreBillingAssistant): PurchasedProductsProvider
 
     companion object {
+        private const val APP_ID = "2063489959"
+
         @Provides
         @Singleton
         fun provideRuStoreBillingAssistant(
             context: Context,
             nightModeChecker: NightModeChecker,
         ): RuStoreBillingAssistant {
-            val ruStoreBillingClient = RuStoreBillingClientFactory.create(
-                context = context,
-                consoleApplicationId = "2063489959",
-                deeplinkScheme = "cardholder",
-                themeProvider = object : BillingClientThemeProvider {
-                    override fun provide(): BillingClientTheme {
-                        return if (nightModeChecker.isEnabled) {
-                            BillingClientTheme.Dark
-                        } else {
-                            BillingClientTheme.Light
-                        }
+            val themeProvider = object : BillingClientThemeProvider {
+                override fun provide(): BillingClientTheme {
+                    return if (nightModeChecker.isEnabled) {
+                        BillingClientTheme.Dark
+                    } else {
+                        BillingClientTheme.Light
                     }
                 }
+            }
+            val ruStoreBillingClient = RuStoreBillingClientFactory.create(
+                context = context,
+                consoleApplicationId = APP_ID,
+                deeplinkScheme = "cardholder",
+                themeProvider = themeProvider,
             )
             return RuStoreBillingAssistant(ruStoreBillingClient)
         }
