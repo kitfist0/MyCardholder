@@ -26,7 +26,7 @@ class SettingsRepository @Inject constructor(
         val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_zoom_test0")
         val EXPLANATION_CARD_SCAN_KEY = booleanPreferencesKey("explanation_scan")
         val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
-        val NUM_OF_COLUMNS = intPreferencesKey("columns_number")
+        val NUM_OF_COLUMNS_KEY = intPreferencesKey("columns_number")
     }
 
     suspend fun setAppTheme(theme: AppTheme) = dataStore.edit { preferences ->
@@ -81,11 +81,11 @@ class SettingsRepository @Inject constructor(
     }
 
     suspend fun setNumOfColumns(numOfColumns: NumOfColumns) = dataStore.edit { preferences ->
-        preferences[APP_THEME_KEY] = numOfColumns.ordinal
+        preferences[NUM_OF_COLUMNS_KEY] = numOfColumns.ordinal
     }
 
     val numOfColumns: Flow<NumOfColumns> = dataStore.data.map { preferences ->
-        val numOfColumnsValue = preferences[NUM_OF_COLUMNS] ?: NumOfColumns.ONE.ordinal
+        val numOfColumnsValue = preferences[NUM_OF_COLUMNS_KEY] ?: NumOfColumns.ONE.ordinal
         NumOfColumns.entries[numOfColumnsValue]
     }
 }
