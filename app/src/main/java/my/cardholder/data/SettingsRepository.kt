@@ -23,7 +23,7 @@ class SettingsRepository @Inject constructor(
         val APP_THEME_KEY = intPreferencesKey("app_theme")
         val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
         val CLOUD_PROVIDER_KEY = intPreferencesKey("cloud_provider")
-        val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_zoom_test0")
+        val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_zoom")
         val EXPLANATION_CARD_SCAN_KEY = booleanPreferencesKey("explanation_scan")
         val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
         val NUM_OF_COLUMNS_KEY = intPreferencesKey("columns_number")
