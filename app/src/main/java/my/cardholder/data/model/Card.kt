@@ -35,6 +35,7 @@ data class Card(
     val categoryId: Long? = null,
     val content: String,
     val color: String,
+    val comment: String? = null,
     val format: SupportedFormat,
     val path: BarcodeFilePath?,
     @ColumnInfo(name = "changed_at")

@@ -43,6 +43,7 @@ class CardRepository @Inject constructor(
         categoryId: Long? = null,
         content: String = DEFAULT_CARD_CONTENT,
         color: String = Card.COLORS.random(),
+        comment: String? = null,
         format: SupportedFormat = SupportedFormat.QR_CODE,
     ): Long {
         val barcodeFilePath = writeNewBarcodeFile(content, format)
@@ -55,6 +56,7 @@ class CardRepository @Inject constructor(
             categoryId = categoryId,
             content = content.trim(),
             color = color,
+            comment = comment?.trim()?.ifEmpty { null },
             format = format,
             path = barcodeFilePath,
             changedAt = System.currentTimeMillis(),
@@ -115,6 +117,17 @@ class CardRepository @Inject constructor(
                 val barcodeFilePath = writeNewBarcodeFile(newContent, card.format)
                 upsertCard(
                     card.copy(content = newContent, path = barcodeFilePath)
+                )
+            }
+        }
+    }
+
+    suspend fun updateCardComment(cardId: Long, comment: String) {
+        getCard(cardId)?.let { card ->
+            val newComment = comment.trim()
+            if (card.comment != newComment) {
+                upsertCard(
+                    card.copy(comment = newComment)
                 )
             }
         }
