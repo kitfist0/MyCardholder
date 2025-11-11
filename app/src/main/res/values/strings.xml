@@ -22,6 +22,11 @@
     <string name="card_backup_dialog_sync_cards_button_text">Sync cards with the cloud</string>
     <!--endregion-->
 
+    <!--region CardComment-->
+    <string name="card_comment_hint" translatable="false">Comment</string>
+    <string name="card_comment_title" translatable="false">Editing card comment</string>
+    <!--endregion-->
+
     <!--region CardContent-->
     <string name="card_content_empty_text_error_message">Empty text</string>
     <string name="card_content_hint">Text</string>
