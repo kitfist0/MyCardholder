@@ -122,9 +122,9 @@ class CardRepository @Inject constructor(
         }
     }
 
-    suspend fun updateCardComment(cardId: Long, comment: String) {
+    suspend fun updateCardComment(cardId: Long, comment: String?) {
         getCard(cardId)?.let { card ->
-            val newComment = comment.trim()
+            val newComment = comment?.trim()
             if (card.comment != newComment) {
                 upsertCard(
                     card.copy(comment = newComment)
