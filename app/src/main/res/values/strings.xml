@@ -50,6 +50,7 @@
     <string name="card_edit_barcode_format_hint">Format</string>
     <string name="card_edit_category_hint">Category</string>
     <string name="card_edit_color_hint">Color</string>
+    <string name="card_edit_comment_hint" translatable="false">Comment</string>
     <string name="card_edit_content_hint">Text</string>
     <string name="card_edit_invalid_image_link_error_message">Invalid image link!</string>
     <string name="card_edit_invalid_value_error_message">The value is invalid for the selected barcode type</string>

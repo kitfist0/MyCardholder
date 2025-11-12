@@ -130,6 +130,27 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_edit_card_comment_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:hint="@string/card_edit_comment_hint"
+                android:transitionName="@string/transition_card_comment"
+                app:hintAnimationEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_color_input_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:inputType="textShortMessage"
+                    tools:text="@tools:sample/lorem" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/card_edit_card_logo_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -139,7 +160,7 @@
                 app:hintAnimationEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_edit_card_color_input_layout"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_comment_input_layout"
                 tools:helperText="@string/card_edit_logo_helper_text">
 
                 <com.google.android.material.textfield.TextInputEditText
