@@ -93,6 +93,16 @@
     </fragment>
 
     <fragment
+        android:id="@+id/card_comment_fragment"
+        android:name="my.cardholder.ui.card.comment.CardCommentFragment"
+        android:label="Comment"
+        tools:layout="@layout/fragment_card_comment">
+        <argument
+            android:name="card_id"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
         android:id="@+id/card_content_fragment"
         android:name="my.cardholder.ui.card.content.CardContentFragment"
         android:label="@string/card_content_label"
@@ -113,6 +123,9 @@
         <action
             android:id="@+id/from_card_display_to_card_edit"
             app:destination="@id/card_edit_fragment" />
+        <action
+            android:id="@+id/from_card_display_to_card_comment"
+            app:destination="@id/card_comment_fragment" />
         <action
             android:id="@+id/from_card_display_to_card_content"
             app:destination="@id/card_content_fragment" />
