@@ -109,6 +109,20 @@
         app:layout_constraintTop_toBottomOf="@id/card_display_card_content_card_view"
         tools:text="@sample/sample_cards.json/cards/category" />
 
+    <TextView
+        android:id="@+id/card_display_card_comment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="16dp"
+        android:backgroundTint="?colorSecondaryContainer"
+        android:padding="4dp"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:transitionName="@string/transition_card_comment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_display_card_category_text"
+        tools:text="@tools:sample/lorem/random" />
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/card_display_edit_fab"
         android:layout_width="wrap_content"
