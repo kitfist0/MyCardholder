@@ -67,6 +67,11 @@ class CardDisplayViewModel @Inject constructor(
         return true
     }
 
+    fun onCardCommentTextLongClicked(extras: Navigator.Extras): Boolean {
+        navigate(CardDisplayFragmentDirections.fromCardDisplayToCardComment(cardId), extras)
+        return true
+    }
+
     fun onEditFabClicked(extras: Navigator.Extras) {
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardEdit(cardId), extras)
     }
