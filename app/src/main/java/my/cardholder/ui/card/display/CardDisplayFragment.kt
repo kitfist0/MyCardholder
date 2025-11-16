@@ -89,6 +89,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                         )
                         cardDisplayCardNameText.text = state.cardName
                         cardDisplayCardContentText.text = state.cardContent
+                        cardDisplayCardCommentText.text = state.cardComment
                         cardDisplayEditFab.isClickable = true
                     }
                 }

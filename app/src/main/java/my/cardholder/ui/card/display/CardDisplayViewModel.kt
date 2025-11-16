@@ -41,6 +41,7 @@ class CardDisplayViewModel @Inject constructor(
                     cardLogo = card.logo,
                     cardName = card.name,
                     cardContent = card.content,
+                    cardComment = card.comment.orEmpty(),
                     cardColor = card.getColorInt(),
                     explanationIsVisible = expIsRequired,
                 )
