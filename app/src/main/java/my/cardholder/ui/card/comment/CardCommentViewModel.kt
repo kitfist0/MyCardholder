@@ -25,8 +25,8 @@ class CardCommentViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val cardContent = cardRepository.getCardAndCategory(cardId).first()?.card?.content
-            _state.value = CardContentState.Success(cardContent.orEmpty())
+            val cardComment = cardRepository.getCardAndCategory(cardId).first()?.card?.comment
+            _state.value = CardContentState.Success(cardComment.orEmpty())
         }
     }
 
