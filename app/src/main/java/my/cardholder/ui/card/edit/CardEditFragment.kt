@@ -59,6 +59,13 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setDrawableEndClickListener { viewModel.onCardLogoHelpIconClicked() }
                 doAfterTextChanged { viewModel.onCardLogoChanged(it?.toString()) }
             }
+            cardEditCardCommentInputLayout.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
+                editText?.setOnClickListener {
+                    val extras = listOf(cardEditCardCommentInputLayout).toNavExtras()
+                    viewModel.onCardCommentClicked(extras)
+                }
+            }
             cardEditBarcodeFormatInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
             cardEditOkFab.apply {
@@ -89,6 +96,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditCardContentInputLayout.isEnabled = false
                     cardEditCardCategoryInputLayout.isEnabled = false
                     cardEditCardColorInputLayout.isEnabled = false
+                    cardEditCardCommentInputLayout.isEnabled = false
                     cardEditCardLogoInputLayout.isEnabled = false
                     cardEditBarcodeFormatInputLayout.isEnabled = false
                 }
@@ -115,6 +123,10 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         setTextAndSelectionIfRequired(state.cardColor)
                         setStartColoredSquareIcon(state.cardColor)
                         adapter ?: setAdapter(CardEditColorAdapter(context, state.cardColors))
+                    }
+                    cardEditCardCommentInputLayout.apply {
+                        isEnabled = true
+                        editText?.setTextAndSelectionIfRequired(state.cardComment)
                     }
                     cardEditCardLogoInputLayout.apply {
                         isEnabled = true

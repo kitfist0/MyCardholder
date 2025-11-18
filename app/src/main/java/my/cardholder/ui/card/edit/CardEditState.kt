@@ -15,6 +15,7 @@ sealed class CardEditState {
         val cardCategoryNames: List<String>,
         val cardColor: String,
         val cardColors: List<String> = Card.COLORS.toList(),
+        val cardComment: String,
         val cardLogo: String,
         val barcodeFormatName: String,
         val barcodeFormatNames: List<String> = SupportedFormat.entries.map { it.toString() },

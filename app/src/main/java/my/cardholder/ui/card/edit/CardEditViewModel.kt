@@ -58,6 +58,7 @@ class CardEditViewModel @Inject constructor(
                     cardCategoryName = cardAndCategory.category?.name ?: Category.NULL_NAME,
                     cardCategoryNames = listOf(Category.NULL_NAME).plus(categoryNames),
                     cardColor = card.color,
+                    cardComment = card.comment.orEmpty(),
                     cardLogo = card.logo.orEmpty(),
                     barcodeFormatName = card.format.toString(),
                 )
@@ -109,6 +110,10 @@ class CardEditViewModel @Inject constructor(
         viewModelScope.launch {
             cardRepository.updateCardColor(cardId, changedColor)
         }
+    }
+
+    fun onCardCommentClicked(extras: Navigator.Extras) {
+        navigate(CardEditFragmentDirections.fromCardEditToCardComment(cardId), extras)
     }
 
     fun onCardLogoHelpIconClicked() {
