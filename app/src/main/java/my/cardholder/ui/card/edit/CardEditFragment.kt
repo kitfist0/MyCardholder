@@ -53,18 +53,18 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardCategoryNameChanged(it?.toString()) }
             }
-            cardEditCardColorInputLayout.editText
-                ?.doAfterTextChanged { viewModel.onCardColorChanged(it?.toString()) }
-            cardEditCardLogoInputLayout.editText?.apply {
-                setDrawableEndClickListener { viewModel.onCardLogoHelpIconClicked() }
-                doAfterTextChanged { viewModel.onCardLogoChanged(it?.toString()) }
-            }
             cardEditCardCommentInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.setOnClickListener {
                     val extras = listOf(cardEditCardCommentInputLayout).toNavExtras()
                     viewModel.onCardCommentClicked(extras)
                 }
+            }
+            cardEditCardColorInputLayout.editText
+                ?.doAfterTextChanged { viewModel.onCardColorChanged(it?.toString()) }
+            cardEditCardLogoInputLayout.editText?.apply {
+                setDrawableEndClickListener { viewModel.onCardLogoHelpIconClicked() }
+                doAfterTextChanged { viewModel.onCardLogoChanged(it?.toString()) }
             }
             cardEditBarcodeFormatInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
@@ -95,8 +95,8 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditCardNameInputLayout.isEnabled = false
                     cardEditCardContentInputLayout.isEnabled = false
                     cardEditCardCategoryInputLayout.isEnabled = false
-                    cardEditCardColorInputLayout.isEnabled = false
                     cardEditCardCommentInputLayout.isEnabled = false
+                    cardEditCardColorInputLayout.isEnabled = false
                     cardEditCardLogoInputLayout.isEnabled = false
                     cardEditBarcodeFormatInputLayout.isEnabled = false
                 }
@@ -118,15 +118,15 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         setTextAndSelectionIfRequired(state.cardCategoryName)
                         adapter ?: setDefaultAdapter(state.cardCategoryNames)
                     }
+                    cardEditCardCommentInputLayout.apply {
+                        isEnabled = true
+                        editText?.setTextAndSelectionIfRequired(state.cardComment)
+                    }
                     cardEditCardColorInputLayout.isEnabled = true
                     (cardEditCardColorInputLayout.editText as? AutoCompleteTextView)?.apply {
                         setTextAndSelectionIfRequired(state.cardColor)
                         setStartColoredSquareIcon(state.cardColor)
                         adapter ?: setAdapter(CardEditColorAdapter(context, state.cardColors))
-                    }
-                    cardEditCardCommentInputLayout.apply {
-                        isEnabled = true
-                        editText?.setTextAndSelectionIfRequired(state.cardComment)
                     }
                     cardEditCardLogoInputLayout.apply {
                         isEnabled = true

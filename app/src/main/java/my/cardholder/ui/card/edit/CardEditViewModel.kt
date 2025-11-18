@@ -57,8 +57,8 @@ class CardEditViewModel @Inject constructor(
                     cardContent = card.content,
                     cardCategoryName = cardAndCategory.category?.name ?: Category.NULL_NAME,
                     cardCategoryNames = listOf(Category.NULL_NAME).plus(categoryNames),
-                    cardColor = card.color,
                     cardComment = card.comment.orEmpty(),
+                    cardColor = card.color,
                     cardLogo = card.logo.orEmpty(),
                     barcodeFormatName = card.format.toString(),
                 )
