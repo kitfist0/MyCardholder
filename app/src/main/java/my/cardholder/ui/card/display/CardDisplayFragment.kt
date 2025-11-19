@@ -45,9 +45,12 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                     viewModel.onCardContentTextLongClicked(extras)
                 }
             }
-            cardDisplayCardCommentText.setOnLongClickListener {
+            cardDisplayCardCommentText.apply {
+                setupUniqueTransitionName(uniqueNameSuffix)
                 val extras = listOf(cardDisplayCardCommentText).toNavExtras()
-                viewModel.onCardCommentTextLongClicked(extras)
+                setOnLongClickListener {
+                    viewModel.onCardCommentTextLongClicked(extras)
+                }
             }
             cardDisplayEditFab.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayEditFab.setOnClickListener {
@@ -56,6 +59,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                     cardDisplayCardNameText,
                     cardDisplayCardContentCardView,
                     cardDisplayCardCategoryText,
+                    cardDisplayCardCommentText,
                     cardDisplayEditFab,
                 ).toNavExtras()
                 viewModel.onEditFabClicked(extras)
