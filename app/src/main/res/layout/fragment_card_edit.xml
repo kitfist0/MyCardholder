@@ -111,6 +111,7 @@
                 android:layout_margin="8dp"
                 android:hint="@string/card_edit_comment_hint"
                 android:transitionName="@string/transition_card_comment"
+                app:expandedHintEnabled="false"
                 app:hintAnimationEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
