@@ -44,6 +44,7 @@
     <string name="card_display_edit_fab_title">Edit</string>
     <string name="card_display_explanation_message">Click here to display in full screen</string>
     <string name="card_display_label">Card display</string>
+    <string name="card_display_no_category" translatable="false">No category</string>
     <!--endregion-->
 
     <!--region CardEdit-->

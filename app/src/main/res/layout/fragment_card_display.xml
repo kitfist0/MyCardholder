@@ -101,7 +101,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="@drawable/bg_surface_container"
-        android:backgroundTint="?colorSecondaryContainer"
         android:padding="8dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
         android:transitionName="@string/transition_card_category"

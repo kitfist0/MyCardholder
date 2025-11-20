@@ -2,6 +2,7 @@ package my.cardholder.ui.card.display
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
+import android.widget.TextView
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
@@ -83,14 +84,15 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                         cardDisplayCardCategoryText.isVisible = false
                         cardDisplayEditFab.isClickable = false
                     }
+
                     is CardDisplayState.Success -> {
                         cardDisplayBarcodeImage.apply {
                             setBackgroundColor(state.cardColor)
                             loadBarcodeImage(state.barcodeFile)
                         }
                         cardDisplayExplanationMessageText.isVisible = state.explanationIsVisible
-                        cardDisplayCardCategoryText.text = state.cardCategory
-                        cardDisplayCardCategoryText.isVisible = state.cardCategory.isNotEmpty()
+                        cardDisplayCardCategoryText.isVisible = true
+                        cardDisplayCardCategoryText.setCardCategoryTextAndBackground(state.cardCategory)
                         cardDisplayCardLogoImage.loadLogoImage(
                             logoUrl = state.cardLogo,
                             defaultDrawableRes = R.drawable.ic_broken_img,
@@ -103,5 +105,13 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                 }
             }
         }
+    }
+
+    private fun TextView.setCardCategoryTextAndBackground(cardCategory: String?) {
+        val noCategory = cardCategory.isNullOrEmpty()
+        text = if (noCategory) getString(R.string.card_display_no_category) else cardCategory
+        setBackgroundResource(
+            if (noCategory) R.drawable.bg_error_container else R.drawable.bg_secondary_container
+        )
     }
 }
