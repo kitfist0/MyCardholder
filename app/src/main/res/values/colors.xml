@@ -9,6 +9,8 @@
     <color name="cardholder_color_secondary_container_day">#FFE8E5D6</color>
     <color name="cardholder_color_on_secondary_container_day">#FF292515</color>
     <color name="cardholder_color_navigation_bar_day">#FFCFD8DC</color>
+    <color name="cardholder_color_error_day">#FFB2261E</color>
+    <color name="cardholder_color_error_container_day">#EFB4B1</color>
     <!--endregion-->
 
     <!--region Night-->
@@ -20,6 +22,8 @@
     <color name="cardholder_color_secondary_container_night">#FF302F2A</color>
     <color name="cardholder_color_on_secondary_container_night">#FFFFF5C7</color>
     <color name="cardholder_color_navigation_bar_night">#FF263238</color>
+    <color name="cardholder_color_error_night">#FFF0B7B4</color>
+    <color name="cardholder_color_error_container_night">#FF97302D</color>
     <!--endregion-->
 
     <color name="explanation_background_color">#EE212121</color>

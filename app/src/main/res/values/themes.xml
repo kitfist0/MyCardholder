@@ -8,6 +8,8 @@
         <item name="colorSecondary">@color/cardholder_color_secondary_day</item>
         <item name="colorSecondaryContainer">@color/cardholder_color_secondary_container_day</item>
         <item name="colorOnSecondaryContainer">@color/cardholder_color_on_secondary_container_day</item>
+        <item name="colorError">@color/cardholder_color_error_day</item>
+        <item name="colorErrorContainer">@color/cardholder_color_error_container_day</item>
         <!-- Status bar -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
