@@ -23,8 +23,8 @@
     <!--endregion-->
 
     <!--region CardComment-->
-    <string name="card_comment_hint" translatable="false">Comment</string>
-    <string name="card_comment_title" translatable="false">Editing card comment</string>
+    <string name="card_comment_hint">Comment</string>
+    <string name="card_comment_title">Editing card comment</string>
     <!--endregion-->
 
     <!--region CardContent-->
@@ -44,7 +44,7 @@
     <string name="card_display_edit_fab_title">Edit</string>
     <string name="card_display_explanation_message">Click here to display in full screen</string>
     <string name="card_display_label">Card display</string>
-    <string name="card_display_no_category" translatable="false">No category</string>
+    <string name="card_display_no_category">No category</string>
     <!--endregion-->
 
     <!--region CardEdit-->

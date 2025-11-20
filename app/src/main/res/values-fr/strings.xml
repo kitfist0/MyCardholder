@@ -22,6 +22,11 @@
     <string name="card_backup_dialog_sync_cards_button_text">Synchroniser les cartes avec le cloud</string>
     <!--endregion-->
 
+    <!--region CardComment-->
+    <string name="card_comment_hint">Commentaire</string>
+    <string name="card_comment_title">Modification du commentaire de la carte</string>
+    <!--endregion-->
+
     <!--region CardContent-->
     <string name="card_content_empty_text_error_message">Texte vide</string>
     <string name="card_content_hint">Texte</string>
@@ -39,6 +44,7 @@
     <string name="card_display_edit_fab_title">Modifier</string>
     <string name="card_display_explanation_message">Cliquez ici pour afficher en plein écran</string>
     <string name="card_display_label">Affichage de la carte</string>
+    <string name="card_display_no_category">Aucune catégorie</string>
     <!--endregion-->
 
     <!--region CardEdit-->
