@@ -143,6 +143,14 @@
     <string name="info_dialog_supported_formats_button_text">Supported formats</string>
     <!--endregion-->
 
+    <!--region Payment-->
+    <string name="payment_manage_subscription_button_text" translatable="false">Manage subscription</string>
+    <string name="payment_monthly_subscription_price_text" translatable="false">1.99$ per month</string>
+    <string name="payment_purpose_text" translatable="false">The subscription helps us develop the app and accelerates the implementation of new features</string>
+    <string name="payment_subscribe_now_button_text" translatable="false">Subscribe now</string>
+    <string name="payment_title" translatable="false">Subscription</string>
+    <!--endregion-->
+
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Add new card manually</string>
     <string name="permission_grant_button_text">Grant</string>
