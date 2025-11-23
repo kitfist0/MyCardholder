@@ -135,7 +135,7 @@ class SettingsItemsAdapter(
         private fun animateOptionsList(itemId: SettingId) {
             val isExpanded = isItemExpanded(itemId)
 
-            if (isItemExpanded(itemId)) {
+            if (isExpanded) {
                 val cardColor = MaterialColors.getColor(binding.root, R.attr.colorSurfaceContainer)
                 binding.settingsItemCard.setCardBackgroundColor(cardColor)
                 binding.settingsItemOptionsRecyclerView.apply {
