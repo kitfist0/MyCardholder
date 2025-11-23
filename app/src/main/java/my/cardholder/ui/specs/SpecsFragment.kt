@@ -27,7 +27,7 @@ class SpecsFragment : BaseFragment<FragmentSpecsBinding>(
 
     override fun collectData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            val specs = viewModel.specs.first()
+            val specs = viewModel.state.first().specs
             binding.specsRecyclerView.adapter = SpecsAdapter(specs)
         }
     }

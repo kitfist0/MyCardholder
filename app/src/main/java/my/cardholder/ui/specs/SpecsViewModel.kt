@@ -10,8 +10,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SpecsViewModel @Inject constructor() : BaseViewModel() {
-    private val _specs = MutableStateFlow(
-        SupportedFormat.values().map { format -> format.toSpec() }
+    private val _state =  MutableStateFlow(
+        SpecsState(
+            SupportedFormat.entries.map { format -> format.toSpec() }
+        )
     )
-    val specs = _specs.asStateFlow()
+    val state = _state.asStateFlow()
 }
