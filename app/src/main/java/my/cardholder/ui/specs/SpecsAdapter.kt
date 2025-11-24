@@ -1,6 +1,7 @@
 package my.cardholder.ui.specs
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -20,8 +21,10 @@ class SpecsAdapter(
 
         init {
             itemView.setOnClickListener {
-                with(binding.itemSpecExpandedViewsGroup) {
-                    isVisible = !isVisible
+                with(binding) {
+                    val itemIsExpanded = itemSpecBarcodeCharactersText.isVisible && itemSpecBarcodeLengthText.isVisible
+                    itemSpecBarcodeCharactersText.animateVisibility(itemIsExpanded)
+                    itemSpecBarcodeLengthText.animateVisibility(itemIsExpanded)
                 }
             }
         }
@@ -36,6 +39,28 @@ class SpecsAdapter(
                 itemSpecBarcodeLengthText.apply {
                     text = context.getString(R.string.specs_barcode_length_text).format(spec.length)
                 }
+            }
+        }
+
+        private fun View.animateVisibility(isVisibleNow: Boolean) {
+            if (isVisibleNow) {
+                animate()
+                    .alpha(0f)
+                    .translationY(-20f)
+                    .setDuration(200)
+                    .withEndAction {
+                        isVisible = false
+                    }
+                    .start()
+            } else {
+                isVisible = true
+                alpha = 0f
+                translationY = -20f
+                animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setDuration(300)
+                    .start()
             }
         }
     }
