@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.MaterialColors
 import my.cardholder.R
 import my.cardholder.data.model.FormatSpec
 import my.cardholder.data.model.FormatSpec.Companion.getFileName
@@ -23,6 +24,15 @@ class SpecsAdapter(
             itemView.setOnClickListener {
                 with(binding) {
                     val itemIsExpanded = itemSpecBarcodeCharactersText.isVisible && itemSpecBarcodeLengthText.isVisible
+                    val cardColor = MaterialColors.getColor(
+                        root,
+                        if (itemIsExpanded) {
+                            android.R.attr.windowBackground
+                        } else {
+                            com.google.android.material.R.attr.colorSurfaceContainer
+                        }
+                    )
+                    itemSpecCard.setCardBackgroundColor(cardColor)
                     itemSpecBarcodeCharactersText.animateVisibility(itemIsExpanded)
                     itemSpecBarcodeLengthText.animateVisibility(itemIsExpanded)
                 }
