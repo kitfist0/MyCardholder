@@ -206,6 +206,33 @@
             app:popUpTo="@id/card_list_fragment" />
     </dialog>
 
+    <!--region Payment-->
+    <fragment
+        android:id="@+id/payment_details_fragment"
+        android:name="my.cardholder.ui.payment.details.PaymentDetailsFragment"
+        android:label="PaymentDetails"
+        tools:layout="@layout/fragment_payment_details" />
+
+    <fragment
+        android:id="@+id/payment_error_fragment"
+        android:name="my.cardholder.ui.payment.error.PaymentErrorFragment"
+        android:label="PaymentError"
+        tools:layout="@layout/fragment_payment_error" />
+
+    <fragment
+        android:id="@+id/payment_options_fragment"
+        android:name="my.cardholder.ui.payment.options.PaymentOptionsFragment"
+        android:label="PaymentOptions"
+        tools:layout="@layout/fragment_payment_options">
+        <action
+            android:id="@+id/from_payment_options_to_payment_details"
+            app:destination="@id/payment_details_fragment" />
+        <action
+            android:id="@+id/from_payment_options_to_payment_error"
+            app:destination="@id/payment_error_fragment" />
+    </fragment>
+    <!--endregion-->
+
     <fragment
         android:id="@+id/settings_fragment"
         android:name="my.cardholder.ui.settings.SettingsFragment"
@@ -229,6 +256,12 @@
         <action
             android:id="@+id/from_settings_to_card_backup"
             app:destination="@id/card_backup_dialog" />
+        <action
+            android:id="@+id/from_settings_to_payment_options"
+            app:destination="@id/payment_options_fragment" />
+        <action
+            android:id="@+id/from_settings_to_payment_details"
+            app:destination="@id/payment_details_fragment" />
     </fragment>
 
     <fragment
