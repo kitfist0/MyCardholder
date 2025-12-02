@@ -21,10 +21,8 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
         viewModel.onLoginRequestResult(activityResult)
     }
 
-    private val listAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CloudProviderAdapter {
-            viewModel.onCloudProviderClicked(it)
-        }
+    private val listAdapter = CloudProviderAdapter {
+        viewModel.onCloudProviderClicked(it)
     }
 
     override val viewModel: CloudLoginViewModel by viewModels()
@@ -48,25 +46,17 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
         }
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
-                is CloudLoginState.Loading -> {
-                    enableOrDisableRecyclerView(false)
-                    binding.cloudLoginLoadingProgress.isVisible = true
-                }
-
-                is CloudLoginState.Selection -> {
-                    enableOrDisableRecyclerView(true)
-                    binding.cloudLoginLoadingProgress.isVisible = false
-                    listAdapter.submitList(state.cloudProviderStates)
-                }
+                is CloudLoginState.Loading -> changeLoadingVisibility(true)
+                is CloudLoginState.Selection -> changeLoadingVisibility(false)
             }
         }
     }
 
-    private fun enableOrDisableRecyclerView(areEnabled: Boolean) {
-        val alphaValue = if (areEnabled) 1.0f else 0.5f
+    private fun changeLoadingVisibility(isLoading: Boolean) {
         binding.cloudLoginRecyclerView.apply {
-            alpha = alphaValue
-            isEnabled = areEnabled
+            alpha = if (isLoading) 0.5f else 1.0f
+            isEnabled = !isLoading
         }
+        binding.cloudLoginLoadingProgress.isVisible = isLoading
     }
 }
