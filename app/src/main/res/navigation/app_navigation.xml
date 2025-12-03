@@ -217,7 +217,11 @@
         android:id="@+id/payment_error_fragment"
         android:name="my.cardholder.ui.payment.error.PaymentErrorFragment"
         android:label="PaymentError"
-        tools:layout="@layout/fragment_payment_error" />
+        tools:layout="@layout/fragment_payment_error">
+        <argument
+            android:name="error_text"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/payment_options_fragment"
