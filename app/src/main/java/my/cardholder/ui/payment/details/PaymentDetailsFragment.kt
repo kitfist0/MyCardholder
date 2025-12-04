@@ -19,6 +19,9 @@ class PaymentDetailsFragment : BaseFragment<FragmentPaymentDetailsBinding>(
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
+            paymentDetailsOkFab.setOnClickListener {
+                viewModel.onOkFabClicked()
+            }
         }
     }
 
