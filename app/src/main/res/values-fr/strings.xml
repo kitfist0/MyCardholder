@@ -51,6 +51,7 @@
     <string name="card_edit_barcode_format_hint">Format</string>
     <string name="card_edit_category_hint">Catégorie</string>
     <string name="card_edit_color_hint">Couleur</string>
+    <string name="card_edit_comment_hint">Commentaire</string>
     <string name="card_edit_content_hint">Texte</string>
     <string name="card_edit_invalid_image_link_error_message">Lien d\'image invalide !</string>
     <string name="card_edit_invalid_value_error_message">La valeur n\'est pas valide pour le type de code-barres sélectionné</string>

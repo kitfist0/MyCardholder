@@ -51,6 +51,7 @@
     <string name="card_edit_barcode_format_hint">Формат</string>
     <string name="card_edit_category_hint">Категория</string>
     <string name="card_edit_color_hint">Цвет</string>
+    <string name="card_edit_comment_hint">Комментарий</string>
     <string name="card_edit_content_hint">Текст</string>
     <string name="card_edit_invalid_image_link_error_message">Некорректная ссылка на картинку!</string>
     <string name="card_edit_invalid_value_error_message">Значение недопустимо для выбранного типа штрих-кода</string>
