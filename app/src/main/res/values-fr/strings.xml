@@ -143,6 +143,18 @@
     <string name="info_dialog_supported_formats_button_text">Formats pris en charge</string>
     <!--endregion-->
 
+    <!--region Payment-->
+    <string name="payment_details_message_about_annual_sub_text">L\'abonnement annuel est actif à partir du %s. Le prochain paiement est le %s.</string>
+    <string name="payment_details_message_about_monthly_sub_text">L\'abonnement mensuel est actif à partir du %s. Le prochain paiement est le %s.</string>
+    <string name="payment_details_title">Détails de l\'abonnement</string>
+    <string name="payment_error_unknown_error_message_text">Erreur inconnue! Veuillez réessayer plus tard</string>
+    <string name="payment_error_fab_text">Je l\'ai eu</string>
+    <string name="payment_error_title">Quelque chose s\'est mal passé</string>
+    <string name="payment_options_fab_text">Abonnez-vous maintenant</string>
+    <string name="payment_options_message_text">L\'abonnement nous aide à développer l\'application et accélère la mise en œuvre de nouvelles fonctionnalités</string>
+    <string name="payment_options_toolbar_title">Abonnement</string>
+    <!--endregion-->
+
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Ajouter une nouvelle carte manuellement</string>
     <string name="permission_grant_button_text">Accorder</string>

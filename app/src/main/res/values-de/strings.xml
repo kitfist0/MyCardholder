@@ -143,6 +143,18 @@
     <string name="info_dialog_supported_formats_button_text">Unterstützte Formate</string>
     <!--endregion-->
 
+    <!--region Payment-->
+    <string name="payment_details_message_about_annual_sub_text">Das Jahresabonnement ist ab dem %s aktiv. Die nächste Zahlung ist der %s.</string>
+    <string name="payment_details_message_about_monthly_sub_text">Das monatliche Abonnement ist ab dem %s aktiv. Die nächste Zahlung ist der %s.</string>
+    <string name="payment_details_title">Abonnementdetails</string>
+    <string name="payment_error_unknown_error_message_text">Unbekannter Fehler! Bitte versuchen Sie es später noch einmal</string>
+    <string name="payment_error_fab_text">Verstanden</string>
+    <string name="payment_error_title">Etwas ist schiefgelaufen</string>
+    <string name="payment_options_fab_text">Jetzt abonnieren</string>
+    <string name="payment_options_message_text">Das Abonnement hilft uns bei der Entwicklung der App und beschleunigt die Implementierung neuer Funktionen</string>
+    <string name="payment_options_toolbar_title">Abonnement</string>
+    <!--endregion-->
+
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Neue Karte manuell hinzufügen</string>
     <string name="permission_grant_button_text">Erteilen</string>

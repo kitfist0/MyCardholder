@@ -144,15 +144,15 @@
     <!--endregion-->
 
     <!--region Payment-->
-    <string name="payment_details_message_about_annual_sub_text" translatable="false">The annual subscription is active from %s. The next payment is %s.</string>
-    <string name="payment_details_message_about_monthly_sub_text" translatable="false">The monthly subscription is active from %s. The next payment is %s.</string>
-    <string name="payment_details_title" translatable="false">Subscription details</string>
-    <string name="payment_error_unknown_error_message_text" translatable="false">Unknown error! Please try again later</string>
-    <string name="payment_error_fab_text" translatable="false">Got it</string>
-    <string name="payment_error_title" translatable="false">Something went wrong</string>
-    <string name="payment_options_fab_text" translatable="false">Subscribe now</string>
-    <string name="payment_options_message_text" translatable="false">The subscription helps us develop the app and accelerates the implementation of new features</string>
-    <string name="payment_options_toolbar_title" translatable="false">Subscription</string>
+    <string name="payment_details_message_about_annual_sub_text">The annual subscription is active from %s. The next payment is %s.</string>
+    <string name="payment_details_message_about_monthly_sub_text">The monthly subscription is active from %s. The next payment is %s.</string>
+    <string name="payment_details_title">Subscription details</string>
+    <string name="payment_error_unknown_error_message_text">Unknown error! Please try again later</string>
+    <string name="payment_error_fab_text">Got it</string>
+    <string name="payment_error_title">Something went wrong</string>
+    <string name="payment_options_fab_text">Subscribe now</string>
+    <string name="payment_options_message_text">The subscription helps us develop the app and accelerates the implementation of new features</string>
+    <string name="payment_options_toolbar_title">Subscription</string>
     <!--endregion-->
 
     <!--region Permission-->

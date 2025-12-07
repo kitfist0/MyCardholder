@@ -143,6 +143,18 @@
     <string name="info_dialog_supported_formats_button_text">Поддерживаемые форматы</string>
     <!--endregion-->
 
+    <!--region Payment-->
+    <string name="payment_details_message_about_annual_sub_text">Годовая подписка активна с %s. Следующий платеж - %s.</string>
+    <string name="payment_details_message_about_monthly_sub_text">Ежемесячная подписка активна с %s. Следующий платеж - %s.</string>
+    <string name="payment_details_title">Сведения о подписке</string>
+    <string name="payment_error_unknown_error_message_text">Неизвестная ошибка! Пожалуйста, повторите попытку позже</string>
+    <string name="payment_error_fab_text">Понятно</string>
+    <string name="payment_error_title">Что-то пошло не так</string>
+    <string name="payment_options_fab_text">Подписаться</string>
+    <string name="payment_options_message_text">Подписка помогает нам разрабатывать приложение и ускоряет внедрение новых функций</string>
+    <string name="payment_options_toolbar_title">Подписка</string>
+    <!--endregion-->
+
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Добавить новую карту вручную</string>
     <string name="permission_grant_button_text">Предоставить</string>

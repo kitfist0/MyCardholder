@@ -143,6 +143,18 @@
     <string name="info_dialog_supported_formats_button_text">Formatos admitidos</string>
     <!--endregion-->
 
+    <!--region Payment-->
+    <string name="payment_details_message_about_annual_sub_text">La suscripción anual está activa a partir del %s. El próximo pago es %s.</string>
+    <string name="payment_details_message_about_monthly_sub_text">La suscripción mensual está activa a partir del %s. El próximo pago es %s.</string>
+    <string name="payment_details_title">Detalles de la suscripción</string>
+    <string name="payment_error_unknown_error_message_text">¡Error desconocido! Por favor, inténtelo de nuevo más tarde</string>
+    <string name="payment_error_fab_text">Lo tengo</string>
+    <string name="payment_error_title">Algo salió mal</string>
+    <string name="payment_options_fab_text">Suscríbete ahora</string>
+    <string name="payment_options_message_text">La suscripción nos ayuda a desarrollar la aplicación y acelera la implementación de nuevas características</string>
+    <string name="payment_options_toolbar_title">Suscripción</string>
+    <!--endregion-->
+
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Agregar nueva tarjeta manualmente</string>
     <string name="permission_grant_button_text">Conceder</string>
