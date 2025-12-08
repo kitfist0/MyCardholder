@@ -17,6 +17,14 @@ class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
     private val _state = MutableStateFlow<PaymentOptionsState>(PaymentOptionsState.Loading)
     val state = _state.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            // Simulate loading payment options
+            delay(1000)
+            onPaymentOptionClicked(PaymentOption.MONTHLY)
+        }
+    }
+
     fun onPaymentOptionClicked(paymentOption: PaymentOption) {
         _state.value = PaymentOptionsState.Selection(
             PaymentOption.entries.map {
