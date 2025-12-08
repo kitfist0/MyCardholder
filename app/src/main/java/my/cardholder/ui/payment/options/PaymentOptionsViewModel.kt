@@ -37,9 +37,11 @@ class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun onSubscribeFabClicked() {
+        val prevState = _state.value
         _state.value = PaymentOptionsState.Loading
         viewModelScope.launch {
             delay(1000)
+            _state.value = prevState
             navigate(
                 if (Random.nextBoolean()) {
                     PaymentOptionsFragmentDirections.fromPaymentOptionsToPaymentError("Unknown error text")
