@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Cardholder</string>
 
+    <string name="terms_and_policy" translatable="false">Terms and Policy</string>
+
     <!--region CardAction-->
     <string name="card_action_dialog_default_title">Choose action with card \"%s\"</string>
     <string name="card_action_dialog_delete_button_text">Delete card</string>

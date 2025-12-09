@@ -6,6 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import my.cardholder.BuildConfig
 import my.cardholder.data.model.PaymentOption
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -34,6 +35,10 @@ class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
                 )
             }
         )
+    }
+
+    fun onPolicyTextClicked() {
+        startActivity("android.intent.action.VIEW", BuildConfig.WEB_PAGE_POLICY)
     }
 
     fun onSubscribeFabClicked() {

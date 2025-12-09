@@ -28,6 +28,9 @@ class PaymentOptionsFragment : BaseFragment<FragmentPaymentOptionsBinding>(
                 layoutManager = LinearLayoutManager(context)
                 adapter = listAdapter
             }
+            paymentOptionsPolicyText.setOnClickListener {
+                viewModel.onPolicyTextClicked()
+            }
             paymentOptionsFab.setOnClickListener {
                 viewModel.onSubscribeFabClicked()
             }
@@ -52,6 +55,7 @@ class PaymentOptionsFragment : BaseFragment<FragmentPaymentOptionsBinding>(
                 alpha = if (!isLoading) 1.0f else 0.5f
                 isEnabled = !isLoading
             }
+            paymentOptionsPolicyText.isVisible = !isLoading
             paymentOptionsLoadingProgress.isVisible = isLoading
             paymentOptionsFab.isVisible = !isLoading
         }

@@ -26,10 +26,25 @@
         tools:itemCount="2"
         tools:listitem="@layout/item_payment_option" />
 
+    <TextView
+        android:id="@+id/payment_options_policy_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:padding="4dp"
+        android:text="@string/terms_and_policy"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/payment_options_recycler_view" />
+
     <ProgressBar
         android:id="@+id/payment_options_loading_progress"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/payment_options_fab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
