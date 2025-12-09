@@ -47,10 +47,13 @@ class PaymentOptionsFragment : BaseFragment<FragmentPaymentOptionsBinding>(
     }
 
     private fun changeLoadingVisibility(isLoading: Boolean) {
-        binding.paymentOptionsRecyclerView.apply {
-            alpha = if (isLoading) 1.0f else 0.5f
-            isEnabled = !isLoading
+        with(binding) {
+            paymentOptionsRecyclerView.apply {
+                alpha = if (!isLoading) 1.0f else 0.5f
+                isEnabled = !isLoading
+            }
+            paymentOptionsLoadingProgress.isVisible = isLoading
+            paymentOptionsFab.isVisible = !isLoading
         }
-        binding.paymentOptionsLoadingProgress.isVisible = isLoading
     }
 }
