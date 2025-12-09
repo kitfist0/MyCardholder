@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.R
 import my.cardholder.data.model.PaymentOption
+import my.cardholder.data.model.PaymentOption.Companion.getTitleStringRes
 import my.cardholder.databinding.ItemPaymentOptionBinding
 import my.cardholder.util.ext.setStartEndCompoundDrawables
 
@@ -37,7 +38,7 @@ class PaymentOptionAdapter(
 
         fun bind(paymentOptionState: PaymentOptionState) {
             binding.itemPaymentOptionText.apply {
-                text = paymentOptionState.paymentOption.name
+                setText(paymentOptionState.paymentOption.getTitleStringRes())
                 setStartEndCompoundDrawables(
                     endDrawableResId = if (paymentOptionState.isSelected) R.drawable.ic_done else null
                 )
