@@ -1,6 +1,6 @@
 [versions]
 agp = "8.13.2"
-camerax = "1.5.1"
+camerax = "1.5.2"
 coil = "2.7.0"
 crashlytics = "3.0.6"
 gms = "4.4.4"
@@ -12,7 +12,7 @@ retrofit = "3.0.0"
 room = "2.8.4"
 
 [libraries]
-androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version = "1.12.0" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version = "1.12.1" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
 androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
 androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
@@ -33,7 +33,7 @@ androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", v
 androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version = "2.11.0" }
 
 # billing
-googleplay-billingclient = { group = "com.android.billingclient", name = "billing-ktx", version = "8.1.0" }
+googleplay-billingclient = { group = "com.android.billingclient", name = "billing-ktx", version = "8.2.0" }
 rustore-billingclient = { group = "ru.rustore.sdk", name = "billingclient", version = "9.0.1" }
 
 # coil
@@ -52,7 +52,7 @@ google-http-client-gson = { group = "com.google.http-client", name = "google-htt
 google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version = "21.4.0" }
 
 # google firebase
-google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "34.6.0" }
+google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "34.7.0" }
 google-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 google-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 
@@ -63,17 +63,17 @@ google-flexbox = { group = "com.google.android.flexbox", name = "flexbox", versi
 google-material = { group = "com.google.android.material", name = "material", version = "1.13.0" }
 
 # google mlkit
-google-mlkit = { group = "com.google.mlkit", name = "barcode-scanning", version = "17.3.0"}
+google-mlkit = { group = "com.google.mlkit", name = "barcode-scanning", version = "17.3.0" }
 
 # hilt
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 
 # image cropper
-image-cropper = {group = "com.vanniktech", name = "android-image-cropper", version = "4.6.0"}
+image-cropper = { group = "com.vanniktech", name = "android-image-cropper", version = "4.7.0" }
 
 # kotlin csv
-kotlin-csv = { module = "com.github.doyaaaaaken:kotlin-csv-jvm", version = "1.10.0"}
+kotlin-csv = { module = "com.github.doyaaaaaken:kotlin-csv-jvm", version = "1.10.0" }
 
 # okhttp and retrofit
 squareup-okhttp3-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version = "5.3.2" }
@@ -84,7 +84,7 @@ squareup-retrofit2-converter = { group = "com.squareup.retrofit2", name = "conve
 yandex-authsdk = { group = "com.yandex.android", name = "authsdk", version = "3.1.4" }
 
 # zxing
-zxing-core = { group = "com.google.zxing", name = "core", version = "3.5.4"}
+zxing-core = { group = "com.google.zxing", name = "core", version = "3.5.4" }
 
 # test
 junit = { group = "junit", name = "junit", version = "4.13.2" }
@@ -101,4 +101,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
-secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version = "2.0.1"}
+secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version = "2.0.1" }
