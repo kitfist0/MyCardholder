@@ -127,6 +127,10 @@ fun View.animateVisibilityChange() {
         .start()
 }
 
+fun View.makeItFiftyPercentMoreTransparentIf(condition: Boolean) {
+    alpha = if (condition) 0.5f else 1.0f
+}
+
 fun View.dpToPx(sizeDp: Int): Int = (sizeDp * resources.displayMetrics.density).toInt()
 
 fun View.setupUniqueTransitionName(uniqueSuffix: Long) {

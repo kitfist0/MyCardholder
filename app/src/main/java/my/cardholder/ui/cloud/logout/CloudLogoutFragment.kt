@@ -8,6 +8,7 @@ import my.cardholder.data.model.CloudProvider.Companion.getDrawableRes
 import my.cardholder.databinding.FragmentCloudLogoutBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.makeItFiftyPercentMoreTransparentIf
 import my.cardholder.util.ext.setStartEndCompoundDrawables
 import my.cardholder.util.ext.textToString
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
@@ -54,13 +55,12 @@ class CloudLogoutFragment : BaseFragment<FragmentCloudLogoutBinding>(
     }
 
     private fun enableOrDisableCards(areEnabled: Boolean) {
-        val alphaValue = if (areEnabled) 1.0f else 0.5f
         binding.cloudLogoutCloudProviderText.apply {
-            alpha = alphaValue
+            makeItFiftyPercentMoreTransparentIf(!areEnabled)
             isEnabled = areEnabled
         }
         binding.cloudLogoutCloudAccountNameText.apply {
-            alpha = alphaValue
+            makeItFiftyPercentMoreTransparentIf(!areEnabled)
             isEnabled = areEnabled
         }
     }

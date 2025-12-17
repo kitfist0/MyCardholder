@@ -7,6 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentPaymentOptionsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.makeItFiftyPercentMoreTransparentIf
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 import kotlin.getValue
 
@@ -52,7 +53,7 @@ class PaymentOptionsFragment : BaseFragment<FragmentPaymentOptionsBinding>(
     private fun changeLoadingVisibility(isLoading: Boolean) {
         with(binding) {
             paymentOptionsRecyclerView.apply {
-                alpha = if (!isLoading) 1.0f else 0.5f
+                makeItFiftyPercentMoreTransparentIf(isLoading)
                 isEnabled = !isLoading
             }
             paymentOptionsPolicyText.isVisible = !isLoading

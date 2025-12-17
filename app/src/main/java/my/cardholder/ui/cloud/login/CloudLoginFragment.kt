@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCloudLoginBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.makeItFiftyPercentMoreTransparentIf
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -54,7 +55,7 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
 
     private fun changeLoadingVisibility(isLoading: Boolean) {
         binding.cloudLoginRecyclerView.apply {
-            alpha = if (isLoading) 0.5f else 1.0f
+            makeItFiftyPercentMoreTransparentIf(isLoading)
             isEnabled = !isLoading
         }
         binding.cloudLoginLoadingProgress.isVisible = isLoading
