@@ -1,11 +1,11 @@
 {
   "options": [
     {
-      "name": "Annual subscription",
+      "name": "Annual subscription\n99$ per year",
       "selected": "@drawable/ic_done"
     },
     {
-      "name": "Monthly subscription",
+      "name": "Monthly subscription\n10$ per month",
       "selected": "@null"
     }
   ]
