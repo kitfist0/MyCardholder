@@ -38,7 +38,8 @@ class PaymentOptionAdapter(
 
         fun bind(paymentOptionState: PaymentOptionState) {
             binding.itemPaymentOptionText.apply {
-                setText(paymentOptionState.paymentOption.getTitleStringRes())
+                text = context.getString(paymentOptionState.paymentOption.getTitleStringRes())
+                    .format(paymentOptionState.costOfPayment)
                 setStartEndCompoundDrawables(
                     endDrawableResId = if (paymentOptionState.isSelected) R.drawable.ic_done else null
                 )

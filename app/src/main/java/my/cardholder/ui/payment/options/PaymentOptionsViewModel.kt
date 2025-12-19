@@ -31,6 +31,10 @@ class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
             PaymentOption.entries.map {
                 PaymentOptionState(
                     paymentOption = it,
+                    costOfPayment = when (it) {
+                        PaymentOption.ANNUAL -> "99$"
+                        PaymentOption.MONTHLY -> "10$"
+                    },
                     isSelected = it == paymentOption,
                 )
             }

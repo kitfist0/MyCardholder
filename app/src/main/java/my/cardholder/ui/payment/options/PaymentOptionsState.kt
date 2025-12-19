@@ -4,6 +4,7 @@ import my.cardholder.data.model.PaymentOption
 
 data class PaymentOptionState(
     val paymentOption: PaymentOption,
+    val costOfPayment: String,
     val isSelected: Boolean,
 )
 
