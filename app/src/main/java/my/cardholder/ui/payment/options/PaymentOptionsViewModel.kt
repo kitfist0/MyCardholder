@@ -41,7 +41,7 @@ class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
         )
     }
 
-    fun onPolicyTextClicked() {
+    fun onPolicyButtonClicked() {
         startActivity("android.intent.action.VIEW", BuildConfig.WEB_PAGE_POLICY)
     }
 

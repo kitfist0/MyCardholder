@@ -29,8 +29,8 @@ class PaymentOptionsFragment : BaseFragment<FragmentPaymentOptionsBinding>(
                 layoutManager = LinearLayoutManager(context)
                 adapter = listAdapter
             }
-            paymentOptionsPolicyText.setOnClickListener {
-                viewModel.onPolicyTextClicked()
+            paymentOptionsPolicyButton.setOnClickListener {
+                viewModel.onPolicyButtonClicked()
             }
             paymentOptionsFab.setOnClickListener {
                 viewModel.onSubscribeFabClicked()
