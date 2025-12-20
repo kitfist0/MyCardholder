@@ -19,6 +19,9 @@ class PaymentErrorFragment : BaseFragment<FragmentPaymentErrorBinding>(
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
+            paymentErrorFab.setOnClickListener {
+                viewModel.onPaymentErrorFabClicked()
+            }
         }
     }
 

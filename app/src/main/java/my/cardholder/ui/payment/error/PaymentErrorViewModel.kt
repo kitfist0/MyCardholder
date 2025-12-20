@@ -12,6 +12,7 @@ import javax.inject.Inject
 class PaymentErrorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel() {
+
     val state = MutableStateFlow(
         PaymentErrorState(
             errorMessageText = Text.Simple(
@@ -19,4 +20,8 @@ class PaymentErrorViewModel @Inject constructor(
             )
         )
     ).asStateFlow()
+
+    fun onPaymentErrorFabClicked() {
+        navigateUp()
+    }
 }
