@@ -56,7 +56,7 @@ class PaymentOptionsFragment : BaseFragment<FragmentPaymentOptionsBinding>(
                 makeItFiftyPercentMoreTransparentIf(isLoading)
                 isEnabled = !isLoading
             }
-            paymentOptionsPolicyText.isVisible = !isLoading
+            paymentOptionsPolicyButton.isVisible = !isLoading
             paymentOptionsLoadingProgress.isVisible = isLoading
             paymentOptionsFab.isVisible = !isLoading
         }
