@@ -23,6 +23,7 @@ import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.AppTheme
 import my.cardholder.usecase.CloudDownloadUseCase
 import my.cardholder.usecase.CloudUploadUseCase
+import my.cardholder.util.NetworkChecker
 import my.cardholder.util.Result
 import javax.inject.Inject
 
@@ -34,6 +35,7 @@ class MainViewModel @Inject constructor(
     cloudUploadUseCase: CloudUploadUseCase,
     purchasedProductsProvider: PurchasedProductsProvider,
     private val coffeeRepository: CoffeeRepository,
+    private val networkChecker: NetworkChecker,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
@@ -55,7 +57,7 @@ class MainViewModel @Inject constructor(
 
         settingsRepository.cloudSyncEnabled
             .flatMapLatest { syncEnabled ->
-                if (syncEnabled) {
+                if (syncEnabled && networkChecker.isNetworkAvailable()) {
                     cloudDownloadUseCase.execute(
                         cloudProvider = settingsRepository.cloudProvider.first(),
                         checksum = settingsRepository.latestSyncedBackupChecksum.first() ?: 0L,
@@ -83,9 +85,9 @@ class MainViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
         settingsRepository.cloudSyncEnabled
-            .combine(cardRepository.checksumOfAllCards) { isEnabled, checksum -> isEnabled to checksum }
-                .flatMapLatest { (isEnabled, checksum) ->
-                    if (isEnabled) {
+            .combine(cardRepository.checksumOfAllCards) { syncEnabled, checksum -> syncEnabled to checksum }
+                .flatMapLatest { (syncEnabled, checksum) ->
+                    if (syncEnabled && networkChecker.isNetworkAvailable()) {
                         cloudUploadUseCase.execute(settingsRepository.cloudProvider.first(), checksum)
                     } else {
                         emptyFlow()
