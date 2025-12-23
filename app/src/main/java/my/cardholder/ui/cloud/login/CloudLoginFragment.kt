@@ -48,7 +48,10 @@ class CloudLoginFragment : BaseFragment<FragmentCloudLoginBinding>(
         collectWhenStarted(viewModel.state) { state ->
             when (state) {
                 is CloudLoginState.Loading -> changeLoadingVisibility(true)
-                is CloudLoginState.Selection -> changeLoadingVisibility(false)
+                is CloudLoginState.Selection -> {
+                    listAdapter.submitList(state.cloudProviderStates)
+                    changeLoadingVisibility(false)
+                }
             }
         }
     }
