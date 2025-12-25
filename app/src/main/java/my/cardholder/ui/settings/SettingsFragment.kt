@@ -3,9 +3,11 @@ package my.cardholder.ui.settings
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.R
 import my.cardholder.databinding.FragmentSettingsBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.setStartEndCompoundDrawables
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -42,6 +44,25 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             listAdapter.submitList(state.settingsItems)
+            setupHeader(state.headerState)
+        }
+    }
+
+    private fun setupHeader(headerState: SettingsState.HeaderState) {
+        val syncEnabled = headerState.cloudSyncEnabled
+        binding.settingsHeaderText.apply {
+            text = if (syncEnabled) {
+                headerState.cloudName.orEmpty()
+            } else {
+                getString(R.string.settings_cloud_sync_switch_off_text)
+            }
+            setStartEndCompoundDrawables(
+                endDrawableResId = if (syncEnabled) {
+                    R.drawable.ic_cloud_on
+                } else {
+                    R.drawable.ic_cloud_off
+                }
+            )
         }
     }
 }
