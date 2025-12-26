@@ -7,6 +7,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -86,6 +87,7 @@ class MainViewModel @Inject constructor(
 
         settingsRepository.cloudSyncEnabled
             .combine(cardRepository.checksumOfAllCards) { syncEnabled, checksum -> syncEnabled to checksum }
+                .distinctUntilChanged()
                 .flatMapLatest { (syncEnabled, checksum) ->
                     if (syncEnabled && networkChecker.isNetworkAvailable()) {
                         cloudUploadUseCase.execute(settingsRepository.cloudProvider.first(), checksum)
