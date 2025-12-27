@@ -57,6 +57,7 @@ class MainViewModel @Inject constructor(
         }
 
         settingsRepository.cloudSyncEnabled
+            .distinctUntilChanged()
             .flatMapLatest { syncEnabled ->
                 if (syncEnabled && networkChecker.isNetworkAvailable()) {
                     cloudDownloadUseCase.execute(
