@@ -126,6 +126,11 @@
     <string name="cloud_logout_toolbar_title">Synchronization active</string>
     <!--endregion-->
 
+    <!--region CloudLogoutConfirmation-->
+    <string name="cloud_logout_confirmation_title_text" translatable="false">Log out of your %s account? Syncing cards with the cloud will be paused</string>
+    <string name="cloud_logout_confirmation_button_text" translatable="false">Log out</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Coffee</string>
     <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>
