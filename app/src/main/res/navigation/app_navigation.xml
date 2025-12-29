@@ -278,7 +278,21 @@
         android:id="@+id/cloud_logout_fragment"
         android:name="my.cardholder.ui.cloud.logout.CloudLogoutFragment"
         android:label="Logout"
-        tools:layout="@layout/fragment_cloud_logout" />
+        tools:layout="@layout/fragment_cloud_logout">
+        <action
+            android:id="@+id/from_cloud_logout_to_logout_confirmation"
+            app:destination="@id/cloud_logout_confirmation_dialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/cloud_logout_confirmation_dialog"
+        android:name="my.cardholder.ui.cloud.logout.confirmation.LogoutConfirmationDialog"
+        android:label="LogoutConfirmation"
+        tools:layout="@layout/dialog_logout_confirmation">
+        <argument
+            android:name="account_name"
+            app:argType="string" />
+    </dialog>
 
     <fragment
         android:id="@+id/specs_fragment"
