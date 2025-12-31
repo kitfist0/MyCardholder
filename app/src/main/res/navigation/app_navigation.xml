@@ -286,7 +286,7 @@
 
     <dialog
         android:id="@+id/cloud_logout_confirmation_dialog"
-        android:name="my.cardholder.ui.cloud.logout.confirmation.LogoutConfirmationDialog"
+        android:name="my.cardholder.ui.cloud.logout.LogoutConfirmationDialog"
         android:label="LogoutConfirmation"
         tools:layout="@layout/dialog_logout_confirmation">
         <argument

@@ -1,4 +1,4 @@
-package my.cardholder.ui.cloud.logout.confirmation
+package my.cardholder.ui.cloud.logout
 
 import my.cardholder.R
 import my.cardholder.util.Text

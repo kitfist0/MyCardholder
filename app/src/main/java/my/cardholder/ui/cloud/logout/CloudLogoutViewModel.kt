@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.cloud.CloudSignInAssistant
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.CloudProvider
@@ -33,11 +34,20 @@ class CloudLogoutViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val cloudProvider = settingsRepository.cloudProvider.first()
-            setDefaultState(cloudProvider)
+            val accountName = getAccountName(cloudProvider)
+            setDefaultState(cloudProvider, accountName)
         }
     }
 
     fun onLogoutFabClicked() {
+        viewModelScope.launch {
+            val cloudProvider = settingsRepository.cloudProvider.first()
+            val accountName = getAccountName(cloudProvider)
+            navigate(CloudLogoutFragmentDirections.fromCloudLogoutToLogoutConfirmation(accountName))
+        }
+    }
+
+    fun onLogoutConfirmButtonClicked() {
         _state.value = CloudLogoutState.Loading
         viewModelScope.launch {
             delay(LOGOUT_DELAY_MILLIS)
@@ -52,19 +62,25 @@ class CloudLogoutViewModel @Inject constructor(
                 }
                 .onFailure {
                     showToast(Text.Simple("ERROR: ${it.message}"))
-                    setDefaultState(cloudProvider)
                 }
         }
     }
 
-    private fun setDefaultState(cloudProvider: CloudProvider) {
-        val accountName = when (cloudProvider) {
-            CloudProvider.GOOGLE -> googleCloudSignInAssistant.signedInAccountName
-            CloudProvider.YANDEX -> yandexCloudSignInAssistant.signedInAccountName
-        }
+    private fun setDefaultState(cloudProvider: CloudProvider, accountName: String) {
         _state.value = CloudLogoutState.Default(
             selectedCloudProvider = cloudProvider,
-            accountNameText = Text.Simple(accountName.orEmpty()),
+            accountNameText = Text.Simple(accountName),
+            confirmationDialogText = Text.ResourceAndParams(
+                R.string.cloud_logout_confirmation_title_text,
+                listOf(accountName)
+            ),
         )
+    }
+
+    private fun getAccountName(cloudProvider: CloudProvider): String {
+        return when (cloudProvider) {
+            CloudProvider.GOOGLE -> googleCloudSignInAssistant.signedInAccountName
+            CloudProvider.YANDEX -> yandexCloudSignInAssistant.signedInAccountName
+        }.orEmpty()
     }
 }
