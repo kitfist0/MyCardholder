@@ -15,7 +15,6 @@ class LogoutConfirmationDialog : BaseDialogFragment<DialogLogoutConfirmationBind
     override val viewModel: CloudLogoutViewModel by viewModels()
 
     override fun initViews() {
-        dialog?.window?.setWindowAnimations(-1)
         binding.logoutConfirmationButton.setOnClickListener {
             viewModel.onLogoutConfirmButtonClicked()
         }
