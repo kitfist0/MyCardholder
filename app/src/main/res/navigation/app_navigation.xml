@@ -292,6 +292,11 @@
         <argument
             android:name="account_name"
             app:argType="string" />
+        <action
+            android:id="@+id/from_logout_confirmation_to_settings"
+            app:destination="@id/settings_fragment"
+            app:popUpTo="@id/settings_fragment"
+            app:popUpToInclusive="false" />
     </dialog>
 
     <fragment

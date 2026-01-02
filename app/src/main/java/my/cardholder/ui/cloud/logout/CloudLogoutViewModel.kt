@@ -58,7 +58,7 @@ class CloudLogoutViewModel @Inject constructor(
             }
                 .onSuccess {
                     settingsRepository.setCloudSyncEnabled(false)
-                    navigateUp()
+                    navigate(LogoutConfirmationDialogDirections.fromLogoutConfirmationToSettings())
                 }
                 .onFailure {
                     showToast(Text.Simple("ERROR: ${it.message}"))
