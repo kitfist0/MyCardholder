@@ -1,9 +1,10 @@
-package my.cardholder.ui.cloud.logout
+package my.cardholder.ui.cloud.logout.confirmation
 
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.DialogLogoutConfirmationBinding
 import my.cardholder.ui.base.BaseDialogFragment
+import my.cardholder.ui.cloud.logout.confirmation.LogoutConfirmationState.Companion.getTitleText
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.textToString
 
@@ -12,19 +13,17 @@ class LogoutConfirmationDialog : BaseDialogFragment<DialogLogoutConfirmationBind
     DialogLogoutConfirmationBinding::inflate
 ) {
 
-    override val viewModel: CloudLogoutViewModel by viewModels()
+    override val viewModel: LogoutConfirmationViewModel by viewModels()
 
     override fun initViews() {
         binding.logoutConfirmationButton.setOnClickListener {
-            viewModel.onLogoutConfirmButtonClicked()
+            viewModel.onLogoutButtonClicked()
         }
     }
 
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
-            (state as? CloudLogoutState.Default)?.let {
-                binding.logoutConfirmationTitleText.text = textToString(it.confirmationDialogText)
-            }
+            binding.logoutConfirmationTitleText.text = textToString(state.getTitleText())
         }
     }
 }

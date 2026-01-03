@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingVertical="@dimen/bottom_sheet_root_vertical_padding"
-    tools:context=".ui.cloud.logout.LogoutConfirmationDialog">
+    tools:context=".ui.cloud.logout.confirmation.LogoutConfirmationDialog">
 
     <TextView
         android:id="@+id/logout_confirmation_title_text"
