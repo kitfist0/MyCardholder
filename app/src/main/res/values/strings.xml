@@ -127,8 +127,8 @@
     <!--endregion-->
 
     <!--region CloudLogoutConfirmation-->
-    <string name="cloud_logout_confirmation_title_text" translatable="false">Log out of your %s account? Syncing cards with the cloud will be paused</string>
-    <string name="cloud_logout_confirmation_button_text" translatable="false">Log out</string>
+    <string name="cloud_logout_confirmation_title_text">Log out of %s? Syncing cards with the cloud will be paused</string>
+    <string name="cloud_logout_confirmation_button_text">Log out</string>
     <!--endregion-->
 
     <!--region Coffee-->

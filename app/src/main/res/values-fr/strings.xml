@@ -124,6 +124,11 @@
     <string name="cloud_logout_toolbar_title">Synchronisation active</string>
     <!--endregion-->
 
+    <!--region CloudLogoutConfirmation-->
+    <string name="cloud_logout_confirmation_title_text">Déconnexion de %s? La synchronisation des cartes avec le cloud sera suspendue</string>
+    <string name="cloud_logout_confirmation_button_text">Déconnexion</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Café</string>
     <string name="coffee_dialog_title">Soutenez cette application en achetant du café pour les développeurs</string>

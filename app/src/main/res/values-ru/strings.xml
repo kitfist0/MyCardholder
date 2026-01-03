@@ -124,6 +124,11 @@
     <string name="cloud_logout_toolbar_title">Синхронизация активна</string>
     <!--endregion-->
 
+    <!--region CloudLogoutConfirmation-->
+    <string name="cloud_logout_confirmation_title_text">Выйти из аккаунта %s? Синхронизация карточек с облаком будет приостановлена</string>
+    <string name="cloud_logout_confirmation_button_text">Выйти</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Кофе</string>
     <string name="coffee_dialog_title">Поддержите приложение, купив кофе для разработчиков</string>

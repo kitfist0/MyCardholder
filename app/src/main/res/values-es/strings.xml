@@ -124,6 +124,11 @@
     <string name="cloud_logout_toolbar_title">Sincronización activa</string>
     <!--endregion-->
 
+    <!--region CloudLogoutConfirmation-->
+    <string name="cloud_logout_confirmation_title_text">¿Cerrar sesión en %s? Se pausará la sincronización de tarjetas con la nube</string>
+    <string name="cloud_logout_confirmation_button_text">Cerrar sesión</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Café</string>
     <string name="coffee_dialog_title">Apoya esta aplicación comprando café para desarrolladores</string>

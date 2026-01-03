@@ -124,6 +124,11 @@
     <string name="cloud_logout_toolbar_title">Synchronisierung aktiv</string>
     <!--endregion-->
 
+    <!--region CloudLogoutConfirmation-->
+    <string name="cloud_logout_confirmation_title_text">Abmelden von %s? Die Synchronisierung der Karten mit der Cloud wird pausiert</string>
+    <string name="cloud_logout_confirmation_button_text">Abmelden</string>
+    <!--endregion-->
+
     <!--region Coffee-->
     <string name="coffee_dialog_label">Kaffee</string>
     <string name="coffee_dialog_title">Unterstützen Sie diese App, indem Sie Kaffee für Entwickler kaufen</string>
