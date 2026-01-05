@@ -1,6 +1,7 @@
 package my.cardholder.ui.card.zoom
 
 import android.transition.TransitionInflater
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -27,6 +28,7 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
             val uniqueNameSuffix = args.cardId
             cardZoomBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
         }
+        setMaxScreenBrightness()
     }
 
     override fun collectData() {
@@ -41,6 +43,14 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
                         loadBarcodeImage(state.barcodeFile)
                     }
             }
+        }
+    }
+
+    private fun setMaxScreenBrightness() {
+        (activity as? AppCompatActivity)?.let {
+            val attributes = it.window.attributes
+            attributes.screenBrightness = 1f
+            it.window.attributes = attributes
         }
     }
 }
