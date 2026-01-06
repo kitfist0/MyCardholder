@@ -1,6 +1,11 @@
 package my.cardholder.ui.card.zoom
 
+import android.os.Bundle
+import android.provider.Settings
 import android.transition.TransitionInflater
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -21,6 +26,23 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
 
     override val viewModel: CardZoomViewModel by viewModels()
 
+    private var prevBrightness = 0f
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        prevBrightness = Settings.System.getInt(
+            context?.contentResolver,
+            Settings.System.SCREEN_BRIGHTNESS,
+            50
+        ) / 255f
+        setScreenBrightness(1f)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        setScreenBrightness(prevBrightness)
+        super.onDestroyView()
+    }
+
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
@@ -28,7 +50,6 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
             val uniqueNameSuffix = args.cardId
             cardZoomBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
         }
-        setMaxScreenBrightness()
     }
 
     override fun collectData() {
@@ -46,10 +67,10 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
         }
     }
 
-    private fun setMaxScreenBrightness() {
+    private fun setScreenBrightness(brightness: Float) {
         (activity as? AppCompatActivity)?.let {
             val attributes = it.window.attributes
-            attributes.screenBrightness = 1f
+            attributes.screenBrightness = brightness
             it.window.attributes = attributes
         }
     }
