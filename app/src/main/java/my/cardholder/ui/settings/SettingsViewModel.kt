@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.AppTheme
+import my.cardholder.data.model.Brightness
 import my.cardholder.data.model.NumOfColumns
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
@@ -95,6 +96,30 @@ class SettingsViewModel @Inject constructor(
                 )
             }
             .launchIn(viewModelScope)
+
+        settingsRepository.cardBrightness
+            .onEach { brightness ->
+                updateState(
+                    predicate = { item -> item.id == SettingId.BRIGHTNESS },
+                    update = {
+                        SettingsItem(
+                            id = SettingId.BRIGHTNESS,
+                            iconRes = when (brightness) {
+                                Brightness.DEFAULT -> R.drawable.ic_brightness_min
+                                Brightness.MAXIMUM -> R.drawable.ic_brightness_max
+                            },
+                            options = Brightness.entries.map {
+                                SettingsItem.Option(
+                                    id = it.name,
+                                    title = it.name.lowercase(),
+                                    selected = brightness.name == it.name,
+                                )
+                            }
+                        )
+                    }
+                )
+            }
+            .launchIn(viewModelScope)
     }
 
     fun onHeaderClicked() {
@@ -136,6 +161,11 @@ class SettingsViewModel @Inject constructor(
             SettingId.COLUMNS ->
                 viewModelScope.launch {
                     settingsRepository.setNumOfColumns(NumOfColumns.valueOf(optionId))
+                }
+
+            SettingId.BRIGHTNESS ->
+                viewModelScope.launch {
+                    settingsRepository.setCardBrightness(Brightness.valueOf(optionId))
                 }
 
             else -> {

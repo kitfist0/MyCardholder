@@ -25,7 +25,7 @@ fun SettingId.getTitle(): Int = when (this) {
 fun SettingId.getImageRes(): Int = when (this) {
     SettingId.THEME -> R.drawable.ic_dark_mode
     SettingId.COLUMNS -> R.drawable.ic_list_single_column
-    SettingId.BRIGHTNESS -> R.drawable.ic_brightness_min
+    SettingId.BRIGHTNESS -> R.drawable.ic_brightness_max
     SettingId.CATEGORIES -> R.drawable.ic_category
     SettingId.BACKUP -> R.drawable.ic_import_export
     SettingId.COFFEE -> R.drawable.ic_coffee
