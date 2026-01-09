@@ -42,7 +42,7 @@
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Eliminar tarjeta de forma permanente</string>
     <string name="card_display_edit_fab_title">Editar</string>
-    <string name="card_display_explanation_message">Haga clic aquí para mostrar en pantalla completa</string>
+    <string name="card_display_explanation_message">Haga clic en el código de barras para mostrarlo en pantalla completa con el máximo brillo</string>
     <string name="card_display_label">Exhibición de la tarjeta</string>
     <string name="card_display_no_category">Sin categoría</string>
     <!--endregion-->

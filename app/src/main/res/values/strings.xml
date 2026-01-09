@@ -44,7 +44,7 @@
     <!--region CardDisplay-->
     <string name="card_display_delete_card_button_text">Delete card permanently</string>
     <string name="card_display_edit_fab_title">Edit</string>
-    <string name="card_display_explanation_message">Click here to display in full screen</string>
+    <string name="card_display_explanation_message">Tap on the barcode to display it on the full screen with maximum brightness</string>
     <string name="card_display_label">Card display</string>
     <string name="card_display_no_category">No category</string>
     <!--endregion-->
@@ -175,7 +175,6 @@
     <!--region Settings-->
     <string name="settings_about_app_item_title">About app</string>
     <string name="settings_app_theme_item_title">App theme</string>
-    <string name="settings_brightness_item_title" translatable="false">Card screen brightness</string>
     <string name="settings_card_categories_item_title">Card categories</string>
     <string name="settings_cloud_sync_switch_on_text">Cloud sync with %s</string>
     <string name="settings_cloud_sync_switch_off_text">Cloud sync</string>
