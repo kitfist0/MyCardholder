@@ -20,13 +20,27 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
         when (event) {
             is BaseEvent.Navigate ->
                 navigateSafely(event.direction, event.extras)
+
             is BaseEvent.NavigateUp ->
                 findNavController().navigateUp()
+
             is BaseEvent.SnackMessage ->
                 Snackbar.make(requireView(), textToString(event.text), Snackbar.LENGTH_LONG).show()
+
+            is BaseEvent.ShowOkSnack ->
+                Snackbar.make(requireView(), textToString(event.text), Snackbar.LENGTH_INDEFINITE)
+                    .apply {
+                        setAction(android.R.string.ok) {
+                            baseViewModel.onOkSnackButtonClicked(event.actionCode)
+                            dismiss()
+                        }
+                        show()
+                    }
+
             is BaseEvent.StartActivity -> event.uriString
                 ?.let { uriString -> startActivity(Intent(event.action, uriString.toUri())) }
                 ?: startActivity(Intent(event.action))
+
             is BaseEvent.ToastMessage ->
                 Toast.makeText(requireContext(), textToString(event.text), Toast.LENGTH_LONG).show()
         }

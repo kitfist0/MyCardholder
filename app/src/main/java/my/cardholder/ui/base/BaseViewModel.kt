@@ -21,6 +21,11 @@ sealed class BaseEvent {
         val text: Text,
     ) : BaseEvent()
 
+    data class ShowOkSnack(
+        val actionCode: Int,
+        val text: Text,
+    ) : BaseEvent()
+
     data class StartActivity(
         val action: String,
         val uriString: String? = null,
@@ -46,6 +51,13 @@ abstract class BaseViewModel : ViewModel() {
 
     protected fun showSnack(text: Text) {
         sendEvent(BaseEvent.SnackMessage(text))
+    }
+
+    protected fun showOkSnack(actionCode: Int, text: Text) {
+        sendEvent(BaseEvent.ShowOkSnack(actionCode, text))
+    }
+
+    open fun onOkSnackButtonClicked(actionCode: Int) {
     }
 
     protected fun startActivity(action: String, uriString: String? = null) {
