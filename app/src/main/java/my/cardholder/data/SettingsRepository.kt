@@ -9,7 +9,6 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import my.cardholder.data.model.AppTheme
-import my.cardholder.data.model.Brightness
 import my.cardholder.data.model.CloudProvider
 import my.cardholder.data.model.NumOfColumns
 import javax.inject.Inject
@@ -22,7 +21,6 @@ class SettingsRepository @Inject constructor(
 
     private companion object {
         val APP_THEME_KEY = intPreferencesKey("app_theme")
-        val CARD_BRIGHTNESS = intPreferencesKey("card_brightness")
         val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
         val CLOUD_PROVIDER_KEY = intPreferencesKey("cloud_provider")
         val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_zoom")
@@ -42,15 +40,6 @@ class SettingsRepository @Inject constructor(
 
     suspend fun setCloudSyncEnabled(b: Boolean) = dataStore.edit { preferences ->
         preferences[CLOUD_SYNC_ENABLED_KEY] = b
-    }
-
-    suspend fun setCardBrightness(brightness: Brightness) = dataStore.edit { preferences ->
-        preferences[CARD_BRIGHTNESS] = brightness.ordinal
-    }
-
-    val cardBrightness: Flow<Brightness> = dataStore.data.map { preferences ->
-        val brightnessValue = preferences[CARD_BRIGHTNESS] ?: Brightness.MAXIMUM.ordinal
-        Brightness.entries[brightnessValue]
     }
 
     val cloudSyncEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
