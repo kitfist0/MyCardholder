@@ -4,24 +4,25 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.ui.base.BaseViewModel
+import my.cardholder.util.Text
 import javax.inject.Inject
 
 @HiltViewModel
 class CardDisplayViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     cardRepository: CardRepository,
-    settingsRepository: SettingsRepository,
+    private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
     private companion object {
-        const val EXPLANATION_DURATION_MILLIS = 3000L
+        const val ZOOM_EXPLANATION_ACTION_CODE = 1
     }
 
     private val cardId = CardDisplayFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
@@ -34,7 +35,6 @@ class CardDisplayViewModel @Inject constructor(
             .filterNotNull()
             .onEach { cardAndCategory ->
                 val card = cardAndCategory.card
-                val expIsRequired = settingsRepository.explanationAboutBarcodeZoomIsRequired.first()
                 _state.value = CardDisplayState.Success(
                     barcodeFile = card.barcodeFile,
                     cardCategory = cardAndCategory.category?.name.orEmpty(),
@@ -43,17 +43,25 @@ class CardDisplayViewModel @Inject constructor(
                     cardContent = card.content,
                     cardComment = card.comment.orEmpty(),
                     cardColor = card.getColorInt(),
-                    explanationIsVisible = expIsRequired,
+                    explanationIsVisible = false,
                 )
             }
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
             if (settingsRepository.explanationAboutBarcodeZoomIsRequired.first()) {
-                delay(EXPLANATION_DURATION_MILLIS)
+                showOkSnack(
+                    ZOOM_EXPLANATION_ACTION_CODE,
+                    Text.Resource(R.string.card_display_explanation_message)
+                )
+            }
+        }
+    }
+
+    override fun onOkSnackButtonClicked(actionCode: Int) {
+        viewModelScope.launch {
+            if (actionCode == ZOOM_EXPLANATION_ACTION_CODE) {
                 settingsRepository.disableExplanationAboutBarcodeZoom()
-                (_state.value as? CardDisplayState.Success)
-                    ?.let { _state.value = it.copy(explanationIsVisible = false) }
             }
         }
     }
