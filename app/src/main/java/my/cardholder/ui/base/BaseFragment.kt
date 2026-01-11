@@ -11,8 +11,6 @@ abstract class BaseFragment<out VB : ViewBinding>(
 
     abstract val viewModel: BaseViewModel
 
-    open val menuRes: Int? = null
-
     abstract fun initViews()
 
     abstract fun collectData()
