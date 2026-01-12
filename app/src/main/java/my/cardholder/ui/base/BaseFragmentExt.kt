@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.textToString
 import androidx.core.net.toUri
@@ -25,17 +24,12 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
                 findNavController().navigateUp()
 
             is BaseEvent.SnackMessage ->
-                Snackbar.make(requireView(), textToString(event.text), Snackbar.LENGTH_LONG).show()
+                (this as? BaseFragment<*>)?.showSnack(event.text)
+                    ?: throw RuntimeException("Snackbar should only be shown in fragments!")
 
             is BaseEvent.ShowOkSnack ->
-                Snackbar.make(requireView(), textToString(event.text), Snackbar.LENGTH_INDEFINITE)
-                    .apply {
-                        setAction(android.R.string.ok) {
-                            baseViewModel.onOkSnackButtonClicked(event.actionCode)
-                            dismiss()
-                        }
-                        show()
-                    }
+                (this as? BaseFragment<*>)?.showOkSnack(event.text, event.actionCode)
+                    ?: throw RuntimeException("Snackbar should only be shown in fragments!")
 
             is BaseEvent.StartActivity -> event.uriString
                 ?.let { uriString -> startActivity(Intent(event.action, uriString.toUri())) }
