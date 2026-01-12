@@ -9,31 +9,31 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import my.cardholder.util.Text
 
-sealed class BaseEvent {
+sealed interface BaseEvent {
     data class Navigate(
         val direction: NavDirections,
         val extras: Navigator.Extras? = null,
-    ) : BaseEvent()
+    ) : BaseEvent
 
-    data object NavigateUp : BaseEvent()
+    data object NavigateUp : BaseEvent
 
     data class SnackMessage(
         val text: Text,
-    ) : BaseEvent()
+    ) : BaseEvent
 
     data class ShowOkSnack(
         val actionCode: Int,
         val text: Text,
-    ) : BaseEvent()
+    ) : BaseEvent
 
     data class StartActivity(
         val action: String,
         val uriString: String? = null,
-    ) : BaseEvent()
+    ) : BaseEvent
 
     data class ToastMessage(
         val text: Text,
-    ) : BaseEvent()
+    ) : BaseEvent
 }
 
 abstract class BaseViewModel : ViewModel() {
