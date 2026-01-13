@@ -43,7 +43,6 @@ class CardDisplayViewModel @Inject constructor(
                     cardContent = card.content,
                     cardComment = card.comment.orEmpty(),
                     cardColor = card.getColorInt(),
-                    explanationIsVisible = false,
                 )
             }
             .launchIn(viewModelScope)
