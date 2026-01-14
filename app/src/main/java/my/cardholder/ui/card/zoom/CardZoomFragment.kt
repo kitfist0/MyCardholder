@@ -1,12 +1,10 @@
 package my.cardholder.ui.card.zoom
 
 import android.os.Bundle
-import android.provider.Settings
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -29,11 +27,7 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
     private var prevBrightness = 0f
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        prevBrightness = Settings.System.getInt(
-            context?.contentResolver,
-            Settings.System.SCREEN_BRIGHTNESS,
-            50
-        ) / 255f
+        prevBrightness = requireActivity().window.attributes.screenBrightness
         setScreenBrightness(1f)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -68,7 +62,7 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
     }
 
     private fun setScreenBrightness(brightness: Float) {
-        (activity as? AppCompatActivity)?.let {
+        activity?.let {
             val attributes = it.window.attributes
             attributes.screenBrightness = brightness
             it.window.attributes = attributes
