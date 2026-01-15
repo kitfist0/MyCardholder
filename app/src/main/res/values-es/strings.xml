@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Tarjetero</string>
 
+    <string name="terms_and_policy">Términos y políticas</string>
+
     <!--region CardAction-->
     <string name="card_action_dialog_default_title">Elige acción con tarjeta \"%s\"</string>
     <string name="card_action_dialog_delete_button_text">Eliminar tarjeta</string>

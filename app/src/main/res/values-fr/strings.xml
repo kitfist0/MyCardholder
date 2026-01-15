@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Porte-carte</string>
 
+    <string name="terms_and_policy">Politique de confidentialité</string>
+
     <!--region CardAction-->
     <string name="card_action_dialog_default_title">Choisissez l\'action avec la carte \"%s\"</string>
     <string name="card_action_dialog_delete_button_text">Supprimer la carte</string>

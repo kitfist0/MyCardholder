@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Картхолдер</string>
 
+    <string name="terms_and_policy">Условия и политика</string>
+
     <!--region CardAction-->
     <string name="card_action_dialog_default_title">Выберите действие для карточки \"%s\"</string>
     <string name="card_action_dialog_delete_button_text">Удалить карточку</string>

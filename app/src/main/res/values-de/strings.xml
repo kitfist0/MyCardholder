@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Kartenhalter</string>
 
+    <string name="terms_and_policy">Datenschutzrichtlinie</string>
+
     <!--region CardAction-->
     <string name="card_action_dialog_default_title">Aktion mit Karte \"%s\" wählen</string>
     <string name="card_action_dialog_delete_button_text">Karte löschen</string>
