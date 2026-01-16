@@ -157,6 +157,8 @@
     <string name="payment_error_unknown_error_message_text">Erreur inconnue! Veuillez réessayer plus tard</string>
     <string name="payment_error_fab_text">Je l\'ai eu</string>
     <string name="payment_error_title">Quelque chose s\'est mal passé</string>
+    <string name="payment_option_annual_title_text">Abonnement annuel\n%s par an</string>
+    <string name="payment_option_monthly_title_text">Abonnement mensuel\n%s par mois</string>
     <string name="payment_options_fab_text">Abonnez-vous maintenant</string>
     <string name="payment_options_message_text">L\'abonnement nous aide à développer l\'application et accélère la mise en œuvre de nouvelles fonctionnalités</string>
     <string name="payment_options_toolbar_title">Abonnement</string>

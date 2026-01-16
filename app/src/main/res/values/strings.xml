@@ -157,8 +157,8 @@
     <string name="payment_error_unknown_error_message_text">Unknown error! Please try again later</string>
     <string name="payment_error_fab_text">Got it</string>
     <string name="payment_error_title">Something went wrong</string>
-    <string name="payment_option_annual_title_text" translatable="false">Annual subscription\n%s per year</string>
-    <string name="payment_option_monthly_title_text" translatable="false">Monthly subscription\n%s per month</string>
+    <string name="payment_option_annual_title_text">Annual subscription\n%s per year</string>
+    <string name="payment_option_monthly_title_text">Monthly subscription\n%s per month</string>
     <string name="payment_options_fab_text">Subscribe now</string>
     <string name="payment_options_message_text">The subscription helps us develop the app and accelerates the implementation of new features</string>
     <string name="payment_options_toolbar_title">Subscription</string>

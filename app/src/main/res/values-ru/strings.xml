@@ -157,6 +157,8 @@
     <string name="payment_error_unknown_error_message_text">Неизвестная ошибка! Пожалуйста, повторите попытку позже</string>
     <string name="payment_error_fab_text">Понятно</string>
     <string name="payment_error_title">Что-то пошло не так</string>
+    <string name="payment_option_annual_title_text">Годовая подписка\n%s в год</string>
+    <string name="payment_option_monthly_title_text">Месячная подписка\n%s в месяц</string>
     <string name="payment_options_fab_text">Подписаться</string>
     <string name="payment_options_message_text">Подписка помогает нам разрабатывать приложение и ускоряет внедрение новых функций</string>
     <string name="payment_options_toolbar_title">Подписка</string>

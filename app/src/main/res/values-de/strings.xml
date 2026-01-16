@@ -157,6 +157,8 @@
     <string name="payment_error_unknown_error_message_text">Unbekannter Fehler! Bitte versuchen Sie es später noch einmal</string>
     <string name="payment_error_fab_text">Verstanden</string>
     <string name="payment_error_title">Etwas ist schiefgelaufen</string>
+    <string name="payment_option_annual_title_text">Jahresabonnement\n%s pro Jahr</string>
+    <string name="payment_option_monthly_title_text">Monatsabonnement\n%s pro Monat</string>
     <string name="payment_options_fab_text">Jetzt abonnieren</string>
     <string name="payment_options_message_text">Das Abonnement hilft uns bei der Entwicklung der App und beschleunigt die Implementierung neuer Funktionen</string>
     <string name="payment_options_toolbar_title">Abonnement</string>

@@ -157,6 +157,8 @@
     <string name="payment_error_unknown_error_message_text">¡Error desconocido! Por favor, inténtelo de nuevo más tarde</string>
     <string name="payment_error_fab_text">Lo tengo</string>
     <string name="payment_error_title">Algo salió mal</string>
+    <string name="payment_option_annual_title_text">Suscripción anual\n%s al año</string>
+    <string name="payment_option_monthly_title_text">Suscripción mensual\n%s al mes</string>
     <string name="payment_options_fab_text">Suscríbete ahora</string>
     <string name="payment_options_message_text">La suscripción nos ayuda a desarrollar la aplicación y acelera la implementación de nuevas características</string>
     <string name="payment_options_toolbar_title">Suscripción</string>
