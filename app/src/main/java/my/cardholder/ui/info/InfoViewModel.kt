@@ -15,7 +15,7 @@ class InfoViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private val _dialogTitle = MutableStateFlow(
-        "${BuildConfig.APP_NAME} ${BuildConfig.VERSION_NAME}\n${BuildConfig.DEV_NAME}, ${BuildConfig.YEAR}"
+        "${BuildConfig.APP_NAME} ${BuildConfig.VERSION_NAME}\n${BuildConfig.APP_STORE_NAME}, ${BuildConfig.DEV_NAME}, ${BuildConfig.YEAR}"
     )
     val dialogTitle = _dialogTitle.asStateFlow()
 

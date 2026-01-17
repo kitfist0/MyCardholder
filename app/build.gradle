@@ -42,6 +42,7 @@ android {
         googleplay {
             dimension "billing"
             buildConfigField("String", "APP_LOGO_LINK", "\"https://play-lh.googleusercontent.com/CukdHWulsmo9nwmiLmJg9tViyUv2UfWV5KUMw-Emm-wnAmKfjItajKidbdRw0MR8i6o=w480-h960-rw\"")
+            buildConfigField("String", "APP_STORE_NAME", "\"GooglePlay\"")
             buildConfigField("String", "WEB_PAGE_STORE", "\"https://play.google.com\"")
             buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://github.com/kitfist0/MyCardholder/blob/master/LICENSE\"")
             buildConfigField("String", "WEB_PAGE_POLICY", "\"https://github.com/kitfist0/MyCardholder/blob/master/POLICY.md\"")
@@ -50,6 +51,7 @@ android {
         rustore {
             dimension "billing"
             buildConfigField("String", "APP_LOGO_LINK", "\"https://static.rustore.ru/imgproxy/GtqXx4sVVn6YA0TTHnqZrAPsmyb6iGt2Y4eZ0auW-WQ/preset:web_app_icon_160/plain/https://static.rustore.ru/apk/2063489959/content/ICON/a948ad25-95c0-4fda-88f3-25968f431e0c.png@webp\"")
+            buildConfigField("String", "APP_STORE_NAME", "\"RuStore\"")
             buildConfigField("String", "WEB_PAGE_STORE", "\"https://rustore.ru\"")
             buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/LICENSE\"")
             buildConfigField("String", "WEB_PAGE_POLICY", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/POLICY.md\"")
