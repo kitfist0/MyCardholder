@@ -34,6 +34,9 @@ android {
         buildConfigField("String", "APP_NAME", "\"MyCardholder\"")
         buildConfigField("String", "DEV_NAME", "\"MidnightDev\"")
         buildConfigField("String", "YEAR", "\"2026\"")
+
+        def buildTime = new Date()
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime.format('yyyy-MM-dd HH:mm')}\""
     }
 
     flavorDimensions = ["billing"]
