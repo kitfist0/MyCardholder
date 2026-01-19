@@ -69,6 +69,10 @@ class CardDisplayViewModel @Inject constructor(
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardZoom(cardId), extras)
     }
 
+    fun onDeleteCardButtonClicked() {
+        navigate(CardDisplayFragmentDirections.fromCardDisplayToDeleteCard(cardId))
+    }
+
     fun onCardContentTextLongClicked(extras: Navigator.Extras): Boolean {
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardContent(cardId), extras)
         return true

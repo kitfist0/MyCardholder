@@ -37,6 +37,9 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                     viewModel.onBarcodeImageClicked(extras)
                 }
             }
+            cardDisplayDeleteCardButton.setOnClickListener {
+                viewModel.onDeleteCardButtonClicked()
+            }
             cardDisplayCardCategoryText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardContentCardView.apply {
@@ -67,9 +70,11 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
+                cardDisplayDeleteCardButton.isVisible = false
                 cardDisplayCardLogoImage.isVisible = false
             }
             transitionSet.doOnEnd {
+                cardDisplayDeleteCardButton.animateVisibilityChange()
                 cardDisplayCardLogoImage.animateVisibilityChange()
             }
         }
