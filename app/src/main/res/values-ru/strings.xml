@@ -42,7 +42,7 @@
     <!--endregion-->
 
     <!--region CardDisplay-->
-    <string name="card_display_delete_card_button_text">Удалить карту навсегда</string>
+    <string name="card_display_delete_menu_button_text">Удалить</string>
     <string name="card_display_edit_fab_title">Редактировать</string>
     <string name="card_display_explanation_message">Кликните на штрих-код, чтобы отобразить его на весь экран с максимальной яркостью</string>
     <string name="card_display_label">Отображение карты</string>

@@ -42,7 +42,7 @@
     <!--endregion-->
 
     <!--region CardDisplay-->
-    <string name="card_display_delete_card_button_text">Delete card permanently</string>
+    <string name="card_display_delete_menu_button_text">Delete</string>
     <string name="card_display_edit_fab_title">Edit</string>
     <string name="card_display_explanation_message">Tap on the barcode to display it on the full screen with maximum brightness</string>
     <string name="card_display_label">Card display</string>

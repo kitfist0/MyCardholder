@@ -42,7 +42,7 @@
     <!--endregion-->
 
     <!--region CardDisplay-->
-    <string name="card_display_delete_card_button_text">Karte dauerhaft löschen</string>
+    <string name="card_display_delete_menu_button_text">Löschen</string>
     <string name="card_display_edit_fab_title">Bearbeiten</string>
     <string name="card_display_explanation_message">Tippen Sie auf den Barcode, um ihn im Vollbildmodus mit maximaler Helligkeit anzuzeigen</string>
     <string name="card_display_label">Kartenansicht</string>
