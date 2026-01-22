@@ -21,15 +21,14 @@
         tools:ignore="ContentDescription"
         tools:src="@sample/sample_cards.json/cards/image" />
 
-    <Button
-        android:id="@+id/card_display_delete_card_button"
-        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:icon="@drawable/ic_delete"
-        app:layout_constraintBottom_toBottomOf="@+id/card_display_barcode_image"
-        app:layout_constraintEnd_toEndOf="@+id/card_display_barcode_image" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/card_display_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintBottom_toBottomOf="@id/card_display_barcode_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/card_display_menu" />
 
     <ImageView
         android:id="@+id/card_display_card_logo_image"
