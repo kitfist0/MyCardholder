@@ -37,6 +37,10 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                     viewModel.onBarcodeImageClicked(extras)
                 }
             }
+            cardDisplayToolbar.setOnMenuItemClickListener { menuItem ->
+                viewModel.onToolbarMenuItemClicked(menuItem.itemId)
+                true
+            }
             cardDisplayCardCategoryText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardContentCardView.apply {

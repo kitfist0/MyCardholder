@@ -69,8 +69,10 @@ class CardDisplayViewModel @Inject constructor(
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardZoom(cardId), extras)
     }
 
-    fun onDeleteCardButtonClicked() {
-        navigate(CardDisplayFragmentDirections.fromCardDisplayToDeleteCard(cardId))
+    fun onToolbarMenuItemClicked(itemId: Int) {
+        if (itemId == R.id.card_delete_menu_item) {
+            navigate(CardDisplayFragmentDirections.fromCardDisplayToDeleteCard(cardId))
+        }
     }
 
     fun onCardContentTextLongClicked(extras: Navigator.Extras): Boolean {
