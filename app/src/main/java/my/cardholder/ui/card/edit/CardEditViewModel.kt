@@ -69,10 +69,6 @@ class CardEditViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onDeleteCardButtonClicked() {
-        navigate(CardEditFragmentDirections.fromCardEditToDeleteCard(cardId))
-    }
-
     fun onOkFabClicked() {
         navigateUp()
     }
