@@ -81,7 +81,7 @@ squareup-retrofit2-retrofit = { group = "com.squareup.retrofit2", name = "retrof
 squareup-retrofit2-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
 # yandex
-yandex-authsdk = { group = "com.yandex.android", name = "authsdk", version = "3.1.4" }
+# yandex-authsdk = { group = "com.yandex.android", name = "authsdk", version = "3.1.4" }
 
 # zxing
 zxing-core = { group = "com.google.zxing", name = "core", version = "3.5.4" }

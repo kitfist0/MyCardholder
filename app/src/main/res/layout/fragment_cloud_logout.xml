@@ -13,8 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/cloud_logout_toolbar_title" />
-
+         />
+<!-- app:title="@string/cloud_logout_toolbar_title" -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cloud_logout_cloud_provider_card"
         android:layout_width="match_parent"
@@ -71,11 +71,11 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginVertical="8dp"
         android:gravity="center_vertical"
-        android:text="@string/cloud_logout_help_text"
         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cloud_logout_cloud_account_name_card" />
+        <!-- android:text="@string/cloud_logout_help_text" -->
 
     <ProgressBar
         android:id="@+id/cloud_logout_loading_progress"
@@ -92,10 +92,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:text="@string/cloud_logout_fab_text"
         app:icon="@drawable/ic_logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- android:text="@string/cloud_logout_fab_text" -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,5 @@
-package my.cardholder.billing
+// package my.cardholder.billing
 
-interface BillingActivityInterface {
-    fun purchaseProduct(productId: String)
-}
+// interface BillingActivityInterface {
+//     fun purchaseProduct(productId: String)
+// }

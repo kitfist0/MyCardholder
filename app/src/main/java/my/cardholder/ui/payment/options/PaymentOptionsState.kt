@@ -1,14 +1,14 @@
-package my.cardholder.ui.payment.options
+// package my.cardholder.ui.payment.options
 
-import my.cardholder.data.model.PaymentOption
+// import my.cardholder.data.model.PaymentOption
 
-data class PaymentOptionState(
-    val paymentOption: PaymentOption,
-    val costOfPayment: String,
-    val isSelected: Boolean,
-)
+// data class PaymentOptionState(
+//     val paymentOption: PaymentOption,
+//     val costOfPayment: String,
+//     val isSelected: Boolean,
+// )
 
-sealed class PaymentOptionsState {
-    data class Selection(val paymentOptionStates: List<PaymentOptionState>) : PaymentOptionsState()
-    data object Loading : PaymentOptionsState()
-}
+// sealed class PaymentOptionsState {
+//     data class Selection(val paymentOptionStates: List<PaymentOptionState>) : PaymentOptionsState()
+//     data object Loading : PaymentOptionsState()
+// }

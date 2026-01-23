@@ -1,7 +1,7 @@
-package my.cardholder.ui.payment.details
+// package my.cardholder.ui.payment.details
 
-import my.cardholder.util.Text
+// import my.cardholder.util.Text
 
-data class PaymentDetailsState(
-    val messageText: Text,
-)
+// data class PaymentDetailsState(
+//     val messageText: Text,
+// )

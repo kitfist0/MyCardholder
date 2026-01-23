@@ -62,10 +62,10 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
             }
             cardEditCardColorInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardColorChanged(it?.toString()) }
-            cardEditCardLogoInputLayout.editText?.apply {
-                setDrawableEndClickListener { viewModel.onCardLogoHelpIconClicked() }
-                doAfterTextChanged { viewModel.onCardLogoChanged(it?.toString()) }
-            }
+            // cardEditCardLogoInputLayout.editText?.apply {
+            //     setDrawableEndClickListener { viewModel.onCardLogoHelpIconClicked() }
+            //     doAfterTextChanged { viewModel.onCardLogoChanged(it?.toString()) }
+            // }
             cardEditBarcodeFormatInputLayout.editText
                 ?.doAfterTextChanged { viewModel.onCardFormatChanged(it?.toString()) }
             cardEditOkFab.apply {

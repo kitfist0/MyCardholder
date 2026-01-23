@@ -207,7 +207,7 @@
     </dialog>
 
     <!--region Payment-->
-    <fragment
+    <!-- <fragment
         android:id="@+id/payment_details_fragment"
         android:name="my.cardholder.ui.payment.details.PaymentDetailsFragment"
         android:label="PaymentDetails"
@@ -221,9 +221,9 @@
         <argument
             android:name="error_text"
             app:argType="string" />
-    </fragment>
+    </fragment> -->
 
-    <fragment
+    <!-- <fragment
         android:id="@+id/payment_options_fragment"
         android:name="my.cardholder.ui.payment.options.PaymentOptionsFragment"
         android:label="PaymentOptions"
@@ -234,7 +234,7 @@
         <action
             android:id="@+id/from_payment_options_to_payment_error"
             app:destination="@id/payment_error_fragment" />
-    </fragment>
+    </fragment> -->
     <!--endregion-->
 
     <fragment
@@ -242,33 +242,33 @@
         android:name="my.cardholder.ui.settings.SettingsFragment"
         android:label="@string/settings_label"
         tools:layout="@layout/fragment_settings">
-        <action
+        <!-- <action
             android:id="@+id/from_settings_to_cloud_login"
             app:destination="@id/cloud_login_fragment" />
         <action
             android:id="@+id/from_settings_to_cloud_logout"
-            app:destination="@id/cloud_logout_fragment" />
+            app:destination="@id/cloud_logout_fragment" /> -->
         <action
             android:id="@+id/from_settings_to_info"
             app:destination="@id/info_dialog" />
-        <action
+        <!-- <action
             android:id="@+id/from_settings_to_coffee"
-            app:destination="@id/coffee_dialog" />
+            app:destination="@id/coffee_dialog" /> -->
         <action
             android:id="@+id/from_settings_to_category_list"
             app:destination="@id/category_list_fragment" />
         <action
             android:id="@+id/from_settings_to_card_backup"
             app:destination="@id/card_backup_dialog" />
-        <action
+        <!-- <action
             android:id="@+id/from_settings_to_payment_options"
-            app:destination="@id/payment_options_fragment" />
-        <action
+            app:destination="@id/payment_options_fragment" /> -->
+        <!-- <action
             android:id="@+id/from_settings_to_payment_details"
-            app:destination="@id/payment_details_fragment" />
+            app:destination="@id/payment_details_fragment" /> -->
     </fragment>
 
-    <fragment
+    <!-- <fragment
         android:id="@+id/cloud_login_fragment"
         android:name="my.cardholder.ui.cloud.login.CloudLoginFragment"
         android:label="Login"
@@ -282,9 +282,9 @@
         <action
             android:id="@+id/from_cloud_logout_to_logout_confirmation"
             app:destination="@id/cloud_logout_confirmation_dialog" />
-    </fragment>
+    </fragment> -->
 
-    <dialog
+    <!-- <dialog
         android:id="@+id/cloud_logout_confirmation_dialog"
         android:name="my.cardholder.ui.cloud.logout.confirmation.LogoutConfirmationDialog"
         android:label="LogoutConfirmation"
@@ -297,7 +297,7 @@
             app:destination="@id/settings_fragment"
             app:popUpTo="@id/settings_fragment"
             app:popUpToInclusive="false" />
-    </dialog>
+    </dialog> -->
 
     <fragment
         android:id="@+id/specs_fragment"
@@ -315,11 +315,11 @@
             app:destination="@id/specs_fragment" />
     </dialog>
 
-    <dialog
+    <!-- <dialog
         android:id="@+id/coffee_dialog"
         android:name="my.cardholder.ui.coffee.CoffeeDialog"
         android:label="@string/coffee_dialog_label"
-        tools:layout="@layout/dialog_coffee" />
+        tools:layout="@layout/dialog_coffee" /> -->
 
     <dialog
         android:id="@+id/card_backup_dialog"
@@ -330,9 +330,9 @@
             android:name="show_only_import_buttons"
             android:defaultValue="false"
             app:argType="boolean" />
-        <action
+        <!-- <action
             android:id="@+id/from_card_backup_to_cloud_login"
-            app:destination="@id/cloud_login_fragment" />
+            app:destination="@id/cloud_login_fragment" /> -->
     </dialog>
 
 </navigation>

@@ -114,27 +114,26 @@
     <string name="category_list_label">Card categories</string>
     <!--endregion-->
 
-    <!--region CloudLogin-->
-    <string name="cloud_login_fab_text">Login</string>
-    <string name="cloud_login_help_text">You can only select one cloud service to sync cards</string>
-    <string name="cloud_login_toolbar_title">Select cloud for sync</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region CloudLogin&ndash;&gt;-->
+<!--    <string name="cloud_login_help_text">You can only select one cloud service to sync cards</string>-->
+<!--    <string name="cloud_login_toolbar_title">Select cloud for sync</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
-    <!--region CloudLogout-->
-    <string name="cloud_logout_fab_text">Logout</string>
-    <string name="cloud_logout_help_text">If you want to set up synchronization with another cloud service, you need to log out</string>
-    <string name="cloud_logout_toolbar_title">Synchronization active</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region CloudLogout&ndash;&gt;-->
+<!--    <string name="cloud_logout_fab_text">Logout</string>-->
+<!--    <string name="cloud_logout_help_text">If you want to set up synchronization with another cloud service, you need to log out</string>-->
+<!--    <string name="cloud_logout_toolbar_title">Synchronization active</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
-    <!--region CloudLogoutConfirmation-->
-    <string name="cloud_logout_confirmation_title_text">Log out of %s? Syncing cards with the cloud will be paused</string>
-    <string name="cloud_logout_confirmation_button_text">Log out</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region CloudLogoutConfirmation&ndash;&gt;-->
+<!--    <string name="cloud_logout_confirmation_title_text">Log out of %s? Syncing cards with the cloud will be paused</string>-->
+<!--    <string name="cloud_logout_confirmation_button_text">Log out</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
-    <!--region Coffee-->
-    <string name="coffee_dialog_label">Coffee</string>
-    <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region Coffee&ndash;&gt;-->
+<!--    <string name="coffee_dialog_label">Coffee</string>-->
+<!--    <string name="coffee_dialog_title">Support this app by buying coffee for developers</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
     <!--region DeleteCard-->
     <string name="delete_card_dialog_button_text">Delete permanently</string>
@@ -150,19 +149,19 @@
     <string name="info_dialog_supported_formats_button_text">Supported formats</string>
     <!--endregion-->
 
-    <!--region Payment-->
-    <string name="payment_details_message_about_annual_sub_text">The annual subscription is active from %s. The next payment is %s.</string>
-    <string name="payment_details_message_about_monthly_sub_text">The monthly subscription is active from %s. The next payment is %s.</string>
-    <string name="payment_details_title">Subscription details</string>
-    <string name="payment_error_unknown_error_message_text">Unknown error! Please try again later</string>
-    <string name="payment_error_fab_text">Got it</string>
-    <string name="payment_error_title">Something went wrong</string>
-    <string name="payment_option_annual_title_text">Annual subscription\n%s per year</string>
-    <string name="payment_option_monthly_title_text">Monthly subscription\n%s per month</string>
-    <string name="payment_options_fab_text">Subscribe now</string>
-    <string name="payment_options_message_text">The subscription helps us develop the app and accelerates the implementation of new features</string>
-    <string name="payment_options_toolbar_title">Subscription</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region Payment&ndash;&gt;-->
+<!--    <string name="payment_details_message_about_annual_sub_text">The annual subscription is active from %s. The next payment is %s.</string>-->
+<!--    <string name="payment_details_message_about_monthly_sub_text">The monthly subscription is active from %s. The next payment is %s.</string>-->
+<!--    <string name="payment_details_title">Subscription details</string>-->
+<!--    <string name="payment_error_unknown_error_message_text">Unknown error! Please try again later</string>-->
+<!--    <string name="payment_error_fab_text">Got it</string>-->
+<!--    <string name="payment_error_title">Something went wrong</string>-->
+<!--    <string name="payment_option_annual_title_text">Annual subscription\n%s per year</string>-->
+<!--    <string name="payment_option_monthly_title_text">Monthly subscription\n%s per month</string>-->
+<!--    <string name="payment_options_fab_text">Subscribe now</string>-->
+<!--    <string name="payment_options_message_text">The subscription helps us develop the app and accelerates the implementation of new features</string>-->
+<!--    <string name="payment_options_toolbar_title">Subscription</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Add new card manually</string>

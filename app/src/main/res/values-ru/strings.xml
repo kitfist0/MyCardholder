@@ -114,27 +114,27 @@
     <string name="category_list_label">Категории карт</string>
     <!--endregion-->
 
-    <!--region CloudLogin-->
-    <string name="cloud_login_fab_text">Войти</string>
-    <string name="cloud_login_help_text">Вы можете выбрать только один облачный сервис для синхронизации карт</string>
-    <string name="cloud_login_toolbar_title">Облако для синхронизации</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region CloudLogin&ndash;&gt;-->
+<!--    <string name="cloud_login_fab_text">Войти</string>-->
+<!--    <string name="cloud_login_help_text">Вы можете выбрать только один облачный сервис для синхронизации карт</string>-->
+<!--    <string name="cloud_login_toolbar_title">Облако для синхронизации</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
-    <!--region CloudLogout-->
-    <string name="cloud_logout_fab_text">Выйти</string>
-    <string name="cloud_logout_help_text">Если вы хотите настроить синхронизацию с другим облачным сервисом, то необходимо выйти</string>
-    <string name="cloud_logout_toolbar_title">Синхронизация активна</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region CloudLogout&ndash;&gt;-->
+<!--    <string name="cloud_logout_fab_text">Выйти</string>-->
+<!--    <string name="cloud_logout_help_text">Если вы хотите настроить синхронизацию с другим облачным сервисом, то необходимо выйти</string>-->
+<!--    <string name="cloud_logout_toolbar_title">Синхронизация активна</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
-    <!--region CloudLogoutConfirmation-->
-    <string name="cloud_logout_confirmation_title_text">Выйти из аккаунта %s? Синхронизация карточек с облаком будет приостановлена</string>
-    <string name="cloud_logout_confirmation_button_text">Выйти</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region CloudLogoutConfirmation&ndash;&gt;-->
+<!--    <string name="cloud_logout_confirmation_title_text">Выйти из аккаунта %s? Синхронизация карточек с облаком будет приостановлена</string>-->
+<!--    <string name="cloud_logout_confirmation_button_text">Выйти</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
-    <!--region Coffee-->
-    <string name="coffee_dialog_label">Кофе</string>
-    <string name="coffee_dialog_title">Поддержите приложение, купив кофе для разработчиков</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region Coffee&ndash;&gt;-->
+<!--    <string name="coffee_dialog_label">Кофе</string>-->
+<!--    <string name="coffee_dialog_title">Поддержите приложение, купив кофе для разработчиков</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
     <!--region DeleteCard-->
     <string name="delete_card_dialog_button_text">Удалить навсегда</string>
@@ -150,19 +150,19 @@
     <string name="info_dialog_supported_formats_button_text">Поддерживаемые форматы</string>
     <!--endregion-->
 
-    <!--region Payment-->
-    <string name="payment_details_message_about_annual_sub_text">Годовая подписка активна с %s. Следующий платеж - %s.</string>
-    <string name="payment_details_message_about_monthly_sub_text">Ежемесячная подписка активна с %s. Следующий платеж - %s.</string>
-    <string name="payment_details_title">Сведения о подписке</string>
-    <string name="payment_error_unknown_error_message_text">Неизвестная ошибка! Пожалуйста, повторите попытку позже</string>
-    <string name="payment_error_fab_text">Понятно</string>
-    <string name="payment_error_title">Что-то пошло не так</string>
-    <string name="payment_option_annual_title_text">Годовая подписка\n%s в год</string>
-    <string name="payment_option_monthly_title_text">Месячная подписка\n%s в месяц</string>
-    <string name="payment_options_fab_text">Подписаться</string>
-    <string name="payment_options_message_text">Подписка помогает нам разрабатывать приложение и ускоряет внедрение новых функций</string>
-    <string name="payment_options_toolbar_title">Подписка</string>
-    <!--endregion-->
+<!--    &lt;!&ndash;region Payment&ndash;&gt;-->
+<!--    <string name="payment_details_message_about_annual_sub_text">Годовая подписка активна с %s. Следующий платеж - %s.</string>-->
+<!--    <string name="payment_details_message_about_monthly_sub_text">Ежемесячная подписка активна с %s. Следующий платеж - %s.</string>-->
+<!--    <string name="payment_details_title">Сведения о подписке</string>-->
+<!--    <string name="payment_error_unknown_error_message_text">Неизвестная ошибка! Пожалуйста, повторите попытку позже</string>-->
+<!--    <string name="payment_error_fab_text">Понятно</string>-->
+<!--    <string name="payment_error_title">Что-то пошло не так</string>-->
+<!--    <string name="payment_option_annual_title_text">Годовая подписка\n%s в год</string>-->
+<!--    <string name="payment_option_monthly_title_text">Месячная подписка\n%s в месяц</string>-->
+<!--    <string name="payment_options_fab_text">Подписаться</string>-->
+<!--    <string name="payment_options_message_text">Подписка помогает нам разрабатывать приложение и ускоряет внедрение новых функций</string>-->
+<!--    <string name="payment_options_toolbar_title">Подписка</string>-->
+<!--    &lt;!&ndash;endregion&ndash;&gt;-->
 
     <!--region Permission-->
     <string name="permission_add_manually_button_text">Добавить новую карту вручную</string>

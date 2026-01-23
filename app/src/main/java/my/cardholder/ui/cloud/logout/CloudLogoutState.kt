@@ -1,14 +1,14 @@
-package my.cardholder.ui.cloud.logout
+// package my.cardholder.ui.cloud.logout
 
-import my.cardholder.data.model.CloudProvider
-import my.cardholder.util.Text
+// import my.cardholder.data.model.CloudProvider
+// import my.cardholder.util.Text
 
-sealed class CloudLogoutState {
-    data class Default(
-        val selectedCloudProvider: CloudProvider,
-        val accountNameText: Text,
-        val confirmationDialogText: Text,
-    ) : CloudLogoutState()
+// sealed class CloudLogoutState {
+//     data class Default(
+//         val selectedCloudProvider: CloudProvider,
+//         val accountNameText: Text,
+//         val confirmationDialogText: Text,
+//     ) : CloudLogoutState()
 
-    data object Loading : CloudLogoutState()
-}
+//     data object Loading : CloudLogoutState()
+// }

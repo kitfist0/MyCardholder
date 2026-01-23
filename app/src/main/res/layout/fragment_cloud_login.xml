@@ -13,9 +13,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/cloud_login_toolbar_title" />
-
-    <androidx.recyclerview.widget.RecyclerView
+         />
+<!-- app:title="@string/cloud_login_toolbar_title" -->
+    <!-- <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cloud_login_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -50,14 +50,15 @@
         tools:progress="50" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/cloud_login_fab"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
-        android:text="@string/cloud_login_fab_text"
+
         app:icon="@drawable/ic_login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent" /> -->
+<!--    android:text="@string/cloud_login_fab_text"-->
+<!--    android:id="@+id/cloud_login_fab"-->
 </androidx.constraintlayout.widget.ConstraintLayout>

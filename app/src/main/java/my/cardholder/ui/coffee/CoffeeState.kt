@@ -1,7 +1,7 @@
-package my.cardholder.ui.coffee
+// package my.cardholder.ui.coffee
 
-import my.cardholder.data.model.Coffee
+// import my.cardholder.data.model.Coffee
 
-data class CoffeeState(
-    val coffees: List<Coffee>,
-)
+// data class CoffeeState(
+//     val coffees: List<Coffee>,
+// )

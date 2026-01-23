@@ -97,15 +97,15 @@ class SettingsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onHeaderClicked() {
-        viewModelScope.launch {
-            if (settingsRepository.cloudSyncEnabled.first()) {
-                navigate(SettingsFragmentDirections.fromSettingsToCloudLogout())
-            } else {
-                navigate(SettingsFragmentDirections.fromSettingsToCloudLogin())
-            }
-        }
-    }
+    // fun onHeaderClicked() {
+    //     viewModelScope.launch {
+    //         if (settingsRepository.cloudSyncEnabled.first()) {
+    //             navigate(SettingsFragmentDirections.fromSettingsToCloudLogout())
+    //         } else {
+    //             navigate(SettingsFragmentDirections.fromSettingsToCloudLogin())
+    //         }
+    //     }
+    // }
 
     fun onItemWithoutOptionsClicked(settingId: SettingId) {
         when (settingId) {
@@ -115,11 +115,11 @@ class SettingsViewModel @Inject constructor(
             SettingId.BACKUP ->
                 navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
 
-            SettingId.COFFEE ->
-                navigate(SettingsFragmentDirections.fromSettingsToCoffee())
+            // SettingId.COFFEE ->
+            //     navigate(SettingsFragmentDirections.fromSettingsToCoffee())
 
-            SettingId.ABOUT ->
-                navigate(SettingsFragmentDirections.fromSettingsToInfo())
+            // SettingId.ABOUT ->
+            //     navigate(SettingsFragmentDirections.fromSettingsToInfo())
 
             else -> {
             }

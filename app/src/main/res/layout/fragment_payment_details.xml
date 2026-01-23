@@ -25,12 +25,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="center"
-        android:text="@string/payment_details_title"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+        
+        <!-- android:text="@string/payment_details_title" -->
 
     <TextView
         android:id="@+id/payment_details_message_text"

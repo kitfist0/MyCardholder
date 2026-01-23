@@ -10,11 +10,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CardLogoViewModel @Inject constructor() : BaseViewModel() {
 
-    private val defaultState = CardLogoState(
-        websiteIconLink = BuildConfig.WEB_PAGE_STORE,
-        imageLogoLink = BuildConfig.APP_LOGO_LINK,
-    )
-    val state = MutableStateFlow(defaultState).asStateFlow()
+    // private val defaultState = CardLogoState(
+    //     websiteIconLink = BuildConfig.WEB_PAGE_STORE,
+    //     imageLogoLink = BuildConfig.APP_LOGO_LINK,
+    // // )
+    // val state = MutableStateFlow(defaultState).asStateFlow()
 
     fun onOkButtonClicked() {
         navigateUp()

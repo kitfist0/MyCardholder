@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="@string/cloud_logout_confirmation_title_text"
+
         android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
 
     <TextView
@@ -24,10 +24,12 @@
         android:drawablePadding="@dimen/bottom_sheet_button_drawable_padding"
         android:gravity="center_vertical"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="@string/cloud_logout_confirmation_button_text"
+
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:textColor="?colorError"
         app:drawableStartCompat="@drawable/ic_cloud_off"
         app:drawableTint="?colorError" />
 
 </LinearLayout>
+        <!-- android:text="@string/cloud_logout_confirmation_title_text" -->
+        <!-- android:text="@string/cloud_logout_confirmation_button_text" -->

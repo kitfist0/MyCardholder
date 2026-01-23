@@ -21,11 +21,11 @@ secrets {
 android {
     compileSdkVersion 36
 
-    namespace 'my.cardholder'
+    namespace = 'my.cardholder'
 
     defaultConfig {
         applicationId "my.cardholder"
-        applicationIdSuffix ".gp"
+//        applicationIdSuffix ".gp"
         minSdk 24
         targetSdk 35
         versionCode 19
@@ -39,34 +39,34 @@ android {
         buildConfigField "String", "BUILD_TIME", "\"${buildTime.format('yyyy-MM-dd HH:mm')}\""
     }
 
-    flavorDimensions = ["billing"]
+//    flavorDimensions = ["billing"]
 
     productFlavors {
-        googleplay {
-            dimension "billing"
-            buildConfigField("String", "APP_LOGO_LINK", "\"https://play-lh.googleusercontent.com/CukdHWulsmo9nwmiLmJg9tViyUv2UfWV5KUMw-Emm-wnAmKfjItajKidbdRw0MR8i6o=w480-h960-rw\"")
-            buildConfigField("String", "APP_STORE_NAME", "\"GooglePlay\"")
-            buildConfigField("String", "WEB_PAGE_STORE", "\"https://play.google.com\"")
-            buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://github.com/kitfist0/MyCardholder/blob/master/LICENSE\"")
-            buildConfigField("String", "WEB_PAGE_POLICY", "\"https://github.com/kitfist0/MyCardholder/blob/master/POLICY.md\"")
-            buildConfigField("String", "WEB_PAGE_REPO", "\"https://github.com/kitfist0/MyCardholder\"")
-        }
-        rustore {
-            dimension "billing"
-            buildConfigField("String", "APP_LOGO_LINK", "\"https://static.rustore.ru/imgproxy/GtqXx4sVVn6YA0TTHnqZrAPsmyb6iGt2Y4eZ0auW-WQ/preset:web_app_icon_160/plain/https://static.rustore.ru/apk/2063489959/content/ICON/a948ad25-95c0-4fda-88f3-25968f431e0c.png@webp\"")
-            buildConfigField("String", "APP_STORE_NAME", "\"RuStore\"")
-            buildConfigField("String", "WEB_PAGE_STORE", "\"https://rustore.ru\"")
-            buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/LICENSE\"")
-            buildConfigField("String", "WEB_PAGE_POLICY", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/POLICY.md\"")
-            buildConfigField("String", "WEB_PAGE_REPO", "\"https://gitverse.ru/kitfist0/MyCardholder\"")
-
-            // Don't forget to specify Yandex ClientID in ./local.properties! As shown below:
-            // YANDEX_CLIENT_ID=0123456789abcdef0123456789abcdef
-            Properties properties = new Properties()
-            properties.load(project.rootProject.file('local.properties').newDataInputStream())
-            def yandexClientIdToken = properties.getProperty('YANDEX_CLIENT_ID')
-            manifestPlaceholders = [YANDEX_CLIENT_ID: yandexClientIdToken]
-        }
+//        googleplay {
+//            dimension "billing"
+//            buildConfigField("String", "APP_LOGO_LINK", "\"https://play-lh.googleusercontent.com/CukdHWulsmo9nwmiLmJg9tViyUv2UfWV5KUMw-Emm-wnAmKfjItajKidbdRw0MR8i6o=w480-h960-rw\"")
+//            buildConfigField("String", "APP_STORE_NAME", "\"GooglePlay\"")
+//            buildConfigField("String", "WEB_PAGE_STORE", "\"https://play.google.com\"")
+//            buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://github.com/kitfist0/MyCardholder/blob/master/LICENSE\"")
+//            buildConfigField("String", "WEB_PAGE_POLICY", "\"https://github.com/kitfist0/MyCardholder/blob/master/POLICY.md\"")
+//            buildConfigField("String", "WEB_PAGE_REPO", "\"https://github.com/kitfist0/MyCardholder\"")
+//        }
+//        rustore {
+//            dimension "billing"
+//            buildConfigField("String", "APP_LOGO_LINK", "\"https://static.rustore.ru/imgproxy/GtqXx4sVVn6YA0TTHnqZrAPsmyb6iGt2Y4eZ0auW-WQ/preset:web_app_icon_160/plain/https://static.rustore.ru/apk/2063489959/content/ICON/a948ad25-95c0-4fda-88f3-25968f431e0c.png@webp\"")
+//            buildConfigField("String", "APP_STORE_NAME", "\"RuStore\"")
+//            buildConfigField("String", "WEB_PAGE_STORE", "\"https://rustore.ru\"")
+//            buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/LICENSE\"")
+//            buildConfigField("String", "WEB_PAGE_POLICY", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/POLICY.md\"")
+//            buildConfigField("String", "WEB_PAGE_REPO", "\"https://gitverse.ru/kitfist0/MyCardholder\"")
+//
+//            // Don't forget to specify Yandex ClientID in ./local.properties! As shown below:
+//            // YANDEX_CLIENT_ID=0123456789abcdef0123456789abcdef
+//            Properties properties = new Properties()
+//            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//            def yandexClientIdToken = properties.getProperty('YANDEX_CLIENT_ID')
+//            manifestPlaceholders = [YANDEX_CLIENT_ID: yandexClientIdToken]
+//        }
     }
 
     signingConfigs {
@@ -84,18 +84,18 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            signingConfig = signingConfigs.getByName("common")
+            // signingConfig = signingConfigs.getByName("common")
         }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig = signingConfigs.getByName("common")
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig = signingConfigs.getByName("common")
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlin {
@@ -162,8 +162,8 @@ dependencies {
     implementation(libs.androidx.work.runtime)
 
     // Billing
-    googleplayImplementation(libs.googleplay.billingclient)
-    rustoreImplementation(libs.rustore.billingclient)
+//    googleplayImplementation(libs.googleplay.billingclient)
+//    rustoreImplementation(libs.rustore.billingclient)
 
     // Coil
     implementation(libs.coil)
@@ -210,7 +210,7 @@ dependencies {
     implementation(libs.squareup.retrofit2.converter)
 
     // Yandex
-    implementation(libs.yandex.authsdk)
+//    implementation(libs.yandex.authsdk)
 
     // Zxing
     implementation(libs.zxing.core)

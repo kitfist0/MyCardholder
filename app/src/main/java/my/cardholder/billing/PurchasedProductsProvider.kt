@@ -1,7 +1,7 @@
-package my.cardholder.billing
+// package my.cardholder.billing
 
-import kotlinx.coroutines.flow.Flow
+// import kotlinx.coroutines.flow.Flow
 
-interface PurchasedProductsProvider {
-    val purchasedProducts: Flow<List<ProductId>>
-}
+// interface PurchasedProductsProvider {
+//     val purchasedProducts: Flow<List<ProductId>>
+// }

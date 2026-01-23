@@ -31,7 +31,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             root.updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
             settingsHeaderCard.setOnClickListener {
                 listAdapter.collapseAll()
-                viewModel.onHeaderClicked()
+                // viewModel.onHeaderClicked()
             }
             settingsRecyclerView.apply {
                 clipToPadding = false

@@ -2,6 +2,7 @@ package my.cardholder.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -11,12 +12,11 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
-import my.cardholder.billing.BillingActivity
 import my.cardholder.data.model.AppTheme
 import my.cardholder.util.ext.collectWhenStarted
 
 @AndroidEntryPoint
-class MainActivity : BillingActivity() {
+class MainActivity : AppCompatActivity() {
 
     private companion object {
         const val FADE_IN_ANIM_DELAY_MS = 1500L
@@ -52,23 +52,23 @@ class MainActivity : BillingActivity() {
             setAppTheme(theme)
         }
 
-        collectWhenStarted(viewModel.backupDownloadLog) { logMessage ->
-            binding.mainBottomNavMessageText.apply {
-                if (logMessage.isNullOrEmpty()) {
-                    this.animate()
-                        .alpha(0f)
-                        .setStartDelay(FADE_IN_ANIM_DELAY_MS)
-                        .setDuration(FADE_IN_ANIM_DURATION_MS)
-                        .withEndAction {
-                            isVisible = false
-                            text = null
-                        }
-                } else {
-                    isVisible = true
-                    text = logMessage
-                }
-            }
-        }
+        // collectWhenStarted(viewModel.backupDownloadLog) { logMessage ->
+        //     binding.mainBottomNavMessageText.apply {
+        //         if (logMessage.isNullOrEmpty()) {
+        //             this.animate()
+        //                 .alpha(0f)
+        //                 .setStartDelay(FADE_IN_ANIM_DELAY_MS)
+        //                 .setDuration(FADE_IN_ANIM_DURATION_MS)
+        //                 .withEndAction {
+        //                     isVisible = false
+        //                     text = null
+        //                 }
+        //         } else {
+        //             isVisible = true
+        //             text = logMessage
+        //         }
+        //     }
+        // }
     }
 
     private fun setAppTheme(theme: AppTheme) {

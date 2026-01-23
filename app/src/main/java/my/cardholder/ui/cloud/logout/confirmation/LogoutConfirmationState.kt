@@ -1,5 +1,5 @@
-package my.cardholder.ui.cloud.logout.confirmation
+// package my.cardholder.ui.cloud.logout.confirmation
 
-data class LogoutConfirmationState(
-    val accountName: String,
-)
+// data class LogoutConfirmationState(
+//     val accountName: String,
+// )

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/bottom_sheet_view_padding"
-        android:text="@string/coffee_dialog_title"
+
         android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,3 +30,4 @@
         tools:listitem="@layout/item_coffee" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- android:text="@string/coffee_dialog_title" -->

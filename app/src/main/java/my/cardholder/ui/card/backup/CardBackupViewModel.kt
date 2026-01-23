@@ -83,9 +83,9 @@ class CardBackupViewModel @Inject constructor(
         _state.update { it.copy(launchBackupFileImport = true) }
     }
 
-    fun onSyncCardsButtonClicked() {
-        navigate(CardBackupDialogDirections.fromCardBackupToCloudLogin())
-    }
+    // fun onSyncCardsButtonClicked() {
+    //     navigate(CardBackupDialogDirections.fromCardBackupToCloudLogin())
+    // }
 
     fun onBackupFileImportLaunched() {
         _state.update { it.copy(launchBackupFileImport = false) }
