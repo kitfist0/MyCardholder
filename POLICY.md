@@ -1,10 +1,10 @@
-# MyCardholder Privacy Policy
+# Wallet Privacy Policy
 
-If you choose to use MyCardholder app you automatically agree to this policy.
+If you choose to use Wallet app you automatically agree to this policy.
 
-At MyCardholder, we respect your privacy and take the protection of your personal information very
+At Wallet, we respect your privacy and take the protection of your personal information very
 seriously. This Privacy Policy outlines how we collect, use, and disclose your personal information
-in connection with our MyCardholder Android application.
+in connection with our Wallet Android application.
 
 ### Open Source
 
@@ -15,9 +15,9 @@ security vulnerabilities they find.
 
 ### Data Collection
 
-We do not collect any personal information when you download or use our MyCardholder application. We
+We do not collect any personal information when you download or use our Wallet application. We
 do not request access to any personal information on your device such as your contacts, messages,
-location, or camera. The only permissions we request are those required to operate the MyCardholder
+location, or camera. The only permissions we request are those required to operate the Wallet
 application such as camera access and internet access.
 
 ### Crashlytics
@@ -60,7 +60,7 @@ any personal information.
 ### Changes to the Privacy Policy
 
 We reserve the right to modify this Privacy Policy at any time. If we make material changes to this
-Privacy Policy, we will notify you by posting a notice in the MyCardholder application.
+Privacy Policy, we will notify you by posting a notice in the Wallet application.
 
 If you have any questions about this Privacy Policy or our privacy practices,
 please [contact us](mailto:mdeveloperspost@gmail.com).

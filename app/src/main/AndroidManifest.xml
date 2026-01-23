@@ -19,7 +19,7 @@
         android:localeConfig="@xml/locale_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyCardholder.Splash"
+        android:theme="@style/Theme.Wallet.Splash"
         tools:targetApi="tiramisu">
 
         <activity

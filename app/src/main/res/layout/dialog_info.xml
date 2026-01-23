@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="MyCardholder v1.0.0\nMidnightDev, 2023" />
+        tools:text="Wallet v1.0.0\nMidnightDev, 2023" />
 
     <TextView
         android:id="@+id/info_supported_formats_button"

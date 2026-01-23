@@ -9,7 +9,7 @@ import my.cardholder.databinding.ItemSearchCategoryHeaderBinding
 
 class CardSearchCategoryAdapter(
     private val onCategoryClicked: (categoryName: String) -> Unit,
-    // private val onHeaderClicked: () -> Unit,
+    private val onHeaderClicked: () -> Unit,
 ) : ListAdapter<CardSearchCategoryItem, CardSearchCategoryViewHolder<CardSearchCategoryItem>>(
     CategoryDiffCallback
 ) {
@@ -59,10 +59,10 @@ class CardSearchCategoryAdapter(
                 onCategoryClicked,
             )
 
-            // VIEW_TYPE_CATEGORY_HEADER -> CardSearchCategoryViewHolder.HeaderViewHolder(
-            //     ItemSearchCategoryHeaderBinding.inflate(inflater, parent, false),
-            //     onHeaderClicked,
-            // )
+            VIEW_TYPE_CATEGORY_HEADER -> CardSearchCategoryViewHolder.HeaderViewHolder(
+                ItemSearchCategoryHeaderBinding.inflate(inflater, parent, false),
+                onHeaderClicked,
+            )
 
             else -> throw RuntimeException("Unsupported view holder type")
         } as CardSearchCategoryViewHolder<CardSearchCategoryItem>

@@ -21,7 +21,7 @@
     <string name="card_backup_dialog_import_title">Импорт карт</string>
     <string name="card_backup_dialog_label">Бэкап</string>
     <string name="card_backup_dialog_operation_canceled_message">Операция отменена</string>
-    <string name="card_backup_dialog_sync_cards_button_text">Синхронизировать карты с облаком</string>
+    <!-- <string name="card_backup_dialog_sync_cards_button_text">Синхронизировать карты с облаком</string> -->
     <!--endregion-->
 
     <!--region CardComment-->
@@ -42,7 +42,7 @@
     <!--endregion-->
 
     <!--region CardDisplay-->
-    <string name="card_display_delete_card_button_text">Удалить карту навсегда</string>
+    <string name="card_display_delete_menu_button_text">Удалить</string>
     <string name="card_display_edit_fab_title">Редактировать</string>
     <string name="card_display_explanation_message">Кликните на штрих-код, чтобы отобразить его на весь экран с максимальной яркостью</string>
     <string name="card_display_label">Отображение карты</string>

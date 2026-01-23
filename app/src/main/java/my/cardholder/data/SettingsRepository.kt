@@ -9,7 +9,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import my.cardholder.data.model.AppTheme
-import my.cardholder.data.model.CloudProvider
+// import my.cardholder.data.model.CloudProvider
 import my.cardholder.data.model.NumOfColumns
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,11 +21,11 @@ class SettingsRepository @Inject constructor(
 
     private companion object {
         val APP_THEME_KEY = intPreferencesKey("app_theme")
-        val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
-        val CLOUD_PROVIDER_KEY = intPreferencesKey("cloud_provider")
+        // val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
+        // val CLOUD_PROVIDER_KEY = intPreferencesKey("cloud_provider")
         val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_full_screen")
         val EXPLANATION_CARD_SCAN_KEY = booleanPreferencesKey("explanation_scan")
-        val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
+        // val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
         val NUM_OF_COLUMNS_KEY = intPreferencesKey("columns_number")
     }
 
@@ -38,23 +38,23 @@ class SettingsRepository @Inject constructor(
         AppTheme.entries[themeValue]
     }
 
-    suspend fun setCloudSyncEnabled(b: Boolean) = dataStore.edit { preferences ->
-        preferences[CLOUD_SYNC_ENABLED_KEY] = b
-    }
+    // suspend fun setCloudSyncEnabled(b: Boolean) = dataStore.edit { preferences ->
+    //     preferences[CLOUD_SYNC_ENABLED_KEY] = b
+    // }
 
-    val cloudSyncEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[CLOUD_SYNC_ENABLED_KEY] ?: false
-    }
+    // val cloudSyncEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
+    //     preferences[CLOUD_SYNC_ENABLED_KEY] ?: false
+    // }
 
-    suspend fun setCloudProvider(cloud: CloudProvider) = dataStore.edit { preferences ->
-        preferences[CLOUD_PROVIDER_KEY] = cloud.ordinal
-    }
+    // suspend fun setCloudProvider(cloud: CloudProvider) = dataStore.edit { preferences ->
+    //     preferences[CLOUD_PROVIDER_KEY] = cloud.ordinal
+    // }
 
-    val cloudProvider: Flow<CloudProvider> = dataStore.data.map { preferences ->
-        preferences[CLOUD_PROVIDER_KEY]
-            ?.let { CloudProvider.entries[it] }
-            ?: CloudProvider.GOOGLE
-    }
+    // val cloudProvider: Flow<CloudProvider> = dataStore.data.map { preferences ->
+    //     preferences[CLOUD_PROVIDER_KEY]
+    //         ?.let { CloudProvider.entries[it] }
+    //         ?: CloudProvider.GOOGLE
+    // }
 
     suspend fun disableExplanationAboutBarcodeZoom() = dataStore.edit { preferences ->
         preferences[EXPLANATION_BARCODE_ZOOM_KEY] = false
@@ -72,13 +72,13 @@ class SettingsRepository @Inject constructor(
         preferences[EXPLANATION_CARD_SCAN_KEY] ?: true
     }
 
-    suspend fun setLatestSyncedBackupChecksum(l: Long) = dataStore.edit { preferences ->
-        preferences[LATEST_SYNCED_BACKUP_CHECKSUM_KEY] = l
-    }
+    // suspend fun setLatestSyncedBackupChecksum(l: Long) = dataStore.edit { preferences ->
+    //     preferences[LATEST_SYNCED_BACKUP_CHECKSUM_KEY] = l
+    // }
 
-    val latestSyncedBackupChecksum: Flow<Long?> = dataStore.data.map { preferences ->
-        preferences[LATEST_SYNCED_BACKUP_CHECKSUM_KEY]
-    }
+    // val latestSyncedBackupChecksum: Flow<Long?> = dataStore.data.map { preferences ->
+    //     preferences[LATEST_SYNCED_BACKUP_CHECKSUM_KEY]
+    // }
 
     suspend fun setNumOfColumns(numOfColumns: NumOfColumns) = dataStore.edit { preferences ->
         preferences[NUM_OF_COLUMNS_KEY] = numOfColumns.ordinal

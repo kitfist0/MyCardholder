@@ -44,25 +44,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     override fun collectData() {
         collectWhenStarted(viewModel.state) { state ->
             listAdapter.submitList(state.settingsItems)
-            setupHeader(state.headerState)
-        }
-    }
-
-    private fun setupHeader(headerState: SettingsState.HeaderState) {
-        val syncEnabled = headerState.cloudSyncEnabled
-        binding.settingsHeaderText.apply {
-            text = if (syncEnabled) {
-                headerState.cloudName.orEmpty()
-            } else {
-                getString(R.string.settings_cloud_sync_switch_off_text)
-            }
-            setStartEndCompoundDrawables(
-                endDrawableResId = if (syncEnabled) {
-                    R.drawable.ic_cloud_on
-                } else {
-                    R.drawable.ic_cloud_off
-                }
-            )
         }
     }
 }

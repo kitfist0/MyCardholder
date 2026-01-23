@@ -14,11 +14,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import my.cardholder.data.model.Coffee
+// import my.cardholder.data.model.Coffee
 import my.cardholder.data.source.AppDatabase
 import my.cardholder.data.source.CardDao
 import my.cardholder.data.source.CategoryDao
-import my.cardholder.data.source.CoffeeDao
+// import my.cardholder.data.source.CoffeeDao
 import java.io.File
 import javax.inject.Singleton
 
@@ -43,16 +43,16 @@ object DataModule {
         return Room.databaseBuilder(context, AppDatabase::class.java, "cardholder.db")
             .fallbackToDestructiveMigration()
             .allowMainThreadQueries()
-            .addCallback(
-                object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                        Coffee.COFFEE_IDS.forEach { coffeeId ->
-                            db.execSQL("INSERT INTO coffees VALUES ('$coffeeId', 0);")
-                        }
-                    }
-                }
-            )
+            // .addCallback(
+            //     object : RoomDatabase.Callback() {
+            //         override fun onCreate(db: SupportSQLiteDatabase) {
+            //             super.onCreate(db)
+            //             Coffee.COFFEE_IDS.forEach { coffeeId ->
+            //                 db.execSQL("INSERT INTO coffees VALUES ('$coffeeId', 0);")
+            //             }
+            //         }
+            //     }
+            // )
             .addMigrations(*AppDatabase.MIGRATIONS)
             .build()
     }
@@ -69,11 +69,11 @@ object DataModule {
         return database.categoryDao()
     }
 
-    @Provides
-    @Singleton
-    fun provideCoffeeDao(database: AppDatabase): CoffeeDao {
-        return database.coffeeDao()
-    }
+    // @Provides
+    // @Singleton
+    // fun provideCoffeeDao(database: AppDatabase): CoffeeDao {
+    //     return database.coffeeDao()
+    // }
 
     @Provides
     @Singleton

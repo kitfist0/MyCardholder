@@ -32,9 +32,9 @@ class CardSearchFragment : BaseFragment<FragmentCardSearchBinding>(
             onCategoryClicked = { categoryName ->
                 viewModel.onCategoryItemClicked(categoryName)
             },
-            // onHeaderClicked = {
-            //     viewModel.onHeaderItemClicked()
-            // }
+            onHeaderClicked = {
+                viewModel.onHeaderItemClicked()
+            }
         )
     }
 

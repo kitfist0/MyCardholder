@@ -29,16 +29,6 @@
                 tools:ignore="ContentDescription"
                 tools:src="@sample/sample_card.json/image" />
 
-            <Button
-                android:id="@+id/card_edit_delete_card_button"
-                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:icon="@drawable/ic_delete"
-                app:layout_constraintBottom_toBottomOf="@id/card_edit_barcode_image"
-                app:layout_constraintEnd_toEndOf="parent" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/card_edit_card_name_input_layout"
                 android:layout_width="match_parent"

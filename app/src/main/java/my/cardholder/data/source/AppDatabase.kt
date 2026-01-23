@@ -6,13 +6,11 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Category
-import my.cardholder.data.model.Coffee
 
 @Database(
     entities = [
         Card::class,
         Category::class,
-        Coffee::class,
     ],
     version = 6,
     exportSchema = true,
@@ -20,7 +18,6 @@ import my.cardholder.data.model.Coffee
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
     abstract fun categoryDao(): CategoryDao
-    abstract fun coffeeDao(): CoffeeDao
 
     companion object {
         val MIGRATIONS = arrayOf(

@@ -32,20 +32,6 @@ class SettingsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        settingsRepository.cloudSyncEnabled
-            .onEach { isEnabled ->
-                val cloudName = if (isEnabled) {
-                    settingsRepository.cloudProvider.first().cloudName
-                } else {
-                    null
-                }
-                _state.update {
-                    it.copy(
-                        headerState = SettingsState.HeaderState(isEnabled, cloudName)
-                    )
-                }
-            }
-            .launchIn(viewModelScope)
 
         settingsRepository.appTheme
             .onEach { theme ->
@@ -97,16 +83,6 @@ class SettingsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    // fun onHeaderClicked() {
-    //     viewModelScope.launch {
-    //         if (settingsRepository.cloudSyncEnabled.first()) {
-    //             navigate(SettingsFragmentDirections.fromSettingsToCloudLogout())
-    //         } else {
-    //             navigate(SettingsFragmentDirections.fromSettingsToCloudLogin())
-    //         }
-    //     }
-    // }
-
     fun onItemWithoutOptionsClicked(settingId: SettingId) {
         when (settingId) {
             SettingId.CATEGORIES ->
@@ -115,11 +91,8 @@ class SettingsViewModel @Inject constructor(
             SettingId.BACKUP ->
                 navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
 
-            // SettingId.COFFEE ->
-            //     navigate(SettingsFragmentDirections.fromSettingsToCoffee())
-
-            // SettingId.ABOUT ->
-            //     navigate(SettingsFragmentDirections.fromSettingsToInfo())
+            SettingId.ABOUT ->
+                navigate(SettingsFragmentDirections.fromSettingsToInfo())
 
             else -> {
             }

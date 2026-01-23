@@ -145,16 +145,16 @@ class CardRepository @Inject constructor(
         }
     }
 
-    suspend fun updateCardLogo(cardId: Long, logo: String?) {
-        val newLogo = logo?.trim()
-        getCard(cardId)?.let { card ->
-            if (card.logo != newLogo) {
-                upsertCard(
-                    card.copy(logo = newLogo)
-                )
-            }
-        }
-    }
+    // suspend fun updateCardLogo(cardId: Long, logo: String?) {
+    //     val newLogo = logo?.trim()
+    //     getCard(cardId)?.let { card ->
+    //         if (card.logo != newLogo) {
+    //             upsertCard(
+    //                 card.copy(logo = newLogo)
+    //             )
+    //         }
+    //     }
+    // }
 
     suspend fun updateCardName(cardId: Long, name: String) {
         val newName = name.trim()

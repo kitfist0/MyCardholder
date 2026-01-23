@@ -37,6 +37,10 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                     viewModel.onBarcodeImageClicked(extras)
                 }
             }
+            cardDisplayToolbar.setOnMenuItemClickListener { menuItem ->
+                viewModel.onToolbarMenuItemClicked(menuItem.itemId)
+                true
+            }
             cardDisplayCardCategoryText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardNameText.setupUniqueTransitionName(uniqueNameSuffix)
             cardDisplayCardContentCardView.apply {
@@ -67,9 +71,11 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             }
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
+                cardDisplayToolbar.isVisible = false
                 cardDisplayCardLogoImage.isVisible = false
             }
             transitionSet.doOnEnd {
+                cardDisplayToolbar.animateVisibilityChange()
                 cardDisplayCardLogoImage.animateVisibilityChange()
             }
         }

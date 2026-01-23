@@ -21,7 +21,7 @@
     <string name="card_backup_dialog_import_title">Import cards</string>
     <string name="card_backup_dialog_label">Backup</string>
     <string name="card_backup_dialog_operation_canceled_message">Operation canceled</string>
-    <string name="card_backup_dialog_sync_cards_button_text">Sync cards with the cloud</string>
+    <!-- <string name="card_backup_dialog_sync_cards_button_text">Sync cards with the cloud</string> -->
     <!--endregion-->
 
     <!--region CardComment-->
@@ -42,7 +42,7 @@
     <!--endregion-->
 
     <!--region CardDisplay-->
-    <string name="card_display_delete_card_button_text">Delete card permanently</string>
+    <string name="card_display_delete_menu_button_text">Delete</string>
     <string name="card_display_edit_fab_title">Edit</string>
     <string name="card_display_explanation_message">Tap on the barcode to display it on the full screen with maximum brightness</string>
     <string name="card_display_label">Card display</string>

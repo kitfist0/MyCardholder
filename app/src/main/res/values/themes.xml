@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.MyCardholder" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Wallet" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/cardholder_color_primary_day</item>
         <item name="colorOnPrimary">@color/cardholder_color_on_primary_day</item>
         <item name="colorPrimaryContainer">@color/cardholder_color_primary_container_day</item>
@@ -18,11 +18,11 @@
         <item name="android:navigationBarColor">@color/cardholder_color_navigation_bar_day</item>
     </style>
 
-    <style name="Theme.MyCardholder.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Wallet.Splash" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowSplashScreenBackground" tools:targetApi="s">?android:windowBackground</item>
         <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@drawable/avd_splash</item>
         <item name="android:windowSplashScreenAnimationDuration" tools:targetApi="s">900</item>
-        <item name="postSplashScreenTheme">@style/Theme.MyCardholder</item>
+        <item name="postSplashScreenTheme">@style/Theme.Wallet</item>
     </style>
 
 </resources>

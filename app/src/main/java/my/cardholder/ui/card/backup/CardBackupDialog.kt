@@ -44,9 +44,6 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
             cardBackupImportCardsButton.setOnClickListener {
                 viewModel.onImportCardsButtonClicked()
             }
-            // cardBackupSyncCardsButton.setOnClickListener {
-            //     viewModel.onSyncCardsButtonClicked()
-            // }
         }
     }
 
@@ -82,10 +79,6 @@ class CardBackupDialog : BaseDialogFragment<DialogCardBackupBinding>(
             }
             cardBackupImportCardsButton.apply {
                 isVisible = state.importCardsButtonIsVisible
-                isEnabled = notCurrentlyInProgress
-            }
-            cardBackupSyncCardsButton.apply {
-                isVisible = state.syncCardsButtonIsVisible
                 isEnabled = notCurrentlyInProgress
             }
         }

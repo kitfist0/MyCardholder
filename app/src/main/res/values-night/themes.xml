@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.MyCardholder" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Wallet" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/cardholder_color_primary_night</item>
         <item name="colorOnPrimary">@color/cardholder_color_on_primary_night</item>
         <item name="colorPrimaryContainer">@color/cardholder_color_primary_container_night</item>

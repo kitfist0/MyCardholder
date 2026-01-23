@@ -44,14 +44,6 @@ class CardBackupViewModel @Inject constructor(
         launchBackupFileImport = false,
     )
 
-    init {
-        settingsRepository.cloudSyncEnabled
-            .onEach { isEnabled ->
-                _state.update { it.copy(syncCardsButtonIsVisible = !isEnabled) }
-            }
-            .launchIn(viewModelScope)
-    }
-
     private val _state = MutableStateFlow(defaultState)
     val state = _state.asStateFlow()
 
@@ -82,10 +74,6 @@ class CardBackupViewModel @Inject constructor(
     fun onImportCardsButtonClicked() {
         _state.update { it.copy(launchBackupFileImport = true) }
     }
-
-    // fun onSyncCardsButtonClicked() {
-    //     navigate(CardBackupDialogDirections.fromCardBackupToCloudLogin())
-    // }
 
     fun onBackupFileImportLaunched() {
         _state.update { it.copy(launchBackupFileImport = false) }

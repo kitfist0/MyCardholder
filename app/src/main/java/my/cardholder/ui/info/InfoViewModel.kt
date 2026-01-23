@@ -14,24 +14,24 @@ class InfoViewModel @Inject constructor() : BaseViewModel() {
         const val ACTION_VIEW = "android.intent.action.VIEW"
     }
 
-    // private val _dialogTitle = MutableStateFlow(
-    //     "${BuildConfig.APP_NAME} ${BuildConfig.VERSION_NAME}\n${BuildConfig.APP_STORE_NAME}, ${BuildConfig.DEV_NAME}, ${BuildConfig.YEAR}"
-    // )
-    // val dialogTitle = _dialogTitle.asStateFlow()
+    private val _dialogTitle = MutableStateFlow(
+        "${BuildConfig.APP_NAME} ${BuildConfig.VERSION_NAME}\n${BuildConfig.APP_STORE_NAME}, ${BuildConfig.DEV_NAME}, ${BuildConfig.YEAR}"
+    )
+    val dialogTitle = _dialogTitle.asStateFlow()
 
-    // fun onSupportedFormatsButtonClicked() {
-    //     navigate(InfoDialogDirections.fromInfoToSpecs())
-    // }
+    fun onSupportedFormatsButtonClicked() {
+        navigate(InfoDialogDirections.fromInfoToSpecs())
+    }
 
-    // fun onPrivacyPolicyButtonClicked() {
-    //     startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_POLICY)
-    // }
+    fun onPrivacyPolicyButtonClicked() {
+        startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_POLICY)
+    }
 
-    // fun onSourceCodeButtonClicked() {
-    //     startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_REPO)
-    // }
+    fun onSourceCodeButtonClicked() {
+        startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_REPO)
+    }
 
-    // fun onCopyrightButtonClicked() {
-    //     startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_LICENSE)
-    // }
+    fun onCopyrightButtonClicked() {
+        startActivity(ACTION_VIEW, BuildConfig.WEB_PAGE_LICENSE)
+    }
 }

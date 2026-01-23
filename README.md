@@ -1,4 +1,4 @@
-# MyCardholder
+# Wallet
 
 An open source cardholder app to store you cards in one place.
 

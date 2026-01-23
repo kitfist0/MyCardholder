@@ -35,9 +35,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 updateVerticalPaddingAfterApplyingWindowInsets()
             }
-            cardEditDeleteCardButton.setOnClickListener {
-                viewModel.onDeleteCardButtonClicked()
-            }
             cardEditCardNameInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
                 editText?.doAfterTextChanged { viewModel.onCardNameChanged(it?.toString()) }
@@ -72,19 +69,17 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 setupUniqueTransitionName(uniqueNameSuffix)
                 setOnClickListener { viewModel.onOkFabClicked() }
             }
-            val transitionSet = sharedElementEnterTransition as TransitionSet
-            transitionSet.doOnStart {
-                cardEditDeleteCardButton.isVisible = false
-                cardEditCardColorInputLayout.isVisible = false
-                cardEditCardLogoInputLayout.isVisible = false
-                cardEditBarcodeFormatInputLayout.isVisible = false
-            }
-            transitionSet.doOnEnd {
-                cardEditDeleteCardButton.animateVisibilityChange()
-                cardEditCardColorInputLayout.animateVisibilityChange()
-                cardEditCardLogoInputLayout.animateVisibilityChange()
-                cardEditBarcodeFormatInputLayout.animateVisibilityChange()
-            }
+            // val transitionSet = sharedElementEnterTransition as TransitionSet
+            // transitionSet.doOnStart {
+            //     cardEditCardColorInputLayout.isVisible = false
+            //     cardEditCardLogoInputLayout.isVisible = false
+            //     cardEditBarcodeFormatInputLayout.isVisible = false
+            // }
+            // transitionSet.doOnEnd {
+            //     cardEditCardColorInputLayout.animateVisibilityChange()
+            //     cardEditCardLogoInputLayout.animateVisibilityChange()
+            //     cardEditBarcodeFormatInputLayout.animateVisibilityChange()
+            // }
         }
     }
 
@@ -97,7 +92,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     cardEditCardCategoryInputLayout.isEnabled = false
                     cardEditCardCommentInputLayout.isEnabled = false
                     cardEditCardColorInputLayout.isEnabled = false
-                    cardEditCardLogoInputLayout.isEnabled = false
+                    // cardEditCardLogoInputLayout.isEnabled = false
                     cardEditBarcodeFormatInputLayout.isEnabled = false
                 }
                 is CardEditState.Success -> with(binding) {
@@ -128,19 +123,19 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         setStartColoredSquareIcon(state.cardColor)
                         adapter ?: setAdapter(CardEditColorAdapter(context, state.cardColors))
                     }
-                    cardEditCardLogoInputLayout.apply {
-                        isEnabled = true
-                        helperText = if (state.cardLogo.isBlank()) {
-                            getString(R.string.card_edit_logo_helper_text)
-                        } else {
-                            null
-                        }
-                        editText?.setStartIconFromUrl(
-                            imageUrl = state.cardLogo,
-                            errorDrawableRes = R.drawable.ic_broken_img,
-                        )
-                        editText?.setTextAndSelectionIfRequired(state.cardLogo)
-                    }
+                    // cardEditCardLogoInputLayout.apply {
+                    //     isEnabled = true
+                    //     helperText = if (state.cardLogo.isBlank()) {
+                    //         getString(R.string.card_edit_logo_helper_text)
+                    //     } else {
+                    //         null
+                    //     }
+                    //     editText?.setStartIconFromUrl(
+                    //         imageUrl = state.cardLogo,
+                    //         errorDrawableRes = R.drawable.ic_broken_img,
+                    //     )
+                    //     editText?.setTextAndSelectionIfRequired(state.cardLogo)
+                    // }
                     cardEditBarcodeFormatInputLayout.isEnabled = true
                     (cardEditBarcodeFormatInputLayout.editText as? AutoCompleteTextView)?.apply {
                         setTextAndSelectionIfRequired(state.barcodeFormatName)

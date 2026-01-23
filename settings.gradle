@@ -15,5 +15,5 @@ dependencyResolutionManagement {
         }
     }
 }
-rootProject.name = "MyCardholder"
+rootProject.name = "Wallet"
 include ':app'

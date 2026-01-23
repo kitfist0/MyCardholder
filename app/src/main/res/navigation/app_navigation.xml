@@ -121,6 +121,9 @@
             android:name="card_id"
             app:argType="long" />
         <action
+            android:id="@+id/from_card_display_to_delete_card"
+            app:destination="@id/delete_card_dialog" />
+        <action
             android:id="@+id/from_card_display_to_card_edit"
             app:destination="@id/card_edit_fragment" />
         <action
@@ -148,9 +151,6 @@
         <action
             android:id="@+id/from_card_edit_to_card_content"
             app:destination="@id/card_content_fragment" />
-        <action
-            android:id="@+id/from_card_edit_to_delete_card"
-            app:destination="@id/delete_card_dialog" />
         <action
             android:id="@+id/from_card_edit_to_card_logo"
             app:destination="@id/card_logo_fragment" />

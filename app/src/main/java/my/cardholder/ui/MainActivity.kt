@@ -51,24 +51,6 @@ class MainActivity : AppCompatActivity() {
         collectWhenStarted(viewModel.appTheme) { theme ->
             setAppTheme(theme)
         }
-
-        // collectWhenStarted(viewModel.backupDownloadLog) { logMessage ->
-        //     binding.mainBottomNavMessageText.apply {
-        //         if (logMessage.isNullOrEmpty()) {
-        //             this.animate()
-        //                 .alpha(0f)
-        //                 .setStartDelay(FADE_IN_ANIM_DELAY_MS)
-        //                 .setDuration(FADE_IN_ANIM_DURATION_MS)
-        //                 .withEndAction {
-        //                     isVisible = false
-        //                     text = null
-        //                 }
-        //         } else {
-        //             isVisible = true
-        //             text = logMessage
-        //         }
-        //     }
-        // }
     }
 
     private fun setAppTheme(theme: AppTheme) {

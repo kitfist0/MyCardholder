@@ -64,41 +64,41 @@ fun EditText.setStartColoredSquareIcon(color: String) {
     setCompoundDrawablesRelative(squareDrawable, null, null, null)
 }
 
-fun EditText.setStartIconFromUrl(
-    imageUrl: String?,
-    @DrawableRes errorDrawableRes: Int,
-) {
-    val sizePx = dpToPx(24)
-    val paddingPx = dpToPx(1)
-    val cornerRadiusPx = dpToPx(4)
-    val endDrawable = compoundDrawablesRelative[2]
+// fun EditText.setStartIconFromUrl(
+//     imageUrl: String?,
+//     @DrawableRes errorDrawableRes: Int,
+// ) {
+//     val sizePx = dpToPx(24)
+//     val paddingPx = dpToPx(1)
+//     val cornerRadiusPx = dpToPx(4)
+//     val endDrawable = compoundDrawablesRelative[2]
 
-    LogoLoader(context).load(
-        imageUrl = imageUrl,
-        sizePx = sizePx,
-        paddingPx = paddingPx,
-        cornerRadiusPx = cornerRadiusPx,
-        onSuccess = {
-            it.setBounds(0, 0, sizePx, sizePx)
-            setCompoundDrawablesRelative(it, null, endDrawable, null)
-        },
-        onError = {
-            val backColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurfaceContainer, Color.LTGRAY)
-            val backDrawable = GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                setColor(backColor)
-                cornerRadius = cornerRadiusPx.toFloat()
-            }
-            val imageDrawable = AppCompatResources.getDrawable(context, errorDrawableRes)?.mutate()
-            val insetSizePx = dpToPx(1)
-            val errorDrawable = LayerDrawable(arrayOf(backDrawable, imageDrawable))
-            errorDrawable.setLayerInset(1, insetSizePx, insetSizePx, insetSizePx, insetSizePx)
-            errorDrawable.setBounds(0, 0, sizePx, sizePx)
+//     LogoLoader(context).load(
+//         imageUrl = imageUrl,
+//         sizePx = sizePx,
+//         paddingPx = paddingPx,
+//         cornerRadiusPx = cornerRadiusPx,
+//         onSuccess = {
+//             it.setBounds(0, 0, sizePx, sizePx)
+//             setCompoundDrawablesRelative(it, null, endDrawable, null)
+//         },
+//         onError = {
+//             val backColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurfaceContainer, Color.LTGRAY)
+//             val backDrawable = GradientDrawable().apply {
+//                 shape = GradientDrawable.RECTANGLE
+//                 setColor(backColor)
+//                 cornerRadius = cornerRadiusPx.toFloat()
+//             }
+//             val imageDrawable = AppCompatResources.getDrawable(context, errorDrawableRes)?.mutate()
+//             val insetSizePx = dpToPx(1)
+//             val errorDrawable = LayerDrawable(arrayOf(backDrawable, imageDrawable))
+//             errorDrawable.setLayerInset(1, insetSizePx, insetSizePx, insetSizePx, insetSizePx)
+//             errorDrawable.setBounds(0, 0, sizePx, sizePx)
 
-            setCompoundDrawablesRelative(errorDrawable, null, endDrawable, null)
-        }
-    )
-}
+//             setCompoundDrawablesRelative(errorDrawable, null, endDrawable, null)
+//         }
+//     )
+// }
 
 fun TextView.setStartEndCompoundDrawables(
     @DrawableRes startDrawableResId: Int? = null,

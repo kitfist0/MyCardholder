@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.firebase.crashlytics)
-    alias(libs.plugins.gms)
+    // alias(libs.plugins.firebase.crashlytics)
+    // alias(libs.plugins.gms)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
@@ -29,44 +29,21 @@ android {
         minSdk 24
         targetSdk 35
         versionCode 19
-        versionName "v1.1.6"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "APP_NAME", "\"MyCardholder\"")
-        buildConfigField("String", "DEV_NAME", "\"MidnightDev\"")
+        buildConfigField("String", "APP_NAME", "\"Wallet\"")
+        buildConfigField("String", "DEV_NAME", "\"defqy\"")
         buildConfigField("String", "YEAR", "\"2026\"")
+
+        buildConfigField("String", "WEB_PAGE_STORE", "\"https://play.google.com\"")
+        buildConfigField("String", "APP_STORE_NAME", "\"GitHub\"")
+        buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://github.com/kitfist0/Wallet/blob/master/LICENSE\"")
+        buildConfigField("String", "WEB_PAGE_POLICY", "\"https://github.com/kitfist0/Wallet/blob/master/POLICY.md\"")
+        buildConfigField("String", "WEB_PAGE_REPO", "\"https://github.com/kitfist0/Wallet\"")
+        buildConfigField("String", "APP_LOGO_LINK", "\"https://github.com/kitfist0/Wallet\"")
 
         def buildTime = new Date()
         buildConfigField "String", "BUILD_TIME", "\"${buildTime.format('yyyy-MM-dd HH:mm')}\""
-    }
-
-//    flavorDimensions = ["billing"]
-
-    productFlavors {
-//        googleplay {
-//            dimension "billing"
-//            buildConfigField("String", "APP_LOGO_LINK", "\"https://play-lh.googleusercontent.com/CukdHWulsmo9nwmiLmJg9tViyUv2UfWV5KUMw-Emm-wnAmKfjItajKidbdRw0MR8i6o=w480-h960-rw\"")
-//            buildConfigField("String", "APP_STORE_NAME", "\"GooglePlay\"")
-//            buildConfigField("String", "WEB_PAGE_STORE", "\"https://play.google.com\"")
-//            buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://github.com/kitfist0/MyCardholder/blob/master/LICENSE\"")
-//            buildConfigField("String", "WEB_PAGE_POLICY", "\"https://github.com/kitfist0/MyCardholder/blob/master/POLICY.md\"")
-//            buildConfigField("String", "WEB_PAGE_REPO", "\"https://github.com/kitfist0/MyCardholder\"")
-//        }
-//        rustore {
-//            dimension "billing"
-//            buildConfigField("String", "APP_LOGO_LINK", "\"https://static.rustore.ru/imgproxy/GtqXx4sVVn6YA0TTHnqZrAPsmyb6iGt2Y4eZ0auW-WQ/preset:web_app_icon_160/plain/https://static.rustore.ru/apk/2063489959/content/ICON/a948ad25-95c0-4fda-88f3-25968f431e0c.png@webp\"")
-//            buildConfigField("String", "APP_STORE_NAME", "\"RuStore\"")
-//            buildConfigField("String", "WEB_PAGE_STORE", "\"https://rustore.ru\"")
-//            buildConfigField("String", "WEB_PAGE_LICENSE", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/LICENSE\"")
-//            buildConfigField("String", "WEB_PAGE_POLICY", "\"https://gitverse.ru/kitfist0/MyCardholder/content/master/POLICY.md\"")
-//            buildConfigField("String", "WEB_PAGE_REPO", "\"https://gitverse.ru/kitfist0/MyCardholder\"")
-//
-//            // Don't forget to specify Yandex ClientID in ./local.properties! As shown below:
-//            // YANDEX_CLIENT_ID=0123456789abcdef0123456789abcdef
-//            Properties properties = new Properties()
-//            properties.load(project.rootProject.file('local.properties').newDataInputStream())
-//            def yandexClientIdToken = properties.getProperty('YANDEX_CLIENT_ID')
-//            manifestPlaceholders = [YANDEX_CLIENT_ID: yandexClientIdToken]
-//        }
     }
 
     signingConfigs {
@@ -161,29 +138,10 @@ dependencies {
     implementation(libs.androidx.splashscreen)
     implementation(libs.androidx.work.runtime)
 
-    // Billing
-//    googleplayImplementation(libs.googleplay.billingclient)
-//    rustoreImplementation(libs.rustore.billingclient)
-
     // Coil
     implementation(libs.coil)
     implementation(libs.coil.base)
     implementation(libs.coil.svg)
-
-    // Drive
-    implementation(libs.google.api.client.android) {
-        exclude group: 'org.apache.httpcomponents'
-    }
-    implementation(libs.google.api.services.drive) {
-        exclude group: 'org.apache.httpcomponents'
-    }
-    implementation(libs.google.http.client.gson)
-    implementation(libs.google.play.services.auth)
-
-    // Firebase
-    implementation platform(libs.google.firebase.bom)
-    implementation(libs.google.firebase.analytics)
-    implementation(libs.google.firebase.crashlytics)
 
     // Flexbox
     implementation(libs.google.flexbox)
@@ -203,14 +161,6 @@ dependencies {
 
     // Kotlin CSV
     implementation(libs.kotlin.csv)
-
-    // Okhttp and Retrofit
-    implementation(libs.squareup.okhttp3.okhttp)
-    implementation(libs.squareup.retrofit2.retrofit)
-    implementation(libs.squareup.retrofit2.converter)
-
-    // Yandex
-//    implementation(libs.yandex.authsdk)
 
     // Zxing
     implementation(libs.zxing.core)
