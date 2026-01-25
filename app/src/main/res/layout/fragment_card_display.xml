@@ -7,30 +7,6 @@
     tools:context=".ui.card.display.CardDisplayFragment">
 
     <ImageView
-        android:id="@+id/card_display_barcode_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="32dp"
-        android:scaleType="fitCenter"
-        android:transitionName="@string/transition_card_barcode"
-        app:layout_constraintDimensionRatio="H,5:4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@sample/sample_cards.json/cards/color"
-        tools:ignore="ContentDescription"
-        tools:src="@sample/sample_cards.json/cards/image" />
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/card_display_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:layout_constraintBottom_toBottomOf="@id/card_display_barcode_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/card_display_menu" />
-
-    <ImageView
         android:id="@+id/card_display_card_logo_image"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -124,5 +100,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/card_display_barcode_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="32dp"
+        android:scaleType="fitCenter"
+        android:transitionName="@string/transition_card_barcode"
+        app:layout_constraintDimensionRatio="H,5:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@sample/sample_cards.json/cards/color"
+        tools:ignore="ContentDescription"
+        tools:src="@sample/sample_cards.json/cards/image" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/card_display_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintBottom_toBottomOf="@id/card_display_barcode_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/card_display_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
