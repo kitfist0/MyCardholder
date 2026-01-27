@@ -41,7 +41,7 @@ sequenceDiagram
 ```
 
 ### Backup Upload
-    
+
 ```mermaid
 sequenceDiagram
     participant Client
@@ -68,6 +68,13 @@ sequenceDiagram
         Client->>Client: Backup is up-to-date
     end
 ```
+
+## How to build
+
+1. Put `release.keystore` and `release.properties` files to [cert](/cert) folder.
+    * `release.keystore` - contains the key used to sign the Android app.
+    * `release.properties` - contains the values of the store password, alias, and key password.
+2. Run [build-aab.sh](/build-aab.sh) in terminal.
 
 ## Tech-stack
 
