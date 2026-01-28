@@ -76,6 +76,13 @@ sequenceDiagram
     * `release.properties` - contains the values of the store password, alias, and key password.
 2. Run [build-aab.sh](/build-aab.sh) in terminal.
 
+Also, don't forget about the [google-services.json](app/google-services.json) file. It can be found
+in the Firebase console:
+
+![Firebase console](firebase.jpg)
+
+Download this file and place it in the [app](app) folder of this project.
+
 ## Tech-stack
 
 * [Kotlin](https://kotlinlang.org/)
