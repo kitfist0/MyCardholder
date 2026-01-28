@@ -2,7 +2,7 @@
 
 An open source cardholder app to store you cards in one place.
 
-![Screenshots](screenshots.jpg)
+![Screenshots](readme-screenshots.jpg)
 
 ## Backup logic
 
@@ -79,7 +79,7 @@ sequenceDiagram
 Also, don't forget about the [google-services.json](app/google-services.json) file. It can be found
 in the Firebase console:
 
-![Firebase console](firebase.jpg)
+![Firebase console](readme-firebase.jpg)
 
 Download this file and place it in the [app](app) folder of this project.
 
