@@ -69,6 +69,16 @@ sequenceDiagram
     end
 ```
 
+### Build Variants
+
+The application has
+two [product flavors](https://developer.android.com/build/build-variants#product-flavors).
+
+| Product Flavor | For which store                                  | Billing Library                                                                    |
+|----------------|--------------------------------------------------|------------------------------------------------------------------------------------|
+| **googleplay** | [GooglePlay](https://play.google.com/store/apps) | [Google Play Billing](https://developer.android.com/google/play/billing/integrate) |
+| **rustore**    | [RuStore](https://www.rustore.ru/)               | [BillingClient SDK](https://www.rustore.ru/help/sdk/payments)                      |
+
 ## How to build
 
 1. Put `release.keystore` and `release.properties` files to [cert](/cert) folder.
