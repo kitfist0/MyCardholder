@@ -35,6 +35,8 @@ androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", ve
 # billing
 googleplay-billingclient = { group = "com.android.billingclient", name = "billing-ktx", version = "8.2.0" }
 rustore-billingclient = { group = "ru.rustore.sdk", name = "billingclient", version = "9.0.1" }
+rustore-bom = { group = "ru.rustore.sdk", name = "bom", version = "2025.11.01" }
+rustore-pay = { group = "ru.rustore.sdk", name = "pay" }
 
 # coil
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
