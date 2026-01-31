@@ -77,7 +77,7 @@ two [product flavors](https://developer.android.com/build/build-variants#product
 | Product Flavor | For which store                                  | Billing Library                                                                    |
 |----------------|--------------------------------------------------|------------------------------------------------------------------------------------|
 | **googleplay** | [GooglePlay](https://play.google.com/store/apps) | [Google Play Billing](https://developer.android.com/google/play/billing/integrate) |
-| **rustore**    | [RuStore](https://www.rustore.ru/)               | [BillingClient SDK](https://www.rustore.ru/help/sdk/payments)                      |
+| **rustore**    | [RuStore](https://www.rustore.ru/)               | [RuStore Pay SDK](https://www.rustore.ru/help/sdk/pay)                             |
 
 ## How to build
 
