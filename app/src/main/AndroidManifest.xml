@@ -42,6 +42,14 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="sdk_pay_scheme_value"
+            android:value="cardholder" />
+
+        <meta-data
+            android:name="console_app_id_value"
+            android:value="2063489959" />
+
     </application>
 
 </manifest>
