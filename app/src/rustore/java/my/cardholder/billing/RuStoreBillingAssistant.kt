@@ -1,18 +1,17 @@
 package my.cardholder.billing
 
-import ru.rustore.sdk.billingclient.RuStoreBillingClient
-import ru.rustore.sdk.billingclient.model.purchase.PurchaseState
+import ru.rustore.sdk.pay.RuStorePayClient
+import ru.rustore.sdk.pay.model.OrderId
+import ru.rustore.sdk.pay.model.ProductPurchase
+import ru.rustore.sdk.pay.model.ProductPurchaseParams
+import ru.rustore.sdk.pay.model.ProductPurchaseStatus
+import ru.rustore.sdk.pay.model.ProductType
+import ru.rustore.sdk.pay.model.Quantity
 import java.util.UUID
 
-data class RuStoreBillingFlowParams(
-    val productId: String,
-    val orderId: String = UUID.randomUUID().toString(),
-    val quantity: Int = 1,
-)
+class RuStoreBillingAssistant() : BillingAssistant<RuStorePayClient, ProductPurchaseParams>() {
 
-class RuStoreBillingAssistant(
-    override val billingClient: RuStoreBillingClient,
-) : BillingAssistant<RuStoreBillingClient, RuStoreBillingFlowParams>() {
+    override val billingClient = RuStorePayClient.instance
 
     override fun initialize() {
         handlePurchases()
@@ -20,19 +19,27 @@ class RuStoreBillingAssistant(
 
     override fun getBillingFlowParams(
         productId: ProductId,
-        onResult: (Result<RuStoreBillingFlowParams>) -> Unit
+        onResult: (Result<ProductPurchaseParams>) -> Unit
     ) {
         onResult.invoke(
-            Result.success(RuStoreBillingFlowParams(productId = productId))
+            Result.success(
+                ProductPurchaseParams(
+                    productId = ru.rustore.sdk.pay.model.ProductId(productId),
+                    orderId = OrderId(UUID.randomUUID().toString()),
+                    quantity = Quantity(1),
+                )
+            )
         )
     }
 
     private fun handlePurchases() {
-        billingClient.purchases.getPurchases()
+        billingClient.getPurchaseInteractor()
+            .getPurchases(
+                productType = ProductType.NON_CONSUMABLE_PRODUCT,
+                purchaseStatus = ProductPurchaseStatus.CONFIRMED
+            )
             .addOnSuccessListener { purchases ->
-                val purchasedProductIds = purchases
-                    .filter { it.purchaseState == PurchaseState.CONFIRMED }
-                    .map { it.productId }
+                val purchasedProductIds = purchases.map { (it as ProductPurchase).productId.value }
                 purchasedProductsChannel.trySend(purchasedProductIds)
             }
     }
