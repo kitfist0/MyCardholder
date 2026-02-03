@@ -42,6 +42,10 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
             .inflateTransition(android.R.transition.move)
         with(binding) {
             val uniqueNameSuffix = args.cardId
+            cardZoomToolbar.setOnMenuItemClickListener { menuItem ->
+                viewModel.onToolbarMenuItemClicked(menuItem.itemId)
+                true
+            }
             cardZoomBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
         }
     }

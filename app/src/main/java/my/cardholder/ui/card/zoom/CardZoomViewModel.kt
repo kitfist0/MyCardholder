@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.ui.base.BaseViewModel
@@ -32,6 +33,12 @@ class CardZoomViewModel @Inject constructor(
                         cardColor = card.getColorInt(),
                     )
                 }
+        }
+    }
+
+    fun onToolbarMenuItemClicked(itemId: Int) {
+        if (itemId == R.id.card_zoom_close_menu_item) {
+            navigateUp()
         }
     }
 }
