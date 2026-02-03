@@ -14,6 +14,7 @@ import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.loadBarcodeImage
 import my.cardholder.util.ext.setupUniqueTransitionName
+import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
 class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
@@ -42,6 +43,7 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
             .inflateTransition(android.R.transition.move)
         with(binding) {
             val uniqueNameSuffix = args.cardId
+            cardZoomToolbar.updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
             cardZoomToolbar.setOnMenuItemClickListener { menuItem ->
                 viewModel.onToolbarMenuItemClicked(menuItem.itemId)
                 true

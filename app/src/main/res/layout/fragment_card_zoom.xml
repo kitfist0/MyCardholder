@@ -20,7 +20,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/card_zoom_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="wrap_content"
         app:menu="@menu/card_zoom_menu" />
 
 </FrameLayout>
