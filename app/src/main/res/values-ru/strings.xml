@@ -95,6 +95,7 @@
 
     <!--region CardZoom-->
     <string name="card_zoom_label">Зум</string>
+    <string name="card_zoom_menu_button_text">Закрыть</string>
     <!--endregion-->
 
     <!--region CategoryEdit-->
