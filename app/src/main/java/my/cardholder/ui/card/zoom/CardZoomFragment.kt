@@ -2,15 +2,19 @@ package my.cardholder.ui.card.zoom
 
 import android.os.Bundle
 import android.transition.TransitionInflater
+import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.transition.doOnEnd
+import androidx.core.transition.doOnStart
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardZoomBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.ext.animateVisibilityChange
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.loadBarcodeImage
 import my.cardholder.util.ext.setupUniqueTransitionName
@@ -49,6 +53,13 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
                 true
             }
             cardZoomBarcodeImage.setupUniqueTransitionName(uniqueNameSuffix)
+            val transitionSet = sharedElementEnterTransition as TransitionSet
+            transitionSet.doOnStart {
+                cardZoomToolbar.isVisible = false
+            }
+            transitionSet.doOnEnd {
+                cardZoomToolbar.animateVisibilityChange()
+            }
         }
     }
 
