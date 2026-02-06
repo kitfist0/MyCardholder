@@ -47,6 +47,7 @@
     <string name="card_display_explanation_message">Tap on the barcode to display it on the full screen with maximum brightness</string>
     <string name="card_display_label">Card display</string>
     <string name="card_display_no_category">No category</string>
+    <string name="card_display_share_menu_button_text" translatable="false">Share</string>
     <!--endregion-->
 
     <!--region CardEdit-->
