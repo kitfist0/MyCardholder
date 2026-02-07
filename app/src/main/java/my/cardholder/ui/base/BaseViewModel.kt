@@ -28,6 +28,7 @@ sealed interface BaseEvent {
 
     sealed class StartActivity() : BaseEvent {
         data class ActionView(val uriString: String): StartActivity()
+        data class ActionSend(val extraText: String): StartActivity()
         data class AppDetails(val packageName: String): StartActivity()
     }
 
@@ -60,12 +61,16 @@ abstract class BaseViewModel : ViewModel() {
     open fun onOkSnackButtonClicked(actionCode: Int) {
     }
 
+    protected fun startActivityToOpenAppDetails(packageName: String) {
+        sendEvent(BaseEvent.StartActivity.AppDetails(packageName))
+    }
+
     protected fun startActivityToOpenWebPage(uriString: String) {
         sendEvent(BaseEvent.StartActivity.ActionView(uriString))
     }
 
-    protected fun startActivityToOpenAppDetails(packageName: String) {
-        sendEvent(BaseEvent.StartActivity.AppDetails(packageName))
+    protected fun startActivityToShare(extraText: String) {
+        sendEvent(BaseEvent.StartActivity.ActionSend(extraText))
     }
 
     protected fun showToast(text: Text) {

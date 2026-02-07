@@ -37,6 +37,14 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
                     is BaseEvent.StartActivity.ActionView ->
                         startActivity(Intent(Intent.ACTION_VIEW, event.uriString.toUri()))
 
+                    is BaseEvent.StartActivity.ActionSend ->
+                        startActivity(
+                            Intent(Intent.ACTION_SEND).apply {
+                                putExtra(Intent.EXTRA_TEXT, event.extraText)
+                                type = "text/plain"
+                            }
+                        )
+
                     is BaseEvent.StartActivity.AppDetails ->
                         startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, "package:${event.packageName}".toUri()))
                 }

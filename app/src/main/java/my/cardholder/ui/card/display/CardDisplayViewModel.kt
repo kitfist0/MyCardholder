@@ -74,7 +74,9 @@ class CardDisplayViewModel @Inject constructor(
         if (itemId == R.id.card_delete_menu_item) {
             navigate(CardDisplayFragmentDirections.fromCardDisplayToDeleteCard(cardId))
         } else if (itemId == R.id.card_share_menu_item) {
-            startActivityToOpenWebPage(BuildConfig.WEB_PAGE_POLICY)
+            (state.value as? CardDisplayState.Success)?.let {
+                startActivityToShare(it.cardContent)
+            }
         }
     }
 
