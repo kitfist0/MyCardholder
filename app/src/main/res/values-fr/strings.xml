@@ -47,6 +47,7 @@
     <string name="card_display_explanation_message">Cliquez sur le code-barres pour l\'afficher en plein écran avec une luminosité maximale</string>
     <string name="card_display_label">Affichage de la carte</string>
     <string name="card_display_no_category">Aucune catégorie</string>
+    <string name="card_display_share_menu_button_text">Partager</string>
     <!--endregion-->
 
     <!--region CardEdit-->
