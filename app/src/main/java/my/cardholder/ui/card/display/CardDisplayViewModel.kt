@@ -6,6 +6,7 @@ import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.BuildConfig
 import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsRepository
@@ -72,6 +73,8 @@ class CardDisplayViewModel @Inject constructor(
     fun onToolbarMenuItemClicked(itemId: Int) {
         if (itemId == R.id.card_delete_menu_item) {
             navigate(CardDisplayFragmentDirections.fromCardDisplayToDeleteCard(cardId))
+        } else if (itemId == R.id.card_share_menu_item) {
+            startActivityToOpenWebPage(BuildConfig.WEB_PAGE_POLICY)
         }
     }
 

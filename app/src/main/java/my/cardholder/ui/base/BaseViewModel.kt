@@ -26,10 +26,10 @@ sealed interface BaseEvent {
         val text: Text,
     ) : BaseEvent
 
-    data class StartActivity(
-        val action: String,
-        val uriString: String? = null,
-    ) : BaseEvent
+    sealed class StartActivity() : BaseEvent {
+        data class ActionView(val uriString: String): StartActivity()
+        data class AppDetails(val packageName: String): StartActivity()
+    }
 
     data class ToastMessage(
         val text: Text,
@@ -60,8 +60,12 @@ abstract class BaseViewModel : ViewModel() {
     open fun onOkSnackButtonClicked(actionCode: Int) {
     }
 
-    protected fun startActivity(action: String, uriString: String? = null) {
-        sendEvent(BaseEvent.StartActivity(action, uriString))
+    protected fun startActivityToOpenWebPage(uriString: String) {
+        sendEvent(BaseEvent.StartActivity.ActionView(uriString))
+    }
+
+    protected fun startActivityToOpenAppDetails(packageName: String) {
+        sendEvent(BaseEvent.StartActivity.AppDetails(packageName))
     }
 
     protected fun showToast(text: Text) {
