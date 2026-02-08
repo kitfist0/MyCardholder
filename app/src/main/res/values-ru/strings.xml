@@ -47,6 +47,7 @@
     <string name="card_display_explanation_message">Кликните на штрих-код, чтобы отобразить его на весь экран с максимальной яркостью</string>
     <string name="card_display_label">Отображение карты</string>
     <string name="card_display_no_category">Без категории</string>
+    <string name="card_display_share_menu_button_text">Поделиться</string>
     <!--endregion-->
 
     <!--region CardEdit-->

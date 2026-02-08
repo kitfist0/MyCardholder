@@ -47,6 +47,7 @@
     <string name="card_display_explanation_message">Haga clic en el código de barras para mostrarlo en pantalla completa con el máximo brillo</string>
     <string name="card_display_label">Exhibición de la tarjeta</string>
     <string name="card_display_no_category">Sin categoría</string>
+    <string name="card_display_share_menu_button_text">Compartir</string>
     <!--endregion-->
 
     <!--region CardEdit-->

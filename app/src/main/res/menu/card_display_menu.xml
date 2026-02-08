@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/card_share_menu_item"
+        android:icon="@drawable/ic_share_two_tone"
+        android:title="@string/card_display_share_menu_button_text"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/card_delete_menu_item"
         android:icon="@drawable/ic_delete_two_tone"
         android:title="@string/card_display_delete_menu_button_text"

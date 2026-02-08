@@ -1,6 +1,7 @@
 package my.cardholder.ui.base
 
 import android.content.Intent
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -31,9 +32,22 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
                 (this as? BaseFragment<*>)?.showOkSnack(event.text, event.actionCode)
                     ?: throw RuntimeException("Snackbar should only be shown in fragments!")
 
-            is BaseEvent.StartActivity -> event.uriString
-                ?.let { uriString -> startActivity(Intent(event.action, uriString.toUri())) }
-                ?: startActivity(Intent(event.action))
+            is BaseEvent.StartActivity ->
+                when (event) {
+                    is BaseEvent.StartActivity.ActionView ->
+                        startActivity(Intent(Intent.ACTION_VIEW, event.uriString.toUri()))
+
+                    is BaseEvent.StartActivity.ActionSend ->
+                        startActivity(
+                            Intent(Intent.ACTION_SEND).apply {
+                                putExtra(Intent.EXTRA_TEXT, event.extraText)
+                                type = "text/plain"
+                            }
+                        )
+
+                    is BaseEvent.StartActivity.AppDetails ->
+                        startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, "package:${event.packageName}".toUri()))
+                }
 
             is BaseEvent.ToastMessage ->
                 Toast.makeText(requireContext(), textToString(event.text), Toast.LENGTH_LONG).show()

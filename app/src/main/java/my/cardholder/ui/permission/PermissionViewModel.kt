@@ -82,9 +82,8 @@ class PermissionViewModel @Inject constructor(
         shouldShowRationale: Boolean,
     ) {
         if (!isGranted && cameraPermissionHelper.isNeverAskAgainChecked(shouldShowRationale)) {
-            startActivity(
-                action = APPLICATION_DETAILS_ACTION,
-                uriString = "package:${BuildConfig.APPLICATION_ID}",
+            startActivityToOpenAppDetails(
+                packageName = BuildConfig.APPLICATION_ID,
             )
         }
     }
