@@ -163,7 +163,6 @@ dependencies {
 
     // Billing
     googleplayImplementation(libs.googleplay.billingclient)
-    rustoreImplementation(libs.rustore.billingclient)
     rustoreImplementation(platform(libs.rustore.bom))
     rustoreImplementation(libs.rustore.pay)
 
