@@ -3,8 +3,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.gms)
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.android) // safeargs doesn't work without kotlin-android plugin!
     alias(libs.plugins.ksp)
     alias(libs.plugins.safeargs.kotlin)
     alias(libs.plugins.secrets.gradle)
@@ -197,7 +196,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Image Cropper
     implementation(libs.image.cropper)
