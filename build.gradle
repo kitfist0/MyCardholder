@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.gms) apply false
     alias(libs.plugins.hilt.android) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.safeargs.kotlin) apply false
     alias(libs.plugins.secrets.gradle) apply false

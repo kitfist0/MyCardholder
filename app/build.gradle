@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.gms)
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.kotlin.android) // safeargs doesn't work without kotlin-android plugin!
     alias(libs.plugins.ksp)
     alias(libs.plugins.safeargs.kotlin)
     alias(libs.plugins.secrets.gradle)
@@ -11,6 +10,7 @@ plugins {
 
 import com.android.build.gradle.internal.tasks.FinalizeBundleTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 secrets {
     // Ignore all keys matching regex "sdk.*"
@@ -99,6 +99,7 @@ android {
 
     kotlin {
         compilerOptions {
+            languageVersion = KotlinVersion.KOTLIN_2_0
             jvmTarget = JvmTarget.JVM_17
         }
     }
