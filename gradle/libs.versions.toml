@@ -5,14 +5,13 @@ coil = "2.7.0"
 crashlytics = "3.0.6"
 gms = "4.4.4"
 hilt = "2.59.1"
-kotlin = "2.3.10"
 ksp = "2.3.2"
 navigation = "2.9.7"
 retrofit = "3.0.0"
 room = "2.8.4"
 
 [libraries]
-androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version = "1.12.1" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version = "1.12.4" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
 androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
 androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
