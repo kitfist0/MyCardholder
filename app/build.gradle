@@ -27,8 +27,8 @@ android {
         applicationIdSuffix ".gp"
         minSdk 24
         targetSdk 36
-        versionCode 20
-        versionName "v1.1.7"
+        versionCode 21
+        versionName "v1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "APP_NAME", "\"MyCardholder\"")
         buildConfigField("String", "DEV_NAME", "\"MidnightDev\"")
