@@ -69,7 +69,7 @@ android {
     }
 
     signingConfigs {
-        create("common") {
+        register("common") {
             storeFile = rootProject.file('cert/release.keystore')
             def propsFile = rootProject.file('cert/release.properties')
             def props = new Properties()
