@@ -22,16 +22,16 @@ class BackupRepository @Inject constructor(
     private val categoryRepository: CategoryRepository,
 ) {
 
-    private companion object {
+    companion object {
         const val CSV_SCHEME_VERSION = 4
-        const val NAME_INDEX_SINCE_V1 = 0
-        const val CATEGORY_INDEX_SINCE_V1 = 1
-        const val CONTENT_INDEX_SINCE_V1 = 2
-        const val COLOR_INDEX_SINCE_V1 = 3
-        const val FORMAT_INDEX_SINCE_V1 = 4
-        const val LOGO_INDEX_SINCE_V2 = 5
-        const val POSITION_INDEX_SINCE_V3 = 6
-        const val COMMENT_INDEX_SINCE_V4 = 7
+        private const val NAME_INDEX_SINCE_V1 = 0
+        private const val CATEGORY_INDEX_SINCE_V1 = 1
+        private const val CONTENT_INDEX_SINCE_V1 = 2
+        private const val COLOR_INDEX_SINCE_V1 = 3
+        private const val FORMAT_INDEX_SINCE_V1 = 4
+        private const val LOGO_INDEX_SINCE_V2 = 5
+        private const val POSITION_INDEX_SINCE_V3 = 6
+        private const val COMMENT_INDEX_SINCE_V4 = 7
     }
 
     fun exportToBackupFile(outputStream: OutputStream): Flow<BackupResult> = channelFlow {
