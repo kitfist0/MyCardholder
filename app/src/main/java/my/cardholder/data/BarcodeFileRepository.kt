@@ -29,7 +29,7 @@ class BarcodeFileRepository @Inject constructor(
     private val filesDir: File,
 ) {
 
-    private companion object {
+    companion object {
         const val BARCODE_1X1_SIZE = 650
         const val BARCODE_3X1_HEIGHT = 325
         const val BARCODE_3X1_WIDTH = 975
