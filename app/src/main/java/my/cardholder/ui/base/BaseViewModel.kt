@@ -7,6 +7,7 @@ import androidx.navigation.Navigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import my.cardholder.billing.ProductId
 import my.cardholder.util.Text
 
 sealed interface BaseEvent {
@@ -26,14 +27,18 @@ sealed interface BaseEvent {
         val text: Text,
     ) : BaseEvent
 
-    sealed class StartActivity() : BaseEvent {
-        data class ActionView(val uriString: String): StartActivity()
-        data class ActionSend(val extraText: String): StartActivity()
-        data class AppDetails(val packageName: String): StartActivity()
+    sealed class StartActivity : BaseEvent {
+        data class ActionView(val uriString: String) : StartActivity()
+        data class ActionSend(val extraText: String) : StartActivity()
+        data class AppDetails(val packageName: String) : StartActivity()
     }
 
     data class ToastMessage(
         val text: Text,
+    ) : BaseEvent
+
+    data class PurchaseProduct(
+        val productId: ProductId,
     ) : BaseEvent
 }
 
@@ -75,6 +80,10 @@ abstract class BaseViewModel : ViewModel() {
 
     protected fun showToast(text: Text) {
         sendEvent(BaseEvent.ToastMessage(text))
+    }
+
+    protected fun purchaseProduct(productId: ProductId) {
+        sendEvent(BaseEvent.PurchaseProduct(productId))
     }
 
     private fun sendEvent(event: BaseEvent) {

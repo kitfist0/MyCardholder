@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.textToString
 import androidx.core.net.toUri
+import my.cardholder.billing.BillingActivityInterface
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -51,6 +52,9 @@ fun Fragment.collectAndHandleBaseEvents(baseViewModel: BaseViewModel) {
 
             is BaseEvent.ToastMessage ->
                 Toast.makeText(requireContext(), textToString(event.text), Toast.LENGTH_LONG).show()
+
+            is BaseEvent.PurchaseProduct ->
+                (requireActivity() as? BillingActivityInterface)?.purchaseProduct(event.productId)
         }
     }
 }
