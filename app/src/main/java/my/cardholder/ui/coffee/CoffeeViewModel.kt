@@ -28,4 +28,8 @@ class CoffeeViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
+    fun onCoffeeItemClicked(productId: String) {
+        purchaseProduct(productId)
+    }
 }
