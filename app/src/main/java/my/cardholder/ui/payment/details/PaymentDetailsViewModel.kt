@@ -27,6 +27,7 @@ class PaymentDetailsViewModel @Inject constructor(
                 when (paymentOption) {
                     PaymentOption.ANNUAL -> R.string.payment_details_message_about_annual_sub_text
                     PaymentOption.MONTHLY -> R.string.payment_details_message_about_monthly_sub_text
+                    PaymentOption.LIFETIME -> R.string.payment_details_message_about_lifetime_sub_text
                 }
             )
             _state.update {

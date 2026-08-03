@@ -155,11 +155,13 @@
     <!--region Payment-->
     <string name="payment_details_message_about_annual_sub_text">The annual subscription is active from %s. The next payment is %s.</string>
     <string name="payment_details_message_about_monthly_sub_text">The monthly subscription is active from %s. The next payment is %s.</string>
+    <string name="payment_details_message_about_lifetime_sub_text" translatable="false">The lifetime subscription is active from %s.</string>
     <string name="payment_details_title">Subscription details</string>
     <string name="payment_error_unknown_error_message_text">Unknown error! Please try again later</string>
     <string name="payment_error_fab_text">Got it</string>
     <string name="payment_error_title">Something went wrong</string>
     <string name="payment_option_annual_title_text">Annual subscription\n%s per year</string>
+    <string name="payment_option_lifetime_title_text" translatable="false">Lifetime subscription\n%s once and for all</string>
     <string name="payment_option_monthly_title_text">Monthly subscription\n%s per month</string>
     <string name="payment_options_fab_text">Subscribe now</string>
     <string name="payment_options_message_text">The subscription helps us develop the app and accelerates the implementation of new features</string>

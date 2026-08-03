@@ -11,6 +11,7 @@ import my.cardholder.data.model.PaymentOption
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 import kotlin.random.Random
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
@@ -21,7 +22,7 @@ class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
     init {
         viewModelScope.launch {
             // Simulate loading payment options
-            delay(1000)
+            delay(1.seconds)
             onPaymentOptionClicked(PaymentOption.MONTHLY)
         }
     }
@@ -32,8 +33,9 @@ class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
                 PaymentOptionState(
                     paymentOption = it,
                     costOfPayment = when (it) {
-                        PaymentOption.ANNUAL -> "99$"
-                        PaymentOption.MONTHLY -> "10$"
+                        PaymentOption.ANNUAL -> "$15"
+                        PaymentOption.MONTHLY -> "$2"
+                        PaymentOption.LIFETIME -> "$49"
                     },
                     isSelected = it == paymentOption,
                 )
@@ -49,7 +51,7 @@ class PaymentOptionsViewModel @Inject constructor() : BaseViewModel() {
         val prevState = _state.value
         _state.value = PaymentOptionsState.Loading
         viewModelScope.launch {
-            delay(1000)
+            delay(1.seconds)
             _state.value = prevState
             navigate(
                 if (Random.nextBoolean()) {
