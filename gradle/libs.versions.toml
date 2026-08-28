@@ -1,5 +1,5 @@
 [versions]
-agp = "9.2.1"
+agp = "9.3.2"
 camerax = "1.5.3"
 coil = "2.7.0"
 crashlytics = "3.0.6"
