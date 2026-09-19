@@ -1,0 +1,9 @@
+{
+    "permissions": {
+        "deny": [
+            "Read(cert/**)",
+            "Read(**/google-services.json)",
+            "Read(**/local.properties)"
+        ]
+    }
+}
