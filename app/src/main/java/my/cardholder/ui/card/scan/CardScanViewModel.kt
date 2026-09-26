@@ -76,7 +76,7 @@ class CardScanViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value.preliminaryScanResult?.let { scanResult ->
                 _state.update { it.copy(preliminaryScanResult = null) }
-                val cardId = insertNewCard(scanResult.content, scanResult.format)
+                val cardId = insertNewCard(scanResult.content, scanResult.format, scanResult.color)
                 navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
             }
         }
@@ -101,7 +101,15 @@ class CardScanViewModel @Inject constructor(
         }
     }
 
-    private suspend fun insertNewCard(content: String, supportedFormat: SupportedFormat): Long {
-        return cardRepository.insertNewCard(content = content, format = supportedFormat)
+    private suspend fun insertNewCard(
+        content: String,
+        supportedFormat: SupportedFormat,
+        color: String?,
+    ): Long {
+        return if (color != null) {
+            cardRepository.insertNewCard(content = content, format = supportedFormat, color = color)
+        } else {
+            cardRepository.insertNewCard(content = content, format = supportedFormat)
+        }
     }
 }

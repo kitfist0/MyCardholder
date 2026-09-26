@@ -1,5 +1,6 @@
 package my.cardholder.data
 
+import android.graphics.Rect
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
@@ -8,8 +9,11 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import my.cardholder.data.model.Card
 import my.cardholder.data.model.ScanResult
 import my.cardholder.data.model.SupportedFormat
+import my.cardholder.util.ext.getAverageColor
+import my.cardholder.util.findClosestColor
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +34,7 @@ class ScanResultRepository @Inject constructor(
             val inputImage = InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees)
             barcodeScanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
-                    val scanResult = barcodes.toScanResult()
+                    val scanResult = barcodes.toScanResult(imageProxy)
                     cameraScanResultChannel.trySend(scanResult)
                 }
                 .addOnFailureListener { exception ->
@@ -53,13 +57,27 @@ class ScanResultRepository @Inject constructor(
             }
     }
 
-    private fun List<Barcode>.toScanResult(): ScanResult {
+    private fun List<Barcode>.toScanResult(imageProxy: ImageProxy? = null): ScanResult {
         val barcode = firstOrNull()
         val format = barcode?.getSupportedFormat()
         return when {
             barcode == null || format == null -> ScanResult.Nothing
-            else -> ScanResult.Success(barcode.displayValue.toString(), format)
+            else -> ScanResult.Success(
+                content = barcode.displayValue.toString(),
+                format = format,
+                color = imageProxy?.let { detectBackgroundCardColor(it, barcode.boundingBox) },
+            )
         }
+    }
+
+    /**
+     * Determines the dominant background color surrounding the barcode in [imageProxy]
+     * (i.e. the color of the physical card the code is printed on), excluding the barcode's own
+     * black/white pattern, then matches it to the closest color available for cards.
+     */
+    private fun detectBackgroundCardColor(imageProxy: ImageProxy, barcodeBoundingBox: Rect?): String? {
+        val backgroundArgb = imageProxy.toBitmap()?.getAverageColor(excludeRect = barcodeBoundingBox)
+        return backgroundArgb?.let { findClosestColor(Card.COLORS, it) }
     }
 
     private fun Barcode.getSupportedFormat(): SupportedFormat? {
