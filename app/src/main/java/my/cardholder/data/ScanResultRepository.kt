@@ -13,6 +13,7 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.model.ScanResult
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.util.ext.getAverageColor
+import my.cardholder.util.ext.toRotatedBitmap
 import my.cardholder.util.findClosestColor
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -76,7 +77,7 @@ class ScanResultRepository @Inject constructor(
      * black/white pattern, then matches it to the closest color available for cards.
      */
     private fun detectBackgroundCardColor(imageProxy: ImageProxy, barcodeBoundingBox: Rect?): String? {
-        val backgroundArgb = imageProxy.toBitmap()?.getAverageColor(excludeRect = barcodeBoundingBox)
+        val backgroundArgb = imageProxy.toRotatedBitmap()?.getAverageColor(excludeRect = barcodeBoundingBox)
         return backgroundArgb?.let { findClosestColor(Card.COLORS, it) }
     }
 

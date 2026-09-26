@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream
 
 private const val JPEG_QUALITY = 90
 
-fun ImageProxy.toBitmap(): Bitmap? {
+fun ImageProxy.toRotatedBitmap(): Bitmap? {
     if (format != ImageFormat.YUV_420_888 || planes.size < 3) {
         return null
     }
