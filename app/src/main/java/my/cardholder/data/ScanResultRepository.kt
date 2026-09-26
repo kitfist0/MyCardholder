@@ -1,6 +1,5 @@
 package my.cardholder.data
 
-import android.graphics.Rect
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
@@ -66,7 +65,7 @@ class ScanResultRepository @Inject constructor(
             else -> ScanResult.Success(
                 content = barcode.displayValue.toString(),
                 format = format,
-                color = imageProxy?.let { detectBackgroundCardColor(it, barcode.boundingBox) },
+                color = imageProxy?.let { detectBackgroundCardColor(it, barcode) },
             )
         }
     }
@@ -76,8 +75,8 @@ class ScanResultRepository @Inject constructor(
      * (i.e. the color of the physical card the code is printed on), excluding the barcode's own
      * black/white pattern, then matches it to the closest color available for cards.
      */
-    private fun detectBackgroundCardColor(imageProxy: ImageProxy, barcodeBoundingBox: Rect?): String? {
-        val backgroundArgb = imageProxy.toRotatedBitmap()?.getAverageColor(excludeRect = barcodeBoundingBox)
+    private fun detectBackgroundCardColor(imageProxy: ImageProxy, barcode: Barcode): String? {
+        val backgroundArgb = imageProxy.toRotatedBitmap()?.getAverageColor(excludeRect = barcode.boundingBox)
         return backgroundArgb?.let { findClosestColor(Card.COLORS, it) }
     }
 
