@@ -8,12 +8,9 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
-import my.cardholder.data.model.Card
 import my.cardholder.data.model.ScanResult
 import my.cardholder.data.model.SupportedFormat
-import my.cardholder.util.ext.getAverageColor
-import my.cardholder.util.ext.toRotatedBitmap
-import my.cardholder.util.findClosestColor
+import my.cardholder.util.ext.detectBackgroundCardColor
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -65,19 +62,9 @@ class ScanResultRepository @Inject constructor(
             else -> ScanResult.Success(
                 content = barcode.displayValue.toString(),
                 format = format,
-                color = imageProxy?.let { detectBackgroundCardColor(it, barcode) },
+                color = imageProxy?.detectBackgroundCardColor(barcode),
             )
         }
-    }
-
-    /**
-     * Determines the dominant background color surrounding the barcode in [imageProxy]
-     * (i.e. the color of the physical card the code is printed on), excluding the barcode's own
-     * black/white pattern, then matches it to the closest color available for cards.
-     */
-    private fun detectBackgroundCardColor(imageProxy: ImageProxy, barcode: Barcode): String? {
-        val backgroundArgb = imageProxy.toRotatedBitmap()?.getAverageColor(excludeRect = barcode.boundingBox)
-        return backgroundArgb?.let { findClosestColor(Card.COLORS, it) }
     }
 
     private fun Barcode.getSupportedFormat(): SupportedFormat? {
