@@ -8,10 +8,12 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import my.cardholder.util.ScanFrameCalculator
 
 /**
  * Draws a dimmed scrim over the camera preview with a square cutout in the center, guiding the
- * user to place a barcode or QR code within [frameBounds].
+ * user to place a barcode or QR code within [frameBounds]. This is the same area barcode
+ * detection is restricted to, see [Barcode.isWithinScanFrame][my.cardholder.util.ext.isWithinScanFrame].
  */
 class ScanFrameOverlayView @JvmOverloads constructor(
     context: Context,
@@ -19,7 +21,6 @@ class ScanFrameOverlayView @JvmOverloads constructor(
 ) : View(context, attrs) {
 
     private companion object {
-        const val FRAME_SIZE_RATIO = 0.7f
         const val FRAME_CORNER_RADIUS_DP = 16f
         const val FRAME_STROKE_WIDTH_DP = 2f
         const val SCRIM_COLOR = 0xAA000000.toInt()
@@ -46,10 +47,8 @@ class ScanFrameOverlayView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        val frameSize = minOf(w, h) * FRAME_SIZE_RATIO
-        val left = (w - frameSize) / 2f
-        val top = (h - frameSize) / 2f
-        frameRect.set(left, top, left + frameSize, top + frameSize)
+        val (left, top) = ScanFrameCalculator().calculateScanFrameOffset(w, h)
+        frameRect.set(left.toFloat(), top.toFloat(), (w - left).toFloat(), (h - top).toFloat())
     }
 
     override fun onDraw(canvas: Canvas) {

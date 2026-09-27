@@ -10,6 +10,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import my.cardholder.data.model.ScanResult
 import my.cardholder.data.model.SupportedFormat
+import my.cardholder.util.ScanFrameCalculator
 import my.cardholder.util.ext.detectBackgroundCardColor
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +32,10 @@ class ScanResultRepository @Inject constructor(
             val inputImage = InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees)
             barcodeScanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
-                    val scanResult = barcodes.toScanResult(imageProxy)
+                    val barcodesInFrame = barcodes.filter {
+                        it.isWithinScanFrame(inputImage.width, inputImage.height)
+                    }
+                    val scanResult = barcodesInFrame.toScanResult(imageProxy)
                     cameraScanResultChannel.trySend(scanResult)
                 }
                 .addOnFailureListener { exception ->
@@ -65,6 +69,13 @@ class ScanResultRepository @Inject constructor(
                 color = imageProxy?.detectBackgroundCardColor(barcode),
             )
         }
+    }
+
+    /** Whether this barcode's center lies within the on-screen scan guide. */
+    private fun Barcode.isWithinScanFrame(frameWidth: Int, frameHeight: Int): Boolean {
+        val box = boundingBox ?: return false
+        val (left, top) = ScanFrameCalculator().calculateScanFrameOffset(frameWidth, frameHeight)
+        return box.centerX() in left..(frameWidth - left) && box.centerY() in top..(frameHeight - top)
     }
 
     private fun Barcode.getSupportedFormat(): SupportedFormat? {
