@@ -7,7 +7,6 @@ import my.cardholder.data.model.Card
 import my.cardholder.data.model.CardAndCategory
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CardDao
-import my.cardholder.widget.CardWidgetUpdater
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +14,6 @@ import javax.inject.Singleton
 class CardRepository @Inject constructor(
     private val barcodeFileRepository: BarcodeFileRepository,
     private val cardDao: CardDao,
-    private val cardWidgetUpdater: CardWidgetUpdater,
 ) {
 
     private companion object {
@@ -35,7 +33,6 @@ class CardRepository @Inject constructor(
         getCard(cardId)?.let { card ->
             card.barcodeFile?.delete()
             cardDao.deleteCard(card.id)
-            cardWidgetUpdater.refreshWidgetsForCard(card.id)
         }
     }
 
@@ -182,7 +179,7 @@ class CardRepository @Inject constructor(
         }
     }
 
-    private suspend fun getCard(cardId: Long): Card? {
+    suspend fun getCard(cardId: Long): Card? {
         return cardDao.getCard(cardId)
     }
 
@@ -191,10 +188,8 @@ class CardRepository @Inject constructor(
     }
 
     private suspend fun upsertCard(card: Card): Long {
-        val cardId = cardDao.upsert(
+        return cardDao.upsert(
             card.copy(changedAt = System.currentTimeMillis())
         )
-        cardWidgetUpdater.refreshWidgetsForCard(cardId)
-        return cardId
     }
 }

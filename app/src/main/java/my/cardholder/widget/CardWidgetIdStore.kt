@@ -28,12 +28,4 @@ class CardWidgetIdStore @Inject constructor(
     fun removeCardId(appWidgetId: Int) {
         preferences.edit { remove(KEY_PREFIX + appWidgetId) }
     }
-
-    fun getWidgetIds(cardId: Long): List<Int> {
-        return preferences.all
-            .filterKeys { it.startsWith(KEY_PREFIX) }
-            .filterValues { it == cardId }
-            .keys
-            .mapNotNull { it.removePrefix(KEY_PREFIX).toIntOrNull() }
-    }
 }

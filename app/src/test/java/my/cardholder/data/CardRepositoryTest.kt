@@ -6,7 +6,6 @@ import kotlinx.coroutines.test.runTest
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.data.source.CardDao
-import my.cardholder.widget.CardWidgetUpdater
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -15,8 +14,7 @@ class CardRepositoryTest {
 
     private val barcodeFileRepository = mockk<BarcodeFileRepository>(relaxed = true)
     private val cardDao = mockk<CardDao>(relaxed = true)
-    private val cardWidgetUpdater = mockk<CardWidgetUpdater>(relaxed = true)
-    private val cardRepository = CardRepository(barcodeFileRepository, cardDao, cardWidgetUpdater)
+    private val cardRepository = CardRepository(barcodeFileRepository, cardDao)
 
     @Test
     fun `insertNewCard writes barcode file and upserts card`() = runTest {

@@ -19,9 +19,9 @@ import androidx.core.graphics.drawable.toBitmap
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
 import my.cardholder.R
+import my.cardholder.data.CardRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.isSquare
-import my.cardholder.data.source.CardDao
 import my.cardholder.ui.MainActivity
 import my.cardholder.util.LogoLoader
 import javax.inject.Inject
@@ -32,8 +32,8 @@ import kotlin.time.Duration.Companion.milliseconds
 @Singleton
 class CardWidgetUpdater @Inject constructor(
     private val context: Context,
-    private val cardDao: CardDao,
     private val widgetIdStore: CardWidgetIdStore,
+    private val cardRepository: CardRepository,
 ) {
 
     companion object {
@@ -59,13 +59,8 @@ class CardWidgetUpdater @Inject constructor(
         }
     }
 
-    /** Refreshes every widget currently showing [cardId], if the card was edited or deleted. */
-    suspend fun refreshWidgetsForCard(cardId: Long) {
-        updateWidgets(widgetIdStore.getWidgetIds(cardId))
-    }
-
     private suspend fun buildRemoteViews(cardId: Long?): RemoteViews {
-        val card = cardId?.let { cardDao.getCard(it) }
+        val card = cardId?.let { cardRepository.getCard(it) }
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_card)
         remoteViews.setOnClickPendingIntent(R.id.widget_card_root, createOpenAppPendingIntent(cardId))
 
