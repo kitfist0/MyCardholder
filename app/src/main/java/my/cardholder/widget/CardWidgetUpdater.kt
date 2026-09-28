@@ -9,7 +9,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import android.view.View
 import android.widget.RemoteViews
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -65,15 +64,16 @@ class CardWidgetUpdater @Inject constructor(
         remoteViews.setOnClickPendingIntent(R.id.widget_card_root, createOpenAppPendingIntent(cardId))
 
         if (card == null) {
-            remoteViews.setViewVisibility(R.id.widget_card_background_image, View.GONE)
-            remoteViews.setViewVisibility(R.id.widget_card_content_layout, View.GONE)
-            remoteViews.setViewVisibility(R.id.widget_card_empty_text, View.VISIBLE)
+            val backgroundColor = Color.GRAY
+            remoteViews.setImageViewBitmap(R.id.widget_card_background_image, roundedCardBitmap(backgroundColor))
+            remoteViews.setImageViewBitmap(
+                R.id.widget_card_barcode_image,
+                whiteBackgroundIconBitmap(R.drawable.ic_broken_img),
+            )
+            remoteViews.setTextViewText(R.id.widget_card_name_text, context.getString(R.string.widget_card_empty_state_text))
+            remoteViews.setTextColor(R.id.widget_card_name_text, pickReadableTextColor(backgroundColor))
             return remoteViews
         }
-
-        remoteViews.setViewVisibility(R.id.widget_card_background_image, View.VISIBLE)
-        remoteViews.setViewVisibility(R.id.widget_card_content_layout, View.VISIBLE)
-        remoteViews.setViewVisibility(R.id.widget_card_empty_text, View.GONE)
 
         val cardColor = card.getColorInt()
         remoteViews.setImageViewBitmap(R.id.widget_card_background_image, roundedCardBitmap(cardColor))
