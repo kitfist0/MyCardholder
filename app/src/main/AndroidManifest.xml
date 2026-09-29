@@ -43,24 +43,16 @@
         </activity>
 
         <activity
-            android:name=".widget.CardWidgetConfigureActivity"
+            android:name=".shortcut.CardShortcutCreateActivity"
             android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/shortcut_create_label"
             android:theme="@style/Theme.MyCardholder">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name=".widget.CardWidgetProvider"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/card_widget_info" />
-        </receiver>
 
         <meta-data
             android:name="sdk_pay_scheme_value"

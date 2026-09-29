@@ -1,4 +1,4 @@
-package my.cardholder.widget
+package my.cardholder.shortcut
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.CardAndCategory
-import my.cardholder.databinding.ItemCardWidgetSelectBinding
+import my.cardholder.databinding.ItemCardShortcutSelectBinding
 
-class CardWidgetSelectAdapter(
+class CardShortcutSelectAdapter(
     private val onCardClicked: (cardId: Long) -> Unit,
-) : ListAdapter<CardAndCategory, CardWidgetSelectAdapter.CardViewHolder>(CardDiffCallback) {
+) : ListAdapter<CardAndCategory, CardShortcutSelectAdapter.CardViewHolder>(CardDiffCallback) {
 
     private companion object {
         object CardDiffCallback : DiffUtil.ItemCallback<CardAndCategory>() {
@@ -24,7 +24,7 @@ class CardWidgetSelectAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val binding = ItemCardWidgetSelectBinding.inflate(
+        val binding = ItemCardShortcutSelectBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return CardViewHolder(binding)
@@ -35,13 +35,13 @@ class CardWidgetSelectAdapter(
     }
 
     inner class CardViewHolder(
-        private val binding: ItemCardWidgetSelectBinding,
+        private val binding: ItemCardShortcutSelectBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(cardAndCategory: CardAndCategory) {
             val card = cardAndCategory.card
-            binding.itemCardWidgetSelectColorCard.setCardBackgroundColor(card.getColorInt())
-            binding.itemCardWidgetSelectNameText.text = card.name
+            binding.itemCardShortcutSelectColorCard.setCardBackgroundColor(card.getColorInt())
+            binding.itemCardShortcutSelectNameText.text = card.name
             binding.root.setOnClickListener { onCardClicked(card.id) }
         }
     }

@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
+import my.cardholder.shortcut.CardShortcutManager
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 
@@ -13,6 +14,7 @@ import javax.inject.Inject
 class DeleteCardViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val cardRepository: CardRepository,
+    private val cardShortcutManager: CardShortcutManager,
 ) : BaseViewModel() {
 
     private val cardId = DeleteCardDialogArgs.fromSavedStateHandle(savedStateHandle).cardId
@@ -33,6 +35,7 @@ class DeleteCardViewModel @Inject constructor(
     fun onDeleteConfirmationButtonClicked() {
         viewModelScope.launch {
             cardRepository.deleteCard(cardId)
+            cardShortcutManager.disableShortcut(cardId)
             navigate(DeleteCardDialogDirections.fromDeleteCardToCardList())
         }
     }

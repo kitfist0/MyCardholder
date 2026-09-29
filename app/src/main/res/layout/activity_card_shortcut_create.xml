@@ -4,27 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".widget.CardWidgetConfigureActivity">
+    tools:context=".shortcut.CardShortcutCreateActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/card_widget_configure_toolbar"
+        android:id="@+id/card_shortcut_create_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_close_two_tone"
-        app:title="@string/widget_card_configure_title" />
+        app:navigationIcon="@drawable/ic_arrow_back_24"
+        app:title="@string/shortcut_create_title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/card_widget_configure_recycler_view"
+        android:id="@+id/card_shortcut_create_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_widget_configure_toolbar"
-        tools:listitem="@layout/item_card_widget_select" />
+        app:layout_constraintTop_toBottomOf="@id/card_shortcut_create_toolbar"
+        tools:listitem="@layout/item_card_shortcut_select" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

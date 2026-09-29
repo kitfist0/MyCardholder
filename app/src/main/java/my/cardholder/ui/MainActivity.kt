@@ -16,8 +16,8 @@ import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
 import my.cardholder.billing.BillingActivity
 import my.cardholder.data.model.AppTheme
+import my.cardholder.shortcut.CardShortcutManager
 import my.cardholder.util.ext.collectWhenStarted
-import my.cardholder.widget.CardWidgetUpdater
 
 @AndroidEntryPoint
 class MainActivity : BillingActivity() {
@@ -55,7 +55,7 @@ class MainActivity : BillingActivity() {
                 mainBottomNavView.isVisible = destinationIdsWithBottomNav.contains(destination.id)
             }
         }
-        handleWidgetIntent(intent)
+        handleShortcutIntent(intent)
 
         collectWhenStarted(viewModel.appTheme) { theme ->
             setAppTheme(theme)
@@ -83,11 +83,11 @@ class MainActivity : BillingActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        handleWidgetIntent(intent)
+        handleShortcutIntent(intent)
     }
 
-    private fun handleWidgetIntent(intent: Intent) {
-        val cardId = intent.getLongExtra(CardWidgetUpdater.EXTRA_CARD_ID, NO_CARD_ID)
+    private fun handleShortcutIntent(intent: Intent) {
+        val cardId = intent.getLongExtra(CardShortcutManager.EXTRA_CARD_ID, NO_CARD_ID)
         if (cardId == NO_CARD_ID) return
         navController?.navigate(R.id.card_display_fragment, bundleOf("card_id" to cardId))
     }

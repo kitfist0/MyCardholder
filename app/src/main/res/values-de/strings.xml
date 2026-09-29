@@ -196,6 +196,12 @@
     <string name="snack_message_barcode_not_found">Barcode nicht gefunden</string>
     <!--endregion-->
 
+    <!--region Shortcut-->
+    <string name="shortcut_card_removed_message">Karte gelöscht</string>
+    <string name="shortcut_create_label">Karten-Verknüpfung</string>
+    <string name="shortcut_create_title">Karte auswählen</string>
+    <!--endregion-->
+
     <!--region Specs-->
     <string name="specs_barcode_length_text">Länge: %s</string>
     <string name="specs_barcode_valid_characters_text">Gültige Zeichen: %s</string>

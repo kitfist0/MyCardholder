@@ -196,6 +196,12 @@
     <string name="snack_message_barcode_not_found">Barcode not found</string>
     <!--endregion-->
 
+    <!--region Shortcut-->
+    <string name="shortcut_card_removed_message">Карта удалена</string>
+    <string name="shortcut_create_label">Ярлык карты</string>
+    <string name="shortcut_create_title">Выберите карту</string>
+    <!--endregion-->
+
     <!--region Specs-->
     <string name="specs_barcode_length_text">Длина: %s</string>
     <string name="specs_barcode_valid_characters_text">Допустимые символы: %s</string>
