@@ -11,6 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <my.cardholder.ui.card.scan.ScanFrameOverlayView
+        android:id="@+id/card_scan_frame_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/card_scan_explanation_message_text"
         android:layout_width="wrap_content"

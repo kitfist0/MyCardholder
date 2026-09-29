@@ -212,4 +212,10 @@
     <!--region Toast-->
     <string name="toast_gms_not_available_message">Google services are not available on this device</string>
     <!--endregion-->
+
+    <!--region Widget-->
+    <string name="widget_card_configure_title">Select a card</string>
+    <string name="widget_card_description">Shows a single card\'s barcode on the home screen</string>
+    <string name="widget_card_empty_state_text">Card removed</string>
+    <!--endregion-->
 </resources>

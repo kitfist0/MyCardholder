@@ -179,7 +179,7 @@ class CardRepository @Inject constructor(
         }
     }
 
-    private suspend fun getCard(cardId: Long): Card? {
+    suspend fun getCard(cardId: Long): Card? {
         return cardDao.getCard(cardId)
     }
 
