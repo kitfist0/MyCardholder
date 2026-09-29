@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.ActivityCardShortcutCreateBinding
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 /** Shown by the launcher when the user adds the app's shortcut from the widgets list. */
 @AndroidEntryPoint
@@ -25,11 +26,15 @@ class CardShortcutCreateActivity : AppCompatActivity() {
         val binding = ActivityCardShortcutCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.cardShortcutCreateToolbar.setNavigationOnClickListener { finish() }
+        with(binding) {
+            root.updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
+            cardShortcutCreateToolbar.setNavigationOnClickListener { finish() }
 
-        binding.cardShortcutCreateRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@CardShortcutCreateActivity)
-            this.adapter = adapter
+            cardShortcutCreateRecyclerView.apply {
+                updateVerticalPaddingAfterApplyingWindowInsets(top = false)
+                layoutManager = LinearLayoutManager(this@CardShortcutCreateActivity)
+                this.adapter = adapter
+            }
         }
 
         collectWhenStarted(viewModel.cards) { cards ->

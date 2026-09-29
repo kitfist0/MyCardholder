@@ -20,6 +20,7 @@
         android:id="@+id/card_shortcut_create_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:paddingHorizontal="@dimen/cardholder_recycler_view_padding_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
