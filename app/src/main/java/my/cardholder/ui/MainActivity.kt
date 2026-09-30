@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
@@ -18,6 +19,7 @@ import my.cardholder.billing.BillingActivity
 import my.cardholder.data.model.AppTheme
 import my.cardholder.shortcut.CardShortcutManager
 import my.cardholder.util.ext.collectWhenStarted
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BillingActivity() {
@@ -35,9 +37,14 @@ class MainActivity : BillingActivity() {
         R.id.settings_fragment,
     )
 
+    @Inject
+    lateinit var cardShortcutManager: CardShortcutManager
+
     private val viewModel: MainViewModel by viewModels()
 
     private var navController: NavController? = null
+
+    private var bottomNavView: BottomNavigationView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -50,12 +57,17 @@ class MainActivity : BillingActivity() {
         with(binding) {
             val navController = mainNavHost.getFragment<NavHostFragment>().navController
             this@MainActivity.navController = navController
+            bottomNavView = mainBottomNavView
             mainBottomNavView.setupWithNavController(navController)
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 mainBottomNavView.isVisible = destinationIdsWithBottomNav.contains(destination.id)
             }
         }
-        handleShortcutIntent(intent)
+        // On recreation (e.g. rotation) the launch intent is still set, but the nav state is already restored.
+        if (savedInstanceState == null) {
+            handleShortcutIntent(intent)
+        }
+        cardShortcutManager.publishScanShortcut()
 
         collectWhenStarted(viewModel.appTheme) { theme ->
             setAppTheme(theme)
@@ -87,6 +99,11 @@ class MainActivity : BillingActivity() {
     }
 
     private fun handleShortcutIntent(intent: Intent) {
+        if (intent.action == CardShortcutManager.ACTION_SCAN_CARD) {
+            // Selecting the tab goes through the same NavigationUI path as a tap on it.
+            bottomNavView?.selectedItemId = R.id.card_scan_fragment
+            return
+        }
         val cardId = intent.getLongExtra(CardShortcutManager.EXTRA_CARD_ID, NO_CARD_ID)
         if (cardId == NO_CARD_ID) return
         navController?.navigate(R.id.card_display_fragment, bundleOf("card_id" to cardId))

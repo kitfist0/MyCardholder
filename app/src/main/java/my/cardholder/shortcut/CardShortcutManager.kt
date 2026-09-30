@@ -27,7 +27,7 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.time.Duration.Companion.milliseconds
 
-/** Pins home screen shortcuts that open a single card. */
+/** Home screen shortcuts: one per pinned card, plus the app shortcut that opens the scanner. */
 @Singleton
 class CardShortcutManager @Inject constructor(
     private val context: Context,
@@ -35,8 +35,10 @@ class CardShortcutManager @Inject constructor(
 
     companion object {
         const val EXTRA_CARD_ID = "extra_shortcut_card_id"
+        const val ACTION_SCAN_CARD = "my.cardholder.action.SCAN_CARD"
 
         private const val SHORTCUT_ID_PREFIX = "card_"
+        private const val SCAN_SHORTCUT_ID = "scan"
 
         // Adaptive icon canvas is 108dp; launchers may mask anything outside the central 66dp circle,
         // so the logo is kept small enough to fit inside that circle.
@@ -46,6 +48,17 @@ class CardShortcutManager @Inject constructor(
         private const val LOGO_PADDING_DP = 4
         private const val LOGO_CORNER_RADIUS_DP = 8
         private const val LOGO_LOAD_TIMEOUT_MS = 4000L
+    }
+
+    /** Adds (or refreshes the label of) the scanner shortcut in the app icon's long-press menu. */
+    fun publishScanShortcut() {
+        val intent = Intent(context, MainActivity::class.java).setAction(ACTION_SCAN_CARD)
+        val shortcut = ShortcutInfoCompat.Builder(context, SCAN_SHORTCUT_ID)
+            .setShortLabel(context.getString(R.string.card_scan_label))
+            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_menu_scan))
+            .setIntent(intent)
+            .build()
+        ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
     }
 
     /** Result for a CREATE_SHORTCUT request: the launcher pins the shortcut it describes. */
