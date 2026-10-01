@@ -1,6 +1,7 @@
 package my.cardholder.ui.card.scan
 
 import androidx.camera.core.ImageProxy
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 import my.cardholder.data.CardRepository
 import my.cardholder.data.ScanResultRepository
 import my.cardholder.data.SettingsRepository
+import my.cardholder.data.model.Card
 import my.cardholder.data.model.ScanResult
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
@@ -24,6 +26,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CardScanViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     cameraPermissionHelper: CameraPermissionHelper,
     private val cardRepository: CardRepository,
     private val scanResultRepository: ScanResultRepository,
@@ -35,18 +38,25 @@ class CardScanViewModel @Inject constructor(
         const val SCAN_RESULT_DEBOUNCE_TIME_MILLIS = 500L
     }
 
+    // Set when a new barcode is scanned for an existing card instead of adding a new card.
+    private val cardId = CardScanFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
+    private val isScanningForExistingCard = cardId != Card.NEW_CARD_ID
+
     private val _state = MutableStateFlow(
         CardScanState(
             explanationIsVisible = false,
             preliminaryScanResult = null,
             launchBarcodeFileSelectionRequest = false,
+            addManuallyFabIsVisible = !isScanningForExistingCard,
         )
     )
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val expIsRequired = settingsRepository.explanationAboutCardScanIsRequired.first()
+            // The explanation is about adding new cards, so it is kept for that flow.
+            val expIsRequired = !isScanningForExistingCard &&
+                settingsRepository.explanationAboutCardScanIsRequired.first()
             if (expIsRequired) {
                 _state.update { it.copy(explanationIsVisible = true) }
                 delay(EXPLANATION_DURATION_MILLIS)
@@ -64,7 +74,13 @@ class CardScanViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
         if (!cameraPermissionHelper.isPermissionGranted()) {
-            navigate(CardScanFragmentDirections.fromCardScanToPermission())
+            navigate(
+                if (isScanningForExistingCard) {
+                    CardScanFragmentDirections.fromCardScanToPermissionForCard(cardId)
+                } else {
+                    CardScanFragmentDirections.fromCardScanToPermission()
+                }
+            )
         }
     }
 
@@ -76,14 +92,26 @@ class CardScanViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value.preliminaryScanResult?.let { scanResult ->
                 _state.update { it.copy(preliminaryScanResult = null) }
-                val cardId = insertNewCard(scanResult.content, scanResult.format, scanResult.color)
-                navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+                if (isScanningForExistingCard) {
+                    cardRepository.updateCardContentAndFormat(cardId, scanResult.content, scanResult.format)
+                    navigate(CardScanFragmentDirections.fromCardScanToCardEdit(cardId))
+                } else {
+                    val cardId = insertNewCard(scanResult.content, scanResult.format, scanResult.color)
+                    navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+                }
             }
         }
     }
 
     fun onBarcodeFileSelectionRequestResult(uri: String?) {
-        uri?.let { navigate(CardScanFragmentDirections.fromCardScanToCardCrop(it)) }
+        uri ?: return
+        navigate(
+            if (isScanningForExistingCard) {
+                CardScanFragmentDirections.fromCardScanToCardCropForCard(imageUri = uri, cardId = cardId)
+            } else {
+                CardScanFragmentDirections.fromCardScanToCardCrop(uri)
+            }
+        )
     }
 
     fun onBarcodeFileSelectionRequestLaunched() {

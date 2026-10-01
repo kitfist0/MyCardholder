@@ -63,6 +63,7 @@
     <string name="card_edit_logo_hint">Логотип</string>
     <string name="card_edit_name_hint">Имя</string>
     <string name="card_edit_no_connection_error_message">Необходимо соединеие с интернетом!</string>
+    <string name="card_edit_scan_icon_content_description">Сканировать штрихкод</string>
     <!--endregion-->
 
     <!--region CardList-->

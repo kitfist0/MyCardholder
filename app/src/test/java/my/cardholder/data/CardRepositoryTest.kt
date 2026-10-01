@@ -91,6 +91,59 @@ class CardRepositoryTest {
     }
 
     @Test
+    fun `updateCardContentAndFormat writes new barcode file and upserts content with format`() = runTest {
+        val cardId = 1L
+        val newContent = "4006381333931"
+        val newFormat = SupportedFormat.EAN_13
+        val oldCard = Card(
+            id = cardId,
+            name = "Test",
+            position = 0,
+            isPinned = false,
+            content = "old",
+            color = Card.COLORS.random(),
+            format = SupportedFormat.QR_CODE,
+            path = "old/path",
+            changedAt = 0
+        )
+
+        coEvery { cardDao.getCard(cardId) } returns oldCard
+        every { barcodeFileRepository.writeBarcodeFile(newContent, newFormat) } returns "new/path"
+
+        cardRepository.updateCardContentAndFormat(cardId, " $newContent ", newFormat)
+
+        verify { barcodeFileRepository.writeBarcodeFile(newContent, newFormat) }
+        coVerify {
+            cardDao.upsert(match<Card> {
+                it.content == newContent && it.format == newFormat && it.path == "new/path"
+            })
+        }
+    }
+
+    @Test
+    fun `updateCardContentAndFormat does nothing when barcode is unchanged`() = runTest {
+        val cardId = 1L
+        val card = Card(
+            id = cardId,
+            name = "Test",
+            position = 0,
+            isPinned = false,
+            content = "123",
+            color = Card.COLORS.random(),
+            format = SupportedFormat.QR_CODE,
+            path = "path",
+            changedAt = 0
+        )
+
+        coEvery { cardDao.getCard(cardId) } returns card
+
+        cardRepository.updateCardContentAndFormat(cardId, "123", SupportedFormat.QR_CODE)
+
+        verify(exactly = 0) { barcodeFileRepository.writeBarcodeFile(any(), any()) }
+        coVerify(exactly = 0) { cardDao.upsert(any<Card>()) }
+    }
+
+    @Test
     fun `updateCardPositions only upserts changed cards`() = runTest {
         val card0 = Card(
             id = 10,

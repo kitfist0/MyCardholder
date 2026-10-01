@@ -145,6 +145,20 @@ class CardRepository @Inject constructor(
         }
     }
 
+    /** Replaces the card's barcode, e.g. with a newly scanned one. */
+    suspend fun updateCardContentAndFormat(cardId: Long, content: String, format: SupportedFormat) {
+        getCard(cardId)?.let { card ->
+            val newContent = content.trim()
+            if (card.content != newContent || card.format != format) {
+                card.barcodeFile?.delete()
+                val barcodeFilePath = writeNewBarcodeFile(newContent, format)
+                upsertCard(
+                    card.copy(content = newContent, format = format, path = barcodeFilePath)
+                )
+            }
+        }
+    }
+
     suspend fun updateCardLogo(cardId: Long, logo: String?) {
         val newLogo = logo?.trim()
         getCard(cardId)?.let { card ->

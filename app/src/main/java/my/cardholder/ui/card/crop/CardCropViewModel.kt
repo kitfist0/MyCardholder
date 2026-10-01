@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.ScanResultRepository
+import my.cardholder.data.model.Card
 import my.cardholder.data.model.ScanResult
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
@@ -23,7 +24,11 @@ class CardCropViewModel @Inject constructor(
     private val scanResultRepository: ScanResultRepository,
 ) : BaseViewModel() {
 
-    private val imageUri = CardCropFragmentArgs.fromSavedStateHandle(savedStateHandle).imageUri
+    private val args = CardCropFragmentArgs.fromSavedStateHandle(savedStateHandle)
+    private val imageUri = args.imageUri
+
+    // Set when a new barcode is scanned for an existing card instead of adding a new card.
+    private val cardId = args.cardId
 
     private val _state = MutableStateFlow<CardCropState>(
         CardCropState.Selection(
@@ -37,7 +42,10 @@ class CardCropViewModel @Inject constructor(
         scanResultRepository.fileScanResult
             .onEach { scanResult ->
                 when (scanResult) {
-                    is ScanResult.Success -> {
+                    is ScanResult.Success -> if (cardId != Card.NEW_CARD_ID) {
+                        cardRepository.updateCardContentAndFormat(cardId, scanResult.content, scanResult.format)
+                        navigate(CardCropFragmentDirections.fromCardCropToCardEdit(cardId))
+                    } else {
                         val cardId = cardRepository.insertNewCard(
                             content = scanResult.content,
                             format = scanResult.format

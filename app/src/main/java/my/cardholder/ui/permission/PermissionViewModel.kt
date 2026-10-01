@@ -1,5 +1,6 @@
 package my.cardholder.ui.permission
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,6 +13,7 @@ import my.cardholder.BuildConfig
 import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.ScanResultRepository
+import my.cardholder.data.model.Card
 import my.cardholder.data.model.ScanResult
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.CameraPermissionHelper
@@ -20,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PermissionViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val cameraPermissionHelper: CameraPermissionHelper,
     private val cardRepository: CardRepository,
     private val scanResultRepository: ScanResultRepository,
@@ -29,6 +32,10 @@ class PermissionViewModel @Inject constructor(
         const val APPLICATION_DETAILS_ACTION = "android.settings.APPLICATION_DETAILS_SETTINGS"
     }
 
+    // Set when a new barcode is scanned for an existing card instead of adding a new card.
+    private val cardId = PermissionFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
+    private val isScanningForExistingCard = cardId != Card.NEW_CARD_ID
+
     private val _state = MutableStateFlow<PermissionState>(PermissionState.Loading)
     val state = _state.asStateFlow()
 
@@ -36,13 +43,17 @@ class PermissionViewModel @Inject constructor(
         scanResultRepository.fileScanResult
             .onEach { scanResult ->
                 when (scanResult) {
-                    is ScanResult.Success ->
+                    is ScanResult.Success -> if (isScanningForExistingCard) {
+                        cardRepository.updateCardContentAndFormat(cardId, scanResult.content, scanResult.format)
+                        navigate(PermissionFragmentDirections.fromPermissionToCardEdit(cardId))
+                    } else {
                         cardRepository.insertNewCard(
                             content = scanResult.content,
                             format = scanResult.format,
                         ).also { cardId ->
                             navigate(PermissionFragmentDirections.fromPermissionToCardDisplay(cardId))
                         }
+                    }
                     is ScanResult.Failure ->
                         showSnack(Text.Simple(scanResult.throwable.toString()))
                     ScanResult.Nothing ->
@@ -100,6 +111,8 @@ class PermissionViewModel @Inject constructor(
                     launchCameraPermissionRequest = requestPermissionIfNotGranted
                 )
             }
+        } else if (isScanningForExistingCard) {
+            navigate(PermissionFragmentDirections.fromPermissionToCardScanForCard(cardId))
         } else {
             navigate(PermissionFragmentDirections.fromPermissionToCardScan())
         }

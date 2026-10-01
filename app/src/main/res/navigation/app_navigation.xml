@@ -10,6 +10,11 @@
         android:name="my.cardholder.ui.permission.PermissionFragment"
         android:label="@string/permission_label"
         tools:layout="@layout/fragment_permission">
+        <!-- An existing card to scan a new barcode for; 0 (Card.NEW_CARD_ID) adds a new card instead -->
+        <argument
+            android:name="card_id"
+            android:defaultValue="0L"
+            app:argType="long" />
         <action
             android:id="@+id/from_permission_to_card_scan"
             app:destination="@id/card_scan_fragment"
@@ -20,6 +25,16 @@
             app:destination="@id/card_display_fragment"
             app:popUpTo="@id/card_list_fragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/from_permission_to_card_scan_for_card"
+            app:destination="@id/card_scan_fragment"
+            app:popUpTo="@id/permission_fragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/from_permission_to_card_edit"
+            app:destination="@id/card_edit_fragment"
+            app:popUpTo="@id/card_edit_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -30,11 +45,21 @@
         <argument
             android:name="image_uri"
             app:argType="string" />
+        <!-- An existing card to scan a new barcode for; 0 (Card.NEW_CARD_ID) adds a new card instead -->
+        <argument
+            android:name="card_id"
+            android:defaultValue="0L"
+            app:argType="long" />
         <action
             android:id="@+id/from_card_crop_to_card_display"
             app:destination="@id/card_display_fragment"
             app:popUpTo="@id/card_list_fragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/from_card_crop_to_card_edit"
+            app:destination="@id/card_edit_fragment"
+            app:popUpTo="@id/card_edit_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -42,6 +67,11 @@
         android:name="my.cardholder.ui.card.scan.CardScanFragment"
         android:label="@string/card_scan_label"
         tools:layout="@layout/fragment_card_scan">
+        <!-- An existing card to scan a new barcode for; 0 (Card.NEW_CARD_ID) adds a new card instead -->
+        <argument
+            android:name="card_id"
+            android:defaultValue="0L"
+            app:argType="long" />
         <action
             android:id="@+id/from_card_scan_to_card_crop"
             app:destination="@id/card_crop_fragment"
@@ -57,6 +87,19 @@
             app:destination="@id/card_display_fragment"
             app:popUpTo="@id/card_list_fragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/from_card_scan_to_card_crop_for_card"
+            app:destination="@id/card_crop_fragment" />
+        <action
+            android:id="@+id/from_card_scan_to_permission_for_card"
+            app:destination="@id/permission_fragment"
+            app:popUpTo="@id/card_scan_fragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/from_card_scan_to_card_edit"
+            app:destination="@id/card_edit_fragment"
+            app:popUpTo="@id/card_edit_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -154,6 +197,9 @@
         <action
             android:id="@+id/from_card_edit_to_card_logo"
             app:destination="@id/card_logo_fragment" />
+        <action
+            android:id="@+id/from_card_edit_to_card_scan"
+            app:destination="@id/card_scan_fragment" />
     </fragment>
 
     <fragment

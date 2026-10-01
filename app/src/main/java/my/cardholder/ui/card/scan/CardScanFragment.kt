@@ -77,6 +77,7 @@ class CardScanFragment : BaseFragment<FragmentCardScanBinding>(
             binding.cardScanExplanationMessageText.isVisible = state.explanationIsVisible
             binding.cardScanPreliminaryResultButton.text = state.preliminaryScanResult?.content
             binding.cardScanPreliminaryResultButton.isVisible = state.preliminaryScanResult != null
+            binding.cardScanAddManuallyFab.isVisible = state.addManuallyFabIsVisible
             if (state.launchBarcodeFileSelectionRequest) {
                 barcodeFileSelectionRequest.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
                 viewModel.onBarcodeFileSelectionRequestLaunched()

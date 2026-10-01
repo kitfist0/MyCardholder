@@ -6,4 +6,5 @@ data class CardScanState(
     val explanationIsVisible: Boolean,
     val preliminaryScanResult: ScanResult.Success?,
     val launchBarcodeFileSelectionRequest: Boolean,
+    val addManuallyFabIsVisible: Boolean,
 )

@@ -63,6 +63,7 @@
     <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Nom</string>
     <string name="card_edit_no_connection_error_message">Connexion Internet requise !</string>
+    <string name="card_edit_scan_icon_content_description">Scanner le code-barres</string>
     <!--endregion-->
 
     <!--region CardList-->

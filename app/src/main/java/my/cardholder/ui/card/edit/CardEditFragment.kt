@@ -45,6 +45,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     val extras = listOf(cardEditCardContentInputLayout).toNavExtras()
                     viewModel.onCardContentClicked(extras)
                 }
+                setEndIconOnClickListener { viewModel.onCardContentScanIconClicked() }
             }
             cardEditCardCategoryInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)

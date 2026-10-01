@@ -87,6 +87,10 @@ class CardEditViewModel @Inject constructor(
         navigate(CardEditFragmentDirections.fromCardEditToCardContent(cardId), extras)
     }
 
+    fun onCardContentScanIconClicked() {
+        navigate(CardEditFragmentDirections.fromCardEditToCardScan(cardId))
+    }
+
     fun onCardCategoryNameChanged(changedCategoryName: String?) {
         if (changedCategoryName == null || cardCategoryName == changedCategoryName) {
             return

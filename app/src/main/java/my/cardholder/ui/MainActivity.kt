@@ -17,6 +17,7 @@ import my.cardholder.R
 import my.cardholder.databinding.ActivityMainBinding
 import my.cardholder.billing.BillingActivity
 import my.cardholder.data.model.AppTheme
+import my.cardholder.data.model.Card
 import my.cardholder.shortcut.CardShortcutManager
 import my.cardholder.util.ext.collectWhenStarted
 import javax.inject.Inject
@@ -59,8 +60,12 @@ class MainActivity : BillingActivity() {
             this@MainActivity.navController = navController
             bottomNavView = mainBottomNavView
             mainBottomNavView.setupWithNavController(navController)
-            navController.addOnDestinationChangedListener { _, destination, _ ->
-                mainBottomNavView.isVisible = destinationIdsWithBottomNav.contains(destination.id)
+            navController.addOnDestinationChangedListener { _, destination, arguments ->
+                // Scan screens opened from card editing (with a card_id) are not top-level screens.
+                val isScanningForExistingCard =
+                    (arguments?.getLong("card_id", Card.NEW_CARD_ID) ?: Card.NEW_CARD_ID) != Card.NEW_CARD_ID
+                mainBottomNavView.isVisible =
+                    destinationIdsWithBottomNav.contains(destination.id) && !isScanningForExistingCard
             }
         }
         // On recreation (e.g. rotation) the launch intent is still set, but the nav state is already restored.
