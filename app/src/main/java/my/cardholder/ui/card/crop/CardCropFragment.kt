@@ -3,7 +3,6 @@ package my.cardholder.ui.card.crop
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.canhub.cropper.CropImageOptions
-import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardCropBinding
 import my.cardholder.ui.base.BaseFragment
@@ -21,9 +20,8 @@ class CardCropFragment : BaseFragment<FragmentCardCropBinding>(
         with(binding) {
             cardCropImageView.setImageCropOptions(CropImageOptions())
             cardCropImageView.setOnCropImageCompleteListener { _, result ->
-                val inputImage = result.bitmap
-                    ?.let { InputImage.fromBitmap(it, 0) }
-                viewModel.onProcessingCompleted(inputImage)
+                // The cropped image is saved to a cache file, so only its uri goes to the view model.
+                viewModel.onProcessingCompleted(result.uriContent?.toString())
             }
             cardCropOkFab.setOnClickListener {
                 viewModel.onOkFabClicked()

@@ -2,13 +2,13 @@ package my.cardholder.ui.permission
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import my.cardholder.BuildConfig
 import my.cardholder.R
 import my.cardholder.data.CardRepository
@@ -50,6 +50,7 @@ class PermissionViewModel @Inject constructor(
                         cardRepository.insertNewCard(
                             content = scanResult.content,
                             format = scanResult.format,
+                            color = scanResult.color,
                         ).also { cardId ->
                             navigate(PermissionFragmentDirections.fromPermissionToCardDisplay(cardId))
                         }
@@ -80,8 +81,9 @@ class PermissionViewModel @Inject constructor(
         }
     }
 
-    fun onBarcodeFileSelectionRequestResult(inputImage: InputImage?) {
-        inputImage?.let { scanResultRepository.scan(it) }
+    fun onBarcodeFileSelectionRequestResult(imageUri: String?) {
+        imageUri ?: return
+        viewModelScope.launch { scanResultRepository.scan(imageUri) }
     }
 
     fun onBarcodeFileSelectionRequestLaunched() {

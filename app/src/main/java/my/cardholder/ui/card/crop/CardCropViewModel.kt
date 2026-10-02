@@ -2,12 +2,12 @@ package my.cardholder.ui.card.crop
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.ScanResultRepository
@@ -48,7 +48,8 @@ class CardCropViewModel @Inject constructor(
                     } else {
                         val cardId = cardRepository.insertNewCard(
                             content = scanResult.content,
-                            format = scanResult.format
+                            format = scanResult.format,
+                            color = scanResult.color,
                         )
                         navigate(CardCropFragmentDirections.fromCardCropToCardDisplay(cardId))
                     }
@@ -65,8 +66,9 @@ class CardCropViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onProcessingCompleted(inputImage: InputImage?) {
-        inputImage?.let { scanResultRepository.scan(it) }
+    fun onProcessingCompleted(croppedImageUri: String?) {
+        croppedImageUri ?: return
+        viewModelScope.launch { scanResultRepository.scan(croppedImageUri) }
     }
 
     fun onOkFabClicked() {

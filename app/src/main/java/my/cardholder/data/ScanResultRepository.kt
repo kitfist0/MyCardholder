@@ -6,10 +6,13 @@ import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.withContext
 import my.cardholder.data.model.ScanResult
 import my.cardholder.data.model.SupportedFormat
+import my.cardholder.util.ImageFileDecoder
 import my.cardholder.util.ScanFrameCalculator
 import my.cardholder.util.ext.detectBackgroundCardColor
 import javax.inject.Inject
@@ -18,6 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class ScanResultRepository @Inject constructor(
     private val barcodeScanner: BarcodeScanner,
+    private val imageFileDecoder: ImageFileDecoder,
 ) {
 
     private val cameraScanResultChannel = Channel<ScanResult>(Channel.RENDEZVOUS)
@@ -35,7 +39,7 @@ class ScanResultRepository @Inject constructor(
                     val barcodesInFrame = barcodes.filter {
                         it.isWithinScanFrame(inputImage.width, inputImage.height)
                     }
-                    val scanResult = barcodesInFrame.toScanResult(imageProxy)
+                    val scanResult = barcodesInFrame.toScanResult { imageProxy.detectBackgroundCardColor(it) }
                     cameraScanResultChannel.trySend(scanResult)
                 }
                 .addOnFailureListener { exception ->
@@ -47,10 +51,20 @@ class ScanResultRepository @Inject constructor(
         }
     }
 
-    fun scan(inputImage: InputImage) {
-        barcodeScanner.process(inputImage)
+    /** Scans an image file (e.g. picked from the gallery), also detecting the card's color. */
+    suspend fun scan(imageUri: String) {
+        val bitmap = withContext(Dispatchers.IO) {
+            imageFileDecoder.decodeUprightBitmap(imageUri)
+        }
+        if (bitmap == null) {
+            fileScanResultChannel.trySend(
+                ScanResult.Failure(IllegalArgumentException("Unable to decode image $imageUri"))
+            )
+            return
+        }
+        barcodeScanner.process(InputImage.fromBitmap(bitmap, 0))
             .addOnSuccessListener { barcodes ->
-                val scanResult = barcodes.toScanResult()
+                val scanResult = barcodes.toScanResult { bitmap.detectBackgroundCardColor(it) }
                 fileScanResultChannel.trySend(scanResult)
             }
             .addOnFailureListener { exception ->
@@ -58,7 +72,7 @@ class ScanResultRepository @Inject constructor(
             }
     }
 
-    private fun List<Barcode>.toScanResult(imageProxy: ImageProxy? = null): ScanResult {
+    private fun List<Barcode>.toScanResult(detectColor: (Barcode) -> String?): ScanResult {
         val barcode = firstOrNull()
         val format = barcode?.getSupportedFormat()
         return when {
@@ -66,7 +80,7 @@ class ScanResultRepository @Inject constructor(
             else -> ScanResult.Success(
                 content = barcode.displayValue.toString(),
                 format = format,
-                color = imageProxy?.detectBackgroundCardColor(barcode),
+                color = detectColor(barcode),
             )
         }
     }

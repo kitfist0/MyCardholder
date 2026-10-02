@@ -1,8 +1,6 @@
 package my.cardholder.util.ext
 
-import android.net.Uri
 import androidx.fragment.app.Fragment
-import com.google.mlkit.vision.common.InputImage
 import my.cardholder.util.Text
 
 fun Fragment.getActionBarSize(): Int {
@@ -18,8 +16,4 @@ fun Fragment.textToString(text: Text): String {
         is Text.ResourceAndParams -> getString(text.resId, *text.params.toTypedArray())
         is Text.Simple -> text.text
     }
-}
-
-fun Fragment.getInputImageFromUri(uri: Uri?): InputImage? {
-    return uri?.let { InputImage.fromFilePath(requireContext(), it) }
 }

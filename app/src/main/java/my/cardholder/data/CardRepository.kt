@@ -42,7 +42,7 @@ class CardRepository @Inject constructor(
         logo: String? = null,
         categoryId: Long? = null,
         content: String = DEFAULT_CARD_CONTENT,
-        color: String = Card.COLORS.random(),
+        color: String? = null,
         comment: String? = null,
         format: SupportedFormat = SupportedFormat.QR_CODE,
     ): Long {
@@ -55,7 +55,7 @@ class CardRepository @Inject constructor(
             isPinned = false,
             categoryId = categoryId,
             content = content.trim(),
-            color = color,
+            color = color ?: Card.COLORS.random(),
             comment = comment?.trim()?.ifEmpty { null },
             format = format,
             path = barcodeFilePath,

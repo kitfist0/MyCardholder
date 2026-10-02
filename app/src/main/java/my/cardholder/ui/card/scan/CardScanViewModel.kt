@@ -19,7 +19,6 @@ import my.cardholder.data.ScanResultRepository
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.ScanResult
-import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.CameraPermissionHelper
 import javax.inject.Inject
@@ -96,7 +95,11 @@ class CardScanViewModel @Inject constructor(
                     cardRepository.updateCardContentAndFormat(cardId, scanResult.content, scanResult.format)
                     navigate(CardScanFragmentDirections.fromCardScanToCardEdit(cardId))
                 } else {
-                    val cardId = insertNewCard(scanResult.content, scanResult.format, scanResult.color)
+                    val cardId = cardRepository.insertNewCard(
+                        content = scanResult.content,
+                        format = scanResult.format,
+                        color = scanResult.color,
+                    )
                     navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
                 }
             }
@@ -126,18 +129,6 @@ class CardScanViewModel @Inject constructor(
         viewModelScope.launch {
             val cardId = cardRepository.insertNewCard()
             navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
-        }
-    }
-
-    private suspend fun insertNewCard(
-        content: String,
-        supportedFormat: SupportedFormat,
-        color: String?,
-    ): Long {
-        return if (color != null) {
-            cardRepository.insertNewCard(content = content, format = supportedFormat, color = color)
-        } else {
-            cardRepository.insertNewCard(content = content, format = supportedFormat)
         }
     }
 }
