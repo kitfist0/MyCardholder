@@ -3,9 +3,9 @@ package my.cardholder.ui.card.list
 import android.transition.TransitionInflater
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import my.cardholder.R
 import my.cardholder.databinding.FragmentCardListBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
@@ -40,9 +40,23 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                 clipToPadding = false
                 setHasFixedSize(true)
                 updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
-                layoutManager = GridLayoutManager(context, 1)
+                layoutManager = CardStackLayoutManager(context)
+                val overlapPx = resources.getDimensionPixelSize(R.dimen.card_item_stack_overlap)
+                val edgePx = resources.getDimensionPixelSize(R.dimen.card_item_stack_edge)
+                addItemDecoration(
+                    CardStackItemDecoration(
+                        overlapPx = overlapPx,
+                        stackTopSpacePx = CardStackScrollEffect.MAX_VISIBLE_EDGES * edgePx,
+                    )
+                )
                 adapter = listAdapter
                 listAdapter.attachToRecyclerView(this)
+                CardStackScrollEffect(
+                    recyclerView = this,
+                    overlapPx = overlapPx,
+                    edgePx = edgePx,
+                    isDragged = listAdapter::isDragged,
+                ).attach()
                 postponeEnterTransition()
                 viewTreeObserver.addOnPreDrawListener {
                     startPostponedEnterTransition()

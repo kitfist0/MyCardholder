@@ -3,6 +3,7 @@ package my.cardholder.ui.card.list
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.ColorUtils
 import androidx.navigation.fragment.FragmentNavigator
@@ -36,6 +37,9 @@ class CardListAdapter(
     }
 
     private var touchHelper: ItemTouchHelper? = null
+    private var draggedItemView: View? = null
+
+    fun isDragged(itemView: View): Boolean = itemView === draggedItemView
 
     fun attachToRecyclerView(recyclerView: RecyclerView) {
         val callback = object : ItemTouchHelper.SimpleCallback(
@@ -56,6 +60,18 @@ class CardListAdapter(
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    draggedItemView = viewHolder?.itemView
+                }
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                draggedItemView = null
+            }
 
             override fun isLongPressDragEnabled() = true
         }

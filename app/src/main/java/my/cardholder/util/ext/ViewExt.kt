@@ -265,7 +265,11 @@ fun <T> AutoCompleteTextView.setDefaultAdapter(values: List<T>) {
 
 fun RecyclerView.updateSpanCountIfRequired(count: Int) {
     (layoutManager as? GridLayoutManager)?.apply {
-        if (spanCount != count) spanCount = count
+        if (spanCount != count) {
+            spanCount = count
+            // Item decorations may depend on the number of columns (e.g. stacked cards).
+            this@updateSpanCountIfRequired.invalidateItemDecorations()
+        }
     }
 }
 
