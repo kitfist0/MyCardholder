@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.*
+import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.AppTheme
 import my.cardholder.data.model.CloudProvider
@@ -82,6 +83,18 @@ class SettingsViewModelTest {
         viewModel.onItemOptionClicked(SettingId.COLUMNS, NumOfColumns.TWO.name)
 
         coVerify { settingsRepository.setNumOfColumns(NumOfColumns.TWO) }
+    }
+
+    @Test
+    fun `three columns setting is selected with its icon`() = runTest {
+        every { settingsRepository.numOfColumns } returns MutableStateFlow(NumOfColumns.THREE)
+        val viewModel = SettingsViewModel(settingsRepository)
+
+        viewModel.state.test {
+            val item = expectMostRecentItem().settingsItems.first { it.id == SettingId.COLUMNS }
+            assertEquals(R.drawable.ic_list_three_column, item.iconRes)
+            assertEquals(NumOfColumns.THREE.name, item.options.single { it.selected }.id)
+        }
     }
 
     @Test

@@ -82,6 +82,7 @@ class SettingsViewModel @Inject constructor(
                             iconRes = when (numOfColumns) {
                                 NumOfColumns.ONE -> R.drawable.ic_list_single_column
                                 NumOfColumns.TWO -> R.drawable.ic_list_multi_column
+                                NumOfColumns.THREE -> R.drawable.ic_list_three_column
                             },
                             options = NumOfColumns.entries.map {
                                 SettingsItem.Option(

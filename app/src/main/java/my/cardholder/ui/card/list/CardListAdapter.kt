@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import androidx.core.widget.TextViewCompat
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -30,6 +32,8 @@ class CardListAdapter(
 ) : ListAdapter<CardAndCategory, CardListAdapter.CardViewHolder>(CardDiffCallback) {
 
     private companion object {
+        const val COMPACT_SPAN_COUNT = 3
+
         object CardDiffCallback : DiffUtil.ItemCallback<CardAndCategory>() {
             override fun areItemsTheSame(oldItem: CardAndCategory, newItem: CardAndCategory) =
                 oldItem.card.id == newItem.card.id
@@ -39,8 +43,11 @@ class CardListAdapter(
         }
     }
 
-    /** In a single-column list cards overlap, so the category is moved to the top of the card. */
-    var isSingleColumn = false
+    /**
+     * In a single-column list cards overlap, so the category is moved to the top of the card.
+     * In a three-column list cards are too narrow, so they show only the logo and the name.
+     */
+    var spanCount = 1
         set(value) {
             if (field != value) {
                 field = value
@@ -106,7 +113,7 @@ class CardListAdapter(
                         binding.itemCardNameText,
                         binding.itemCardContentText,
                         binding.itemCardCategoryText,
-                    ).toNavExtras()
+                    ).filter { it.isVisible }.toNavExtras()
                     onItemClicked.invoke(cardAndCategory.card.id, extras)
                 }
             }
@@ -140,7 +147,35 @@ class CardListAdapter(
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = cardAndCategory.category?.name.orEmpty()
                 }
-                placeCategory(atTop = isSingleColumn)
+                applyCompactLayout(isCompact = spanCount >= COMPACT_SPAN_COUNT)
+                placeCategory(atTop = spanCount == 1)
+            }
+        }
+
+        private fun applyCompactLayout(isCompact: Boolean) {
+            val resources = binding.root.resources
+            with(binding) {
+                itemCardContentText.isVisible = !isCompact
+                itemCardCategoryText.isVisible = !isCompact
+                val padding = resources.getDimensionPixelSize(
+                    if (isCompact) R.dimen.card_item_compact_content_padding else R.dimen.card_item_content_padding
+                )
+                itemCardLayout.setPadding(padding, padding, padding, padding)
+                val logoSize = resources.getDimensionPixelSize(
+                    if (isCompact) R.dimen.card_item_compact_logo_size else R.dimen.card_item_square_logo_size
+                )
+                itemCardLogoImage.updateLayoutParams {
+                    width = logoSize
+                    height = logoSize
+                }
+                TextViewCompat.setTextAppearance(
+                    itemCardNameText,
+                    if (isCompact) {
+                        com.google.android.material.R.style.TextAppearance_Material3_TitleSmall
+                    } else {
+                        com.google.android.material.R.style.TextAppearance_Material3_HeadlineSmall
+                    }
+                )
             }
         }
 

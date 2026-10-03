@@ -25,6 +25,9 @@
     <dimen name="card_item_square_logo_size">100dp</dimen>
     <dimen name="card_item_category_padding_top">4dp</dimen>
     <dimen name="card_item_category_logo_spacing">8dp</dimen>
+    <!-- Three-column list, where a card shows only the logo and the name -->
+    <dimen name="card_item_compact_content_padding">12dp</dimen>
+    <dimen name="card_item_compact_logo_size">56dp</dimen>
     <!-- How far a card covers the previous one in a single-column list: hides its number, leaving
     the logo, name and category (shown in the top end corner in this mode) visible -->
     <dimen name="card_item_stack_overlap">40dp</dimen>
