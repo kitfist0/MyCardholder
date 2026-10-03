@@ -107,6 +107,7 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
 
                 is CardListState.Success -> {
                     binding.cardListRecyclerView.updateSpanCountIfRequired(state.spanCount)
+                    listAdapter.isSingleColumn = state.spanCount == 1
                     binding.cardListSearchFab.isVisible = true
                     binding.cardListImportCardsFab.isVisible = false
                     binding.cardListEmptyListMessageText.text = null

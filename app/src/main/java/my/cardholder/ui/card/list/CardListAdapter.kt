@@ -5,7 +5,10 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -35,6 +38,15 @@ class CardListAdapter(
                 oldItem == newItem
         }
     }
+
+    /** In a single-column list cards overlap, so the category is moved to the top of the card. */
+    var isSingleColumn = false
+        set(value) {
+            if (field != value) {
+                field = value
+                notifyItemRangeChanged(0, itemCount)
+            }
+        }
 
     private var touchHelper: ItemTouchHelper? = null
     private var draggedItemView: View? = null
@@ -128,6 +140,33 @@ class CardListAdapter(
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = cardAndCategory.category?.name.orEmpty()
                 }
+                placeCategory(atTop = isSingleColumn)
+            }
+        }
+
+        private fun placeCategory(atTop: Boolean) {
+            val resources = binding.root.resources
+            binding.itemCardCategoryText.apply {
+                updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    if (atTop) {
+                        // Next to the logo, in the top end corner.
+                        topToBottom = ConstraintLayout.LayoutParams.UNSET
+                        topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+                        startToStart = ConstraintLayout.LayoutParams.UNSET
+                        startToEnd = binding.itemCardLogoImage.id
+                        marginStart = resources.getDimensionPixelSize(R.dimen.card_item_category_logo_spacing)
+                    } else {
+                        // Below the content, at the end.
+                        topToTop = ConstraintLayout.LayoutParams.UNSET
+                        topToBottom = binding.itemCardContentText.id
+                        startToEnd = ConstraintLayout.LayoutParams.UNSET
+                        startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                        marginStart = 0
+                    }
+                }
+                updatePadding(
+                    top = if (atTop) 0 else resources.getDimensionPixelSize(R.dimen.card_item_category_padding_top)
+                )
             }
         }
 

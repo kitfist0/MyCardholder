@@ -23,9 +23,11 @@
     <dimen name="card_item_square_barcode_height">100dp</dimen>
     <dimen name="card_item_square_barcode_width">100dp</dimen>
     <dimen name="card_item_square_logo_size">100dp</dimen>
-    <!-- How far a card covers the previous one in a single-column list: hides its number and
-    category, leaving the logo and name visible -->
-    <dimen name="card_item_stack_overlap">64dp</dimen>
+    <dimen name="card_item_category_padding_top">4dp</dimen>
+    <dimen name="card_item_category_logo_spacing">8dp</dimen>
+    <!-- How far a card covers the previous one in a single-column list: hides its number, leaving
+    the logo, name and category (shown in the top end corner in this mode) visible -->
+    <dimen name="card_item_stack_overlap">40dp</dimen>
     <!-- Visible top edge of each card in the pile at the top of a scrolled single-column list -->
     <dimen name="card_item_stack_edge">8dp</dimen>
     <!--endregion-->
