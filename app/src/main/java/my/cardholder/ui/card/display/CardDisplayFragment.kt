@@ -2,9 +2,12 @@ package my.cardholder.ui.card.display
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
+import android.view.View
 import android.widget.TextView
+import androidx.core.app.SharedElementCallback
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -22,6 +25,9 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
     private val args: CardDisplayFragmentArgs by navArgs()
 
     override val viewModel: CardDisplayViewModel by viewModels()
+
+    // A three-column card list doesn't show the card content, so it can't move from there.
+    private var isCardContentSharedElement = true
 
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
@@ -69,14 +75,24 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                 ).toNavExtras()
                 viewModel.onEditFabClicked(extras)
             }
+            setEnterSharedElementCallback(
+                object : SharedElementCallback() {
+                    override fun onMapSharedElements(names: List<String>, sharedElements: Map<String, View>) {
+                        isCardContentSharedElement = cardDisplayCardContentCardView.transitionName in names
+                    }
+                }
+            )
             val transitionSet = sharedElementEnterTransition as TransitionSet
             transitionSet.doOnStart {
                 cardDisplayToolbar.isVisible = false
                 cardDisplayCardLogoImage.isVisible = false
+                // Invisible rather than gone, so the views below it stay in place.
+                if (!isCardContentSharedElement) cardDisplayCardContentCardView.isInvisible = true
             }
             transitionSet.doOnEnd {
                 cardDisplayToolbar.animateVisibilityChange()
                 cardDisplayCardLogoImage.animateVisibilityChange()
+                if (!isCardContentSharedElement) cardDisplayCardContentCardView.animateVisibilityChange()
             }
         }
     }
