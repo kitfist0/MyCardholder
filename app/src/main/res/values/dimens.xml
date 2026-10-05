@@ -28,9 +28,10 @@
     <!-- Three-column list, where a card shows only the logo and the name -->
     <dimen name="card_item_compact_content_padding">12dp</dimen>
     <dimen name="card_item_compact_logo_size">56dp</dimen>
-    <!-- How far a card covers the previous one in a single-column list: hides its number, leaving
-    the logo, name and category (shown in the top end corner in this mode) visible -->
-    <dimen name="card_item_stack_overlap">40dp</dimen>
+    <!-- Distance between the tops of neighbouring cards in a single-column list, where cards have
+    real proportions: leaves the logo, name and category (shown in the top end corner in this mode)
+    of a covered card visible, hiding its number -->
+    <dimen name="card_item_stack_stride">160dp</dimen>
     <!-- Visible top edge of each card in the pile at the top of a scrolled single-column list -->
     <dimen name="card_item_stack_edge">8dp</dimen>
     <!--endregion-->
