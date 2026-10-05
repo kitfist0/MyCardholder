@@ -70,11 +70,20 @@ class CardListAdapter(
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
+                // Until the previous move is laid out, cards are still drawn at their old places,
+                // so the card that has just been swapped looks like a new target and would be
+                // swapped back, making it flicker.
+                if (recyclerView.hasPendingAdapterUpdates()) return false
                 val fromPos = viewHolder.adapterPosition
                 val toPos = target.adapterPosition
                 val items = currentList.toMutableList()
                 Collections.swap(items, fromPos, toPos)
-                submitList(items)
+                // When the first card changes, the list keeps following the former first card,
+                // which scrolls it away from the top.
+                val keepAtTop = (fromPos == 0 || toPos == 0) && !recyclerView.canScrollVertically(-1)
+                submitList(items) {
+                    if (keepAtTop) recyclerView.scrollToPosition(0)
+                }
                 return true
             }
 
