@@ -19,6 +19,7 @@ import my.cardholder.data.source.AppDatabase
 import my.cardholder.data.source.CardDao
 import my.cardholder.data.source.CategoryDao
 import my.cardholder.data.source.CoffeeDao
+import my.cardholder.data.source.WidgetCardDao
 import java.io.File
 import javax.inject.Singleton
 
@@ -73,6 +74,12 @@ object DataModule {
     @Singleton
     fun provideCoffeeDao(database: AppDatabase): CoffeeDao {
         return database.coffeeDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWidgetCardDao(database: AppDatabase): WidgetCardDao {
+        return database.widgetCardDao()
     }
 
     @Provides

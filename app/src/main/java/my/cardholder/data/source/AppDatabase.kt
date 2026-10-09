@@ -7,20 +7,23 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Category
 import my.cardholder.data.model.Coffee
+import my.cardholder.data.model.WidgetCard
 
 @Database(
     entities = [
         Card::class,
         Category::class,
         Coffee::class,
+        WidgetCard::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
     abstract fun categoryDao(): CategoryDao
     abstract fun coffeeDao(): CoffeeDao
+    abstract fun widgetCardDao(): WidgetCardDao
 
     companion object {
         val MIGRATIONS = arrayOf(
@@ -63,6 +66,12 @@ abstract class AppDatabase : RoomDatabase() {
             object : Migration(5, 6) {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("ALTER TABLE `cards` ADD COLUMN `comment` TEXT DEFAULT NULL")
+                }
+            },
+            object : Migration(6, 7) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("CREATE TABLE IF NOT EXISTS `widget_cards` (`widget_id` INTEGER NOT NULL, `card_id` INTEGER NOT NULL, PRIMARY KEY(`widget_id`, `card_id`), FOREIGN KEY(`card_id`) REFERENCES `cards`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )")
+                    db.execSQL("CREATE INDEX IF NOT EXISTS `index_widget_cards_card_id` ON `widget_cards` (`card_id`)")
                 }
             },
         )
