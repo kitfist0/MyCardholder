@@ -36,6 +36,18 @@
     <dimen name="card_item_stack_edge">8dp</dimen>
     <!--endregion-->
 
+    <!--region Widget-->
+    <dimen name="widget_padding">8dp</dimen>
+    <dimen name="widget_corner_radius">16dp</dimen>
+    <dimen name="widget_card_column_width">76dp</dimen>
+    <dimen name="widget_card_spacing">6dp</dimen>
+    <dimen name="widget_card_corner_radius">12dp</dimen>
+    <dimen name="widget_card_content_padding">8dp</dimen>
+    <dimen name="widget_card_logo_size">40dp</dimen>
+    <dimen name="widget_card_logo_padding">4dp</dimen>
+    <dimen name="widget_card_logo_corner_radius">8dp</dimen>
+    <!--endregion-->
+
     <!--region CategoryItem-->
     <dimen name="category_item_content_padding">16dp</dimen>
     <!--endregion-->

@@ -203,6 +203,13 @@
     <string name="shortcut_card_removed_message">Card removed</string>
     <string name="shortcut_create_label">Card shortcut</string>
     <string name="shortcut_create_title">Select a card</string>
+    <string name="widget_cards_label">Cards</string>
+    <string name="widget_cards_description">Quick access to the cards you choose</string>
+    <string name="widget_cards_empty_text">Tap to choose cards</string>
+    <string name="widget_cards_preview_card_name">Card</string>
+    <string name="widget_configure_title">Cards for the widget</string>
+    <string name="widget_configure_save_button">Save</string>
+    <string name="widget_configure_no_cards_message">No cards yet. Add cards in the app first</string>
     <!--endregion-->
 
     <!--region Specs-->
