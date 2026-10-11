@@ -58,10 +58,11 @@ class CardWidgetItemsFactory(
         val logoBitmap = card.logo?.ifEmpty { null }?.let { logoUrl ->
             val resources = context.resources
             runBlocking {
+                val sizePx = resources.getDimensionPixelSize(R.dimen.widget_card_logo_size) -
+                        2 * resources.getDimensionPixelSize(R.dimen.widget_card_logo_padding)
                 LogoLoader(context).loadBitmap(
                     imageUrl = logoUrl,
-                    sizePx = resources.getDimensionPixelSize(R.dimen.widget_card_logo_size) -
-                        2 * resources.getDimensionPixelSize(R.dimen.widget_card_logo_padding),
+                    sizePx = sizePx,
                     paddingPx = 0,
                     cornerRadiusPx = 0,
                     timeoutMs = LOGO_LOAD_TIMEOUT_MS,

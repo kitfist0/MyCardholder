@@ -20,7 +20,13 @@ import my.cardholder.ui.MainActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/** Home screen widgets showing the cards the user has chosen for each of them. */
+/**
+ * Home screen widgets showing the cards the user has chosen for each of them.
+ *
+ * Cards are provided by [CardWidgetService], although collections backed by a service are
+ * deprecated since API 35. RemoteCollectionItems replacing them would pass all cards with their
+ * logo bitmaps to the launcher in a single transaction, which a widget with many cards exceeds.
+ */
 @Singleton
 class CardWidgetManager @Inject constructor(
     private val context: Context,
@@ -41,6 +47,7 @@ class CardWidgetManager @Inject constructor(
             .launchIn(scope)
     }
 
+    @Suppress("DEPRECATION") // See the class description.
     fun updateWidgets(widgetIds: IntArray) {
         widgetIds.forEach { widgetId ->
             appWidgetManager.updateAppWidget(widgetId, buildRemoteViews(widgetId))
@@ -49,6 +56,7 @@ class CardWidgetManager @Inject constructor(
         appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.widget_cards_grid)
     }
 
+    @Suppress("DEPRECATION") // See the class description.
     private fun notifyCardsChanged() {
         val widgetIds = appWidgetManager.getAppWidgetIds(ComponentName(context, CardWidgetProvider::class.java))
         if (widgetIds.isNotEmpty()) {
@@ -56,7 +64,7 @@ class CardWidgetManager @Inject constructor(
         }
     }
 
-    @Suppress("DEPRECATION") // RemoteCollectionItems would put all logo bitmaps into a single transaction.
+    @Suppress("DEPRECATION") // See the class description.
     private fun buildRemoteViews(widgetId: Int): RemoteViews {
         val serviceIntent = Intent(context, CardWidgetService::class.java)
             .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
