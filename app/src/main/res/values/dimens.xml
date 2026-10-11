@@ -28,11 +28,24 @@
     <!-- Three-column list, where a card shows only the logo and the name -->
     <dimen name="card_item_compact_content_padding">12dp</dimen>
     <dimen name="card_item_compact_logo_size">56dp</dimen>
-    <!-- How far a card covers the previous one in a single-column list: hides its number, leaving
-    the logo, name and category (shown in the top end corner in this mode) visible -->
-    <dimen name="card_item_stack_overlap">40dp</dimen>
+    <!-- Distance between the tops of neighbouring cards in a single-column list, where cards have
+    real proportions: leaves the logo, name and category (shown in the top end corner in this mode)
+    of a covered card visible, hiding its number -->
+    <dimen name="card_item_stack_stride">160dp</dimen>
     <!-- Visible top edge of each card in the pile at the top of a scrolled single-column list -->
     <dimen name="card_item_stack_edge">8dp</dimen>
+    <!--endregion-->
+
+    <!--region Widget-->
+    <dimen name="widget_padding">8dp</dimen>
+    <dimen name="widget_corner_radius">16dp</dimen>
+    <dimen name="widget_card_column_width">76dp</dimen>
+    <dimen name="widget_card_spacing">6dp</dimen>
+    <dimen name="widget_card_corner_radius">12dp</dimen>
+    <dimen name="widget_card_content_padding">8dp</dimen>
+    <dimen name="widget_card_logo_size">40dp</dimen>
+    <dimen name="widget_card_logo_padding">4dp</dimen>
+    <dimen name="widget_card_logo_corner_radius">8dp</dimen>
     <!--endregion-->
 
     <!--region CategoryItem-->

@@ -136,6 +136,7 @@ class CardListAdapter(
             with(binding) {
                 val card = cardAndCategory.card
                 val uniqueNameSuffix = card.id
+                root.hasRealProportions = spanCount == 1
                 itemCardLayout.background = getCardGradientDrawable(card.getColorInt())
                 itemCardLogoImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)

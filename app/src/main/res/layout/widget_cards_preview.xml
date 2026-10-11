@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shown in the widget picker (Android 12+) -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_widget"
+    android:padding="@dimen/widget_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_widget_card"
+                android:tint="#42A5F5"
+                tools:ignore="ContentDescription,UseAppTint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/widget_card_content_padding">
+
+                <ImageView
+                    android:layout_width="@dimen/widget_card_logo_size"
+                    android:layout_height="@dimen/widget_card_logo_size"
+                    android:background="@drawable/bg_widget_card_logo"
+                    android:padding="@dimen/widget_card_logo_padding"
+                    android:src="@drawable/ic_qr_code"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:paddingTop="4dp"
+                    android:text="@string/widget_cards_preview_card_name"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="@dimen/widget_card_spacing">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_widget_card"
+                android:tint="#66BB6A"
+                tools:ignore="ContentDescription,UseAppTint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/widget_card_content_padding">
+
+                <ImageView
+                    android:layout_width="@dimen/widget_card_logo_size"
+                    android:layout_height="@dimen/widget_card_logo_size"
+                    android:background="@drawable/bg_widget_card_logo"
+                    android:padding="@dimen/widget_card_logo_padding"
+                    android:src="@drawable/ic_barcode"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:paddingTop="4dp"
+                    android:text="@string/widget_cards_preview_card_name"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_widget_card"
+                android:tint="#5C6BC0"
+                tools:ignore="ContentDescription,UseAppTint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/widget_card_content_padding">
+
+                <ImageView
+                    android:layout_width="@dimen/widget_card_logo_size"
+                    android:layout_height="@dimen/widget_card_logo_size"
+                    android:background="@drawable/bg_widget_card_logo"
+                    android:padding="@dimen/widget_card_logo_padding"
+                    android:src="@drawable/ic_qr_code"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:paddingTop="4dp"
+                    android:text="@string/widget_cards_preview_card_name"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

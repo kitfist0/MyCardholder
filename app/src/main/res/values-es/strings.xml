@@ -201,6 +201,13 @@
     <string name="shortcut_card_removed_message">Tarjeta eliminada</string>
     <string name="shortcut_create_label">Acceso directo a tarjeta</string>
     <string name="shortcut_create_title">Seleccione una tarjeta</string>
+    <string name="widget_cards_label">Tarjetas</string>
+    <string name="widget_cards_description">Acceso rápido a las tarjetas que elijas</string>
+    <string name="widget_cards_empty_text">Toca para elegir tarjetas</string>
+    <string name="widget_cards_preview_card_name">Tarjeta</string>
+    <string name="widget_configure_title">Tarjetas para el widget</string>
+    <string name="widget_configure_save_button">Guardar</string>
+    <string name="widget_configure_no_cards_message">Aún no hay tarjetas. Primero añade tarjetas en la aplicación</string>
     <!--endregion-->
 
     <!--region Specs-->

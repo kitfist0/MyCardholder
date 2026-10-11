@@ -26,6 +26,11 @@
     <color name="cardholder_color_error_container_night">#FF97302D</color>
     <!--endregion-->
 
+    <!--region Widget (night values are in values-night)-->
+    <color name="widget_background_color">@color/cardholder_color_secondary_container_day</color>
+    <color name="widget_text_color">@color/cardholder_color_on_secondary_container_day</color>
+    <!--endregion-->
+
     <color name="explanation_background_color">#EE212121</color>
 
     <color name="ic_launcher_background">#465B65</color>

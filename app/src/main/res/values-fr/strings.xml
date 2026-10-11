@@ -201,6 +201,13 @@
     <string name="shortcut_card_removed_message">Carte supprimée</string>
     <string name="shortcut_create_label">Raccourci de carte</string>
     <string name="shortcut_create_title">Sélectionnez une carte</string>
+    <string name="widget_cards_label">Cartes</string>
+    <string name="widget_cards_description">Accès rapide aux cartes de votre choix</string>
+    <string name="widget_cards_empty_text">Appuyez pour choisir des cartes</string>
+    <string name="widget_cards_preview_card_name">Carte</string>
+    <string name="widget_configure_title">Cartes du widget</string>
+    <string name="widget_configure_save_button">Enregistrer</string>
+    <string name="widget_configure_no_cards_message">Aucune carte pour l\'instant. Ajoutez d\'abord des cartes dans l\'application</string>
     <!--endregion-->
 
     <!--region Specs-->

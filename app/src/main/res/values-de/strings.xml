@@ -201,6 +201,13 @@
     <string name="shortcut_card_removed_message">Karte gelöscht</string>
     <string name="shortcut_create_label">Karten-Verknüpfung</string>
     <string name="shortcut_create_title">Karte auswählen</string>
+    <string name="widget_cards_label">Karten</string>
+    <string name="widget_cards_description">Schneller Zugriff auf die ausgewählten Karten</string>
+    <string name="widget_cards_empty_text">Tippen, um Karten auszuwählen</string>
+    <string name="widget_cards_preview_card_name">Karte</string>
+    <string name="widget_configure_title">Karten für das Widget</string>
+    <string name="widget_configure_save_button">Speichern</string>
+    <string name="widget_configure_no_cards_message">Noch keine Karten. Füge zuerst Karten in der App hinzu</string>
     <!--endregion-->
 
     <!--region Specs-->

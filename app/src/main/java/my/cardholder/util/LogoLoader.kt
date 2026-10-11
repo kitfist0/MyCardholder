@@ -1,16 +1,57 @@
 package my.cardholder.util
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import androidx.core.graphics.drawable.toBitmap
 import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withTimeoutOrNull
 import my.cardholder.util.logo.PaddedRoundedTransformation
 import java.net.URL
+import kotlin.coroutines.resume
+import kotlin.time.Duration.Companion.milliseconds
 
 class LogoLoader(
     private val context: Context,
 ) {
+
+    companion object {
+        const val DEFAULT_BITMAP_LOAD_TIMEOUT_MS = 4000L
+    }
+
+    /**
+     * Loads the logo as a bitmap of [sizePx], or returns null if it can't be loaded in time.
+     * A logo loaded after the timeout is still cached, so it is there the next time.
+     */
+    suspend fun loadBitmap(
+        imageUrl: String,
+        sizePx: Int,
+        paddingPx: Int,
+        cornerRadiusPx: Int,
+        timeoutMs: Long = DEFAULT_BITMAP_LOAD_TIMEOUT_MS,
+    ): Bitmap? = withTimeoutOrNull(timeoutMs.milliseconds) {
+        suspendCancellableCoroutine { continuation ->
+            load(
+                imageUrl = imageUrl,
+                sizePx = sizePx,
+                paddingPx = paddingPx,
+                cornerRadiusPx = cornerRadiusPx,
+                onSuccess = { drawable ->
+                    if (continuation.isActive) {
+                        continuation.resume(drawable.toBitmap(sizePx, sizePx))
+                    }
+                },
+                onError = {
+                    if (continuation.isActive) {
+                        continuation.resume(null)
+                    }
+                },
+            )
+        }
+    }
 
     fun load(
         imageUrl: String?,

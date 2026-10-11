@@ -201,6 +201,13 @@
     <string name="shortcut_card_removed_message">Карта удалена</string>
     <string name="shortcut_create_label">Ярлык карты</string>
     <string name="shortcut_create_title">Выберите карту</string>
+    <string name="widget_cards_label">Карточки</string>
+    <string name="widget_cards_description">Быстрый доступ к выбранным карточкам</string>
+    <string name="widget_cards_empty_text">Нажмите, чтобы выбрать карточки</string>
+    <string name="widget_cards_preview_card_name">Карта</string>
+    <string name="widget_configure_title">Карточки для виджета</string>
+    <string name="widget_configure_save_button">Сохранить</string>
+    <string name="widget_configure_no_cards_message">Карточек пока нет. Сначала добавьте их в приложении</string>
     <!--endregion-->
 
     <!--region Specs-->

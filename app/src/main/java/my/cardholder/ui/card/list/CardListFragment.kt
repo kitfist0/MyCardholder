@@ -41,11 +41,11 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                 setHasFixedSize(true)
                 updateVerticalPaddingAfterApplyingWindowInsets(bottom = false)
                 layoutManager = CardStackLayoutManager(context)
-                val overlapPx = resources.getDimensionPixelSize(R.dimen.card_item_stack_overlap)
+                val stridePx = resources.getDimensionPixelSize(R.dimen.card_item_stack_stride)
                 val edgePx = resources.getDimensionPixelSize(R.dimen.card_item_stack_edge)
                 addItemDecoration(
                     CardStackItemDecoration(
-                        overlapPx = overlapPx,
+                        stridePx = stridePx,
                         stackTopSpacePx = CardStackScrollEffect.MAX_VISIBLE_EDGES * edgePx,
                     )
                 )
@@ -53,7 +53,7 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                 listAdapter.attachToRecyclerView(this)
                 CardStackScrollEffect(
                     recyclerView = this,
-                    overlapPx = overlapPx,
+                    stridePx = stridePx,
                     edgePx = edgePx,
                     isDragged = listAdapter::isDragged,
                 ).attach()

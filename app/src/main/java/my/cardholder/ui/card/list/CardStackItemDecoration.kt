@@ -2,16 +2,18 @@ package my.cardholder.ui.card.list
 
 import android.graphics.Rect
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * In a single-column list, pulls every card up over the bottom of the previous one, so the cards
- * always lie in a stack like real ones, and leaves room above the first card for the edges of
- * the cards stacked at the top while scrolling (see [CardStackScrollEffect]).
+ * In a single-column list, pulls every card up over the previous one, leaving only its top
+ * [stridePx] visible, so the cards always lie in a stack like real ones, and leaves room above
+ * the first card for the edges of the cards stacked at the top while scrolling
+ * (see [CardStackScrollEffect]).
  */
 class CardStackItemDecoration(
-    private val overlapPx: Int,
+    private val stridePx: Int,
     private val stackTopSpacePx: Int,
 ) : RecyclerView.ItemDecoration() {
 
@@ -21,7 +23,16 @@ class CardStackItemDecoration(
         when {
             !isSingleColumn -> outRect.setEmpty()
             position == 0 -> outRect.set(0, stackTopSpacePx, 0, 0)
-            else -> outRect.set(0, -overlapPx, 0, 0)
+            else -> outRect.set(0, stridePx - view.stackedHeight(parent), 0, 0)
         }
+    }
+
+    /** Height of the card with its margins, known even before the card is measured. */
+    private fun View.stackedHeight(parent: RecyclerView): Int {
+        val margins = layoutParams as ViewGroup.MarginLayoutParams
+        val width = parent.width - parent.paddingLeft - parent.paddingRight -
+            margins.leftMargin - margins.rightMargin
+        return maxOf(measuredHeight, CardItemView.realHeightForWidth(width)) +
+            margins.topMargin + margins.bottomMargin
     }
 }

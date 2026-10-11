@@ -13,9 +13,6 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.IconCompat
-import androidx.core.graphics.drawable.toBitmap
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withTimeoutOrNull
 import my.cardholder.R
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getColorInt
@@ -24,8 +21,6 @@ import my.cardholder.ui.MainActivity
 import my.cardholder.util.LogoLoader
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
-import kotlin.time.Duration.Companion.milliseconds
 
 /** Home screen shortcuts: one per pinned card, plus the app shortcut that opens the scanner. */
 @Singleton
@@ -47,7 +42,6 @@ class CardShortcutManager @Inject constructor(
 
         private const val LOGO_PADDING_DP = 4
         private const val LOGO_CORNER_RADIUS_DP = 8
-        private const val LOGO_LOAD_TIMEOUT_MS = 4000L
     }
 
     /** Adds (or refreshes the label of) the scanner shortcut in the app icon's long-press menu. */
@@ -90,7 +84,15 @@ class CardShortcutManager @Inject constructor(
         val iconSizePx = dpToPx(ICON_SIZE_DP)
         val logoSizePx = dpToPx(LOGO_SIZE_DP)
 
-        val logoBitmap = card.logo?.ifEmpty { null }?.let { loadLogoBitmap(it, logoSizePx) }
+        val logoBitmap = card.logo?.ifEmpty { null }
+            ?.let {
+                LogoLoader(context).loadBitmap(
+                    imageUrl = it,
+                    sizePx = logoSizePx,
+                    paddingPx = dpToPx(LOGO_PADDING_DP),
+                    cornerRadiusPx = dpToPx(LOGO_CORNER_RADIUS_DP),
+                )
+            }
             ?: whiteBackgroundIconBitmap(
                 iconRes = if (card.format.isSquare()) R.drawable.ic_qr_code else R.drawable.ic_barcode,
                 sizePx = logoSizePx,
@@ -119,29 +121,6 @@ class CardShortcutManager @Inject constructor(
         iconDrawable.draw(canvas)
 
         return output
-    }
-
-    private suspend fun loadLogoBitmap(logoUrl: String, sizePx: Int): Bitmap? = withTimeoutOrNull(
-        LOGO_LOAD_TIMEOUT_MS.milliseconds
-    ) {
-        suspendCancellableCoroutine { continuation ->
-            LogoLoader(context).load(
-                imageUrl = logoUrl,
-                sizePx = sizePx,
-                paddingPx = dpToPx(LOGO_PADDING_DP),
-                cornerRadiusPx = dpToPx(LOGO_CORNER_RADIUS_DP),
-                onSuccess = { drawable ->
-                    if (continuation.isActive) {
-                        continuation.resume(drawable.toBitmap(sizePx, sizePx))
-                    }
-                },
-                onError = {
-                    if (continuation.isActive) {
-                        continuation.resume(null)
-                    }
-                },
-            )
-        }
     }
 
     private fun dpToPx(sizeDp: Int): Int = (sizeDp * context.resources.displayMetrics.density).toInt()

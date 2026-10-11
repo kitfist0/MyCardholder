@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.os.Build
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.EdgeEffect
 import androidx.annotation.RequiresApi
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class CardStackScrollEffect(
     private val recyclerView: RecyclerView,
-    private val overlapPx: Int,
+    private val stridePx: Int,
     private val edgePx: Int,
     private val isDragged: (View) -> Boolean,
 ) : RecyclerView.OnScrollListener(),
@@ -90,7 +89,7 @@ class CardStackScrollEffect(
             val scrolledPast = pileFrontTop - child.top
             if (scrolledPast > 0) {
                 // How many cards have already slid over this one (fractional while sliding).
-                val coveredBy = scrolledPast.toFloat() / child.stackStride()
+                val coveredBy = scrolledPast.toFloat() / stridePx
                 val depth = coveredBy.coerceAtMost(MAX_VISIBLE_EDGES.toFloat())
                 val scale = 1f - SCALE_STEP * depth
                 child.pivotX = child.width / 2f
@@ -108,17 +107,8 @@ class CardStackScrollEffect(
             }
         }
         // Keeps cards attached until they have faded out of the pile.
-        recyclerView.getChildAt(0)?.let { child ->
-            (recyclerView.layoutManager as? CardStackLayoutManager)?.extraStartSpacePx =
-                (MAX_VISIBLE_EDGES + 1) * child.stackStride()
-        }
-    }
-
-    /** Distance between the tops of two neighbouring overlapping cards. */
-    private fun View.stackStride(): Int {
-        val margins = (layoutParams as? ViewGroup.MarginLayoutParams)
-            ?.let { it.topMargin + it.bottomMargin } ?: 0
-        return (height + margins - overlapPx).coerceAtLeast(1)
+        (recyclerView.layoutManager as? CardStackLayoutManager)?.extraStartSpacePx =
+            (MAX_VISIBLE_EDGES + 1) * stridePx
     }
 
     private fun reset(view: View) {
