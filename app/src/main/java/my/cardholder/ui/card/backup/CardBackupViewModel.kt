@@ -44,6 +44,9 @@ class CardBackupViewModel @Inject constructor(
         launchBackupFileImport = false,
     )
 
+    private val _state = MutableStateFlow(defaultState)
+    val state = _state.asStateFlow()
+
     init {
         settingsRepository.cloudSyncEnabled
             .onEach { isEnabled ->
@@ -51,9 +54,6 @@ class CardBackupViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
-
-    private val _state = MutableStateFlow(defaultState)
-    val state = _state.asStateFlow()
 
     fun onDialogDismiss() {
         if (_state.value.currentlyInProgress()) {
