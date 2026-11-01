@@ -57,15 +57,12 @@ class CardShortcutManager @Inject constructor(
 
     /** Result for a CREATE_SHORTCUT request: the launcher pins the shortcut it describes. */
     suspend fun createShortcutResultIntent(card: Card): Intent {
-        val intent = Intent(context, MainActivity::class.java)
-            .setAction(Intent.ACTION_VIEW)
-            .putExtra(EXTRA_CARD_ID, card.id)
-        val shortcut = ShortcutInfoCompat.Builder(context, shortcutId(card.id))
-            .setShortLabel(card.name.ifBlank { context.getString(R.string.app_name) })
-            .setIcon(IconCompat.createWithAdaptiveBitmap(buildIconBitmap(card)))
-            .setIntent(intent)
-            .build()
-        return ShortcutManagerCompat.createShortcutResultIntent(context, shortcut)
+        return ShortcutManagerCompat.createShortcutResultIntent(context, buildCardShortcut(card))
+    }
+
+    /** Asks the launcher to pin the card's shortcut; returns false if the launcher doesn't support pinning. */
+    suspend fun requestPinShortcut(card: Card): Boolean {
+        return ShortcutManagerCompat.isRequestPinShortcutSupported(context) && ShortcutManagerCompat.requestPinShortcut(context, buildCardShortcut(card), null)
     }
 
     /** Pinned shortcuts can't be removed by the app, so a deleted card's shortcut is greyed out instead. */
@@ -78,6 +75,17 @@ class CardShortcutManager @Inject constructor(
     }
 
     private fun shortcutId(cardId: Long) = SHORTCUT_ID_PREFIX + cardId
+
+    private suspend fun buildCardShortcut(card: Card): ShortcutInfoCompat {
+        val intent = Intent(context, MainActivity::class.java)
+            .setAction(Intent.ACTION_VIEW)
+            .putExtra(EXTRA_CARD_ID, card.id)
+        return ShortcutInfoCompat.Builder(context, shortcutId(card.id))
+            .setShortLabel(card.name.ifBlank { context.getString(R.string.app_name) })
+            .setIcon(IconCompat.createWithAdaptiveBitmap(buildIconBitmap(card)))
+            .setIntent(intent)
+            .build()
+    }
 
     // Full-bleed card color with the card's logo (or a barcode icon) in the middle.
     private suspend fun buildIconBitmap(card: Card): Bitmap {
