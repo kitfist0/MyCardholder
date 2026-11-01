@@ -11,6 +11,7 @@ import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.Card.Companion.getColorInt
+import my.cardholder.shortcut.CardShortcutManager
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.Text
 import javax.inject.Inject
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CardDisplayViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    cardRepository: CardRepository,
+    private val cardRepository: CardRepository,
+    private val cardShortcutManager: CardShortcutManager,
     private val settingsRepository: SettingsRepository,
 ) : BaseViewModel() {
 
@@ -77,6 +79,8 @@ class CardDisplayViewModel @Inject constructor(
             (state.value as? CardDisplayState.Success)?.let {
                 startActivityToShare(it.cardContent)
             }
+        } else if (itemId == R.id.card_shortcut_menu_item) {
+            requestPinShortcut()
         }
     }
 
@@ -92,5 +96,14 @@ class CardDisplayViewModel @Inject constructor(
 
     fun onEditFabClicked(extras: Navigator.Extras) {
         navigate(CardDisplayFragmentDirections.fromCardDisplayToCardEdit(cardId), extras)
+    }
+
+    private fun requestPinShortcut() {
+        viewModelScope.launch {
+            val card = cardRepository.getCard(cardId) ?: return@launch
+            if (!cardShortcutManager.requestPinShortcut(card)) {
+                showSnack(Text.Resource(R.string.card_display_shortcut_not_supported_message))
+            }
+        }
     }
 }
