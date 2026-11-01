@@ -48,6 +48,8 @@
     <string name="card_display_label">Affichage de la carte</string>
     <string name="card_display_no_category">Aucune catégorie</string>
     <string name="card_display_share_menu_button_text">Partager</string>
+    <string name="card_display_shortcut_menu_button_text">Ajouter à l\'écran d\'accueil</string>
+    <string name="card_display_shortcut_not_supported_message">Votre lanceur ne prend pas en charge les raccourcis</string>
     <!--endregion-->
 
     <!--region CardEdit-->

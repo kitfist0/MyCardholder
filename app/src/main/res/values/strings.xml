@@ -48,6 +48,8 @@
     <string name="card_display_label">Card display</string>
     <string name="card_display_no_category">No category</string>
     <string name="card_display_share_menu_button_text">Share</string>
+    <string name="card_display_shortcut_menu_button_text">Add to home screen</string>
+    <string name="card_display_shortcut_not_supported_message">Your launcher doesn\'t support shortcuts</string>
     <!--endregion-->
 
     <!--region CardEdit-->

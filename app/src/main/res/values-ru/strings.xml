@@ -48,6 +48,8 @@
     <string name="card_display_label">Отображение карты</string>
     <string name="card_display_no_category">Без категории</string>
     <string name="card_display_share_menu_button_text">Поделиться</string>
+    <string name="card_display_shortcut_menu_button_text">На главный экран</string>
+    <string name="card_display_shortcut_not_supported_message">Ваш лаунчер не поддерживает ярлыки</string>
     <!--endregion-->
 
     <!--region CardEdit-->

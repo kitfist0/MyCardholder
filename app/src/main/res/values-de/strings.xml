@@ -48,6 +48,8 @@
     <string name="card_display_label">Kartenansicht</string>
     <string name="card_display_no_category">Keine Kategorie</string>
     <string name="card_display_share_menu_button_text">Teilen</string>
+    <string name="card_display_shortcut_menu_button_text">Zum Startbildschirm</string>
+    <string name="card_display_shortcut_not_supported_message">Ihr Launcher unterstützt keine Verknüpfungen</string>
     <!--endregion-->
 
     <!--region CardEdit-->

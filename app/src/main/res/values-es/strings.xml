@@ -48,6 +48,8 @@
     <string name="card_display_label">Exhibición de la tarjeta</string>
     <string name="card_display_no_category">Sin categoría</string>
     <string name="card_display_share_menu_button_text">Compartir</string>
+    <string name="card_display_shortcut_menu_button_text">Añadir a la pantalla de inicio</string>
+    <string name="card_display_shortcut_not_supported_message">Tu launcher no admite accesos directos</string>
     <!--endregion-->
 
     <!--region CardEdit-->
