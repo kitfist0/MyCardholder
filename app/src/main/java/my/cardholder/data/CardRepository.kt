@@ -29,7 +29,7 @@ class CardRepository @Inject constructor(
     suspend fun deleteCard(cardId: Long) {
         getCard(cardId)?.let { card ->
             card.barcodeFile?.delete()
-            cardDao.deleteCardAndRememberDeletion(card, System.currentTimeMillis())
+            cardDao.deleteCardAndRememberDeletion(card, card.nextChangedAt())
         }
     }
 
@@ -62,12 +62,11 @@ class CardRepository @Inject constructor(
     }
 
     suspend fun updateCardPositions(rightOrderedCards: List<Card>) {
-        val timestamp = System.currentTimeMillis()
         val changedCards = rightOrderedCards.mapIndexedNotNull { index, card ->
             if (card.position != index) {
                 card.copy(
                     position = index,
-                    changedAt = timestamp,
+                    changedAt = card.nextChangedAt(),
                 )
             } else {
                 null
@@ -200,7 +199,15 @@ class CardRepository @Inject constructor(
 
     private suspend fun upsertCard(card: Card): Long {
         return cardDao.upsert(
-            card.copy(changedAt = System.currentTimeMillis())
+            card.copy(changedAt = card.nextChangedAt())
         )
+    }
+
+    /**
+     * A change must be newer than the version it replaces, even if that version came from a device
+     * whose clock is ahead. Otherwise the change would lose to the old version during cloud sync.
+     */
+    private fun Card.nextChangedAt(): Long {
+        return maxOf(System.currentTimeMillis(), changedAt + 1)
     }
 }
