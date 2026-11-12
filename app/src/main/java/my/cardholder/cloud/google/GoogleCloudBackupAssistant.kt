@@ -27,13 +27,11 @@ class GoogleCloudBackupAssistant(
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    override suspend fun getBackupChecksum() = withContext(Dispatchers.IO) {
+    override suspend fun getBackupChecksums() = withContext(Dispatchers.IO) {
         runCatching {
             getDriveOrThrow()
                 .getAppDataFolderFiles()
-                .maxByOrNull { file -> file.getChecksum() }
-                ?.getChecksum()
-                ?: 0L
+                .mapNotNull { file -> file.getChecksum() }
         }
     }
 
@@ -50,17 +48,18 @@ class GoogleCloudBackupAssistant(
         }
     }
 
-    override suspend fun deleteBackup() = withContext(Dispatchers.IO) {
-        runCatching {
-            val drive = getDriveOrThrow()
-            val files = drive.getAppDataFolderFiles()
-            drive.deleteFiles(files)
+    override suspend fun deleteBackups(checksums: Collection<BackupChecksum>) =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val drive = getDriveOrThrow()
+                val files = drive.getAppDataFolderFiles()
+                    .filter { file -> file.getChecksum() in checksums }
+                drive.deleteFiles(files)
+            }
         }
-    }
 
     override suspend fun uploadBackup(content: String, checksum: BackupChecksum) =
         withContext(Dispatchers.IO) {
-            deleteBackup()
             runCatching {
                 val drive = getDriveOrThrow()
                 val inputStreamContent =
@@ -84,7 +83,7 @@ class GoogleCloudBackupAssistant(
         files.forEach { file -> files().delete(file.id).execute() }
     }
 
-    private fun File.getChecksum(): BackupChecksum {
+    private fun File.getChecksum(): BackupChecksum? {
         return name.fileNameToChecksum()
     }
 

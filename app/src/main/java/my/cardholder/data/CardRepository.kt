@@ -1,7 +1,6 @@
 package my.cardholder.data
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import my.cardholder.data.model.BarcodeFilePath
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.CardAndCategory
@@ -22,8 +21,6 @@ class CardRepository @Inject constructor(
     }
 
     val cardsAndCategories: Flow<List<CardAndCategory>> = cardDao.getCardsAndCategories()
-
-    val checksumOfAllCards: Flow<Long> = cardDao.getChecksumOfAllCards().distinctUntilChanged()
 
     fun getCardAndCategory(cardId: Long): Flow<CardAndCategory?> {
         return cardDao.getCardAndCategory(cardId)

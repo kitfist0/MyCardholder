@@ -19,9 +19,6 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCardAndCategory(id: Long): Flow<CardAndCategory?>
 
-    @Query("SELECT SUM (changed_at) FROM cards")
-    fun getChecksumOfAllCards(): Flow<Long>
-
     @Query("SELECT sync_id, changed_at FROM cards")
     fun getCardVersions(): Flow<List<CardVersion>>
 

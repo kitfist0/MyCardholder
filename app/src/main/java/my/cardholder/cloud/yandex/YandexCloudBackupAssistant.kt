@@ -22,12 +22,12 @@ class YandexCloudBackupAssistant(
         const val MIME_TYPE_TEXT = "text/plain"
     }
 
-    override suspend fun getBackupChecksum() = withContext(Dispatchers.IO) {
+    override suspend fun getBackupChecksums() = withContext(Dispatchers.IO) {
         runCatching {
             yandexDiskRestApi.listFiles(getOauthTokenOrThrow(), APP_FOLDER).body()
                 ?.embedded?.items
-                ?.maxByOrNull { it.getChecksum() }
-                ?.getChecksum() ?: 0L
+                ?.mapNotNull { it.getChecksum() }
+                .orEmpty()
         }
     }
 
@@ -56,20 +56,21 @@ class YandexCloudBackupAssistant(
         }
     }
 
-    override suspend fun deleteBackup() = withContext(Dispatchers.IO) {
-        runCatching {
-            val token = getOauthTokenOrThrow()
-            val filesResponse = yandexDiskRestApi.listFiles(token, APP_FOLDER)
-            val diskFiles = filesResponse.body()?.embedded?.items ?: emptyList()
-            if (diskFiles.isNotEmpty()) deleteFiles(token, diskFiles)
+    override suspend fun deleteBackups(checksums: Collection<BackupChecksum>) =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val token = getOauthTokenOrThrow()
+                val filesResponse = yandexDiskRestApi.listFiles(token, APP_FOLDER)
+                val diskFiles = filesResponse.body()?.embedded?.items.orEmpty()
+                    .filter { it.getChecksum() in checksums }
+                if (diskFiles.isNotEmpty()) deleteFiles(token, diskFiles)
+            }
         }
-    }
 
     override suspend fun uploadBackup(
         content: String,
         checksum: BackupChecksum,
     ) = withContext(Dispatchers.IO) {
-        deleteBackup()
         val filePath = "$APP_FOLDER$checksum"
         runCatching {
             val href = yandexDiskRestApi.getUploadLink(getOauthTokenOrThrow(), filePath).body()
@@ -93,7 +94,7 @@ class YandexCloudBackupAssistant(
         }
     }
 
-    private fun DiskFile.getChecksum(): BackupChecksum {
+    private fun DiskFile.getChecksum(): BackupChecksum? {
         return name.fileNameToChecksum()
     }
 

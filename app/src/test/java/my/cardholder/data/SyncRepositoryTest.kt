@@ -306,8 +306,6 @@ class SyncRepositoryTest {
             cards.values.map { CardVersion(it.syncId, it.changedAt) }
         }
 
-        override fun getChecksumOfAllCards(): Flow<Long> = cards.map { cards -> cards.values.sumOf { it.changedAt } }
-
         override fun getDeletedCards(): Flow<List<DeletedCard>> = deletedCards.map { it.values.toList() }
 
         override suspend fun getNumberOfCards(): Int = cards.value.size
