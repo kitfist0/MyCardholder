@@ -1,9 +1,11 @@
 package my.cardholder.usecase
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import my.cardholder.cloud.BackupChecksum
 import my.cardholder.cloud.CloudBackupAssistant
 import my.cardholder.data.BackupRepository
@@ -29,6 +31,7 @@ class CloudSyncUseCase @Inject constructor(
     @Yandex private val yandexCloudBackupAssistant: CloudBackupAssistant,
 ) {
 
+    /** Runs off the main thread: merging writes barcode images, parsing and hashing are heavy too */
     fun execute(cloudProvider: CloudProvider): Flow<Result<BackupChecksum>> = flow {
         emit(Result.Loading("Checking the cloud backup"))
         val cloudBackupAssistant = getCloudBackupAssistant(cloudProvider)
@@ -63,7 +66,7 @@ class CloudSyncUseCase @Inject constructor(
         emit(Result.Success(syncedChecksum))
     }.catch {
         emit(Result.Error(it))
-    }
+    }.flowOn(Dispatchers.IO)
 
     private fun getCloudBackupAssistant(cloudProvider: CloudProvider): CloudBackupAssistant {
         return when (cloudProvider) {
