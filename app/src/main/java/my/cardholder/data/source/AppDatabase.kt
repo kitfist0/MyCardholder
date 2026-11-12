@@ -7,6 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Category
 import my.cardholder.data.model.Coffee
+import my.cardholder.data.model.DeletedCard
 import my.cardholder.data.model.WidgetCard
 
 @Database(
@@ -15,8 +16,9 @@ import my.cardholder.data.model.WidgetCard
         Category::class,
         Coffee::class,
         WidgetCard::class,
+        DeletedCard::class,
     ],
-    version = 7,
+    version = 8,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -72,6 +74,14 @@ abstract class AppDatabase : RoomDatabase() {
                 override fun migrate(db: SupportSQLiteDatabase) {
                     db.execSQL("CREATE TABLE IF NOT EXISTS `widget_cards` (`widget_id` INTEGER NOT NULL, `card_id` INTEGER NOT NULL, PRIMARY KEY(`widget_id`, `card_id`), FOREIGN KEY(`card_id`) REFERENCES `cards`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )")
                     db.execSQL("CREATE INDEX IF NOT EXISTS `index_widget_cards_card_id` ON `widget_cards` (`card_id`)")
+                }
+            },
+            object : Migration(7, 8) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE `cards` ADD COLUMN `sync_id` TEXT NOT NULL DEFAULT ''")
+                    db.execSQL("UPDATE `cards` SET `sync_id` = lower(hex(randomblob(16)))")
+                    db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_cards_sync_id` ON `cards` (`sync_id`)")
+                    db.execSQL("CREATE TABLE IF NOT EXISTS `deleted_cards` (`sync_id` TEXT NOT NULL, `deleted_at` INTEGER NOT NULL, PRIMARY KEY(`sync_id`))")
                 }
             },
         )

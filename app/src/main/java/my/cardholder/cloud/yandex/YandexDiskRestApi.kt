@@ -47,6 +47,7 @@ interface YandexDiskRestApi {
     suspend fun getUploadLink(
         @Header("Authorization") token: String,
         @Query("path") path: String,
+        @Query("overwrite") overwrite: Boolean = true,
     ): Response<Link>
 
     @GET("resources/download")

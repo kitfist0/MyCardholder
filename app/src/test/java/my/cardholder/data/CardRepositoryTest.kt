@@ -38,7 +38,7 @@ class CardRepositoryTest {
     }
 
     @Test
-    fun `deleteCard deletes barcode file and card from database`() = runTest {
+    fun `deleteCard deletes card from database and remembers deletion`() = runTest {
         val cardId = 1L
         val realCard = Card(
             id = cardId,
@@ -56,7 +56,7 @@ class CardRepositoryTest {
 
         cardRepository.deleteCard(cardId)
 
-        coVerify { cardDao.deleteCard(cardId) }
+        coVerify { cardDao.deleteCardAndRememberDeletion(realCard, any()) }
     }
 
     @Test

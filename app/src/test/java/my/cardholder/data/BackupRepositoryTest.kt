@@ -104,4 +104,96 @@ class BackupRepositoryTest {
             awaitComplete()
         }
     }
+
+    @Test
+    fun `sync snapshot survives encoding and decoding`() = runTest {
+        val snapshot = SyncSnapshot(
+            cards = listOf(
+                SyncCard(
+                    syncId = "id-1",
+                    changedAt = 100L,
+                    name = "Card, with \"quotes\"",
+                    categoryName = "Shops",
+                    content = "123",
+                    color = "#FFFFFF",
+                    format = SupportedFormat.EAN_13,
+                    logo = "logo",
+                    position = 3,
+                    comment = "multi\nline",
+                ),
+                SyncCard(
+                    syncId = "id-2",
+                    changedAt = 200L,
+                    name = "Plain",
+                    categoryName = null,
+                    content = "456",
+                    color = "#000000",
+                    format = SupportedFormat.QR_CODE,
+                    logo = null,
+                    position = 0,
+                    comment = null,
+                ),
+            ),
+            deletedCards = listOf(DeletedCard(syncId = "id-3", deletedAt = 300L)),
+        )
+
+        val decoded = backupRepository.decodeSyncSnapshot(backupRepository.encodeSyncSnapshot(snapshot))
+
+        assertEquals(snapshot, decoded)
+    }
+
+    @Test
+    fun `legacy backup is decoded without sync data`() = runTest {
+        val csvContent = "4\n\"Old\",\"Cat\",\"789\",\"#FFFFFF\",\"QR_CODE\",\"\",\"2\",\"\"\n"
+
+        val decoded = backupRepository.decodeSyncSnapshot(csvContent)
+
+        assertEquals(emptyList<DeletedCard>(), decoded.deletedCards)
+        val card = decoded.cards.single()
+        assertEquals(null, card.syncId)
+        assertEquals(0L, card.changedAt)
+        assertEquals("Old", card.name)
+        assertEquals("Cat", card.categoryName)
+        assertEquals(2, card.position)
+        assertEquals(null, card.logo)
+    }
+
+    @Test(expected = Throwable::class)
+    fun `backup of newer scheme version is not decoded`() = runTest {
+        backupRepository.decodeSyncSnapshot("${BackupRepository.CSV_SCHEME_VERSION + 1}\n")
+    }
+
+    @Test
+    fun `import from backup file skips deleted cards`() = runTest {
+        val snapshot = SyncSnapshot(
+            cards = listOf(
+                SyncCard(
+                    syncId = "id-1",
+                    changedAt = 100L,
+                    name = "Alive",
+                    categoryName = null,
+                    content = "123",
+                    color = "#FFFFFF",
+                    format = SupportedFormat.QR_CODE,
+                    logo = null,
+                    position = 0,
+                    comment = null,
+                ),
+            ),
+            deletedCards = listOf(DeletedCard(syncId = "id-2", deletedAt = 300L)),
+        )
+        val inputStream = ByteArrayInputStream(backupRepository.encodeSyncSnapshot(snapshot).toByteArray())
+        coEvery { cardRepository.isCardWithSuchDataExists(any(), any(), any()) } returns false
+        coEvery { cardRepository.insertNewCard(any(), any(), any(), any(), any(), any(), any(), any()) } returns 1L
+
+        backupRepository.importFromBackupFile(inputStream).test {
+            assertTrue(awaitItem() is BackupResult.Success)
+            awaitComplete()
+        }
+
+        coVerify(exactly = 1) {
+            cardRepository.insertNewCard(any(), any(), any(), any(), any(), any(), any(), any())
+        }
+        coVerify { cardRepository.insertNewCard(name = "Alive", any(), any(), any(), any(), any(), any(), any()) }
+    }
 }

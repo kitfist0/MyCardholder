@@ -8,12 +8,16 @@ import androidx.room.Ignore
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.io.File
+import java.util.UUID
 
 typealias BarcodeFilePath = String
 
 @Entity(
     tableName = "cards",
-    indices = [Index(value = ["category_id"])],
+    indices = [
+        Index(value = ["category_id"]),
+        Index(value = ["sync_id"], unique = true),
+    ],
     foreignKeys = [
         ForeignKey(
             entity = Category::class,
@@ -40,6 +44,9 @@ data class Card(
     val path: BarcodeFilePath?,
     @ColumnInfo(name = "changed_at")
     val changedAt: Long,
+    /** Identifies the same card across devices during cloud sync */
+    @ColumnInfo(name = "sync_id", defaultValue = "")
+    val syncId: String = UUID.randomUUID().toString(),
 ) {
 
     @Ignore

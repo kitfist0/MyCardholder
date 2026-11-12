@@ -32,7 +32,7 @@ class CategoryRepository @Inject constructor(
     }
 
     suspend fun deleteCategoryById(categoryId: Long) {
-        categoryDao.deleteCategoryById(categoryId)
+        categoryDao.deleteCategoryAndUpdateItsCards(categoryId, System.currentTimeMillis())
     }
 
     suspend fun upsertCategoryIfCategoryNameIsNew(

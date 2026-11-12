@@ -86,13 +86,13 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    fun `deleteCategoryById calls dao delete`() = runTest {
+    fun `deleteCategoryById deletes category and marks its cards as changed`() = runTest {
         val categoryId = 10L
-        coEvery { categoryDao.deleteCategoryById(categoryId) } just Runs
+        coEvery { categoryDao.deleteCategoryAndUpdateItsCards(categoryId, any()) } just Runs
 
         categoryRepository.deleteCategoryById(categoryId)
 
-        coVerify { categoryDao.deleteCategoryById(categoryId) }
+        coVerify { categoryDao.deleteCategoryAndUpdateItsCards(categoryId, any()) }
     }
 
     @Test
