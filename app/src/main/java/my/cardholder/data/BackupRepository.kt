@@ -10,7 +10,11 @@ import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
 import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
+import my.cardholder.data.model.DeletedCard
 import my.cardholder.data.model.SupportedFormat
+import my.cardholder.data.model.SyncCard
+import my.cardholder.data.model.SyncSnapshot
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
@@ -23,7 +27,7 @@ class BackupRepository @Inject constructor(
 ) {
 
     companion object {
-        const val CSV_SCHEME_VERSION = 4
+        const val CSV_SCHEME_VERSION = 5
         private const val NAME_INDEX_SINCE_V1 = 0
         private const val CATEGORY_INDEX_SINCE_V1 = 1
         private const val CONTENT_INDEX_SINCE_V1 = 2
@@ -32,6 +36,12 @@ class BackupRepository @Inject constructor(
         private const val LOGO_INDEX_SINCE_V2 = 5
         private const val POSITION_INDEX_SINCE_V3 = 6
         private const val COMMENT_INDEX_SINCE_V4 = 7
+        private const val SYNC_ID_INDEX_SINCE_V5 = 8
+        private const val CHANGED_AT_INDEX_SINCE_V5 = 9
+        private const val IS_DELETED_INDEX_SINCE_V5 = 10
+        private const val NUM_OF_COLUMNS_SINCE_V5 = 11
+        private const val TRUE = "1"
+        private const val FALSE = "0"
     }
 
     fun exportToBackupFile(outputStream: OutputStream): Flow<BackupResult> = channelFlow {
@@ -51,6 +61,9 @@ class BackupRepository @Inject constructor(
                 row.add(LOGO_INDEX_SINCE_V2, card.logo.orEmpty())
                 row.add(POSITION_INDEX_SINCE_V3, card.position)
                 row.add(COMMENT_INDEX_SINCE_V4, card.comment.orEmpty())
+                row.add(SYNC_ID_INDEX_SINCE_V5, card.syncId)
+                row.add(CHANGED_AT_INDEX_SINCE_V5, card.changedAt)
+                row.add(IS_DELETED_INDEX_SINCE_V5, FALSE)
                 writeRow(row)
                 sendProgress(
                     backupOperationType = BackupOperationType.EXPORT,
@@ -70,6 +83,7 @@ class BackupRepository @Inject constructor(
         reader.openAsync(inputStream) {
             val version = readNext()?.first()?.toInt() ?: 0
             val rows = readAllAsSequence().toList().reversed()
+                .filterNot { row -> row.isDeletedCardRow(version) }
             val numOfCards = rows.count()
             if (numOfCards == 0) {
                 throw Throwable("Backup file is empty")
@@ -88,6 +102,90 @@ class BackupRepository @Inject constructor(
         }
     }.catch {
         emit(BackupResult.Error(it.message.orEmpty()))
+    }
+
+    /** Serializes the snapshot, including deleted cards, for uploading to the cloud */
+    suspend fun encodeSyncSnapshot(snapshot: SyncSnapshot): String {
+        val outputStream = ByteArrayOutputStream()
+        csvWriter().openAsync(outputStream) {
+            writeRow(CSV_SCHEME_VERSION)
+            snapshot.cards.forEach { card -> writeRow(card.toRow()) }
+            snapshot.deletedCards.forEach { deletedCard -> writeRow(deletedCard.toRow()) }
+        }
+        return outputStream.toString(Charsets.UTF_8.name())
+    }
+
+    /** Parses a cloud backup of any supported scheme version */
+    suspend fun decodeSyncSnapshot(content: String): SyncSnapshot {
+        val reader = csvReader {
+            insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.IGNORE
+        }
+        return reader.openAsync(content.byteInputStream()) {
+            val version = readNext()?.firstOrNull()?.toIntOrNull() ?: 0
+            if (version == 0 || version > CSV_SCHEME_VERSION) {
+                throw Throwable("Invalid file format")
+            }
+            val cards = mutableListOf<SyncCard>()
+            val deletedCards = mutableListOf<DeletedCard>()
+            readAllAsSequence().forEach { row ->
+                if (row.isDeletedCardRow(version)) {
+                    deletedCards.add(
+                        DeletedCard(
+                            syncId = row[SYNC_ID_INDEX_SINCE_V5],
+                            deletedAt = row[CHANGED_AT_INDEX_SINCE_V5].toLong(),
+                        )
+                    )
+                } else {
+                    cards.add(row.toSyncCard(version))
+                }
+            }
+            SyncSnapshot(cards = cards, deletedCards = deletedCards)
+        }
+    }
+
+    private fun List<String>.isDeletedCardRow(version: Int): Boolean {
+        return version >= 5 && getOrNull(IS_DELETED_INDEX_SINCE_V5) == TRUE
+    }
+
+    private fun List<String>.toSyncCard(version: Int): SyncCard {
+        val hasSyncData = version >= 5
+        return SyncCard(
+            syncId = if (hasSyncData) this[SYNC_ID_INDEX_SINCE_V5].ifEmpty { null } else null,
+            changedAt = if (hasSyncData) this[CHANGED_AT_INDEX_SINCE_V5].toLong() else 0L,
+            name = this[NAME_INDEX_SINCE_V1],
+            categoryName = this[CATEGORY_INDEX_SINCE_V1].ifEmpty { null },
+            content = this[CONTENT_INDEX_SINCE_V1],
+            color = this[COLOR_INDEX_SINCE_V1],
+            format = SupportedFormat.valueOf(this[FORMAT_INDEX_SINCE_V1]),
+            logo = getOrNull(LOGO_INDEX_SINCE_V2)?.ifEmpty { null },
+            position = getOrNull(POSITION_INDEX_SINCE_V3)?.toIntOrNull(),
+            comment = getOrNull(COMMENT_INDEX_SINCE_V4)?.ifEmpty { null },
+        )
+    }
+
+    private fun SyncCard.toRow(): List<Any> {
+        val row = MutableList<Any>(NUM_OF_COLUMNS_SINCE_V5) { "" }
+        row[NAME_INDEX_SINCE_V1] = name
+        row[CATEGORY_INDEX_SINCE_V1] = categoryName.orEmpty()
+        row[CONTENT_INDEX_SINCE_V1] = content
+        row[COLOR_INDEX_SINCE_V1] = color
+        row[FORMAT_INDEX_SINCE_V1] = format
+        row[LOGO_INDEX_SINCE_V2] = logo.orEmpty()
+        row[POSITION_INDEX_SINCE_V3] = position?.toString().orEmpty()
+        row[COMMENT_INDEX_SINCE_V4] = comment.orEmpty()
+        row[SYNC_ID_INDEX_SINCE_V5] = syncId.orEmpty()
+        row[CHANGED_AT_INDEX_SINCE_V5] = changedAt
+        row[IS_DELETED_INDEX_SINCE_V5] = FALSE
+        return row
+    }
+
+    /** Deleted cards keep the column count of regular rows, otherwise the reader skips them */
+    private fun DeletedCard.toRow(): List<Any> {
+        val row = MutableList<Any>(NUM_OF_COLUMNS_SINCE_V5) { "" }
+        row[SYNC_ID_INDEX_SINCE_V5] = syncId
+        row[CHANGED_AT_INDEX_SINCE_V5] = deletedAt
+        row[IS_DELETED_INDEX_SINCE_V5] = TRUE
+        return row
     }
 
     private suspend fun importCard(row: List<String>) {
