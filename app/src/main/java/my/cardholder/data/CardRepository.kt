@@ -32,7 +32,7 @@ class CardRepository @Inject constructor(
     suspend fun deleteCard(cardId: Long) {
         getCard(cardId)?.let { card ->
             card.barcodeFile?.delete()
-            cardDao.deleteCard(card.id)
+            cardDao.deleteCardAndRememberDeletion(card, System.currentTimeMillis())
         }
     }
 
