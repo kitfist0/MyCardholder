@@ -30,7 +30,8 @@ interface CategoryDao {
     @Query("DELETE FROM categories WHERE id = :id")
     suspend fun deleteCategoryById(id: Long)
 
-    @Query("UPDATE cards SET changed_at = :changedAt WHERE category_id = :categoryId")
+    /** Like card edits, the new change time is always later than the current one */
+    @Query("UPDATE cards SET changed_at = MAX(changed_at + 1, :changedAt) WHERE category_id = :categoryId")
     suspend fun updateChangedAtOfCardsInCategory(categoryId: Long, changedAt: Long)
 
     /** Cards lose their category, so they are marked as changed to get synced */

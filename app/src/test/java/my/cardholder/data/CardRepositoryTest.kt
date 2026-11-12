@@ -208,4 +208,64 @@ class CardRepositoryTest {
 
         coVerify { cardDao.getCardsWithNamesLike("%query%") }
     }
+
+    @Test
+    fun `edit of card from device with clock ahead is newer than that card`() = runTest {
+        val futureChangedAt = System.currentTimeMillis() + ONE_DAY_MS
+        val card = cardWithChangedAt(futureChangedAt)
+        coEvery { cardDao.getCard(card.id) } returns card
+
+        cardRepository.updateCardName(card.id, "New name")
+
+        coVerify { cardDao.upsert(match<Card> { it.name == "New name" && it.changedAt == futureChangedAt + 1 }) }
+    }
+
+    @Test
+    fun `edit uses current time when card version is in the past`() = runTest {
+        val card = cardWithChangedAt(0L)
+        coEvery { cardDao.getCard(card.id) } returns card
+        val before = System.currentTimeMillis()
+
+        cardRepository.updateCardName(card.id, "New name")
+
+        coVerify { cardDao.upsert(match<Card> { it.changedAt >= before }) }
+    }
+
+    @Test
+    fun `deletion of card from device with clock ahead is newer than that card`() = runTest {
+        val futureChangedAt = System.currentTimeMillis() + ONE_DAY_MS
+        val card = cardWithChangedAt(futureChangedAt)
+        coEvery { cardDao.getCard(card.id) } returns card
+
+        cardRepository.deleteCard(card.id)
+
+        coVerify { cardDao.deleteCardAndRememberDeletion(card, futureChangedAt + 1) }
+    }
+
+    @Test
+    fun `reordering card from device with clock ahead is newer than that card`() = runTest {
+        val futureChangedAt = System.currentTimeMillis() + ONE_DAY_MS
+        val card = cardWithChangedAt(futureChangedAt).copy(position = 1)
+
+        cardRepository.updateCardPositions(listOf(card))
+
+        coVerify { cardDao.upsert(listOf(card.copy(position = 0, changedAt = futureChangedAt + 1))) }
+    }
+
+    private fun cardWithChangedAt(changedAt: Long) = Card(
+        id = 7L,
+        name = "Old name",
+        position = 0,
+        isPinned = false,
+        content = "123",
+        color = "#000000",
+        format = SupportedFormat.QR_CODE,
+        path = null,
+        changedAt = changedAt,
+        syncId = "sync-id",
+    )
+
+    private companion object {
+        const val ONE_DAY_MS = 24 * 60 * 60 * 1000L
+    }
 }

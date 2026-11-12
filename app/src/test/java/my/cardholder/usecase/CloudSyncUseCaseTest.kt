@@ -18,6 +18,7 @@ import my.cardholder.data.model.SyncSnapshot
 import my.cardholder.util.Result
 import kotlin.Result as KotlinResult
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -145,6 +146,22 @@ class CloudSyncUseCaseTest {
     }
 
     @Test
+    fun `sync runs off the calling thread`() = runTest {
+        val callingThread = Thread.currentThread()
+        var syncThread: Thread? = null
+        coEvery { googleAssistant.getBackupChecksums() } answers {
+            syncThread = Thread.currentThread()
+            KotlinResult.success(listOf(MERGED))
+        }
+
+        useCase.execute(CloudProvider.GOOGLE).test {
+            expectMostRecentItemAfterCompletion()
+        }
+
+        assertNotEquals(callingThread, syncThread)
+    }
+
+    @Test
     fun `failed listing is reported as error`() = runTest {
         coEvery { yandexAssistant.getBackupChecksums() } returns KotlinResult.failure(Exception("Empty token"))
 
@@ -157,8 +174,14 @@ class CloudSyncUseCaseTest {
     }
 
     private suspend fun ReceiveTurbine<Result<Long>>.expectMostRecentItemAfterCompletion(): Result<Long> {
-        val items = cancelAndConsumeRemainingEvents().filterIsInstance<Event.Item<Result<Long>>>()
-        return items.last().value
+        var lastItem: Result<Long>? = null
+        while (true) {
+            when (val event = awaitEvent()) {
+                is Event.Item -> lastItem = event.value
+                is Event.Complete -> return lastItem!!
+                is Event.Error -> throw event.throwable
+            }
+        }
     }
 
     private companion object {
