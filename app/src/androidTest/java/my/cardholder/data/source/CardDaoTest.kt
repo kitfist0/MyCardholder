@@ -48,6 +48,17 @@ class CardDaoTest {
         assertEquals(3, cardDao.getNextPosition())
     }
 
+    @Test
+    fun getCardsWithNamesLike_matchesEscapedWildcardsLiterally() = runBlocking {
+        listOf("Discount 50%", "Sale 500", "my_shop", "myXshop", "back\\slash").forEachIndexed { position, name ->
+            cardDao.upsert(card(position).copy(name = name))
+        }
+
+        assertEquals(listOf("Discount 50%"), cardDao.getCardsWithNamesLike("%50\\%%").map { it.name })
+        assertEquals(listOf("my_shop"), cardDao.getCardsWithNamesLike("%my\\_shop%").map { it.name })
+        assertEquals(listOf("back\\slash"), cardDao.getCardsWithNamesLike("%k\\\\s%").map { it.name })
+    }
+
     private fun card(position: Int) = Card(
         id = Card.NEW_CARD_ID,
         name = "Card $position",
