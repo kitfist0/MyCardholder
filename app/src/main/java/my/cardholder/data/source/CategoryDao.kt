@@ -41,6 +41,16 @@ interface CategoryDao {
         deleteCategoryById(id)
     }
 
+    @Query("UPDATE categories SET name = :name WHERE id = :id")
+    suspend fun updateCategoryName(id: Long, name: String)
+
+    /** Cards are synced with the name of their category, so they are marked as changed to get synced */
+    @Transaction
+    suspend fun renameCategoryAndUpdateItsCards(id: Long, name: String, changedAt: Long) {
+        updateChangedAtOfCardsInCategory(id, changedAt)
+        updateCategoryName(id, name)
+    }
+
     @Upsert
     suspend fun upsert(category: Category): Long
 }
