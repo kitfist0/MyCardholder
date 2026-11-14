@@ -44,10 +44,12 @@ interface CardDao {
     @Query("SELECT * FROM deleted_cards WHERE sync_id = :syncId")
     suspend fun getDeletedCard(syncId: String): DeletedCard?
 
-    @Query("SELECT * FROM cards WHERE name LIKE :name")
+    /** [name] is a LIKE pattern, its literal % and _ are escaped with \ */
+    @Query("SELECT * FROM cards WHERE name LIKE :name ESCAPE '\\'")
     suspend fun getCardsWithNamesLike(name: String): List<Card>
 
-    @Query("SELECT * FROM cards WHERE category_id IN (:categoryId) AND name LIKE :name")
+    /** [name] is a LIKE pattern, its literal % and _ are escaped with \ */
+    @Query("SELECT * FROM cards WHERE category_id IN (:categoryId) AND name LIKE :name ESCAPE '\\'")
     suspend fun getCardsWithCategoryIdAndWithNamesLike(categoryId: Long, name: String): List<Card>
 
     @Query("DELETE FROM cards WHERE id = :id")

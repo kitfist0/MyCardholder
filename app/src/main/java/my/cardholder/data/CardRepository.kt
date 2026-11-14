@@ -179,10 +179,11 @@ class CardRepository @Inject constructor(
 
     suspend fun searchCardsBy(name: String, categoryId: Long = -1): List<Card> {
         return if (name.isNotBlank()) {
+            val namePattern = "%${name.escapeLikeWildcards()}%"
             if (categoryId.toInt() != -1) {
-                cardDao.getCardsWithCategoryIdAndWithNamesLike(categoryId, "%$name%")
+                cardDao.getCardsWithCategoryIdAndWithNamesLike(categoryId, namePattern)
             } else {
-                cardDao.getCardsWithNamesLike("%$name%")
+                cardDao.getCardsWithNamesLike(namePattern)
             }
         } else {
             emptyList()
@@ -191,6 +192,13 @@ class CardRepository @Inject constructor(
 
     suspend fun getCard(cardId: Long): Card? {
         return cardDao.getCard(cardId)
+    }
+
+    /** % and _ typed by the user must match themselves, not any characters */
+    private fun String.escapeLikeWildcards(): String {
+        return replace("\\", "\\\\")
+            .replace("%", "\\%")
+            .replace("_", "\\_")
     }
 
     private fun writeNewBarcodeFile(content: String, format: SupportedFormat): BarcodeFilePath? {

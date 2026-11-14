@@ -210,6 +210,13 @@ class CardRepositoryTest {
     }
 
     @Test
+    fun `searchCardsBy escapes like wildcards typed by the user`() = runTest {
+        cardRepository.searchCardsBy("50%_a\\b")
+
+        coVerify { cardDao.getCardsWithNamesLike("%50\\%\\_a\\\\b%") }
+    }
+
+    @Test
     fun `edit of card from device with clock ahead is newer than that card`() = runTest {
         val futureChangedAt = System.currentTimeMillis() + ONE_DAY_MS
         val card = cardWithChangedAt(futureChangedAt)
