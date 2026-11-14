@@ -126,6 +126,11 @@ android {
         arg('room.schemaLocation', "$projectDir/schemas")
     }
 
+    // Exported schemas let migration tests create databases of every old version
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas")
+    }
+
     packagingOptions {
         resources.excludes += 'META-INF/DEPENDENCIES'
         resources.excludes += 'META-INF/INDEX.LIST'
@@ -222,4 +227,12 @@ dependencies {
     testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.room.testing)
+
+    constraints {
+        // room-testing needs it, and test APKs can't use newer versions than the app
+        implementation(libs.kotlinx.serialization.json) {
+            because("room-testing reads exported schemas with kotlinx-serialization 1.8")
+        }
+    }
 }
