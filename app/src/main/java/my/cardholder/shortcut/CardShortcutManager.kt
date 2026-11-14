@@ -13,7 +13,15 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.IconCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import my.cardholder.R
+import my.cardholder.data.CardRepository
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.isSquare
@@ -26,6 +34,7 @@ import javax.inject.Singleton
 @Singleton
 class CardShortcutManager @Inject constructor(
     private val context: Context,
+    private val cardRepository: CardRepository,
 ) {
 
     companion object {
@@ -65,16 +74,36 @@ class CardShortcutManager @Inject constructor(
         return ShortcutManagerCompat.isRequestPinShortcutSupported(context) && ShortcutManagerCompat.requestPinShortcut(context, buildCardShortcut(card), null)
     }
 
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    /** Disables shortcuts of cards deleted in any way: by the user or by cloud sync. */
+    fun observeCardDeletions() {
+        cardRepository.cardsAndCategories
+            .map { cardsAndCategories -> cardsAndCategories.mapTo(mutableSetOf()) { it.card.id } }
+            .distinctUntilChanged()
+            .onEach { cardIds -> disableShortcutsOfMissingCards(cardIds) }
+            .launchIn(scope)
+    }
+
     /** Pinned shortcuts can't be removed by the app, so a deleted card's shortcut is greyed out instead. */
-    fun disableShortcut(cardId: Long) {
-        ShortcutManagerCompat.disableShortcuts(
-            context,
-            listOf(shortcutId(cardId)),
-            context.getString(R.string.shortcut_card_removed_message),
-        )
+    private fun disableShortcutsOfMissingCards(cardIds: Set<Long>) {
+        val shortcutIds = ShortcutManagerCompat.getShortcuts(context, ShortcutManagerCompat.FLAG_MATCH_PINNED)
+            .filter { shortcut -> shortcut.isEnabled && shortcut.id.toCardId()?.let { it !in cardIds } == true }
+            .map { shortcut -> shortcut.id }
+        if (shortcutIds.isNotEmpty()) {
+            ShortcutManagerCompat.disableShortcuts(
+                context,
+                shortcutIds,
+                context.getString(R.string.shortcut_card_removed_message),
+            )
+        }
     }
 
     private fun shortcutId(cardId: Long) = SHORTCUT_ID_PREFIX + cardId
+
+    private fun String.toCardId(): Long? {
+        return if (startsWith(SHORTCUT_ID_PREFIX)) removePrefix(SHORTCUT_ID_PREFIX).toLongOrNull() else null
+    }
 
     private suspend fun buildCardShortcut(card: Card): ShortcutInfoCompat {
         val intent = Intent(context, MainActivity::class.java)
