@@ -3,6 +3,7 @@ package my.cardholder.data
 import app.cash.turbine.test
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -80,7 +81,7 @@ class BackupRepositoryTest {
         coVerify {
             cardRepository.insertNewCard(
                 name = "Test Card",
-                position = 7,
+                position = null,
                 logo = "test_logo",
                 categoryId = 10L,
                 content = "Test Content",
@@ -135,6 +136,31 @@ class BackupRepositoryTest {
 
         coVerify(exactly = 1) { cardRepository.insertNewCard(any(), any(), any(), any(), any(), any(), any(), any()) }
         coVerify { cardRepository.insertNewCard(name = "Good", any(), any(), any(), any(), any(), any(), any()) }
+    }
+
+    @Test
+    fun `imported cards are added after existing cards in their backup order`() = runTest {
+        // Exported files list cards from the last one to the first one
+        val csvContent = "${BackupRepository.CSV_SCHEME_VERSION}\n" +
+                "\"Third\",\"\",\"3\",\"#FFFFFF\",\"QR_CODE\",\"\",\"2\",\"\"\n" +
+                "\"First\",\"\",\"1\",\"#FFFFFF\",\"QR_CODE\",\"\",\"0\",\"\"\n" +
+                "\"Second\",\"\",\"2\",\"#FFFFFF\",\"QR_CODE\",\"\",\"1\",\"\"\n"
+        coEvery { cardRepository.isCardWithSuchDataExists(any(), any(), any()) } returns false
+        coEvery { cardRepository.insertNewCard(any(), any(), any(), any(), any(), any(), any(), any()) } returns 1L
+
+        backupRepository.importFromBackupFile(csvContent.byteInputStream()).test {
+            awaitItem()
+            awaitItem()
+            assertEquals(BackupResult.Success(BackupOperationType.IMPORT), awaitItem())
+            awaitComplete()
+        }
+
+        // Without a position, each card gets the one after the last existing card
+        coVerifyOrder {
+            cardRepository.insertNewCard(name = "First", position = null, any(), any(), any(), any(), any(), any())
+            cardRepository.insertNewCard(name = "Second", position = null, any(), any(), any(), any(), any(), any())
+            cardRepository.insertNewCard(name = "Third", position = null, any(), any(), any(), any(), any(), any())
+        }
     }
 
     @Test

@@ -108,7 +108,9 @@ class BackupRepository @Inject constructor(
             if (backupCards.isEmpty()) {
                 throw BackupException(BackupError.DAMAGED_BACKUP_FILE)
             }
-            backupCards.forEachIndexed { index, backupCard ->
+            // Cards are added after the existing ones in the order they had, positions from the file
+            // would mix them up with the existing cards. Cards of old backups have no positions.
+            backupCards.sortedBy { it.position ?: Int.MAX_VALUE }.forEachIndexed { index, backupCard ->
                 importCard(backupCard)
                 sendProgress(
                     backupOperationType = BackupOperationType.IMPORT,
@@ -245,7 +247,6 @@ class BackupRepository @Inject constructor(
             }
             cardRepository.insertNewCard(
                 name = name,
-                position = position,
                 logo = logo,
                 categoryId = categoryId,
                 content = content,
