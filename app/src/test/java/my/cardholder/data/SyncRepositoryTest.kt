@@ -308,7 +308,7 @@ class SyncRepositoryTest {
 
         override fun getDeletedCards(): Flow<List<DeletedCard>> = deletedCards.map { it.values.toList() }
 
-        override suspend fun getNumberOfCards(): Int = cards.value.size
+        override suspend fun getNextPosition(): Int = (cards.value.values.maxOfOrNull { it.position } ?: -1) + 1
 
         override suspend fun getCard(id: Long): Card? = cards.value[id]
 

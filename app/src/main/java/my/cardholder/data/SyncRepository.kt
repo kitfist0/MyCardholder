@@ -133,7 +133,7 @@ class SyncRepository @Inject constructor(
             id = Card.NEW_CARD_ID,
             syncId = remoteCard.syncId ?: UUID.randomUUID().toString(),
             name = remoteCard.name,
-            position = remoteCard.position ?: cardDao.getNumberOfCards(),
+            position = remoteCard.position ?: cardDao.getNextPosition(),
             logo = remoteCard.logo,
             isPinned = false,
             categoryId = getCategoryId(remoteCard.categoryName),

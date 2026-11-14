@@ -47,7 +47,7 @@ class CardRepository @Inject constructor(
         val newCard = Card(
             id = Card.NEW_CARD_ID,
             name = name.trim(),
-            position = position ?: cardDao.getNumberOfCards(),
+            position = position ?: cardDao.getNextPosition(),
             logo = logo?.trim()?.ifEmpty { null },
             isPinned = false,
             categoryId = categoryId,

@@ -25,8 +25,9 @@ interface CardDao {
     @Query("SELECT * FROM deleted_cards")
     fun getDeletedCards(): Flow<List<DeletedCard>>
 
-    @Query("SELECT COUNT (id) FROM cards")
-    suspend fun getNumberOfCards(): Int
+    /** After the last card: positions are not renumbered when cards are deleted, so the count may be taken */
+    @Query("SELECT COALESCE(MAX(position), -1) + 1 FROM cards")
+    suspend fun getNextPosition(): Int
 
     @Query("SELECT * FROM cards WHERE id = :id")
     suspend fun getCard(id: Long): Card?

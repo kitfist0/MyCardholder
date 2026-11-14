@@ -23,7 +23,7 @@ class CardRepositoryTest {
         val barcodePath = "path/to/barcode"
 
         every { barcodeFileRepository.writeBarcodeFile(content, format) } returns barcodePath
-        coEvery { cardDao.getNumberOfCards() } returns 5
+        coEvery { cardDao.getNextPosition() } returns 5
         coEvery { cardDao.upsert(any<Card>()) } returns 1L
 
         val cardId = cardRepository.insertNewCard(content = content, format = format)
