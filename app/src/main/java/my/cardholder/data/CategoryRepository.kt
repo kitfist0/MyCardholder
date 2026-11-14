@@ -35,11 +35,20 @@ class CategoryRepository @Inject constructor(
         categoryDao.deleteCategoryAndUpdateItsCards(categoryId, System.currentTimeMillis())
     }
 
+    /**
+     * Creates a new category or renames the existing one with [categoryId].
+     * Does nothing if a category with [categoryName] already exists and returns its id.
+     */
     suspend fun upsertCategoryIfCategoryNameIsNew(
         categoryId: Long = Category.NEW_CATEGORY_ID,
         categoryName: String,
     ): Long {
-        return getCategoryIdByName(categoryName)
-            ?: categoryDao.upsert(Category(categoryId, categoryName))
+        getCategoryIdByName(categoryName)?.let { existingCategoryId -> return existingCategoryId }
+        return if (categoryId == Category.NEW_CATEGORY_ID) {
+            categoryDao.upsert(Category(categoryId, categoryName))
+        } else {
+            categoryDao.renameCategoryAndUpdateItsCards(categoryId, categoryName, System.currentTimeMillis())
+            categoryId
+        }
     }
 }

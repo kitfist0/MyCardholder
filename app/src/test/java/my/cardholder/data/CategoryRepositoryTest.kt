@@ -117,4 +117,30 @@ class CategoryRepositoryTest {
         assertEquals(456L, resultId)
         coVerify { categoryDao.upsert(Category(id = Category.NEW_CATEGORY_ID, name = categoryName)) }
     }
+
+    @Test
+    fun `upsertCategoryIfCategoryNameIsNew renames existing category and marks its cards as changed`() = runTest {
+        val categoryId = 7L
+        val newName = "Renamed"
+        coEvery { categoryDao.getCategoryByName(newName) } returns null
+        coEvery { categoryDao.renameCategoryAndUpdateItsCards(categoryId, newName, any()) } just Runs
+
+        val resultId = categoryRepository.upsertCategoryIfCategoryNameIsNew(categoryId, newName)
+
+        assertEquals(categoryId, resultId)
+        coVerify { categoryDao.renameCategoryAndUpdateItsCards(categoryId, newName, any()) }
+        coVerify(exactly = 0) { categoryDao.upsert(any()) }
+    }
+
+    @Test
+    fun `upsertCategoryIfCategoryNameIsNew does not rename category to name of another category`() = runTest {
+        val newName = "Taken"
+        coEvery { categoryDao.getCategoryByName(newName) } returns Category(3L, newName)
+
+        val resultId = categoryRepository.upsertCategoryIfCategoryNameIsNew(7L, newName)
+
+        assertEquals(3L, resultId)
+        coVerify(exactly = 0) { categoryDao.renameCategoryAndUpdateItsCards(any(), any(), any()) }
+        coVerify(exactly = 0) { categoryDao.upsert(any()) }
+    }
 }
