@@ -35,8 +35,16 @@ class CardDisplayViewModel @Inject constructor(
 
     init {
         cardRepository.getCardAndCategory(cardId)
-            .filterNotNull()
             .onEach { cardAndCategory ->
+                if (cardAndCategory == null) {
+                    // E.g. opened from a shortcut or widget after the card was deleted by cloud sync.
+                    // A card deleted while it's shown is left as is: its delete dialog navigates away itself.
+                    if (_state.value is CardDisplayState.Loading) {
+                        showToast(Text.Resource(R.string.shortcut_card_removed_message))
+                        navigateUp()
+                    }
+                    return@onEach
+                }
                 val card = cardAndCategory.card
                 _state.value = CardDisplayState.Success(
                     barcodeFile = card.barcodeFile,

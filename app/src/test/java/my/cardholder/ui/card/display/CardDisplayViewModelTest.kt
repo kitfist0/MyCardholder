@@ -8,6 +8,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -17,6 +18,7 @@ import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.CardAndCategory
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.shortcut.CardShortcutManager
 import my.cardholder.ui.base.BaseEvent
@@ -52,7 +54,7 @@ class CardDisplayViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        every { cardRepository.getCardAndCategory(CARD_ID) } returns flowOf(null)
+        every { cardRepository.getCardAndCategory(CARD_ID) } returns flowOf(CardAndCategory(card, null))
         every { settingsRepository.explanationAboutBarcodeZoomIsRequired } returns flowOf(false)
         coEvery { cardRepository.getCard(CARD_ID) } returns card
     }
@@ -98,6 +100,33 @@ class CardDisplayViewModelTest {
         viewModel.onToolbarMenuItemClicked(R.id.card_shortcut_menu_item)
 
         coVerify(exactly = 0) { cardShortcutManager.requestPinShortcut(any()) }
+    }
+
+    @Test
+    fun `missing card shows toast and navigates up`() = runTest {
+        every { cardRepository.getCardAndCategory(CARD_ID) } returns flowOf(null)
+
+        createViewModel().baseEvents.test {
+            assertEquals(
+                BaseEvent.ToastMessage(Text.Resource(R.string.shortcut_card_removed_message)),
+                awaitItem(),
+            )
+            assertEquals(BaseEvent.NavigateUp, awaitItem())
+        }
+    }
+
+    @Test
+    fun `card deleted while shown keeps its data and does not navigate`() = runTest {
+        val cardAndCategory = MutableStateFlow<CardAndCategory?>(CardAndCategory(card, null))
+        every { cardRepository.getCardAndCategory(CARD_ID) } returns cardAndCategory
+        val viewModel = createViewModel()
+
+        viewModel.baseEvents.test {
+            cardAndCategory.value = null
+
+            assertEquals("Card", (viewModel.state.value as CardDisplayState.Success).cardName)
+            expectNoEvents()
+        }
     }
 
     private fun createViewModel() = CardDisplayViewModel(
