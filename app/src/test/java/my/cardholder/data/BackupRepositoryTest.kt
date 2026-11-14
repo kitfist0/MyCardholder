@@ -92,18 +92,109 @@ class BackupRepositoryTest {
     }
 
     @Test
-    fun `invalid csv scheme version returns error when importing from backup`() = runTest {
-        val invalidVer = Int.MAX_VALUE
-        val csvContent = "$invalidVer\n\"Card\",\"Cat\",\"Cont\",\"Col\",\"QR_CODE\",\"\",\"0\",\"\"\n"
-        val inputStream = ByteArrayInputStream(csvContent.toByteArray())
+    fun `backup of newer scheme version returns newer version error when importing`() = runTest {
+        val csvContent = "${BackupRepository.CSV_SCHEME_VERSION + 1}\n\"Card\",\"Cat\",\"Cont\",\"Col\",\"QR_CODE\",\"\",\"0\",\"\"\n"
 
-        backupRepository.importFromBackupFile(inputStream).test {
-            val result = awaitItem()
-            assertTrue(result is BackupResult.Error)
-            assertEquals("Invalid file format", (result as BackupResult.Error).message)
+        assertImportError(csvContent, BackupError.NEWER_BACKUP_VERSION)
+    }
+
+    @Test
+    fun `file of another kind returns not backup file error when importing`() = runTest {
+        assertImportError("Name,Phone\nJohn,123\n", BackupError.NOT_BACKUP_FILE)
+        assertImportError("0\n\"Card\",\"\",\"123\",\"#FFFFFF\",\"QR_CODE\"\n", BackupError.NOT_BACKUP_FILE)
+        assertImportError("", BackupError.NOT_BACKUP_FILE)
+    }
+
+    @Test
+    fun `backup without cards returns no cards error when importing`() = runTest {
+        assertImportError("${BackupRepository.CSV_SCHEME_VERSION}\n", BackupError.NO_CARDS)
+    }
+
+    @Test
+    fun `backup with only damaged cards returns damaged file error when importing`() = runTest {
+        val csvContent = "${BackupRepository.CSV_SCHEME_VERSION}\n" +
+                "\"Card\",\"\",\"123\",\"#FFFFFF\",\"UNKNOWN_FORMAT\",\"\",\"0\",\"\"\n"
+
+        assertImportError(csvContent, BackupError.DAMAGED_BACKUP_FILE)
+        coVerify(exactly = 0) { cardRepository.insertNewCard(any(), any(), any(), any(), any(), any(), any(), any()) }
+    }
+
+    @Test
+    fun `damaged cards are skipped and counted when importing`() = runTest {
+        val csvContent = "${BackupRepository.CSV_SCHEME_VERSION}\n" +
+                "\"Good\",\"\",\"123\",\"#FFFFFF\",\"QR_CODE\",\"\",\"0\",\"\"\n" +
+                "\"Unknown format\",\"\",\"456\",\"#FFFFFF\",\"UNKNOWN_FORMAT\",\"\",\"1\",\"\"\n" +
+                "\"No content\",\"\",\"\",\"#FFFFFF\",\"QR_CODE\",\"\",\"2\",\"\"\n"
+        coEvery { cardRepository.isCardWithSuchDataExists(any(), any(), any()) } returns false
+        coEvery { cardRepository.insertNewCard(any(), any(), any(), any(), any(), any(), any(), any()) } returns 1L
+
+        backupRepository.importFromBackupFile(csvContent.byteInputStream()).test {
+            assertEquals(BackupResult.Success(BackupOperationType.IMPORT, numOfSkippedCards = 2), awaitItem())
+            awaitComplete()
+        }
+
+        coVerify(exactly = 1) { cardRepository.insertNewCard(any(), any(), any(), any(), any(), any(), any(), any()) }
+        coVerify { cardRepository.insertNewCard(name = "Good", any(), any(), any(), any(), any(), any(), any()) }
+    }
+
+    @Test
+    fun `cards of first scheme version are imported`() = runTest {
+        val csvContent = "1\n\"Old card\",\"\",\"123\",\"#FFFFFF\",\"EAN_13\"\n"
+        coEvery { cardRepository.isCardWithSuchDataExists(any(), any(), any()) } returns false
+        coEvery { cardRepository.insertNewCard(any(), any(), any(), any(), any(), any(), any(), any()) } returns 1L
+
+        backupRepository.importFromBackupFile(csvContent.byteInputStream()).test {
+            assertEquals(BackupResult.Success(BackupOperationType.IMPORT), awaitItem())
+            awaitComplete()
+        }
+
+        coVerify {
+            cardRepository.insertNewCard(
+                name = "Old card",
+                position = null,
+                logo = null,
+                categoryId = null,
+                content = "123",
+                color = "#FFFFFF",
+                comment = null,
+                format = SupportedFormat.EAN_13,
+            )
+        }
+    }
+
+    @Test
+    fun `failed export returns operation failed error with details`() = runTest {
+        every { cardRepository.cardsAndCategories } returns flowOf(listOf(CardAndCategory(card(), null)))
+        val brokenOutputStream = object : java.io.OutputStream() {
+            override fun write(b: Int) = throw java.io.IOException("Disk is full")
+        }
+
+        backupRepository.exportToBackupFile(brokenOutputStream).test {
+            val result = awaitItem() as BackupResult.Error
+            assertEquals(BackupError.OPERATION_FAILED, result.error)
+            assertTrue(!result.details.isNullOrBlank())
             awaitComplete()
         }
     }
+
+    private suspend fun assertImportError(csvContent: String, error: BackupError) {
+        backupRepository.importFromBackupFile(csvContent.byteInputStream()).test {
+            assertEquals(BackupResult.Error(error), awaitItem())
+            awaitComplete()
+        }
+    }
+
+    private fun card() = Card(
+        id = 1,
+        name = "Card",
+        position = 0,
+        content = "123",
+        color = "#FFFFFF",
+        format = SupportedFormat.QR_CODE,
+        path = null,
+        changedAt = 0,
+        isPinned = false,
+    )
 
     @Test
     fun `sync snapshot survives encoding and decoding`() = runTest {

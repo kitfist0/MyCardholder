@@ -1,5 +1,6 @@
 package my.cardholder.data
 
+import com.github.doyaaaaaken.kotlincsv.dsl.context.ExcessFieldsRowBehaviour
 import com.github.doyaaaaaken.kotlincsv.dsl.context.InsufficientFieldsRowBehaviour
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.first
+import my.cardholder.data.model.BackupError
 import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
 import my.cardholder.data.model.DeletedCard
@@ -73,35 +75,57 @@ class BackupRepository @Inject constructor(
             }
         }
     }.catch {
-        emit(BackupResult.Error(it.message.orEmpty()))
+        emit(BackupResult.Error(BackupError.OPERATION_FAILED, it.message))
     }
 
+    /**
+     * Imports cards that are not in the database yet. Damaged rows are skipped and counted,
+     * so a single bad row doesn't stop the import of the other cards.
+     */
     fun importFromBackupFile(inputStream: InputStream): Flow<BackupResult> = channelFlow {
         val reader = csvReader {
-            insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.IGNORE
+            // Rows of older scheme versions have fewer columns, their missing values are empty
+            insufficientFieldsRowBehaviour = InsufficientFieldsRowBehaviour.EMPTY_STRING
+            excessFieldsRowBehaviour = ExcessFieldsRowBehaviour.TRIM
         }
         reader.openAsync(inputStream) {
-            val version = readNext()?.first()?.toInt() ?: 0
-            val rows = readAllAsSequence().toList().reversed()
+            val version = runCatching { readNext()?.firstOrNull()?.trim()?.toIntOrNull() }
+                .getOrNull()
+                ?.takeIf { it > 0 }
+                ?: throw BackupException(BackupError.NOT_BACKUP_FILE)
+            if (version > CSV_SCHEME_VERSION) {
+                throw BackupException(BackupError.NEWER_BACKUP_VERSION)
+            }
+            val rows = runCatching { readAllAsSequence().toList() }
+                .getOrElse { throw BackupException(BackupError.DAMAGED_BACKUP_FILE) }
+                .reversed()
                 .filterNot { row -> row.isDeletedCardRow(version) }
-            val numOfCards = rows.count()
-            if (numOfCards == 0) {
-                throw Throwable("Backup file is empty")
+            if (rows.isEmpty()) {
+                throw BackupException(BackupError.NO_CARDS)
             }
-            if (version == 0 || version > CSV_SCHEME_VERSION) {
-                throw Throwable("Invalid file format")
+            val backupCards = rows.mapNotNull { row -> row.toBackupCardOrNull() }
+            val numOfSkippedCards = rows.size - backupCards.size
+            if (backupCards.isEmpty()) {
+                throw BackupException(BackupError.DAMAGED_BACKUP_FILE)
             }
-            rows.forEachIndexed { index, row ->
-                importCard(row)
+            backupCards.forEachIndexed { index, backupCard ->
+                importCard(backupCard)
                 sendProgress(
                     backupOperationType = BackupOperationType.IMPORT,
                     current = index + 1,
-                    total = numOfCards,
+                    total = backupCards.size,
+                    numOfSkippedCards = numOfSkippedCards,
                 )
             }
         }
     }.catch {
-        emit(BackupResult.Error(it.message.orEmpty()))
+        emit(
+            if (it is BackupException) {
+                BackupResult.Error(it.error)
+            } else {
+                BackupResult.Error(BackupError.OPERATION_FAILED, it.message)
+            }
+        )
     }
 
     /** Serializes the snapshot, including deleted cards, for uploading to the cloud */
@@ -188,25 +212,45 @@ class BackupRepository @Inject constructor(
         return row
     }
 
-    private suspend fun importCard(row: List<String>) {
-        val name = row[NAME_INDEX_SINCE_V1]
-        val content = row[CONTENT_INDEX_SINCE_V1]
-        val format = SupportedFormat.valueOf(row[FORMAT_INDEX_SINCE_V1])
-        if (!cardRepository.isCardWithSuchDataExists(name, content, format)) {
-            val categoryName = row[CATEGORY_INDEX_SINCE_V1]
+    /** A card row of a backup file, null if the row is damaged */
+    private fun List<String>.toBackupCardOrNull(): BackupCard? {
+        val format = getOrNull(FORMAT_INDEX_SINCE_V1)?.let { name ->
+            SupportedFormat.entries.firstOrNull { it.name == name }
+        }
+        val content = getOrNull(CONTENT_INDEX_SINCE_V1)
+        if (format == null || content.isNullOrBlank()) {
+            return null
+        }
+        return BackupCard(
+            name = this[NAME_INDEX_SINCE_V1],
+            categoryName = getOrNull(CATEGORY_INDEX_SINCE_V1).orEmpty(),
+            content = content,
+            color = getOrNull(COLOR_INDEX_SINCE_V1).orEmpty(),
+            format = format,
+            logo = getOrNull(LOGO_INDEX_SINCE_V2),
+            position = getOrNull(POSITION_INDEX_SINCE_V3)?.toIntOrNull(),
+            comment = getOrNull(COMMENT_INDEX_SINCE_V4),
+        )
+    }
+
+    private suspend fun importCard(backupCard: BackupCard) {
+        with(backupCard) {
+            if (cardRepository.isCardWithSuchDataExists(name, content, format)) {
+                return
+            }
             val categoryId = if (categoryName.isNotEmpty()) {
                 categoryRepository.upsertCategoryIfCategoryNameIsNew(categoryName = categoryName)
             } else {
                 null
             }
             cardRepository.insertNewCard(
-                name = row[NAME_INDEX_SINCE_V1],
-                position = runCatching { row[POSITION_INDEX_SINCE_V3].toInt() }.getOrNull(),
-                logo = runCatching { row[LOGO_INDEX_SINCE_V2] }.getOrNull(),
+                name = name,
+                position = position,
+                logo = logo,
                 categoryId = categoryId,
                 content = content,
-                color = row[COLOR_INDEX_SINCE_V1],
-                comment = runCatching { row[COMMENT_INDEX_SINCE_V4] }.getOrNull(),
+                color = color.ifEmpty { null },
+                comment = comment,
                 format = format,
             )
         }
@@ -216,12 +260,26 @@ class BackupRepository @Inject constructor(
         backupOperationType: BackupOperationType,
         current: Int,
         total: Int,
+        numOfSkippedCards: Int = 0,
     ) {
         if (current == total) {
-            send(BackupResult.Success(backupOperationType))
+            send(BackupResult.Success(backupOperationType, numOfSkippedCards))
         } else {
             val percentage = ((current.toDouble() / total) * 100).toInt()
             send(BackupResult.Progress(percentage))
         }
     }
 }
+
+private class BackupException(val error: BackupError) : Exception()
+
+private class BackupCard(
+    val name: String,
+    val categoryName: String,
+    val content: String,
+    val color: String,
+    val format: SupportedFormat,
+    val logo: String?,
+    val position: Int?,
+    val comment: String?,
+)

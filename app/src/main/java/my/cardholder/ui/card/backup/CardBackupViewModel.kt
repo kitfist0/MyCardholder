@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import my.cardholder.R
 import my.cardholder.data.BackupRepository
 import my.cardholder.data.SettingsRepository
+import my.cardholder.data.model.BackupError
 import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
 import my.cardholder.ui.base.BaseViewModel
@@ -105,7 +106,7 @@ class CardBackupViewModel @Inject constructor(
         when (result) {
             is BackupResult.Error -> {
                 _state.value = defaultState
-                showToast(Text.Simple(result.message))
+                showToast(result.toText())
             }
 
             is BackupResult.Progress -> {
@@ -114,20 +115,52 @@ class CardBackupViewModel @Inject constructor(
 
             is BackupResult.Success -> {
                 _state.value = defaultState
-                showSuccessToast(result.type)
+                showSuccessToast(result.type, result.numOfSkippedCards)
                 navigateUp()
             }
         }
     }
 
-    private fun showSuccessToast(type: BackupOperationType) {
-        val text = when (type) {
-            BackupOperationType.IMPORT ->
-                Text.Resource(R.string.card_backup_dialog_import_completed_message)
-
-            BackupOperationType.EXPORT ->
+    private fun showSuccessToast(type: BackupOperationType, numOfSkippedCards: Int) {
+        val text = when {
+            type == BackupOperationType.EXPORT ->
                 Text.Resource(R.string.card_backup_dialog_export_completed_message)
+
+            numOfSkippedCards > 0 ->
+                Text.ResourceAndParams(
+                    R.string.card_backup_dialog_import_completed_with_skipped_cards_message,
+                    listOf(numOfSkippedCards),
+                )
+
+            else ->
+                Text.Resource(R.string.card_backup_dialog_import_completed_message)
         }
         showToast(text)
+    }
+
+    private fun BackupResult.Error.toText(): Text {
+        return when (error) {
+            BackupError.NOT_BACKUP_FILE ->
+                Text.Resource(R.string.card_backup_dialog_not_backup_file_error_message)
+
+            BackupError.NEWER_BACKUP_VERSION ->
+                Text.Resource(R.string.card_backup_dialog_newer_version_error_message)
+
+            BackupError.NO_CARDS ->
+                Text.Resource(R.string.card_backup_dialog_no_cards_error_message)
+
+            BackupError.DAMAGED_BACKUP_FILE ->
+                Text.Resource(R.string.card_backup_dialog_damaged_file_error_message)
+
+            BackupError.OPERATION_FAILED ->
+                if (details.isNullOrBlank()) {
+                    Text.Resource(R.string.card_backup_dialog_operation_failed_error_message)
+                } else {
+                    Text.ResourceAndParams(
+                        R.string.card_backup_dialog_operation_failed_with_details_error_message,
+                        listOf(details),
+                    )
+                }
+        }
     }
 }
