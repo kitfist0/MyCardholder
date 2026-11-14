@@ -11,7 +11,6 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
-import android.os.Build
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -141,20 +140,14 @@ fun View.updateVerticalPaddingAfterApplyingWindowInsets(
     top: Boolean = true,
     bottom: Boolean = true,
 ) {
-    setOnApplyWindowInsetsListener { view, windowInsets ->
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-            view.updatePadding(
-                top = if (top) bars.top else 0,
-                bottom = if (bottom) bars.bottom else 0,
-            )
-        } else {
-            @Suppress("DEPRECATION")
-            view.updatePadding(
-                top = if (top) windowInsets.systemWindowInsetTop else 0,
-                bottom = if (bottom) windowInsets.systemWindowInsetBottom else 0,
-            )
-        }
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        val bars = windowInsets.getInsets(
+            WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+        )
+        view.updatePadding(
+            top = if (top) bars.top else 0,
+            bottom = if (bottom) bars.bottom else 0,
+        )
         windowInsets
     }
 }
