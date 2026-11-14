@@ -17,6 +17,13 @@
     <string name="card_backup_dialog_export_progress_title">Espere por favor. Exportación en curso</string>
     <string name="card_backup_dialog_import_button_text">Importar tarjetas desde un archivo</string>
     <string name="card_backup_dialog_import_completed_message">Importación completada con éxito</string>
+    <string name="card_backup_dialog_import_completed_with_skipped_cards_message">Importación completada. Tarjetas dañadas omitidas: %d</string>
+    <string name="card_backup_dialog_damaged_file_error_message">El archivo de copia de seguridad está dañado, no se pudo importar ninguna tarjeta</string>
+    <string name="card_backup_dialog_newer_version_error_message">El archivo de copia de seguridad se creó con una versión más reciente de la aplicación. Actualiza la aplicación e inténtalo de nuevo</string>
+    <string name="card_backup_dialog_no_cards_error_message">No hay tarjetas en el archivo de copia de seguridad</string>
+    <string name="card_backup_dialog_not_backup_file_error_message">El archivo no es una copia de seguridad de tarjetas</string>
+    <string name="card_backup_dialog_operation_failed_error_message">La operación ha fallado</string>
+    <string name="card_backup_dialog_operation_failed_with_details_error_message">La operación ha fallado: %s</string>
     <string name="card_backup_dialog_import_progress_title">Espere por favor. Importación en curso</string>
     <string name="card_backup_dialog_import_title">Importar tarjetas</string>
     <string name="card_backup_dialog_label">Respaldo</string>

@@ -17,6 +17,13 @@
     <string name="card_backup_dialog_export_progress_title">Please wait. Export in progress</string>
     <string name="card_backup_dialog_import_button_text">Import cards from a file</string>
     <string name="card_backup_dialog_import_completed_message">Import completed successfully</string>
+    <string name="card_backup_dialog_import_completed_with_skipped_cards_message">Import completed. Damaged cards skipped: %d</string>
+    <string name="card_backup_dialog_damaged_file_error_message">The backup file is damaged, no cards could be imported</string>
+    <string name="card_backup_dialog_newer_version_error_message">The backup file was created by a newer version of the app. Update the app and try again</string>
+    <string name="card_backup_dialog_no_cards_error_message">There are no cards in the backup file</string>
+    <string name="card_backup_dialog_not_backup_file_error_message">The file is not a card backup</string>
+    <string name="card_backup_dialog_operation_failed_error_message">Operation failed</string>
+    <string name="card_backup_dialog_operation_failed_with_details_error_message">Operation failed: %s</string>
     <string name="card_backup_dialog_import_progress_title">Please wait. Import in progress</string>
     <string name="card_backup_dialog_import_title">Import cards</string>
     <string name="card_backup_dialog_label">Backup</string>

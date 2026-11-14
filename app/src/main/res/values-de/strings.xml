@@ -17,6 +17,13 @@
     <string name="card_backup_dialog_export_progress_title">Warten Sie mal. Export läuft</string>
     <string name="card_backup_dialog_import_button_text">Importieren Sie Karten aus einer Datei</string>
     <string name="card_backup_dialog_import_completed_message">Kartenimport erfolgreich abgeschlossen</string>
+    <string name="card_backup_dialog_import_completed_with_skipped_cards_message">Import abgeschlossen. Übersprungene beschädigte Karten: %d</string>
+    <string name="card_backup_dialog_damaged_file_error_message">Die Sicherungsdatei ist beschädigt, es konnten keine Karten importiert werden</string>
+    <string name="card_backup_dialog_newer_version_error_message">Die Sicherungsdatei wurde mit einer neueren App-Version erstellt. Aktualisiere die App und versuche es erneut</string>
+    <string name="card_backup_dialog_no_cards_error_message">Die Sicherungsdatei enthält keine Karten</string>
+    <string name="card_backup_dialog_not_backup_file_error_message">Die Datei ist keine Kartensicherung</string>
+    <string name="card_backup_dialog_operation_failed_error_message">Vorgang fehlgeschlagen</string>
+    <string name="card_backup_dialog_operation_failed_with_details_error_message">Vorgang fehlgeschlagen: %s</string>
     <string name="card_backup_dialog_import_progress_title">Warten Sie mal. Import läuft</string>
     <string name="card_backup_dialog_import_title">Karten importieren</string>
     <string name="card_backup_dialog_label">Kartensicherung</string>

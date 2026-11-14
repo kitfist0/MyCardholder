@@ -17,6 +17,13 @@
     <string name="card_backup_dialog_export_progress_title">S\'il vous plaît, attendez. Exportation en cours</string>
     <string name="card_backup_dialog_import_button_text">Importer des cartes à partir d\'un fichier</string>
     <string name="card_backup_dialog_import_completed_message">Importation terminée avec succès</string>
+    <string name="card_backup_dialog_import_completed_with_skipped_cards_message">Importation terminée. Cartes endommagées ignorées : %d</string>
+    <string name="card_backup_dialog_damaged_file_error_message">Le fichier de sauvegarde est endommagé, aucune carte n\'a pu être importée</string>
+    <string name="card_backup_dialog_newer_version_error_message">Le fichier de sauvegarde a été créé par une version plus récente de l\'application. Mettez à jour l\'application et réessayez</string>
+    <string name="card_backup_dialog_no_cards_error_message">Le fichier de sauvegarde ne contient aucune carte</string>
+    <string name="card_backup_dialog_not_backup_file_error_message">Le fichier n\'est pas une sauvegarde de cartes</string>
+    <string name="card_backup_dialog_operation_failed_error_message">L\'opération a échoué</string>
+    <string name="card_backup_dialog_operation_failed_with_details_error_message">L\'opération a échoué : %s</string>
     <string name="card_backup_dialog_import_progress_title">S\'il vous plaît, attendez. Importation en cours</string>
     <string name="card_backup_dialog_import_title">Importer des cartes</string>
     <string name="card_backup_dialog_label">Sauvegarde</string>

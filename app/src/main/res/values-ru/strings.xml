@@ -17,6 +17,13 @@
     <string name="card_backup_dialog_export_progress_title">Пожалуйста подождите. Выполняется экспорт</string>
     <string name="card_backup_dialog_import_button_text">Импортировать карты из файла</string>
     <string name="card_backup_dialog_import_completed_message">Импорт успешно завершен</string>
+    <string name="card_backup_dialog_import_completed_with_skipped_cards_message">Импорт завершен. Пропущено поврежденных карт: %d</string>
+    <string name="card_backup_dialog_damaged_file_error_message">Файл резервной копии поврежден, импортировать карты не удалось</string>
+    <string name="card_backup_dialog_newer_version_error_message">Файл резервной копии создан более новой версией приложения. Обновите приложение и попробуйте снова</string>
+    <string name="card_backup_dialog_no_cards_error_message">В файле резервной копии нет карт</string>
+    <string name="card_backup_dialog_not_backup_file_error_message">Файл не является резервной копией карт</string>
+    <string name="card_backup_dialog_operation_failed_error_message">Не удалось выполнить операцию</string>
+    <string name="card_backup_dialog_operation_failed_with_details_error_message">Не удалось выполнить операцию: %s</string>
     <string name="card_backup_dialog_import_progress_title">Пожалуйста подождите. Выполняется импорт</string>
     <string name="card_backup_dialog_import_title">Импорт карт</string>
     <string name="card_backup_dialog_label">Бэкап</string>
