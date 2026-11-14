@@ -42,8 +42,9 @@ object DataModule {
     @Singleton
     fun provideAppDatabase(context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "cardholder.db")
-            .fallbackToDestructiveMigration()
-            .allowMainThreadQueries()
+            // An older app version can't read a newer database, so it starts with an empty one.
+            // A missing upgrade migration must crash instead of silently deleting all cards.
+            .fallbackToDestructiveMigrationOnDowngrade(dropAllTables = true)
             .addCallback(
                 object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
