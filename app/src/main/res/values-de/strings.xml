@@ -217,6 +217,11 @@
     <string name="specs_barcode_valid_characters_text">Gültige Zeichen: %s</string>
     <string name="specs_label">Spezifikationen</string>
     <string name="specs_toolbar_title">Unterstützte Formate</string>
+    <string name="specs_group_linear">Linear (1D)</string>
+    <string name="specs_group_two_dimensional">Zweidimensional (2D)</string>
+    <string name="specs_characters_alphanumeric">A–Z, 0–9, Leerzeichen und -\u00A0.\u00A0$\u00A0/\u00A0+\u00A0%</string>
+    <string name="specs_length_unfixed">beliebig</string>
+    <string name="specs_length_even">gerade</string>
     <!--endregion-->
 
     <!--region Sync-->

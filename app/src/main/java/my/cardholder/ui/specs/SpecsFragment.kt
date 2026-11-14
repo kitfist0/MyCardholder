@@ -1,13 +1,11 @@
 package my.cardholder.ui.specs
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import my.cardholder.databinding.FragmentSpecsBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.updateVerticalPaddingAfterApplyingWindowInsets
 
 @AndroidEntryPoint
@@ -20,15 +18,14 @@ class SpecsFragment : BaseFragment<FragmentSpecsBinding>(
     override fun initViews() {
         with(binding) {
             root.updateVerticalPaddingAfterApplyingWindowInsets()
-            specsRecyclerView.layoutManager =
-                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            specsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            specsRecyclerView.adapter = SpecsAdapter()
         }
     }
 
     override fun collectData() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val specs = viewModel.state.first().specs
-            binding.specsRecyclerView.adapter = SpecsAdapter(specs)
+        viewLifecycleOwner.collectWhenStarted(viewModel.state) { state ->
+            (binding.specsRecyclerView.adapter as SpecsAdapter).submitList(state.items)
         }
     }
 }

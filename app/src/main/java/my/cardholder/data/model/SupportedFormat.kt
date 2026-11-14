@@ -22,33 +22,37 @@ fun SupportedFormat.isSquare(): Boolean {
             this == SupportedFormat.QR_CODE
 }
 
+fun SupportedFormat.isTwoDimensional(): Boolean {
+    return isSquare() || this == SupportedFormat.PDF_417
+}
+
 fun SupportedFormat.toSpec(): FormatSpec {
     return when (this) {
         SupportedFormat.AZTEC ->
-            FormatSpec("Aztec", "ASCII 1-255")
+            FormatSpec(this, "Aztec", FormatCharacters.ASCII_255)
         SupportedFormat.CODABAR ->
-            FormatSpec("Codabar", "0123456789-\$:/.+")
+            FormatSpec(this, "Codabar", FormatCharacters.CODABAR)
         SupportedFormat.CODE_39 ->
-            FormatSpec("Code 39", "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.\$/+%")
+            FormatSpec(this, "Code 39", FormatCharacters.ALPHANUMERIC)
         SupportedFormat.CODE_93 ->
-            FormatSpec("Code 93", "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.\$/+%")
+            FormatSpec(this, "Code 93", FormatCharacters.ALPHANUMERIC)
         SupportedFormat.CODE_128 ->
-            FormatSpec("Code 128", "ASCII 1-128")
+            FormatSpec(this, "Code 128", FormatCharacters.ASCII_128)
         SupportedFormat.DATA_MATRIX ->
-            FormatSpec("DataMatrix", "ASCII 1-255")
+            FormatSpec(this, "DataMatrix", FormatCharacters.ASCII_255)
         SupportedFormat.EAN_8 ->
-            FormatSpec("EAN-8", "0123456789", "8")
+            FormatSpec(this, "EAN-8", FormatCharacters.DIGITS, FormatLength.Fixed(8))
         SupportedFormat.EAN_13 ->
-            FormatSpec("EAN-13", "0123456789", "13")
+            FormatSpec(this, "EAN-13", FormatCharacters.DIGITS, FormatLength.Fixed(13))
         SupportedFormat.ITF ->
-            FormatSpec("ITF", "0123456789", "even value")
+            FormatSpec(this, "ITF", FormatCharacters.DIGITS, FormatLength.Even)
         SupportedFormat.PDF_417 ->
-            FormatSpec("PDF417","ASCII 1-255")
+            FormatSpec(this, "PDF417", FormatCharacters.ASCII_255)
         SupportedFormat.QR_CODE ->
-            FormatSpec("QR code", "ASCII 1-255")
+            FormatSpec(this, "QR code", FormatCharacters.ASCII_255)
         SupportedFormat.UPC_A ->
-            FormatSpec("UPC-A", "0123456789", "12")
+            FormatSpec(this, "UPC-A", FormatCharacters.DIGITS, FormatLength.Fixed(12))
         SupportedFormat.UPC_E ->
-            FormatSpec("UPC-E", "0123456789", "8")
+            FormatSpec(this, "UPC-E", FormatCharacters.DIGITS, FormatLength.Fixed(8))
     }
 }

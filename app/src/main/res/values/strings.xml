@@ -219,6 +219,15 @@
     <string name="specs_barcode_valid_characters_text">Valid characters: %s</string>
     <string name="specs_label">Specs</string>
     <string name="specs_toolbar_title">Supported formats</string>
+    <string name="specs_group_linear">Linear (1D)</string>
+    <string name="specs_group_two_dimensional">Two-dimensional (2D)</string>
+    <string name="specs_characters_alphanumeric">A–Z, 0–9, space and -\u00A0.\u00A0$\u00A0/\u00A0+\u00A0%</string>
+    <string name="specs_length_unfixed">any</string>
+    <string name="specs_length_even">even</string>
+    <string name="specs_characters_digits" translatable="false">0–9</string>
+    <string name="specs_characters_codabar" translatable="false">0–9\u00A0-\u00A0$\u00A0:\u00A0/\u00A0.\u00A0+</string>
+    <string name="specs_characters_ascii_128" translatable="false">ASCII\u00A01–128</string>
+    <string name="specs_characters_ascii_255" translatable="false">ASCII\u00A01–255</string>
     <!--endregion-->
 
     <!--region Sync-->
