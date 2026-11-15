@@ -21,6 +21,7 @@
     <string name="card_backup_dialog_damaged_file_error_message">El archivo de copia de seguridad está dañado, no se pudo importar ninguna tarjeta</string>
     <string name="card_backup_dialog_newer_version_error_message">El archivo de copia de seguridad se creó con una versión más reciente de la aplicación. Actualiza la aplicación e inténtalo de nuevo</string>
     <string name="card_backup_dialog_no_cards_error_message">No hay tarjetas en el archivo de copia de seguridad</string>
+    <string name="card_backup_dialog_no_cards_to_export_error_message">No hay tarjetas para exportar</string>
     <string name="card_backup_dialog_not_backup_file_error_message">El archivo no es una copia de seguridad de tarjetas</string>
     <string name="card_backup_dialog_operation_failed_error_message">La operación ha fallado</string>
     <string name="card_backup_dialog_operation_failed_with_details_error_message">La operación ha fallado: %s</string>
