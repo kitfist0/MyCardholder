@@ -15,6 +15,9 @@ enum class BackupError {
     /** The file is a card backup, but it has no cards */
     NO_CARDS,
 
+    /** There are no cards to export */
+    NO_CARDS_TO_EXPORT,
+
     /** The file is a card backup, but none of its cards can be read */
     DAMAGED_BACKUP_FILE,
 

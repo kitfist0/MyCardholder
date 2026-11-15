@@ -6,6 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -21,6 +22,8 @@ import my.cardholder.ui.base.BaseEvent
 import my.cardholder.util.Text
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import java.io.ByteArrayInputStream
@@ -31,11 +34,14 @@ class CardBackupViewModelTest {
     private val backupRepository = mockk<BackupRepository>()
     private val settingsRepository = mockk<SettingsRepository>()
     private val inputStream = ByteArrayInputStream(ByteArray(0))
+    private val hasCardsToExport = MutableStateFlow(true)
+    private val cloudSyncEnabled = MutableStateFlow(false)
 
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        every { settingsRepository.cloudSyncEnabled } returns flowOf(false)
+        every { settingsRepository.cloudSyncEnabled } returns cloudSyncEnabled
+        every { backupRepository.hasCardsToExport } returns hasCardsToExport
     }
 
     @After
@@ -49,6 +55,7 @@ class CardBackupViewModelTest {
             BackupError.NOT_BACKUP_FILE to R.string.card_backup_dialog_not_backup_file_error_message,
             BackupError.NEWER_BACKUP_VERSION to R.string.card_backup_dialog_newer_version_error_message,
             BackupError.NO_CARDS to R.string.card_backup_dialog_no_cards_error_message,
+            BackupError.NO_CARDS_TO_EXPORT to R.string.card_backup_dialog_no_cards_to_export_error_message,
             BackupError.DAMAGED_BACKUP_FILE to R.string.card_backup_dialog_damaged_file_error_message,
             BackupError.OPERATION_FAILED to R.string.card_backup_dialog_operation_failed_error_message,
         )
@@ -102,13 +109,48 @@ class CardBackupViewModelTest {
         )
     }
 
+    @Test
+    fun `export button is shown only when there are cards to export`() = runTest {
+        val viewModel = createViewModel(showOnlyImportButtons = false)
+        assertTrue(viewModel.state.value.exportCardsButtonIsVisible)
+
+        hasCardsToExport.value = false
+        assertFalse(viewModel.state.value.exportCardsButtonIsVisible)
+
+        hasCardsToExport.value = true
+        assertTrue(viewModel.state.value.exportCardsButtonIsVisible)
+    }
+
+    @Test
+    fun `export button is hidden when only import is offered`() = runTest {
+        val viewModel = createViewModel(showOnlyImportButtons = true)
+
+        assertFalse(viewModel.state.value.exportCardsButtonIsVisible)
+    }
+
+    @Test
+    fun `finished operation keeps buttons hidden by cards and settings`() = runTest {
+        cloudSyncEnabled.value = true
+        hasCardsToExport.value = false
+        every { backupRepository.importFromBackupFile(inputStream) } returns
+                flowOf(BackupResult.Error(BackupError.NOT_BACKUP_FILE))
+        val viewModel = createViewModel(showOnlyImportButtons = false)
+
+        viewModel.onBackupFileImportResult(inputStream)
+
+        assertFalse(viewModel.state.value.syncCardsButtonIsVisible)
+        assertFalse(viewModel.state.value.exportCardsButtonIsVisible)
+    }
+
+    private fun createViewModel(showOnlyImportButtons: Boolean) = CardBackupViewModel(
+        backupRepository,
+        SavedStateHandle(mapOf("show_only_import_buttons" to showOnlyImportButtons)),
+        settingsRepository,
+    )
+
     private suspend fun importEvents(result: BackupResult): List<BaseEvent> {
         every { backupRepository.importFromBackupFile(inputStream) } returns flowOf(result)
-        val viewModel = CardBackupViewModel(
-            backupRepository,
-            SavedStateHandle(mapOf("show_only_import_buttons" to true)),
-            settingsRepository,
-        )
+        val viewModel = createViewModel(showOnlyImportButtons = true)
         val events = mutableListOf<BaseEvent>()
         viewModel.baseEvents.test {
             viewModel.onBackupFileImportResult(inputStream)

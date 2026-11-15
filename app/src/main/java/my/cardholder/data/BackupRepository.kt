@@ -8,7 +8,9 @@ import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import my.cardholder.data.model.BackupError
 import my.cardholder.data.model.BackupOperationType
 import my.cardholder.data.model.BackupResult
@@ -46,9 +48,18 @@ class BackupRepository @Inject constructor(
         private const val FALSE = "0"
     }
 
+    val hasCardsToExport: Flow<Boolean>
+        get() = cardRepository.cardsAndCategories
+            .map { cardsAndCategories -> cardsAndCategories.isNotEmpty() }
+            .distinctUntilChanged()
+
     fun exportToBackupFile(outputStream: OutputStream): Flow<BackupResult> = channelFlow {
         val cardsAndCategories = cardRepository.cardsAndCategories.first().reversed()
         val numOfCards = cardsAndCategories.size
+        // Otherwise the file would have no cards and no result would be sent
+        if (numOfCards == 0) {
+            throw BackupException(BackupError.NO_CARDS_TO_EXPORT)
+        }
         csvWriter().openAsync(outputStream) {
             writeRow(CSV_SCHEME_VERSION)
             cardsAndCategories.forEachIndexed { index, cardAndCategory ->
@@ -75,7 +86,7 @@ class BackupRepository @Inject constructor(
             }
         }
     }.catch {
-        emit(BackupResult.Error(BackupError.OPERATION_FAILED, it.message))
+        emit(it.toBackupError())
     }
 
     /**
@@ -121,13 +132,15 @@ class BackupRepository @Inject constructor(
             }
         }
     }.catch {
-        emit(
-            if (it is BackupException) {
-                BackupResult.Error(it.error)
-            } else {
-                BackupResult.Error(BackupError.OPERATION_FAILED, it.message)
-            }
-        )
+        emit(it.toBackupError())
+    }
+
+    private fun Throwable.toBackupError(): BackupResult.Error {
+        return if (this is BackupException) {
+            BackupResult.Error(error)
+        } else {
+            BackupResult.Error(BackupError.OPERATION_FAILED, message)
+        }
     }
 
     /** Serializes the snapshot, including deleted cards, for uploading to the cloud */

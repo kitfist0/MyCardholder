@@ -189,6 +189,31 @@ class BackupRepositoryTest {
     }
 
     @Test
+    fun `export without cards returns error and writes nothing`() = runTest {
+        every { cardRepository.cardsAndCategories } returns flowOf(emptyList())
+        val outputStream = ByteArrayOutputStream()
+
+        backupRepository.exportToBackupFile(outputStream).test {
+            assertEquals(BackupResult.Error(BackupError.NO_CARDS_TO_EXPORT), awaitItem())
+            awaitComplete()
+        }
+
+        assertEquals(0, outputStream.size())
+    }
+
+    @Test
+    fun `hasCardsToExport follows whether there are cards`() = runTest {
+        every { cardRepository.cardsAndCategories } returns
+                flowOf(emptyList(), listOf(CardAndCategory(card(), null)), listOf(CardAndCategory(card(), null)))
+
+        backupRepository.hasCardsToExport.test {
+            assertEquals(false, awaitItem())
+            assertEquals(true, awaitItem())
+            awaitComplete()
+        }
+    }
+
+    @Test
     fun `failed export returns operation failed error with details`() = runTest {
         every { cardRepository.cardsAndCategories } returns flowOf(listOf(CardAndCategory(card(), null)))
         val brokenOutputStream = object : java.io.OutputStream() {

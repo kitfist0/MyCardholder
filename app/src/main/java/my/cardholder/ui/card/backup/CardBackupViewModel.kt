@@ -38,7 +38,8 @@ class CardBackupViewModel @Inject constructor(
             R.string.card_backup_dialog_default_title
         },
         progressPercentage = null,
-        exportCardsButtonIsVisible = !showOnlyImportButtons,
+        // Shown once it's known that there are cards to export
+        exportCardsButtonIsVisible = false,
         importCardsButtonIsVisible = true,
         syncCardsButtonIsVisible = true,
         launchBackupFileExport = false,
@@ -52,6 +53,12 @@ class CardBackupViewModel @Inject constructor(
         settingsRepository.cloudSyncEnabled
             .onEach { isEnabled ->
                 _state.update { it.copy(syncCardsButtonIsVisible = !isEnabled) }
+            }
+            .launchIn(viewModelScope)
+
+        backupRepository.hasCardsToExport
+            .onEach { hasCards ->
+                _state.update { it.copy(exportCardsButtonIsVisible = !showOnlyImportButtons && hasCards) }
             }
             .launchIn(viewModelScope)
     }
@@ -105,7 +112,7 @@ class CardBackupViewModel @Inject constructor(
     private fun onEachBackupResult(result: BackupResult) {
         when (result) {
             is BackupResult.Error -> {
-                _state.value = defaultState
+                resetState()
                 showToast(result.toText())
             }
 
@@ -114,10 +121,20 @@ class CardBackupViewModel @Inject constructor(
             }
 
             is BackupResult.Success -> {
-                _state.value = defaultState
+                resetState()
                 showSuccessToast(result.type, result.numOfSkippedCards)
                 navigateUp()
             }
+        }
+    }
+
+    /** Button visibility depends on cards and settings, so it's kept */
+    private fun resetState() {
+        _state.update { state ->
+            defaultState.copy(
+                exportCardsButtonIsVisible = state.exportCardsButtonIsVisible,
+                syncCardsButtonIsVisible = state.syncCardsButtonIsVisible,
+            )
         }
     }
 
@@ -148,6 +165,9 @@ class CardBackupViewModel @Inject constructor(
 
             BackupError.NO_CARDS ->
                 Text.Resource(R.string.card_backup_dialog_no_cards_error_message)
+
+            BackupError.NO_CARDS_TO_EXPORT ->
+                Text.Resource(R.string.card_backup_dialog_no_cards_to_export_error_message)
 
             BackupError.DAMAGED_BACKUP_FILE ->
                 Text.Resource(R.string.card_backup_dialog_damaged_file_error_message)
