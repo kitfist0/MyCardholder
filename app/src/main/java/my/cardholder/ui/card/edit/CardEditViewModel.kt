@@ -35,6 +35,9 @@ class CardEditViewModel @Inject constructor(
     private val cardId = CardEditFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
 
     private var cardName: String? = null
+
+    /** The name is saved as it's typed, so erasing it would leave a part of it, e.g. its first letter */
+    private var cardNameWhenOpened: String? = null
     private var cardCategoryName: String? = null
     private var cardColor: String? = null
     private var cardLogo: String? = null
@@ -51,9 +54,13 @@ class CardEditViewModel @Inject constructor(
             .onEach { cardAndCategory ->
                 val categoryNames = categoryRepository.getCategoryNames()
                 val card = cardAndCategory.card
+                if (cardNameWhenOpened == null) {
+                    cardNameWhenOpened = card.name
+                }
                 _state.value = CardEditState.Success(
                     barcodeFile = card.barcodeFile,
                     cardName = card.name,
+                    cardNameIsEmpty = cardName?.isBlank() == true,
                     cardContent = card.content,
                     cardCategoryName = cardAndCategory.category?.name ?: Category.NULL_NAME,
                     cardCategoryNames = listOf(Category.NULL_NAME).plus(categoryNames),
@@ -78,8 +85,15 @@ class CardEditViewModel @Inject constructor(
             return
         }
         cardName = changedName
+        val nameIsEmpty = changedName.isBlank()
+        _state.update { state ->
+            (state as? CardEditState.Success)?.copy(cardNameIsEmpty = nameIsEmpty) ?: state
+        }
+        // Until a new name is entered, the card has the name it had when the screen was opened
+        val nameToSave = if (nameIsEmpty) cardNameWhenOpened else changedName
+        nameToSave ?: return
         viewModelScope.launch {
-            cardRepository.updateCardName(cardId, changedName)
+            cardRepository.updateCardName(cardId, nameToSave)
         }
     }
 

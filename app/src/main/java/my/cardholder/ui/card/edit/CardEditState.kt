@@ -10,6 +10,7 @@ sealed class CardEditState {
     data class Success(
         val barcodeFile: File?,
         val cardName: String,
+        val cardNameIsEmpty: Boolean = false,
         val cardContent: String,
         val cardCategoryName: String,
         val cardCategoryNames: List<String>,

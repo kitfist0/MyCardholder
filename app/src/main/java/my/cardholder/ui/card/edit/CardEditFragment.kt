@@ -103,7 +103,15 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                     }
                     cardEditCardNameInputLayout.apply {
                         isEnabled = true
-                        editText?.setTextAndSelectionIfRequired(state.cardName)
+                        error = if (state.cardNameIsEmpty) {
+                            getString(R.string.card_edit_name_is_empty_error_message)
+                        } else {
+                            null
+                        }
+                        // While the entered name is empty, the card still has its last name
+                        if (!state.cardNameIsEmpty) {
+                            editText?.setTextAndSelectionIfRequired(state.cardName)
+                        }
                     }
                     cardEditCardContentInputLayout.apply {
                         isEnabled = true
