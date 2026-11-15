@@ -46,7 +46,7 @@ class CardRepository @Inject constructor(
         val barcodeFilePath = writeNewBarcodeFile(content, format)
         val newCard = Card(
             id = Card.NEW_CARD_ID,
-            name = name.trim(),
+            name = name.trim().ifEmpty { DEFAULT_CARD_NAME },
             position = position ?: cardDao.getNextPosition(),
             logo = logo?.trim()?.ifEmpty { null },
             isPinned = false,
@@ -166,8 +166,12 @@ class CardRepository @Inject constructor(
         }
     }
 
+    /** A card can't have an empty name, so an empty one is ignored */
     suspend fun updateCardName(cardId: Long, name: String) {
         val newName = name.trim()
+        if (newName.isEmpty()) {
+            return
+        }
         getCard(cardId)?.let { card ->
             if (card.name != newName) {
                 upsertCard(

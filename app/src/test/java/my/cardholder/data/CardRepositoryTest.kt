@@ -228,6 +228,25 @@ class CardRepositoryTest {
     }
 
     @Test
+    fun `updateCardName ignores empty name`() = runTest {
+        val card = cardWithChangedAt(0L)
+        coEvery { cardDao.getCard(card.id) } returns card
+
+        cardRepository.updateCardName(card.id, "   ")
+
+        coVerify(exactly = 0) { cardDao.upsert(any<Card>()) }
+    }
+
+    @Test
+    fun `insertNewCard gives card with empty name the default name`() = runTest {
+        coEvery { cardDao.upsert(any<Card>()) } returns 1L
+
+        cardRepository.insertNewCard(name = "  ", content = "123")
+
+        coVerify { cardDao.upsert(match<Card> { it.name == "New" }) }
+    }
+
+    @Test
     fun `edit uses current time when card version is in the past`() = runTest {
         val card = cardWithChangedAt(0L)
         coEvery { cardDao.getCard(card.id) } returns card
