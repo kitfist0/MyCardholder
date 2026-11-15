@@ -72,6 +72,7 @@
     <string name="card_edit_logo_helper_text">Вы можете вставить ссылку на изображение или просто указать адрес сайта здесь ☝</string>
     <string name="card_edit_logo_hint">Логотип</string>
     <string name="card_edit_name_hint">Имя</string>
+    <string name="card_edit_name_is_empty_error_message">Имя пустое</string>
     <string name="card_edit_no_connection_error_message">Необходимо соединеие с интернетом!</string>
     <string name="card_edit_scan_icon_content_description">Сканировать штрихкод</string>
     <!--endregion-->

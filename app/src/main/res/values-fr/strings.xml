@@ -72,6 +72,7 @@
     <string name="card_edit_logo_helper_text">Vous pouvez coller le lien vers l\'image ou simplement saisir l\'adresse du site Web ici ☝</string>
     <string name="card_edit_logo_hint">Logo</string>
     <string name="card_edit_name_hint">Nom</string>
+    <string name="card_edit_name_is_empty_error_message">Le nom est vide</string>
     <string name="card_edit_no_connection_error_message">Connexion Internet requise !</string>
     <string name="card_edit_scan_icon_content_description">Scanner le code-barres</string>
     <!--endregion-->
