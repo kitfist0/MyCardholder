@@ -69,8 +69,8 @@ class CloudSyncUseCaseTest {
     }
 
     @Test
-    fun `already synced cloud backup is not downloaded`() = runTest {
-        coEvery { googleAssistant.getBackupChecksums() } returns KotlinResult.success(listOf(LATEST_SYNCED, LOCAL))
+    fun `cloud backup equal to local state is not downloaded`() = runTest {
+        coEvery { googleAssistant.getBackupChecksums() } returns KotlinResult.success(listOf(LOCAL))
 
         useCase.execute(CloudProvider.GOOGLE).test {
             assertEquals(Result.Success(MERGED), expectMostRecentItemAfterCompletion())
@@ -79,7 +79,21 @@ class CloudSyncUseCaseTest {
         coVerify(exactly = 0) { googleAssistant.getBackupContent(any()) }
         coVerify(exactly = 0) { syncRepository.mergeSnapshot(any()) }
         coVerify { googleAssistant.uploadBackup("local content", MERGED) }
-        coVerify { googleAssistant.deleteBackups(listOf(LATEST_SYNCED, LOCAL)) }
+        coVerify { googleAssistant.deleteBackups(listOf(LOCAL)) }
+    }
+
+    @Test
+    fun `latest synced backup is merged before it is deleted, as local data could be lost since`() = runTest {
+        // E.g. the database was recreated empty, while the settings with the latest synced checksum remained
+        coEvery { googleAssistant.getBackupChecksums() } returns KotlinResult.success(listOf(LATEST_SYNCED))
+
+        useCase.execute(CloudProvider.GOOGLE).test {
+            assertEquals(Result.Success(MERGED), expectMostRecentItemAfterCompletion())
+        }
+
+        coVerify { syncRepository.mergeSnapshot(remoteSnapshot) }
+        coVerify { googleAssistant.uploadBackup("local content", MERGED) }
+        coVerify { googleAssistant.deleteBackups(listOf(LATEST_SYNCED)) }
     }
 
     @Test

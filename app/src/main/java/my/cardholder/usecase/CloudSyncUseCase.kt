@@ -3,7 +3,6 @@ package my.cardholder.usecase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import my.cardholder.cloud.BackupChecksum
@@ -36,12 +35,14 @@ class CloudSyncUseCase @Inject constructor(
         emit(Result.Loading("Checking the cloud backup"))
         val cloudBackupAssistant = getCloudBackupAssistant(cloudProvider)
         val cloudChecksums = cloudBackupAssistant.getBackupChecksums().getOrThrow()
-        val latestSyncedChecksum = settingsRepository.latestSyncedBackupChecksum.first()
         val localChecksum = syncRepository.getLocalChecksum()
 
-        // The latest synced backup is already a part of the local state
+        // A backup equal to the local state adds nothing. Every other one is merged, even the latest synced one:
+        // the local data could be lost since then (e.g. a corrupted database is recreated empty), and the backup
+        // is deleted below. Merging is idempotent, so merging a backup that is already a part of the local state
+        // changes nothing.
         cloudChecksums
-            .filter { checksum -> checksum != localChecksum && checksum != latestSyncedChecksum }
+            .filter { checksum -> checksum != localChecksum }
             .forEach { checksum ->
                 emit(Result.Loading("Downloading backup data"))
                 // Null if another device has just replaced the backup, its new one will be merged next time
