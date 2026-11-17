@@ -47,6 +47,15 @@ data class Card(
     /** Identifies the same card across devices during cloud sync */
     @ColumnInfo(name = "sync_id", defaultValue = "")
     val syncId: String = UUID.randomUUID().toString(),
+    /**
+     * Position and category have their own change times. Reordering cards or renaming a category
+     * changes many cards at once, and must not overwrite edits of those cards made on another device.
+     * [changedAt] is the change time of all the other synced data.
+     */
+    @ColumnInfo(name = "position_changed_at", defaultValue = "0")
+    val positionChangedAt: Long = changedAt,
+    @ColumnInfo(name = "category_changed_at", defaultValue = "0")
+    val categoryChangedAt: Long = changedAt,
 ) {
 
     @Ignore

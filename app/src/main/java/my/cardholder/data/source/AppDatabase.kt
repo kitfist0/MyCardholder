@@ -18,7 +18,7 @@ import my.cardholder.data.model.WidgetCard
         WidgetCard::class,
         DeletedCard::class,
     ],
-    version = 8,
+    version = 9,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -82,6 +82,14 @@ abstract class AppDatabase : RoomDatabase() {
                     db.execSQL("UPDATE `cards` SET `sync_id` = lower(hex(randomblob(16)))")
                     db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_cards_sync_id` ON `cards` (`sync_id`)")
                     db.execSQL("CREATE TABLE IF NOT EXISTS `deleted_cards` (`sync_id` TEXT NOT NULL, `deleted_at` INTEGER NOT NULL, PRIMARY KEY(`sync_id`))")
+                }
+            },
+            object : Migration(8, 9) {
+                override fun migrate(db: SupportSQLiteDatabase) {
+                    db.execSQL("ALTER TABLE `cards` ADD COLUMN `position_changed_at` INTEGER NOT NULL DEFAULT 0")
+                    db.execSQL("ALTER TABLE `cards` ADD COLUMN `category_changed_at` INTEGER NOT NULL DEFAULT 0")
+                    // Until now position and category changed with the rest of the card
+                    db.execSQL("UPDATE `cards` SET `position_changed_at` = `changed_at`, `category_changed_at` = `changed_at`")
                 }
             },
         )

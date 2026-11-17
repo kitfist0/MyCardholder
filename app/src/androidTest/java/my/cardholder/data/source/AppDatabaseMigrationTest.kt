@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 class AppDatabaseMigrationTest {
 
     private companion object {
-        const val LATEST_VERSION = 8
+        const val LATEST_VERSION = 9
         const val TEST_DB = "migration-test"
     }
 
@@ -31,6 +31,27 @@ class AppDatabaseMigrationTest {
             // Fails if a migration is missing or leads to a schema other than the exported one
             helper.runMigrationsAndValidate(name, LATEST_VERSION, true, *AppDatabase.MIGRATIONS).close()
         }
+    }
+
+    @Test
+    fun positionAndCategoryGetChangeTimeOfCardWhenMigratingToVersion9() {
+        helper.createDatabase(TEST_DB, 8).apply {
+            execSQL(
+                "INSERT INTO cards (id, name, position, is_pinned, content, color, format, changed_at, sync_id) " +
+                        "VALUES (1, 'Card', 0, 0, '111', '#EF5350', 'QR_CODE', 12345, 'sync-id')"
+            )
+            close()
+        }
+
+        val db = helper.runMigrationsAndValidate(TEST_DB, LATEST_VERSION, true, *AppDatabase.MIGRATIONS)
+
+        db.query("SELECT changed_at, position_changed_at, category_changed_at FROM cards").use { cursor ->
+            assertTrue(cursor.moveToFirst())
+            assertEquals(12345L, cursor.getLong(0))
+            assertEquals(12345L, cursor.getLong(1))
+            assertEquals(12345L, cursor.getLong(2))
+        }
+        db.close()
     }
 
     @Test
