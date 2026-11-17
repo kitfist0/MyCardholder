@@ -18,6 +18,7 @@ import my.cardholder.util.ImageUrlValidator
 import my.cardholder.util.NetworkChecker
 import my.cardholder.util.Text
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class CardEditViewModel @Inject constructor(
@@ -29,21 +30,35 @@ class CardEditViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private companion object {
-        const val LOGO_VALIDATION_DELAY_MILLIS = 2000L
+        const val LOGO_VALIDATION_DELAY = 2000L
     }
 
     private val cardId = CardEditFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
 
+    /**
+     * Typed text is the state of its field. Saving it echoes back from the database later,
+     * possibly after more letters are typed, so the typed text takes precedence over the saved one.
+     */
     private var cardName: String? = null
+    private var cardLogo: String? = null
 
     /** The name is saved as it's typed, so erasing it would leave a part of it, e.g. its first letter */
     private var cardNameWhenOpened: String? = null
     private var cardCategoryName: String? = null
     private var cardColor: String? = null
-    private var cardLogo: String? = null
     private var cardFormat: String? = null
 
     private var logoValidationJob: Job? = null
+
+    /**
+     * Typed values are saved one after another: concurrent saves could finish in any order,
+     * so an older value could overwrite the last one. Values still waiting are replaced by newer ones.
+     */
+    private val cardNameToSave = MutableStateFlow<String?>(null)
+    private val cardLogoToSave = MutableStateFlow<LogoToSave?>(null)
+
+    /** A wrapper, so that erasing the logo (null) is a value to save too */
+    private data class LogoToSave(val logo: String?)
 
     private val _state = MutableStateFlow<CardEditState>(CardEditState.Loading)
     val state = _state.asStateFlow()
@@ -57,21 +72,35 @@ class CardEditViewModel @Inject constructor(
                 if (cardNameWhenOpened == null) {
                     cardNameWhenOpened = card.name
                 }
+                val shownCardName = cardName ?: card.name
                 _state.value = CardEditState.Success(
                     barcodeFile = card.barcodeFile,
-                    cardName = card.name,
-                    cardNameIsEmpty = cardName?.isBlank() == true,
+                    cardName = shownCardName,
+                    cardNameIsEmpty = shownCardName.isBlank(),
                     cardContent = card.content,
                     cardCategoryName = cardAndCategory.category?.name ?: Category.NULL_NAME,
                     cardCategoryNames = listOf(Category.NULL_NAME).plus(categoryNames),
                     cardComment = card.comment.orEmpty(),
                     cardColor = card.color,
-                    cardLogo = card.logo.orEmpty(),
+                    cardLogo = cardLogo ?: card.logo.orEmpty(),
                     barcodeFormatName = card.format.toString(),
                 )
                 if (card.barcodeFile?.exists() == false) {
                     showSnack(Text.Resource(R.string.card_edit_invalid_value_error_message))
                 }
+            }
+            .launchIn(viewModelScope)
+
+        cardNameToSave
+            .filterNotNull()
+            .onEach { name -> cardRepository.updateCardName(cardId, name) }
+            .launchIn(viewModelScope)
+
+        cardLogoToSave
+            .filterNotNull()
+            .onEach { logoToSave ->
+                cardRepository.updateCardLogo(cardId, logoToSave.logo)
+                validateLogo(logoToSave.logo)
             }
             .launchIn(viewModelScope)
     }
@@ -87,14 +116,12 @@ class CardEditViewModel @Inject constructor(
         cardName = changedName
         val nameIsEmpty = changedName.isBlank()
         _state.update { state ->
-            (state as? CardEditState.Success)?.copy(cardNameIsEmpty = nameIsEmpty) ?: state
+            (state as? CardEditState.Success)?.copy(cardName = changedName, cardNameIsEmpty = nameIsEmpty) ?: state
         }
         // Until a new name is entered, the card has the name it had when the screen was opened
         val nameToSave = if (nameIsEmpty) cardNameWhenOpened else changedName
         nameToSave ?: return
-        viewModelScope.launch {
-            cardRepository.updateCardName(cardId, nameToSave)
-        }
+        cardNameToSave.value = nameToSave
     }
 
     fun onCardContentClicked(extras: Navigator.Extras) {
@@ -138,20 +165,26 @@ class CardEditViewModel @Inject constructor(
         if (changedLogo == null || cardLogo == changedLogo) {
             return
         }
-        cardLogo = changedLogo.ifBlank { null }
-
+        cardLogo = changedLogo
+        _state.update { state ->
+            (state as? CardEditState.Success)?.copy(cardLogo = changedLogo) ?: state
+        }
         logoValidationJob?.cancel()
         logoValidationJob = null
+        cardLogoToSave.value = LogoToSave(changedLogo.ifBlank { null })
+    }
+
+    /** Checks the logo once it stops changing */
+    private fun validateLogo(logo: String?) {
+        logo ?: return
+        logoValidationJob?.cancel()
         logoValidationJob = viewModelScope.launch {
-            cardRepository.updateCardLogo(cardId, cardLogo)
-            cardLogo?.let {
-                delay(LOGO_VALIDATION_DELAY_MILLIS)
-                if (!imageUrlValidator.isValid(it)) {
-                    if (networkChecker.isNetworkAvailable()) {
-                        showToast(Text.Resource(R.string.card_edit_invalid_image_link_error_message))
-                    } else {
-                        showToast(Text.Resource(R.string.card_edit_no_connection_error_message))
-                    }
+            delay(LOGO_VALIDATION_DELAY.milliseconds)
+            if (!imageUrlValidator.isValid(logo)) {
+                if (networkChecker.isNetworkAvailable()) {
+                    showToast(Text.Resource(R.string.card_edit_invalid_image_link_error_message))
+                } else {
+                    showToast(Text.Resource(R.string.card_edit_no_connection_error_message))
                 }
             }
         }

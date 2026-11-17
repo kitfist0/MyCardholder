@@ -108,10 +108,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         } else {
                             null
                         }
-                        // While the entered name is empty, the card still has its last name
-                        if (!state.cardNameIsEmpty) {
-                            editText?.setTextAndSelectionIfRequired(state.cardName)
-                        }
+                        editText?.setTextAndSelectionIfRequired(state.cardName)
                     }
                     cardEditCardContentInputLayout.apply {
                         isEnabled = true
