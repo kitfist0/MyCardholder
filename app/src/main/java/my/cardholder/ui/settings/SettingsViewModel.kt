@@ -8,6 +8,7 @@ import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.AppTheme
 import my.cardholder.data.model.NumOfColumns
+import my.cardholder.theme.DynamicColorsManager
 import my.cardholder.ui.base.BaseViewModel
 import javax.inject.Inject
 import kotlin.collections.indexOfFirst
@@ -16,12 +17,21 @@ import kotlin.collections.toMutableList
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
+    dynamicColorsManager: DynamicColorsManager,
 ) : BaseViewModel() {
+
+    private companion object {
+        const val OPTION_ON = "on"
+        const val OPTION_OFF = "off"
+    }
 
     private val _state = MutableStateFlow(
         SettingsState(
             headerState = SettingsState.HeaderState(false),
-            settingsItems = SettingId.entries.map {
+            settingsItems = SettingId.entries
+                // Dynamic colors are supported since Android 12
+                .filter { it != SettingId.DYNAMIC_COLORS || dynamicColorsManager.isAvailable }
+                .map {
                 SettingsItem(
                     id = it,
                     iconRes = it.getImageRes(),
@@ -64,6 +74,25 @@ class SettingsViewModel @Inject constructor(
                                     id = it.name,
                                     title = it.name.lowercase(),
                                     selected = theme.name == it.name,
+                                )
+                            }
+                        )
+                    }
+                )
+            }
+            .launchIn(viewModelScope)
+
+        settingsRepository.dynamicColorsEnabled
+            .onEach { isEnabled ->
+                updateState(
+                    predicate = { item -> item.id == SettingId.DYNAMIC_COLORS },
+                    update = { item ->
+                        item.copy(
+                            options = listOf(OPTION_ON, OPTION_OFF).map { option ->
+                                SettingsItem.Option(
+                                    id = option,
+                                    title = option,
+                                    selected = (option == OPTION_ON) == isEnabled,
                                 )
                             }
                         )
@@ -132,6 +161,11 @@ class SettingsViewModel @Inject constructor(
             SettingId.THEME ->
                 viewModelScope.launch {
                     settingsRepository.setAppTheme(AppTheme.valueOf(optionId))
+                }
+
+            SettingId.DYNAMIC_COLORS ->
+                viewModelScope.launch {
+                    settingsRepository.setDynamicColorsEnabled(optionId == OPTION_ON)
                 }
 
             SettingId.COLUMNS ->

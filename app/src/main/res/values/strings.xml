@@ -198,6 +198,7 @@
     <string name="settings_cloud_sync_activation_message">Cloud sync enabled</string>
     <string name="settings_cloud_sync_deactivation_message">Cloud sync disabled</string>
     <string name="settings_coffee_item_title">Coffee for developers</string>
+    <string name="settings_dynamic_colors_item_title">Dynamic colors</string>
     <string name="settings_import_export_cards_item_title">Import or export cards</string>
     <string name="settings_label">Settings</string>
     <string name="settings_num_of_columns_item_title">Number of columns</string>

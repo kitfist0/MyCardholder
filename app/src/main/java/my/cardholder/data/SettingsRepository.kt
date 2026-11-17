@@ -23,6 +23,7 @@ class SettingsRepository @Inject constructor(
         val APP_THEME_KEY = intPreferencesKey("app_theme")
         val CLOUD_SYNC_ENABLED_KEY = booleanPreferencesKey("cloud_sync_enabled")
         val CLOUD_PROVIDER_KEY = intPreferencesKey("cloud_provider")
+        val DYNAMIC_COLORS_ENABLED_KEY = booleanPreferencesKey("dynamic_colors_enabled")
         val EXPLANATION_BARCODE_ZOOM_KEY = booleanPreferencesKey("explanation_full_screen")
         val EXPLANATION_CARD_SCAN_KEY = booleanPreferencesKey("explanation_scan")
         val LATEST_SYNCED_BACKUP_CHECKSUM_KEY = longPreferencesKey("latest_synced_checksum")
@@ -36,6 +37,15 @@ class SettingsRepository @Inject constructor(
     val appTheme: Flow<AppTheme> = dataStore.data.map { preferences ->
         val themeValue = preferences[APP_THEME_KEY] ?: AppTheme.SYSTEM.ordinal
         AppTheme.entries[themeValue]
+    }
+
+    suspend fun setDynamicColorsEnabled(b: Boolean) = dataStore.edit { preferences ->
+        preferences[DYNAMIC_COLORS_ENABLED_KEY] = b
+    }
+
+    /** Off by default, so that the app keeps its own colors until the user chooses otherwise */
+    val dynamicColorsEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[DYNAMIC_COLORS_ENABLED_KEY] ?: false
     }
 
     suspend fun setCloudSyncEnabled(b: Boolean) = dataStore.edit { preferences ->

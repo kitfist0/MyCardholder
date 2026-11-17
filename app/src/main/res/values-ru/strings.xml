@@ -196,6 +196,7 @@
     <string name="settings_cloud_sync_activation_message">Синхронизация включена</string>
     <string name="settings_cloud_sync_deactivation_message">Синхронизация отключена</string>
     <string name="settings_coffee_item_title">Кофе для разработчиков</string>
+    <string name="settings_dynamic_colors_item_title">Динамические цвета</string>
     <string name="settings_import_export_cards_item_title">Импорт или экспорт карт</string>
     <string name="settings_label">Настройки</string>
     <string name="settings_num_of_columns_item_title">Количество колонок</string>

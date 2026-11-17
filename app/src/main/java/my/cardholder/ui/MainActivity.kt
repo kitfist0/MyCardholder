@@ -19,6 +19,7 @@ import my.cardholder.billing.BillingActivity
 import my.cardholder.data.model.AppTheme
 import my.cardholder.data.model.Card
 import my.cardholder.shortcut.CardShortcutManager
+import my.cardholder.theme.DynamicColorsManager
 import my.cardholder.util.ext.collectWhenStarted
 import javax.inject.Inject
 
@@ -41,6 +42,9 @@ class MainActivity : BillingActivity() {
     @Inject
     lateinit var cardShortcutManager: CardShortcutManager
 
+    @Inject
+    lateinit var dynamicColorsManager: DynamicColorsManager
+
     private val viewModel: MainViewModel by viewModels()
 
     private var navController: NavController? = null
@@ -51,6 +55,8 @@ class MainActivity : BillingActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         installSplashScreen()
+        // The splash screen sets the app theme, which replaces dynamic colors applied before
+        dynamicColorsManager.applyToActivity(this)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -76,6 +82,14 @@ class MainActivity : BillingActivity() {
 
         collectWhenStarted(viewModel.appTheme) { theme ->
             setAppTheme(theme)
+        }
+
+        // Dynamic colors are applied when an activity is created, see DynamicColorsManager
+        val dynamicColorsEnabledOnCreate = dynamicColorsManager.isEnabled.value
+        collectWhenStarted(dynamicColorsManager.isEnabled) { isEnabled ->
+            if (isEnabled != dynamicColorsEnabledOnCreate) {
+                recreate()
+            }
         }
 
         collectWhenStarted(viewModel.backupDownloadLog) { logMessage ->
