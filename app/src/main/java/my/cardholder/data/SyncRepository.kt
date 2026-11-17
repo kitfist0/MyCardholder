@@ -20,8 +20,10 @@ import javax.inject.Singleton
 /**
  * Merges cloud snapshots into the local database.
  *
- * Every card is versioned by its [Card.changedAt]: for each sync id the latest change wins,
- * and a deletion wins over changes made before it. Merging is idempotent and commutative,
+ * A card has three parts with their own change times: its data ([Card.changedAt]), its position
+ * ([Card.positionChangedAt]) and its category ([Card.categoryChangedAt]). For each sync id the latest
+ * change of each part wins, so reordering cards on one device keeps the edits made on another one.
+ * A deletion wins over data changes made before it. Merging is idempotent and commutative,
  * so devices converge to the same state regardless of the order of syncs.
  */
 @Singleton
@@ -53,6 +55,8 @@ class SyncRepository @Inject constructor(
                 logo = card.logo,
                 position = card.position,
                 comment = card.comment,
+                positionChangedAt = card.positionChangedAt,
+                categoryChangedAt = card.categoryChangedAt,
             )
         }
         return SyncSnapshot(cards = cards, deletedCards = cardDao.getDeletedCards().first())
@@ -61,7 +65,12 @@ class SyncRepository @Inject constructor(
     /** Same state on different devices always gives the same checksum */
     fun calculateChecksum(snapshot: SyncSnapshot): BackupChecksum {
         val cardVersions = snapshot.cards.map { card ->
-            CardVersion(syncId = card.syncId.orEmpty(), changedAt = card.changedAt)
+            CardVersion(
+                syncId = card.syncId.orEmpty(),
+                changedAt = card.changedAt,
+                positionChangedAt = card.positionChangedAt,
+                categoryChangedAt = card.categoryChangedAt,
+            )
         }
         return calculateChecksum(cardVersions, snapshot.deletedCards)
     }
@@ -96,8 +105,9 @@ class SyncRepository @Inject constructor(
         val syncId = remoteCard.syncId
         val localCard = syncId?.let { cardDao.getCardBySyncId(it) }
         if (localCard != null) {
-            if (remoteCard.changedAt > localCard.changedAt) {
-                cardDao.upsert(localCard.withRemoteData(remoteCard, syncId))
+            val mergedCard = localCard.mergedWith(remoteCard, syncId)
+            if (mergedCard != localCard) {
+                cardDao.upsert(mergedCard)
             }
             return
         }
@@ -115,12 +125,7 @@ class SyncRepository @Inject constructor(
             .firstOrNull { card -> card.syncId !in remoteSyncIds }
         if (twinCard != null) {
             if (syncId != null) {
-                val mergedCard = if (remoteCard.changedAt > twinCard.changedAt) {
-                    twinCard.withRemoteData(remoteCard, syncId)
-                } else {
-                    twinCard.copy(syncId = syncId)
-                }
-                cardDao.upsert(mergedCard)
+                cardDao.upsert(twinCard.mergedWith(remoteCard, syncId))
             }
             return
         }
@@ -129,6 +134,8 @@ class SyncRepository @Inject constructor(
     }
 
     private suspend fun insertRemoteCard(remoteCard: SyncCard) {
+        // Cards from old backups have no version, so they become a new local change
+        val now = System.currentTimeMillis()
         val newCard = Card(
             id = Card.NEW_CARD_ID,
             syncId = remoteCard.syncId ?: UUID.randomUUID().toString(),
@@ -142,34 +149,51 @@ class SyncRepository @Inject constructor(
             comment = remoteCard.comment,
             format = remoteCard.format,
             path = barcodeFileRepository.writeBarcodeFile(remoteCard.content, remoteCard.format),
-            // Cards from old backups have no version, so they become a new local change
-            changedAt = if (remoteCard.syncId != null) remoteCard.changedAt else System.currentTimeMillis(),
+            changedAt = if (remoteCard.syncId != null) remoteCard.changedAt else now,
+            positionChangedAt = if (remoteCard.syncId != null) remoteCard.positionChangedAt else now,
+            categoryChangedAt = if (remoteCard.syncId != null) remoteCard.categoryChangedAt else now,
         )
         cardDao.upsert(newCard)
     }
 
-    /** Keeps the remote version of the card, including its changedAt, so that checksums converge */
-    private suspend fun Card.withRemoteData(remoteCard: SyncCard, syncId: String): Card {
-        val barcodeChanged = content != remoteCard.content || format != remoteCard.format
-        val newPath = if (barcodeChanged || path == null) {
-            barcodeFile?.delete()
-            barcodeFileRepository.writeBarcodeFile(remoteCard.content, remoteCard.format)
-        } else {
-            path
+    /**
+     * Takes each part of the card from the side where it changed last, together with its change time,
+     * so that checksums converge
+     */
+    private suspend fun Card.mergedWith(remoteCard: SyncCard, syncId: String): Card {
+        var card = copy(syncId = syncId)
+        if (remoteCard.changedAt > card.changedAt) {
+            val barcodeChanged = content != remoteCard.content || format != remoteCard.format
+            val newPath = if (barcodeChanged || path == null) {
+                barcodeFile?.delete()
+                barcodeFileRepository.writeBarcodeFile(remoteCard.content, remoteCard.format)
+            } else {
+                path
+            }
+            card = card.copy(
+                name = remoteCard.name,
+                logo = remoteCard.logo,
+                content = remoteCard.content,
+                color = remoteCard.color,
+                comment = remoteCard.comment,
+                format = remoteCard.format,
+                path = newPath,
+                changedAt = remoteCard.changedAt,
+            )
         }
-        return copy(
-            syncId = syncId,
-            name = remoteCard.name,
-            position = remoteCard.position ?: position,
-            logo = remoteCard.logo,
-            categoryId = getCategoryId(remoteCard.categoryName),
-            content = remoteCard.content,
-            color = remoteCard.color,
-            comment = remoteCard.comment,
-            format = remoteCard.format,
-            path = newPath,
-            changedAt = remoteCard.changedAt,
-        )
+        if (remoteCard.positionChangedAt > card.positionChangedAt) {
+            card = card.copy(
+                position = remoteCard.position ?: card.position,
+                positionChangedAt = remoteCard.positionChangedAt,
+            )
+        }
+        if (remoteCard.categoryChangedAt > card.categoryChangedAt) {
+            card = card.copy(
+                categoryId = getCategoryId(remoteCard.categoryName),
+                categoryChangedAt = remoteCard.categoryChangedAt,
+            )
+        }
+        return card
     }
 
     private suspend fun getCategoryId(categoryName: String?): Long? {
@@ -182,7 +206,9 @@ class SyncRepository @Inject constructor(
     ): BackupChecksum {
         val digest = MessageDigest.getInstance("SHA-256")
         cardVersions.sortedBy { it.syncId }.forEach { cardVersion ->
-            digest.update("c:${cardVersion.syncId}:${cardVersion.changedAt};".toByteArray())
+            with(cardVersion) {
+                digest.update("c:$syncId:$changedAt:$positionChangedAt:$categoryChangedAt;".toByteArray())
+            }
         }
         deletedCards.sortedBy { it.syncId }.forEach { deletedCard ->
             digest.update("d:${deletedCard.syncId}:${deletedCard.deletedAt};".toByteArray())

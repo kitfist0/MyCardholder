@@ -19,7 +19,7 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE id = :id")
     fun getCardAndCategory(id: Long): Flow<CardAndCategory?>
 
-    @Query("SELECT sync_id, changed_at FROM cards")
+    @Query("SELECT sync_id, changed_at, position_changed_at, category_changed_at FROM cards")
     fun getCardVersions(): Flow<List<CardVersion>>
 
     @Query("SELECT * FROM deleted_cards")

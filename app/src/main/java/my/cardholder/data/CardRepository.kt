@@ -64,9 +64,10 @@ class CardRepository @Inject constructor(
     suspend fun updateCardPositions(rightOrderedCards: List<Card>) {
         val changedCards = rightOrderedCards.mapIndexedNotNull { index, card ->
             if (card.position != index) {
+                // Only the position changes, so reordering doesn't overwrite edits made on another device
                 card.copy(
                     position = index,
-                    changedAt = card.nextChangedAt(),
+                    positionChangedAt = nextChangeTime(card.positionChangedAt),
                 )
             } else {
                 null
@@ -88,8 +89,11 @@ class CardRepository @Inject constructor(
     suspend fun updateCardCategoryId(cardId: Long, categoryId: Long?) {
         getCard(cardId)?.let { card ->
             if (card.categoryId != categoryId) {
-                upsertCard(
-                    card.copy(categoryId = categoryId)
+                cardDao.upsert(
+                    card.copy(
+                        categoryId = categoryId,
+                        categoryChangedAt = nextChangeTime(card.categoryChangedAt),
+                    )
                 )
             }
         }
@@ -219,7 +223,9 @@ class CardRepository @Inject constructor(
      * A change must be newer than the version it replaces, even if that version came from a device
      * whose clock is ahead. Otherwise the change would lose to the old version during cloud sync.
      */
-    private fun Card.nextChangedAt(): Long {
-        return maxOf(System.currentTimeMillis(), changedAt + 1)
+    private fun Card.nextChangedAt(): Long = nextChangeTime(changedAt)
+
+    private fun nextChangeTime(currentChangeTime: Long): Long {
+        return maxOf(System.currentTimeMillis(), currentChangeTime + 1)
     }
 }

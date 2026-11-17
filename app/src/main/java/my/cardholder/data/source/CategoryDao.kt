@@ -30,14 +30,17 @@ interface CategoryDao {
     @Query("DELETE FROM categories WHERE id = :id")
     suspend fun deleteCategoryById(id: Long)
 
-    /** Like card edits, the new change time is always later than the current one */
-    @Query("UPDATE cards SET changed_at = MAX(changed_at + 1, :changedAt) WHERE category_id = :categoryId")
-    suspend fun updateChangedAtOfCardsInCategory(categoryId: Long, changedAt: Long)
+    /**
+     * Cards are synced with the name of their category, so its rename or deletion changes their category.
+     * Like card edits, the new change time is always later than the current one.
+     */
+    @Query("UPDATE cards SET category_changed_at = MAX(category_changed_at + 1, :changedAt) WHERE category_id = :categoryId")
+    suspend fun updateCategoryChangedAtOfCardsInCategory(categoryId: Long, changedAt: Long)
 
     /** Cards lose their category, so they are marked as changed to get synced */
     @Transaction
     suspend fun deleteCategoryAndUpdateItsCards(id: Long, changedAt: Long) {
-        updateChangedAtOfCardsInCategory(id, changedAt)
+        updateCategoryChangedAtOfCardsInCategory(id, changedAt)
         deleteCategoryById(id)
     }
 
@@ -47,7 +50,7 @@ interface CategoryDao {
     /** Cards are synced with the name of their category, so they are marked as changed to get synced */
     @Transaction
     suspend fun renameCategoryAndUpdateItsCards(id: Long, name: String, changedAt: Long) {
-        updateChangedAtOfCardsInCategory(id, changedAt)
+        updateCategoryChangedAtOfCardsInCategory(id, changedAt)
         updateCategoryName(id, name)
     }
 

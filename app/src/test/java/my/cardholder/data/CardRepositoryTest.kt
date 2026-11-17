@@ -269,13 +269,29 @@ class CardRepositoryTest {
     }
 
     @Test
-    fun `reordering card from device with clock ahead is newer than that card`() = runTest {
+    fun `reordering changes only position change time even on device with clock behind`() = runTest {
         val futureChangedAt = System.currentTimeMillis() + ONE_DAY_MS
         val card = cardWithChangedAt(futureChangedAt).copy(position = 1)
 
         cardRepository.updateCardPositions(listOf(card))
 
-        coVerify { cardDao.upsert(listOf(card.copy(position = 0, changedAt = futureChangedAt + 1))) }
+        // The card data keeps its change time, so reordering doesn't overwrite edits from another device
+        coVerify { cardDao.upsert(listOf(card.copy(position = 0, positionChangedAt = futureChangedAt + 1))) }
+    }
+
+    @Test
+    fun `category change changes only category change time`() = runTest {
+        val card = cardWithChangedAt(100L)
+        coEvery { cardDao.getCard(card.id) } returns card
+        val before = System.currentTimeMillis()
+
+        cardRepository.updateCardCategoryId(card.id, 5L)
+
+        coVerify {
+            cardDao.upsert(match<Card> {
+                it.categoryId == 5L && it.categoryChangedAt >= before && it.changedAt == 100L && it.positionChangedAt == 100L
+            })
+        }
     }
 
     private fun cardWithChangedAt(changedAt: Long) = Card(

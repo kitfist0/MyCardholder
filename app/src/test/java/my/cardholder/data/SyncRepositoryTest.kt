@@ -195,6 +195,97 @@ class SyncRepositoryTest {
     }
 
     @Test
+    fun `reordering on one device keeps rename made on another device`() = runTest {
+        val phone = Device()
+        val tablet = Device()
+        listOf(phone, tablet).forEach { device ->
+            device.addCard(syncId = "a", name = "Shop", content = "1", changedAt = 100L, position = 0)
+            device.addCard(syncId = "b", name = "Pharmacy", content = "2", changedAt = 100L, position = 1)
+        }
+        phone.updateCard("a", name = "Renamed shop", changedAt = 200L)
+        // Reordered later, before syncing with the phone
+        tablet.moveCard("a", position = 1, changedAt = 300L)
+        tablet.moveCard("b", position = 0, changedAt = 300L)
+
+        tablet.repository.mergeSnapshot(phone.repository.getLocalSnapshot())
+        phone.repository.mergeSnapshot(tablet.repository.getLocalSnapshot())
+
+        listOf(phone, tablet).forEach { device ->
+            val cards = device.cardDao.cards.value.values.associateBy { it.syncId }
+            assertEquals("Renamed shop", cards.getValue("a").name)
+            assertEquals(1, cards.getValue("a").position)
+            assertEquals(0, cards.getValue("b").position)
+        }
+        assertEquals(phone.repository.getLocalChecksum(), tablet.repository.getLocalChecksum())
+        assertEquals(phone.sortedSnapshot(), tablet.sortedSnapshot())
+    }
+
+    @Test
+    fun `category change on one device keeps edit made on another device`() = runTest {
+        val phone = Device()
+        val tablet = Device()
+        listOf(phone, tablet).forEach { device ->
+            device.addCard(syncId = "a", name = "Shop", changedAt = 100L)
+        }
+        phone.updateCard("a", name = "Renamed shop", changedAt = 200L)
+        tablet.setCategory("a", categoryName = "Groceries", changedAt = 300L)
+
+        tablet.repository.mergeSnapshot(phone.repository.getLocalSnapshot())
+        phone.repository.mergeSnapshot(tablet.repository.getLocalSnapshot())
+
+        listOf(phone, tablet).forEach { device ->
+            val card = device.cardDao.getCardBySyncId("a")!!
+            assertEquals("Renamed shop", card.name)
+            assertEquals("Groceries", device.categoryNameOf(card.categoryId))
+        }
+        assertEquals(phone.sortedSnapshot(), tablet.sortedSnapshot())
+    }
+
+    @Test
+    fun `reordering after remote deletion does not restore card`() = runTest {
+        val device = Device()
+        device.addCard(syncId = "a", changedAt = 100L)
+        device.moveCard("a", position = 3, changedAt = 300L)
+
+        device.repository.mergeSnapshot(SyncSnapshot(emptyList(), listOf(DeletedCard("a", 200L))))
+
+        assertNull(device.cardDao.getCardBySyncId("a"))
+    }
+
+    @Test
+    fun `card from app without separate change times uses its change time for position and category`() = runTest {
+        val device = Device()
+        device.addCard(syncId = "a", name = "Local", changedAt = 100L, position = 0)
+        // Old apps don't send separate change times, so decoding gives them the card change time
+        val remoteCard = syncCard(syncId = "a", name = "Remote", changedAt = 200L, categoryName = "Shops")
+            .copy(position = 5)
+
+        device.repository.mergeSnapshot(snapshotOf(remoteCard))
+
+        val card = device.cardDao.getCardBySyncId("a")!!
+        assertEquals("Remote", card.name)
+        assertEquals(5, card.position)
+        assertEquals("Shops", device.categoryNameOf(card.categoryId))
+        assertEquals(200L, card.positionChangedAt)
+        assertEquals(200L, card.categoryChangedAt)
+    }
+
+    @Test
+    fun `checksum changes when only position or category changes`() {
+        val repository = Device().repository
+        val card = syncCard(syncId = "a", changedAt = 1L)
+
+        assertNotEquals(
+            repository.calculateChecksum(snapshotOf(card)),
+            repository.calculateChecksum(snapshotOf(card.copy(positionChangedAt = 2L))),
+        )
+        assertNotEquals(
+            repository.calculateChecksum(snapshotOf(card)),
+            repository.calculateChecksum(snapshotOf(card.copy(categoryChangedAt = 2L))),
+        )
+    }
+
+    @Test
     fun `merge is idempotent`() = runTest {
         val device = Device()
         device.addCard(syncId = "a", changedAt = 100L)
@@ -250,13 +341,19 @@ class SyncRepositoryTest {
             return categories.entries.firstOrNull { it.value == categoryId }?.key
         }
 
-        suspend fun addCard(syncId: String, name: String = "Card", content: String = "123", changedAt: Long = 0L) {
+        suspend fun addCard(
+            syncId: String,
+            name: String = "Card",
+            content: String = "123",
+            changedAt: Long = 0L,
+            position: Int = 0,
+        ) {
             cardDao.upsert(
                 Card(
                     id = Card.NEW_CARD_ID,
                     syncId = syncId,
                     name = name,
-                    position = 0,
+                    position = position,
                     isPinned = false,
                     content = content,
                     color = "#FFFFFF",
@@ -270,6 +367,17 @@ class SyncRepositoryTest {
         suspend fun updateCard(syncId: String, name: String, changedAt: Long) {
             val card = cardDao.getCardBySyncId(syncId)!!
             cardDao.upsert(card.copy(name = name, changedAt = changedAt))
+        }
+
+        suspend fun moveCard(syncId: String, position: Int, changedAt: Long) {
+            val card = cardDao.getCardBySyncId(syncId)!!
+            cardDao.upsert(card.copy(position = position, positionChangedAt = changedAt))
+        }
+
+        suspend fun setCategory(syncId: String, categoryName: String, changedAt: Long) {
+            val card = cardDao.getCardBySyncId(syncId)!!
+            val categoryId = categories.getOrPut(categoryName) { categories.size + 1L }
+            cardDao.upsert(card.copy(categoryId = categoryId, categoryChangedAt = changedAt))
         }
 
         suspend fun deleteCard(syncId: String, deletedAt: Long) {
@@ -303,7 +411,7 @@ class SyncRepositoryTest {
             combine(getCardsAndCategories(), cards) { list, _ -> list.find { it.card.id == id } }
 
         override fun getCardVersions(): Flow<List<CardVersion>> = cards.map { cards ->
-            cards.values.map { CardVersion(it.syncId, it.changedAt) }
+            cards.values.map { CardVersion(it.syncId, it.changedAt, it.positionChangedAt, it.categoryChangedAt) }
         }
 
         override fun getDeletedCards(): Flow<List<DeletedCard>> = deletedCards.map { it.values.toList() }

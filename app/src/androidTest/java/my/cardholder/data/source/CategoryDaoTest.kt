@@ -36,7 +36,7 @@ class CategoryDaoTest {
     }
 
     @Test
-    fun renameCategoryAndUpdateItsCards_renamesCategoryAndMarksOnlyItsCardsAsChanged() = runBlocking {
+    fun renameCategoryAndUpdateItsCards_renamesCategoryAndChangesCategoryOfOnlyItsCards() = runBlocking {
         val renamedCategoryId = categoryDao.upsert(Category(name = "Shops"))
         val otherCategoryId = categoryDao.upsert(Category(name = "Other"))
         val cardInRenamedId = cardDao.upsert(card(categoryId = renamedCategoryId, changedAt = 100L))
@@ -46,9 +46,10 @@ class CategoryDaoTest {
         categoryDao.renameCategoryAndUpdateItsCards(renamedCategoryId, "Groceries", changedAt = 500L)
 
         assertEquals("Groceries", categoryDao.getCategoryById(renamedCategoryId)?.name)
-        assertEquals(500L, cardDao.getCard(cardInRenamedId)?.changedAt)
-        assertEquals(100L, cardDao.getCard(cardInOtherId)?.changedAt)
-        assertEquals(100L, cardDao.getCard(cardWithoutCategoryId)?.changedAt)
+        assertEquals(500L, cardDao.getCard(cardInRenamedId)?.categoryChangedAt)
+        assertEquals("Card data keeps its change time", 100L, cardDao.getCard(cardInRenamedId)?.changedAt)
+        assertEquals(100L, cardDao.getCard(cardInOtherId)?.categoryChangedAt)
+        assertEquals(100L, cardDao.getCard(cardWithoutCategoryId)?.categoryChangedAt)
     }
 
     @Test
@@ -59,7 +60,7 @@ class CategoryDaoTest {
 
         categoryDao.renameCategoryAndUpdateItsCards(categoryId, "Groceries", changedAt = 500L)
 
-        assertEquals(1_001L, cardDao.getCard(cardId)?.changedAt)
+        assertEquals(1_001L, cardDao.getCard(cardId)?.categoryChangedAt)
     }
 
     private fun card(categoryId: Long?, changedAt: Long) = Card(
