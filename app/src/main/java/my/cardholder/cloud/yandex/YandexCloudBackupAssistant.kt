@@ -20,23 +20,20 @@ class YandexCloudBackupAssistant(
     private companion object {
         const val APP_FOLDER = "app:/"
         const val MIME_TYPE_TEXT = "text/plain"
+        const val HTTP_NOT_FOUND = 404
     }
 
     override suspend fun getBackupChecksums() = withContext(Dispatchers.IO) {
         runCatching {
-            yandexDiskRestApi.listFiles(getOauthTokenOrThrow(), APP_FOLDER).body()
-                ?.embedded?.items
-                ?.mapNotNull { it.getChecksum() }
-                .orEmpty()
+            listBackupFiles(getOauthTokenOrThrow()).mapNotNull { it.getChecksum() }
         }
     }
 
     override suspend fun getBackupContent(checksum: BackupChecksum) = withContext(Dispatchers.IO) {
         runCatching {
             val token = getOauthTokenOrThrow()
-            val backupFilePath = yandexDiskRestApi.listFiles(token, APP_FOLDER).body()
-                ?.embedded?.items
-                ?.find { it.getChecksum() == checksum }
+            val backupFilePath = listBackupFiles(token)
+                .find { it.getChecksum() == checksum }
                 ?.path
             backupFilePath?.let { path ->
                 val href = yandexDiskRestApi.getDownloadLink(token, path).body()
@@ -60,8 +57,7 @@ class YandexCloudBackupAssistant(
         withContext(Dispatchers.IO) {
             runCatching {
                 val token = getOauthTokenOrThrow()
-                val filesResponse = yandexDiskRestApi.listFiles(token, APP_FOLDER)
-                val diskFiles = filesResponse.body()?.embedded?.items.orEmpty()
+                val diskFiles = listBackupFiles(token)
                     .filter { it.getChecksum() in checksums }
                 if (diskFiles.isNotEmpty()) deleteFiles(token, diskFiles)
             }
@@ -85,6 +81,20 @@ class YandexCloudBackupAssistant(
             if (!uploadResponse.isSuccessful) {
                 throw IOException("Upload error: error ${uploadResponse.code}")
             }
+        }
+    }
+
+    /**
+     * A failed request must not look like an empty folder: then a backup that wasn't downloaded
+     * would be taken for one replaced by another device, and deleted without being merged.
+     */
+    private suspend fun listBackupFiles(token: String): List<DiskFile> {
+        val response = yandexDiskRestApi.listFiles(token, APP_FOLDER)
+        return when {
+            response.isSuccessful -> response.body()?.embedded?.items.orEmpty()
+            // The app folder is created with the first upload
+            response.code() == HTTP_NOT_FOUND -> emptyList()
+            else -> throw IOException("Listing error: error ${response.code()}")
         }
     }
 
