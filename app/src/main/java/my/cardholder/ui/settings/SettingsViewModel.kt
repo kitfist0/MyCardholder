@@ -88,6 +88,7 @@ class SettingsViewModel @Inject constructor(
                     predicate = { item -> item.id == SettingId.DYNAMIC_COLORS },
                     update = { item ->
                         item.copy(
+                            iconRes = if (isEnabled) R.drawable.ic_palette else R.drawable.ic_palette_off,
                             options = listOf(OPTION_ON, OPTION_OFF).map { option ->
                                 SettingsItem.Option(
                                     id = option,

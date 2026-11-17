@@ -24,7 +24,7 @@ fun SettingId.getTitle(): Int = when (this) {
 
 fun SettingId.getImageRes(): Int = when (this) {
     SettingId.THEME -> R.drawable.ic_dark_mode
-    SettingId.DYNAMIC_COLORS -> R.drawable.ic_palette
+    SettingId.DYNAMIC_COLORS -> R.drawable.ic_palette_off
     SettingId.COLUMNS -> R.drawable.ic_list_single_column
     SettingId.CATEGORIES -> R.drawable.ic_category
     SettingId.BACKUP -> R.drawable.ic_import_export

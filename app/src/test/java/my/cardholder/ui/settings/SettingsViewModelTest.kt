@@ -136,6 +136,18 @@ class SettingsViewModelTest {
     }
 
     @Test
+    fun `dynamic colors item icon shows whether they are enabled`() = runTest {
+        val viewModel = createViewModel()
+        assertEquals(R.drawable.ic_palette_off, dynamicColorsItem(viewModel).iconRes)
+
+        dynamicColorsEnabled.value = true
+        assertEquals(R.drawable.ic_palette, dynamicColorsItem(viewModel).iconRes)
+
+        dynamicColorsEnabled.value = false
+        assertEquals(R.drawable.ic_palette_off, dynamicColorsItem(viewModel).iconRes)
+    }
+
+    @Test
     fun `selecting dynamic colors option saves it`() = runTest {
         val viewModel = createViewModel()
 
