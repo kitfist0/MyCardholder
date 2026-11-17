@@ -119,6 +119,7 @@
     <string name="category_edit_name_is_empty_error_message">Le nom est vide</string>
     <string name="category_edit_name_is_forbidden_error_message">Le nom est interdit</string>
     <string name="category_edit_name_is_long_error_message">La longueur du nom ne doit pas dépasser %s caractères</string>
+    <string name="category_edit_name_is_taken_error_message">Une catégorie portant ce nom existe déjà</string>
     <string name="category_edit_new_category_toolbar_title">Nouvelle catégorie</string>
     <!--endregion-->
 

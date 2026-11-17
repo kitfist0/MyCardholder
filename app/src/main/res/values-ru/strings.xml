@@ -119,6 +119,7 @@
     <string name="category_edit_name_is_empty_error_message">Имя пустое</string>
     <string name="category_edit_name_is_forbidden_error_message">Запрещенное имя</string>
     <string name="category_edit_name_is_long_error_message">Имя категории не должно превышать %s символов</string>
+    <string name="category_edit_name_is_taken_error_message">Категория с таким именем уже существует</string>
     <string name="category_edit_new_category_toolbar_title">Новая категория</string>
     <!--endregion-->
 

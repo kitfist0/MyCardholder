@@ -74,10 +74,20 @@ class CategoryEditViewModel @Inject constructor(
                             listOf(Category.MAX_NAME_LENGTH),
                         )
                     )
+                isNameOfAnotherCategory(categoryName) ->
+                    showSnack(
+                        Text.Resource(R.string.category_edit_name_is_taken_error_message)
+                    )
                 else ->
                     categoryRepository.upsertCategoryIfCategoryNameIsNew(categoryId, categoryName)
                         .also { navigateUp() }
             }
         }
+    }
+
+    /** Names are unique, so the category would be neither renamed nor created */
+    private suspend fun isNameOfAnotherCategory(categoryName: String): Boolean {
+        val categoryIdWithSuchName = categoryRepository.getCategoryIdByName(categoryName)
+        return categoryIdWithSuchName != null && categoryIdWithSuchName != categoryId
     }
 }
