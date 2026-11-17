@@ -43,7 +43,12 @@ class BackupRepository @Inject constructor(
         private const val SYNC_ID_INDEX_SINCE_V5 = 8
         private const val CHANGED_AT_INDEX_SINCE_V5 = 9
         private const val IS_DELETED_INDEX_SINCE_V5 = 10
-        private const val NUM_OF_COLUMNS_SINCE_V5 = 11
+
+        // Added at the end without a new scheme version: apps that don't know them ignore extra columns,
+        // while a new scheme version would stop their cloud sync until they are updated
+        private const val POSITION_CHANGED_AT_INDEX_SINCE_V5 = 11
+        private const val CATEGORY_CHANGED_AT_INDEX_SINCE_V5 = 12
+        private const val NUM_OF_COLUMNS_SINCE_V5 = 13
         private const val TRUE = "1"
         private const val FALSE = "0"
     }
@@ -77,6 +82,8 @@ class BackupRepository @Inject constructor(
                 row.add(SYNC_ID_INDEX_SINCE_V5, card.syncId)
                 row.add(CHANGED_AT_INDEX_SINCE_V5, card.changedAt)
                 row.add(IS_DELETED_INDEX_SINCE_V5, FALSE)
+                row.add(POSITION_CHANGED_AT_INDEX_SINCE_V5, card.positionChangedAt)
+                row.add(CATEGORY_CHANGED_AT_INDEX_SINCE_V5, card.categoryChangedAt)
                 writeRow(row)
                 sendProgress(
                     backupOperationType = BackupOperationType.EXPORT,
@@ -188,9 +195,10 @@ class BackupRepository @Inject constructor(
 
     private fun List<String>.toSyncCard(version: Int): SyncCard {
         val hasSyncData = version >= 5
+        val changedAt = if (hasSyncData) this[CHANGED_AT_INDEX_SINCE_V5].toLong() else 0L
         return SyncCard(
             syncId = if (hasSyncData) this[SYNC_ID_INDEX_SINCE_V5].ifEmpty { null } else null,
-            changedAt = if (hasSyncData) this[CHANGED_AT_INDEX_SINCE_V5].toLong() else 0L,
+            changedAt = changedAt,
             name = this[NAME_INDEX_SINCE_V1],
             categoryName = this[CATEGORY_INDEX_SINCE_V1].ifEmpty { null },
             content = this[CONTENT_INDEX_SINCE_V1],
@@ -199,6 +207,9 @@ class BackupRepository @Inject constructor(
             logo = getOrNull(LOGO_INDEX_SINCE_V2)?.ifEmpty { null },
             position = getOrNull(POSITION_INDEX_SINCE_V3)?.toIntOrNull(),
             comment = getOrNull(COMMENT_INDEX_SINCE_V4)?.ifEmpty { null },
+            // Backups uploaded by apps that don't know these columns don't have them
+            positionChangedAt = getOrNull(POSITION_CHANGED_AT_INDEX_SINCE_V5)?.toLongOrNull() ?: changedAt,
+            categoryChangedAt = getOrNull(CATEGORY_CHANGED_AT_INDEX_SINCE_V5)?.toLongOrNull() ?: changedAt,
         )
     }
 
@@ -215,6 +226,8 @@ class BackupRepository @Inject constructor(
         row[SYNC_ID_INDEX_SINCE_V5] = syncId.orEmpty()
         row[CHANGED_AT_INDEX_SINCE_V5] = changedAt
         row[IS_DELETED_INDEX_SINCE_V5] = FALSE
+        row[POSITION_CHANGED_AT_INDEX_SINCE_V5] = positionChangedAt
+        row[CATEGORY_CHANGED_AT_INDEX_SINCE_V5] = categoryChangedAt
         return row
     }
 

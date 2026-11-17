@@ -18,4 +18,7 @@ data class SyncCard(
     val logo: String?,
     val position: Int?,
     val comment: String?,
+    /** Backups of older app versions have no separate change times, then [changedAt] is used */
+    val positionChangedAt: Long = changedAt,
+    val categoryChangedAt: Long = changedAt,
 )

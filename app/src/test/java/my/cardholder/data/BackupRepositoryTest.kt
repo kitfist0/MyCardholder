@@ -262,6 +262,8 @@ class BackupRepositoryTest {
                     logo = "logo",
                     position = 3,
                     comment = "multi\nline",
+                    positionChangedAt = 150L,
+                    categoryChangedAt = 170L,
                 ),
                 SyncCard(
                     syncId = "id-2",
@@ -282,6 +284,21 @@ class BackupRepositoryTest {
         val decoded = backupRepository.decodeSyncSnapshot(backupRepository.encodeSyncSnapshot(snapshot))
 
         assertEquals(snapshot, decoded)
+    }
+
+    @Test
+    fun `backup with columns added after scheme 5 is decoded by apps that do not know them`() = runTest {
+        // Apps released with scheme 5 must still read backups that have extra columns at the end
+        val content = "5\n" +
+                "\"Card\",\"Shops\",\"123\",\"#FFFFFF\",\"QR_CODE\",\"\",\"2\",\"\",\"id-1\",\"100\",\"0\",\"300\",\"400\"\n" +
+                "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"id-2\",\"200\",\"1\",\"\",\"\"\n"
+
+        val snapshot = backupRepository.decodeSyncSnapshot(content)
+
+        assertEquals(listOf("id-1"), snapshot.cards.map { it.syncId })
+        assertEquals(100L, snapshot.cards.single().changedAt)
+        assertEquals(2, snapshot.cards.single().position)
+        assertEquals(listOf(DeletedCard("id-2", 200L)), snapshot.deletedCards)
     }
 
     @Test
