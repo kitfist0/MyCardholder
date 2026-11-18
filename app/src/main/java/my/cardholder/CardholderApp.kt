@@ -26,5 +26,6 @@ class CardholderApp : Application() {
         WorkManager.getInstance(applicationContext).cancelAllWork()
         cardShortcutManager.observeCardDeletions()
         cardWidgetManager.observeCardChanges()
+        cardWidgetManager.observeDynamicColors()
     }
 }

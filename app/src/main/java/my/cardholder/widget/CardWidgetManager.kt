@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.PendingIntentCompat
 import androidx.core.net.toUri
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.onEach
 import my.cardholder.R
 import my.cardholder.data.CardRepository
 import my.cardholder.shortcut.CardShortcutManager
+import my.cardholder.theme.DynamicColorsManager
 import my.cardholder.ui.MainActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,6 +33,7 @@ import javax.inject.Singleton
 class CardWidgetManager @Inject constructor(
     private val context: Context,
     private val cardRepository: CardRepository,
+    private val dynamicColorsManager: DynamicColorsManager,
 ) {
 
     private val appWidgetManager: AppWidgetManager
@@ -44,6 +47,15 @@ class CardWidgetManager @Inject constructor(
             // The first value is what widgets already show.
             .drop(1)
             .onEach { notifyCardsChanged() }
+            .launchIn(scope)
+    }
+
+    /** The launcher draws widgets, so they follow the dynamic colors setting on their own update. */
+    fun observeDynamicColors() {
+        dynamicColorsManager.isEnabled
+            // The first value is what widgets already show.
+            .drop(1)
+            .onEach { updateWidgets(appWidgetManager.getAppWidgetIds(ComponentName(context, CardWidgetProvider::class.java))) }
             .launchIn(scope)
     }
 
@@ -71,7 +83,13 @@ class CardWidgetManager @Inject constructor(
         // Intents differing only in extras are equal, and each widget needs its own items factory.
         serviceIntent.data = serviceIntent.toUri(Intent.URI_INTENT_SCHEME).toUri()
 
-        return RemoteViews(context.packageName, R.layout.widget_cards).apply {
+        // Its colors are resources, so that the launcher resolves them in its own day or night mode
+        val layout = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicColorsManager.isEnabled.value) {
+            R.layout.widget_cards_dynamic
+        } else {
+            R.layout.widget_cards
+        }
+        return RemoteViews(context.packageName, layout).apply {
             setRemoteAdapter(R.id.widget_cards_grid, serviceIntent)
             setEmptyView(R.id.widget_cards_grid, R.id.widget_cards_empty_text)
             setPendingIntentTemplate(R.id.widget_cards_grid, openCardPendingIntentTemplate())
