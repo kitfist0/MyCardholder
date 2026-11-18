@@ -30,7 +30,10 @@ class CardStackItemDecoration(
     /** Height of the card with its margins, known even before the card is measured. */
     private fun View.stackedHeight(parent: RecyclerView): Int {
         val margins = layoutParams as ViewGroup.MarginLayoutParams
-        val width = parent.width - parent.paddingLeft - parent.paddingRight -
+        // A list that measures itself lays its cards out before its own width is set, and these
+        // offsets are kept until invalidated. Its layout manager already has the measured width then.
+        val parentWidth = parent.layoutManager?.width ?: parent.width
+        val width = parentWidth - parent.paddingLeft - parent.paddingRight -
             margins.leftMargin - margins.rightMargin
         return maxOf(measuredHeight, CardItemView.realHeightForWidth(width)) +
             margins.topMargin + margins.bottomMargin
