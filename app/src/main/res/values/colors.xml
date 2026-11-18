@@ -64,6 +64,9 @@
     <!--region Widget (night values are in values-night)-->
     <color name="widget_background_color">@color/cardholder_color_surface_container_day</color>
     <color name="widget_text_color">@color/cardholder_color_on_surface_day</color>
+    <!-- Wallpaper colors with dynamic colors on, see values-v31; dynamic colors need Android 12 -->
+    <color name="widget_dynamic_background_color">@color/widget_background_color</color>
+    <color name="widget_dynamic_text_color">@color/widget_text_color</color>
     <!--endregion-->
 
     <color name="explanation_background_color">#EE212121</color>

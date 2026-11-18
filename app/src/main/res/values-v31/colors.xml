@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Wallpaper (Material You) colors, resolved by the launcher in its own day or night mode.
+        The secondary accent tint, as the neutral one is too close to the usual widget background to notice.
+    -->
+    <color name="widget_dynamic_background_color">@android:color/system_accent2_100</color>
+    <color name="widget_dynamic_text_color">@android:color/system_neutral1_900</color>
+</resources>
