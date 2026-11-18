@@ -96,6 +96,16 @@ class ContentColorTest {
     }
 
     @Test
+    fun `dark content is preferred on light cards and light content on dark cards`() {
+        listOf("#FFCA28", "#E0E0E0", "#42A5F5", "#66BB6A").forEach { hex ->
+            assertTrue(hex, ContentColor.prefersDarkContent(parse(hex)))
+        }
+        listOf("#424242", "#7E57C2", "#5C6BC0", "#8D6E63").forEach { hex ->
+            assertTrue(hex, !ContentColor.prefersDarkContent(parse(hex)))
+        }
+    }
+
+    @Test
     fun `contrast matches WCAG values`() {
         assertEquals(21.0, ContentColor.contrast(parse("#000000"), parse("#FFFFFF")), 0.01)
         assertEquals(1.0, ContentColor.contrast(parse("#42A5F5"), parse("#42A5F5")), 0.01)

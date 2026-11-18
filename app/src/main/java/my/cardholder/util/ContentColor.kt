@@ -42,8 +42,13 @@ object ContentColor {
     private const val BLACK: Int = 0xFF000000.toInt()
     private const val WHITE: Int = 0xFFFFFFFF.toInt()
 
+    /** Whether dark content is more readable on the background than light content */
+    fun prefersDarkContent(backgroundColor: Int): Boolean {
+        return contrast(BLACK, backgroundColor) >= contrast(WHITE, backgroundColor)
+    }
+
     fun on(backgroundColor: Int, minContrast: Double = NORMAL_TEXT_CONTRAST): Int {
-        val isDarkContent = contrast(BLACK, backgroundColor) >= contrast(WHITE, backgroundColor)
+        val isDarkContent = prefersDarkContent(backgroundColor)
         val (hue, saturation) = hueAndSaturation(backgroundColor)
         val targetContrast = if (saturation < GREY_SATURATION) {
             maxOf(minContrast, GREY_BACKGROUND_CONTRAST)
