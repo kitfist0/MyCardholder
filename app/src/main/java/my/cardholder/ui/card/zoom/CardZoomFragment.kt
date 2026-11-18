@@ -1,5 +1,6 @@
 package my.cardholder.ui.card.zoom
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
@@ -8,12 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
+import androidx.core.view.MenuItemCompat
+import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.databinding.FragmentCardZoomBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.ui.card.CardSystemBarsAppearance
+import my.cardholder.util.ContentColor
 import my.cardholder.util.ext.animateVisibilityChange
 import my.cardholder.util.ext.collectWhenStarted
 import my.cardholder.util.ext.loadBarcodeImage
@@ -28,6 +33,9 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
     private val args: CardZoomFragmentArgs by navArgs()
 
     override val viewModel: CardZoomViewModel by viewModels()
+
+    // The card color fills the whole screen, under both system bars
+    private val systemBarsAppearance = CardSystemBarsAppearance(this, isNavigationBarOnCard = true)
 
     private var prevBrightness = 0f
 
@@ -68,12 +76,17 @@ class CardZoomFragment : BaseFragment<FragmentCardZoomBinding>(
             when (state) {
                 is CardZoomState.Loading ->
                     binding.cardZoomBarcodeImage.isVisible = false
-                is CardZoomState.Success ->
-                    binding.cardZoomBarcodeImage.apply {
+                is CardZoomState.Success -> with(binding) {
+                    cardZoomBarcodeImage.apply {
                         isVisible = true
                         setBackgroundColor(state.cardColor)
                         loadBarcodeImage(state.barcodeFile)
                     }
+                    systemBarsAppearance.setCardColor(state.cardColor)
+                    // The close icon lies on the card color, which may be light or dark in either app theme
+                    val iconTint = ColorStateList.valueOf(ContentColor.on(state.cardColor, ContentColor.ICON_CONTRAST))
+                    cardZoomToolbar.menu.forEach { item -> MenuItemCompat.setIconTintList(item, iconTint) }
+                }
             }
         }
     }
