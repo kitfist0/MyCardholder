@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentCardEditBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.ui.card.CardSystemBarsAppearance
 import my.cardholder.util.ext.*
 
 @AndroidEntryPoint
@@ -24,6 +25,9 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
     private val args: CardEditFragmentArgs by navArgs()
 
     override val viewModel: CardEditViewModel by viewModels()
+
+    // The card color lies under the status bar at the top of the screen
+    private val systemBarsAppearance = CardSystemBarsAppearance(this)
 
     override fun initViews() {
         sharedElementEnterTransition = TransitionInflater.from(context)
@@ -99,6 +103,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 is CardEditState.Success -> with(binding) {
                     cardEditBarcodeImage.apply {
                         setBackgroundColor(state.cardColor.toColorInt())
+                        systemBarsAppearance.setCardColor(state.cardColor.toColorInt())
                         loadBarcodeImage(state.barcodeFile)
                     }
                     cardEditCardNameInputLayout.apply {

@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentCardDisplayBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.ui.card.CardSystemBarsAppearance
 import my.cardholder.util.ContentColor
 import my.cardholder.util.ext.*
 
@@ -32,6 +33,9 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
     private val args: CardDisplayFragmentArgs by navArgs()
 
     override val viewModel: CardDisplayViewModel by viewModels()
+
+    // The card color lies under the status bar at the top of the screen
+    private val systemBarsAppearance = CardSystemBarsAppearance(this)
 
     // A three-column card list doesn't show the card content, so it can't move from there.
     private var isCardContentSharedElement = true
@@ -129,6 +133,7 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                             loadBarcodeImage(state.barcodeFile)
                         }
                         // The icons lie on the card color, which may be light or dark in either app theme
+                        systemBarsAppearance.setCardColor(state.cardColor)
                         val iconTint = ColorStateList.valueOf(ContentColor.on(state.cardColor, ContentColor.ICON_CONTRAST))
                         cardDisplayToolbar.menu.forEach { item -> MenuItemCompat.setIconTintList(item, iconTint) }
                         cardDisplayCardCategoryText.isVisible = true
