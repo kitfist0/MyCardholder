@@ -17,4 +17,17 @@ class ScanFrameCalculator {
         val top = (height - size) / 2
         return left to top
     }
+
+    /**
+     * Whether the point ([x], [y]) is within the scan frame of a [width]x[height] camera image
+     * rotated by [rotationDegrees]. The point is in upright coordinates, as ML Kit returns them,
+     * while the size is the one of the image before rotation, as the camera provides it.
+     */
+    fun isWithinScanFrame(x: Int, y: Int, width: Int, height: Int, rotationDegrees: Int): Boolean {
+        val isRotatedSideways = rotationDegrees % 180 != 0
+        val uprightWidth = if (isRotatedSideways) height else width
+        val uprightHeight = if (isRotatedSideways) width else height
+        val (left, top) = calculateScanFrameOffset(uprightWidth, uprightHeight)
+        return x in left..(uprightWidth - left) && y in top..(uprightHeight - top)
+    }
 }

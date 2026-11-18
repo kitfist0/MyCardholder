@@ -33,11 +33,12 @@ class ScanResultRepository @Inject constructor(
     @OptIn(ExperimentalGetImage::class)
     fun scan(imageProxy: ImageProxy) {
         imageProxy.image?.let { image ->
-            val inputImage = InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees)
+            val rotationDegrees = imageProxy.imageInfo.rotationDegrees
+            val inputImage = InputImage.fromMediaImage(image, rotationDegrees)
             barcodeScanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
                     val barcodesInFrame = barcodes.filter {
-                        it.isWithinScanFrame(inputImage.width, inputImage.height)
+                        it.isWithinScanFrame(inputImage.width, inputImage.height, rotationDegrees)
                     }
                     val scanResult = barcodesInFrame.toScanResult { imageProxy.detectBackgroundCardColor(it) }
                     cameraScanResultChannel.trySend(scanResult)
@@ -86,10 +87,15 @@ class ScanResultRepository @Inject constructor(
     }
 
     /** Whether this barcode's center lies within the on-screen scan guide. */
-    private fun Barcode.isWithinScanFrame(frameWidth: Int, frameHeight: Int): Boolean {
+    private fun Barcode.isWithinScanFrame(frameWidth: Int, frameHeight: Int, rotationDegrees: Int): Boolean {
         val box = boundingBox ?: return false
-        val (left, top) = ScanFrameCalculator().calculateScanFrameOffset(frameWidth, frameHeight)
-        return box.centerX() in left..(frameWidth - left) && box.centerY() in top..(frameHeight - top)
+        return ScanFrameCalculator().isWithinScanFrame(
+            x = box.centerX(),
+            y = box.centerY(),
+            width = frameWidth,
+            height = frameHeight,
+            rotationDegrees = rotationDegrees,
+        )
     }
 
     private fun Barcode.getSupportedFormat(): SupportedFormat? {
