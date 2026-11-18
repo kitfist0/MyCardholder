@@ -21,6 +21,7 @@ import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.CardAndCategory
 import my.cardholder.data.model.isSquare
 import my.cardholder.databinding.ItemCardBinding
+import my.cardholder.util.ContentColor
 import my.cardholder.util.ext.loadLogoImage
 import my.cardholder.util.ext.setupUniqueTransitionName
 import my.cardholder.util.ext.toNavExtras
@@ -137,7 +138,17 @@ class CardListAdapter(
                 val card = cardAndCategory.card
                 val uniqueNameSuffix = card.id
                 root.hasRealProportions = spanCount == 1
-                itemCardLayout.background = getCardGradientDrawable(card.getColorInt())
+                val cardColor = card.getColorInt()
+                // Text goes on the card's own color, which may be light or dark in either app theme
+                val textColor = ContentColor.on(cardColor)
+                itemCardLayout.background = getCardGradientDrawable(cardColor, textColor)
+                val isCompact = spanCount >= COMPACT_SPAN_COUNT
+                // A large name may be more colorful, the small one of a compact card needs more contrast
+                val nameColor = if (isCompact) {
+                    textColor
+                } else {
+                    ContentColor.on(cardColor, ContentColor.LARGE_TEXT_CONTRAST)
+                }
                 itemCardLogoImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     loadLogoImage(
@@ -157,8 +168,12 @@ class CardListAdapter(
                     setupUniqueTransitionName(uniqueNameSuffix)
                     text = cardAndCategory.category?.name.orEmpty()
                 }
-                applyCompactLayout(isCompact = spanCount >= COMPACT_SPAN_COUNT)
+                applyCompactLayout(isCompact = isCompact)
                 placeCategory(atTop = spanCount == 1)
+                // After the compact layout, as setting a text appearance resets the text color
+                itemCardNameText.setTextColor(nameColor)
+                itemCardContentText.setTextColor(textColor)
+                itemCardCategoryText.setTextColor(textColor)
             }
         }
 
@@ -215,8 +230,13 @@ class CardListAdapter(
             }
         }
 
-        private fun getCardGradientDrawable(colorInt: Int): GradientDrawable {
-            val bottomLeftColor = ColorUtils.blendARGB(colorInt, Color.TRANSPARENT, 0.2f)
+        /**
+         * The corner under the card name moves away from the text color: lighter under dark text
+         * and darker under light text, so the text is at least as readable there as on the card color.
+         */
+        private fun getCardGradientDrawable(colorInt: Int, textColor: Int): GradientDrawable {
+            val awayFromText = if (ColorUtils.calculateLuminance(textColor) < 0.5) Color.WHITE else Color.BLACK
+            val bottomLeftColor = ColorUtils.blendARGB(colorInt, awayFromText, 0.2f)
             return GradientDrawable(
                 GradientDrawable.Orientation.BL_TR,
                 intArrayOf(bottomLeftColor, colorInt)
