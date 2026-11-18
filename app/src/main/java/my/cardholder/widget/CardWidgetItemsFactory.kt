@@ -1,16 +1,15 @@
 package my.cardholder.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import androidx.core.graphics.ColorUtils
 import kotlinx.coroutines.runBlocking
 import my.cardholder.R
 import my.cardholder.data.CardWidgetRepository
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.Card.Companion.getColorInt
 import my.cardholder.data.model.isSquare
+import my.cardholder.util.ContentColor
 import my.cardholder.util.LogoLoader
 
 /**
@@ -24,8 +23,6 @@ class CardWidgetItemsFactory(
 ) : RemoteViewsService.RemoteViewsFactory {
 
     private companion object {
-        const val LIGHT_COLOR_LUMINANCE = 0.5
-
         // The launcher shows the widget once all of its cards are loaded, so a logo that can't be
         // loaded quickly is replaced with the barcode icon until the next update.
         const val LOGO_LOAD_TIMEOUT_MS = 1000L
@@ -51,10 +48,8 @@ class CardWidgetItemsFactory(
         val colorInt = card.getColorInt()
         views.setInt(R.id.item_widget_card_background_image, "setColorFilter", colorInt)
         views.setTextViewText(R.id.item_widget_card_name_text, card.name)
-        views.setTextColor(
-            R.id.item_widget_card_name_text,
-            if (ColorUtils.calculateLuminance(colorInt) > LIGHT_COLOR_LUMINANCE) Color.BLACK else Color.WHITE
-        )
+        // A readable shade of the card color, like the card text in the app
+        views.setTextColor(R.id.item_widget_card_name_text, ContentColor.on(colorInt))
         val logoBitmap = card.logo?.ifEmpty { null }?.let { logoUrl ->
             val resources = context.resources
             runBlocking {
