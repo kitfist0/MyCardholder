@@ -8,22 +8,57 @@
     <color name="cardholder_color_secondary_day">#FFD3C47A</color>
     <color name="cardholder_color_secondary_container_day">#FFE8E5D6</color>
     <color name="cardholder_color_on_secondary_container_day">#FF292515</color>
-    <color name="cardholder_color_navigation_bar_day">#FFCFD8DC</color>
     <color name="cardholder_color_error_day">#FFB2261E</color>
     <color name="cardholder_color_error_container_day">#EFB4B1</color>
+    <!-- Neutrals of the Material 3 tonal spot scheme for the blue grey seed #607D8B -->
+    <color name="cardholder_color_background_day">#FFF6FAFD</color>
+    <color name="cardholder_color_on_background_day">#FF171C1F</color>
+    <color name="cardholder_color_surface_day">#FFF6FAFD</color>
+    <color name="cardholder_color_on_surface_day">#FF171C1F</color>
+    <color name="cardholder_color_surface_variant_day">#FFDCE4E9</color>
+    <color name="cardholder_color_on_surface_variant_day">#FF40484C</color>
+    <color name="cardholder_color_surface_container_lowest_day">#FFFFFFFF</color>
+    <color name="cardholder_color_surface_container_low_day">#FFF0F4F8</color>
+    <color name="cardholder_color_surface_container_day">#FFEAEEF2</color>
+    <color name="cardholder_color_surface_container_high_day">#FFE4E9EC</color>
+    <color name="cardholder_color_surface_container_highest_day">#FFDFE3E7</color>
+    <color name="cardholder_color_surface_dim_day">#FFD6DBDE</color>
+    <color name="cardholder_color_surface_bright_day">#FFF6FAFD</color>
+    <color name="cardholder_color_inverse_surface_day">#FF2C3134</color>
+    <color name="cardholder_color_inverse_on_surface_day">#FFEDF1F5</color>
+    <color name="cardholder_color_outline_day">#FF70787D</color>
+    <color name="cardholder_color_outline_variant_day">#FFC0C8CD</color>
     <!--endregion-->
 
     <!--region Night-->
     <color name="cardholder_color_primary_night">#FFB0BEC5</color>
     <color name="cardholder_color_on_primary_night">#FF000000</color>
-    <color name="cardholder_color_primary_container_night">#FF0E0B00</color>
+    <!-- Tone 40 of the yellow of the light theme: distinct from the background, yellow text stays readable on it -->
+    <color name="cardholder_color_primary_container_night">#FF6E5E00</color>
     <color name="cardholder_color_on_primary_container_night">#FFFDE46B</color>
     <color name="cardholder_color_secondary_night">#FFCFC38A</color>
     <color name="cardholder_color_secondary_container_night">#FF302F2A</color>
     <color name="cardholder_color_on_secondary_container_night">#FFFFF5C7</color>
-    <color name="cardholder_color_navigation_bar_night">#FF263238</color>
     <color name="cardholder_color_error_night">#FFF0B7B4</color>
     <color name="cardholder_color_error_container_night">#FF97302D</color>
+    <!-- Neutrals of the Material 3 tonal spot scheme for the blue grey seed #607D8B -->
+    <color name="cardholder_color_background_night">#FF0F1417</color>
+    <color name="cardholder_color_on_background_night">#FFDFE3E7</color>
+    <color name="cardholder_color_surface_night">#FF0F1417</color>
+    <color name="cardholder_color_on_surface_night">#FFDFE3E7</color>
+    <color name="cardholder_color_surface_variant_night">#FF40484C</color>
+    <color name="cardholder_color_on_surface_variant_night">#FFC0C8CD</color>
+    <color name="cardholder_color_surface_container_lowest_night">#FF0A0F11</color>
+    <color name="cardholder_color_surface_container_low_night">#FF171C1F</color>
+    <color name="cardholder_color_surface_container_night">#FF1B2023</color>
+    <color name="cardholder_color_surface_container_high_night">#FF262B2D</color>
+    <color name="cardholder_color_surface_container_highest_night">#FF303538</color>
+    <color name="cardholder_color_surface_dim_night">#FF0F1417</color>
+    <color name="cardholder_color_surface_bright_night">#FF353A3D</color>
+    <color name="cardholder_color_inverse_surface_night">#FFDFE3E7</color>
+    <color name="cardholder_color_inverse_on_surface_night">#FF2C3134</color>
+    <color name="cardholder_color_outline_night">#FF8A9297</color>
+    <color name="cardholder_color_outline_variant_night">#FF40484C</color>
     <!--endregion-->
 
     <!--region Widget (night values are in values-night)-->

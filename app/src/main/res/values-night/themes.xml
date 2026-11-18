@@ -10,12 +10,30 @@
         <item name="colorOnSecondaryContainer">@color/cardholder_color_on_secondary_container_night</item>
         <item name="colorError">@color/cardholder_color_error_night</item>
         <item name="colorErrorContainer">@color/cardholder_color_error_container_night</item>
+        <!-- Neutrals, otherwise Material 3 uses its purple tinted default ones -->
+        <item name="android:colorBackground">@color/cardholder_color_background_night</item>
+        <item name="colorOnBackground">@color/cardholder_color_on_background_night</item>
+        <item name="colorSurface">@color/cardholder_color_surface_night</item>
+        <item name="colorOnSurface">@color/cardholder_color_on_surface_night</item>
+        <item name="colorSurfaceVariant">@color/cardholder_color_surface_variant_night</item>
+        <item name="colorOnSurfaceVariant">@color/cardholder_color_on_surface_variant_night</item>
+        <item name="colorSurfaceContainerLowest">@color/cardholder_color_surface_container_lowest_night</item>
+        <item name="colorSurfaceContainerLow">@color/cardholder_color_surface_container_low_night</item>
+        <item name="colorSurfaceContainer">@color/cardholder_color_surface_container_night</item>
+        <item name="colorSurfaceContainerHigh">@color/cardholder_color_surface_container_high_night</item>
+        <item name="colorSurfaceContainerHighest">@color/cardholder_color_surface_container_highest_night</item>
+        <item name="colorSurfaceDim">@color/cardholder_color_surface_dim_night</item>
+        <item name="colorSurfaceBright">@color/cardholder_color_surface_bright_night</item>
+        <item name="colorSurfaceInverse">@color/cardholder_color_inverse_surface_night</item>
+        <item name="colorOnSurfaceInverse">@color/cardholder_color_inverse_on_surface_night</item>
+        <item name="colorOutline">@color/cardholder_color_outline_night</item>
+        <item name="colorOutlineVariant">@color/cardholder_color_outline_variant_night</item>
         <!-- Status bar -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
         <!-- Navigation bar -->
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
-        <item name="android:navigationBarColor">@color/cardholder_color_navigation_bar_night</item>
+        <item name="android:navigationBarColor">@color/cardholder_color_surface_container_night</item>
     </style>
 
 </resources>
