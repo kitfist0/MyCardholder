@@ -1,5 +1,6 @@
 package my.cardholder.ui.card.display
 
+import android.content.res.ColorStateList
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.view.View
@@ -7,14 +8,20 @@ import android.widget.TextView
 import androidx.core.app.SharedElementCallback
 import androidx.core.transition.doOnEnd
 import androidx.core.transition.doOnStart
+import androidx.core.view.MenuItemCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.forEach
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
 import my.cardholder.databinding.FragmentCardDisplayBinding
 import my.cardholder.ui.base.BaseFragment
+import my.cardholder.util.ContentColor
 import my.cardholder.util.ext.*
 
 @AndroidEntryPoint
@@ -37,7 +44,16 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
             val uniqueNameSuffix = args.cardId
             cardDisplayBarcodeImage.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
-                updateVerticalPaddingAfterApplyingWindowInsets()
+                // The toolbar lies over the bottom of this area: the barcode stays above it,
+                // so that its icons are always on the card color, never on the white barcode
+                val toolbarHeight = getActionBarSize()
+                ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+                    val bars = windowInsets.getInsets(
+                        WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+                    )
+                    view.updatePadding(top = bars.top, bottom = toolbarHeight)
+                    windowInsets
+                }
                 setOnClickListener {
                     val extras = listOf(cardDisplayBarcodeImage).toNavExtras()
                     viewModel.onBarcodeImageClicked(extras)
@@ -112,6 +128,9 @@ class CardDisplayFragment : BaseFragment<FragmentCardDisplayBinding>(
                             setBackgroundColor(state.cardColor)
                             loadBarcodeImage(state.barcodeFile)
                         }
+                        // The icons lie on the card color, which may be light or dark in either app theme
+                        val iconTint = ColorStateList.valueOf(ContentColor.on(state.cardColor, ContentColor.ICON_CONTRAST))
+                        cardDisplayToolbar.menu.forEach { item -> MenuItemCompat.setIconTintList(item, iconTint) }
                         cardDisplayCardCategoryText.isVisible = true
                         cardDisplayCardCategoryText.setCardCategoryTextAndBackground(state.cardCategory)
                         cardDisplayCardLogoImage.loadLogoImage(

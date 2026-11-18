@@ -23,6 +23,9 @@ object ContentColor {
      */
     const val LARGE_TEXT_CONTRAST = 3.0
 
+    /** WCAG minimum for icons and other graphical objects */
+    const val ICON_CONTRAST = 3.0
+
     /**
      * WCAG enhanced contrast. Grey backgrounds have no color to keep in the text, so a text
      * with the minimal contrast would only look dull on them.
