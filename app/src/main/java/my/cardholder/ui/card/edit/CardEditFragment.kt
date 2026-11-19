@@ -118,6 +118,8 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         } else {
                             null
                         }
+                        // An error enables the space under the field, and it stays after the error
+                        isErrorEnabled = state.cardNameIsEmpty
                         editText?.setTextAndSelectionIfRequired(state.cardName)
                     }
                     showLogoSuggestions(state.logoSuggestions)
