@@ -75,6 +75,13 @@ class LogoSuggesterTest {
     }
 
     @Test
+    fun `foreign banks are found by their names in both alphabets`() {
+        assertEquals("kaspi.kz", logos("Каспи").first())
+        assertEquals("revolut.com", logos("Revolut").first())
+        assertEquals("tbcbank.ge", logos("TBC").first())
+    }
+
+    @Test
     fun `catalog logos are unique`() {
         val logos = BrandCatalog.brands.map { it.logo }
         assertEquals(logos.distinct(), logos)
