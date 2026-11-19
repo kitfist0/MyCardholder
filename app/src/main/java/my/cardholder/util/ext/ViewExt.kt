@@ -63,10 +63,20 @@ fun EditText.setStartColoredSquareIcon(color: String) {
     setCompoundDrawablesRelative(squareDrawable, null, null, null)
 }
 
+/**
+ * Shows the icon of the logo link. Called as the link is typed, so a load finishing after
+ * a load of a later link is ignored: otherwise the icon of a partly typed link could stay.
+ */
 fun EditText.setStartIconFromUrl(
     imageUrl: String?,
     @DrawableRes errorDrawableRes: Int,
 ) {
+    if (getTag(R.id.start_icon_url_tag) == imageUrl) {
+        // Already shown or loading
+        return
+    }
+    setTag(R.id.start_icon_url_tag, imageUrl)
+    fun isLatest() = getTag(R.id.start_icon_url_tag) == imageUrl
     val sizePx = dpToPx(24)
     val paddingPx = dpToPx(1)
     val cornerRadiusPx = dpToPx(4)
@@ -78,10 +88,12 @@ fun EditText.setStartIconFromUrl(
         paddingPx = paddingPx,
         cornerRadiusPx = cornerRadiusPx,
         onSuccess = {
+            if (!isLatest()) return@load
             it.setBounds(0, 0, sizePx, sizePx)
             setCompoundDrawablesRelative(it, null, endDrawable, null)
         },
         onError = {
+            if (!isLatest()) return@load
             val backColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurfaceContainer, Color.LTGRAY)
             val backDrawable = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
