@@ -23,6 +23,8 @@ import my.cardholder.data.model.CardAndCategory
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.util.ImageUrlValidator
 import my.cardholder.util.NetworkChecker
+import my.cardholder.util.logo.LogoSuggester
+import my.cardholder.util.logo.LogoSuggestion
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -173,11 +175,44 @@ class CardEditViewModelTest {
 
     private fun successState(viewModel: CardEditViewModel) = viewModel.state.value as CardEditState.Success
 
+    @Test
+    fun `logos are suggested by the typed name while the card has no logo`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.onCardNameChanged("Пятёр")
+
+        val suggestions = (viewModel.state.value as CardEditState.Success).logoSuggestions
+        assertEquals(LogoSuggestion(name = "Пятёрочка", logo = "5ka.ru"), suggestions.first())
+    }
+
+    @Test
+    fun `chosen suggestion becomes the logo and hides suggestions`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Пятёр")
+
+        viewModel.onLogoSuggestionClicked(LogoSuggestion(name = "Пятёрочка", logo = "5ka.ru"))
+
+        val state = viewModel.state.value as CardEditState.Success
+        assertEquals("5ka.ru", state.cardLogo)
+        assertEquals(emptyList<LogoSuggestion>(), state.logoSuggestions)
+        coVerify { cardRepository.updateCardLogo(CARD_ID, "5ka.ru") }
+    }
+
+    @Test
+    fun `card with a logo gets no suggestions`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Пятёрочка", logo = "https://example.com/logo.png"), null)
+
+        val viewModel = createViewModel()
+
+        assertEquals(emptyList<LogoSuggestion>(), (viewModel.state.value as CardEditState.Success).logoSuggestions)
+    }
+
     private fun createViewModel() = CardEditViewModel(
         SavedStateHandle(mapOf("card_id" to CARD_ID)),
         cardRepository,
         categoryRepository,
         mockk<ImageUrlValidator>(relaxed = true),
         mockk<NetworkChecker>(relaxed = true),
+        LogoSuggester(),
     )
 }

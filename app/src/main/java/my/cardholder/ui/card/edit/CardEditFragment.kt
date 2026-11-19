@@ -2,6 +2,7 @@ package my.cardholder.ui.card.edit
 
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
+import android.view.LayoutInflater
 import android.widget.AutoCompleteTextView
 import androidx.core.graphics.toColorInt
 import androidx.core.transition.doOnEnd
@@ -10,12 +11,16 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
+import my.cardholder.databinding.ItemLogoSuggestionBinding
 import my.cardholder.databinding.FragmentCardEditBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.card.CardSystemBarsAppearance
+import my.cardholder.util.LogoLoader
 import my.cardholder.util.ext.*
+import my.cardholder.util.logo.LogoSuggestion
 
 @AndroidEntryPoint
 class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
@@ -115,6 +120,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         }
                         editText?.setTextAndSelectionIfRequired(state.cardName)
                     }
+                    showLogoSuggestions(state.logoSuggestions)
                     cardEditCardContentInputLayout.apply {
                         isEnabled = true
                         editText?.setTextAndSelectionIfRequired(state.cardContent)
@@ -155,5 +161,37 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 }
             }
         }
+    }
+
+    private fun showLogoSuggestions(suggestions: List<LogoSuggestion>) = with(binding) {
+        cardEditLogoSuggestionsScroll.isVisible = suggestions.isNotEmpty()
+        // Recreated only when they change, so that loaded icons don't blink while typing
+        if (cardEditLogoSuggestionsGroup.tag == suggestions) {
+            return
+        }
+        cardEditLogoSuggestionsGroup.tag = suggestions
+        cardEditLogoSuggestionsGroup.removeAllViews()
+        val inflater = LayoutInflater.from(context)
+        suggestions.forEach { suggestion ->
+            val chip = ItemLogoSuggestionBinding.inflate(inflater, cardEditLogoSuggestionsGroup, false).root
+            chip.text = suggestion.name
+            chip.contentDescription = getString(R.string.card_edit_logo_suggestion_content_description, suggestion.name)
+            chip.setOnClickListener { viewModel.onLogoSuggestionClicked(suggestion) }
+            chip.loadLogoIcon(suggestion.logo)
+            cardEditLogoSuggestionsGroup.addView(chip)
+        }
+        cardEditLogoSuggestionsScroll.scrollTo(0, 0)
+    }
+
+    /** A suggestion without its icon still names the brand, so a failed icon is just left out */
+    private fun Chip.loadLogoIcon(logo: String) {
+        LogoLoader(context).load(
+            imageUrl = logo,
+            sizePx = dpToPx(24),
+            paddingPx = dpToPx(1),
+            cornerRadiusPx = dpToPx(4),
+            onSuccess = { chipIcon = it },
+            onError = {},
+        )
     }
 }

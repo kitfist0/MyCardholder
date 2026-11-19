@@ -17,6 +17,8 @@ import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.ImageUrlValidator
 import my.cardholder.util.NetworkChecker
 import my.cardholder.util.Text
+import my.cardholder.util.logo.LogoSuggester
+import my.cardholder.util.logo.LogoSuggestion
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -27,6 +29,7 @@ class CardEditViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val imageUrlValidator: ImageUrlValidator,
     private val networkChecker: NetworkChecker,
+    private val logoSuggester: LogoSuggester,
 ) : BaseViewModel() {
 
     private companion object {
@@ -73,6 +76,7 @@ class CardEditViewModel @Inject constructor(
                     cardNameWhenOpened = card.name
                 }
                 val shownCardName = cardName ?: card.name
+                val shownCardLogo = cardLogo ?: card.logo.orEmpty()
                 _state.value = CardEditState.Success(
                     barcodeFile = card.barcodeFile,
                     cardName = shownCardName,
@@ -82,7 +86,8 @@ class CardEditViewModel @Inject constructor(
                     cardCategoryNames = listOf(Category.NULL_NAME).plus(categoryNames),
                     cardComment = card.comment.orEmpty(),
                     cardColor = card.color,
-                    cardLogo = cardLogo ?: card.logo.orEmpty(),
+                    cardLogo = shownCardLogo,
+                    logoSuggestions = logoSuggestions(shownCardName, shownCardLogo),
                     barcodeFormatName = card.format.toString(),
                 )
                 if (card.barcodeFile?.exists() == false) {
@@ -116,7 +121,11 @@ class CardEditViewModel @Inject constructor(
         cardName = changedName
         val nameIsEmpty = changedName.isBlank()
         _state.update { state ->
-            (state as? CardEditState.Success)?.copy(cardName = changedName, cardNameIsEmpty = nameIsEmpty) ?: state
+            (state as? CardEditState.Success)?.copy(
+                cardName = changedName,
+                cardNameIsEmpty = nameIsEmpty,
+                logoSuggestions = logoSuggestions(changedName, state.cardLogo),
+            ) ?: state
         }
         // Until a new name is entered, the card has the name it had when the screen was opened
         val nameToSave = if (nameIsEmpty) cardNameWhenOpened else changedName
@@ -167,11 +176,22 @@ class CardEditViewModel @Inject constructor(
         }
         cardLogo = changedLogo
         _state.update { state ->
-            (state as? CardEditState.Success)?.copy(cardLogo = changedLogo) ?: state
+            (state as? CardEditState.Success)?.copy(
+                cardLogo = changedLogo,
+                logoSuggestions = logoSuggestions(state.cardName, changedLogo),
+            ) ?: state
         }
         logoValidationJob?.cancel()
         logoValidationJob = null
         cardLogoToSave.value = LogoToSave(changedLogo.ifBlank { null })
+    }
+
+    fun onLogoSuggestionClicked(suggestion: LogoSuggestion) {
+        onCardLogoChanged(suggestion.logo)
+    }
+
+    private fun logoSuggestions(name: String, logo: String): List<LogoSuggestion> {
+        return if (logo.isBlank()) logoSuggester.suggest(name) else emptyList()
     }
 
     /** Checks the logo once it stops changing */
