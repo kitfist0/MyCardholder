@@ -186,15 +186,17 @@ class CardEditViewModelTest {
     }
 
     @Test
-    fun `chosen suggestion becomes the logo and hides suggestions`() = runTest {
+    fun `chosen suggestion becomes the name and the logo and hides suggestions`() = runTest {
         val viewModel = createViewModel()
         viewModel.onCardNameChanged("Пятёр")
 
         viewModel.onLogoSuggestionClicked(LogoSuggestion(name = "Пятёрочка", logo = "5ka.ru"))
 
         val state = viewModel.state.value as CardEditState.Success
+        assertEquals("Пятёрочка", state.cardName)
         assertEquals("5ka.ru", state.cardLogo)
         assertEquals(emptyList<LogoSuggestion>(), state.logoSuggestions)
+        coVerify { cardRepository.updateCardName(CARD_ID, "Пятёрочка") }
         coVerify { cardRepository.updateCardLogo(CARD_ID, "5ka.ru") }
     }
 

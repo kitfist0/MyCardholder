@@ -186,7 +186,9 @@ class CardEditViewModel @Inject constructor(
         cardLogoToSave.value = LogoToSave(changedLogo.ifBlank { null })
     }
 
+    /** Like an autocompletion, the suggestion completes the name too */
     fun onLogoSuggestionClicked(suggestion: LogoSuggestion) {
+        onCardNameChanged(suggestion.name)
         onCardLogoChanged(suggestion.logo)
     }
 
