@@ -166,7 +166,7 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
     }
 
     private fun showLogoSuggestions(suggestions: List<LogoSuggestion>): Unit = with(binding) {
-        cardEditLogoSuggestionsLayout.isVisible = suggestions.isNotEmpty()
+        cardEditLogoSuggestionsScroll.isVisible = suggestions.isNotEmpty()
         // Recreated only when they change, so that loaded icons don't blink while typing
         if (cardEditLogoSuggestionsGroup.tag == suggestions) {
             return
@@ -177,7 +177,6 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
         suggestions.forEach { suggestion ->
             val chip = ItemLogoSuggestionBinding.inflate(inflater, cardEditLogoSuggestionsGroup, false).root
             chip.text = suggestion.name
-            chip.contentDescription = getString(R.string.card_edit_logo_suggestion_content_description, suggestion.name)
             chip.setOnClickListener { viewModel.onLogoSuggestionClicked(suggestion) }
             chip.loadLogoIcon(suggestion.logo)
             cardEditLogoSuggestionsGroup.addView(chip)

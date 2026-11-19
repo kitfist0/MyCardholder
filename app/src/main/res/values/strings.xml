@@ -71,8 +71,6 @@
     <string name="card_edit_label">Edit</string>
     <string name="card_edit_logo_helper_text">You can paste the link to the image or just enter the website address here ☝</string>
     <string name="card_edit_logo_hint">Logo</string>
-    <string name="card_edit_logo_suggestions_title">Matching logos</string>
-    <string name="card_edit_logo_suggestion_content_description">Use the logo of %s</string>
     <string name="card_edit_name_hint">Name</string>
     <string name="card_edit_name_is_empty_error_message">Name is empty</string>
     <string name="card_edit_no_connection_error_message">Internet connection required!</string>
