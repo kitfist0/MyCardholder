@@ -16,8 +16,13 @@ class PaddedRoundedTransformation(
         "${javaClass.name}-$paddingPx-$cornerRadiusPx-$backgroundColor"
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
-        val outputWidth = input.width + (paddingPx * 2)
-        val outputHeight = input.height + (paddingPx * 2)
+        // Logos are shown in squares, and a wide or tall logo would be stretched to fill one.
+        // Padded to a square instead, it keeps its proportions.
+        val outputSize = maxOf(input.width, input.height) + (paddingPx * 2)
+        val outputWidth = outputSize
+        val outputHeight = outputSize
+        val imageLeft = (outputSize - input.width) / 2f
+        val imageTop = (outputSize - input.height) / 2f
 
         // Create output bitmap
         val output = createBitmap(outputWidth, outputHeight)
@@ -37,10 +42,10 @@ class PaddedRoundedTransformation(
 
         // Create a mask for the image area (with same rounded corners)
         val imageRect = RectF(
-            paddingPx.toFloat(),
-            paddingPx.toFloat(),
-            (paddingPx + input.width).toFloat(),
-            (paddingPx + input.height).toFloat()
+            imageLeft,
+            imageTop,
+            imageLeft + input.width,
+            imageTop + input.height,
         )
 
         // Save canvas state
@@ -58,7 +63,7 @@ class PaddedRoundedTransformation(
             clipPath(path)
 
             // Draw the image
-            drawBitmap(input, paddingPx.toFloat(), paddingPx.toFloat(), null)
+            drawBitmap(input, imageLeft, imageTop, null)
         }
 
         return output
