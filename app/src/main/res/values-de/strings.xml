@@ -71,6 +71,7 @@
     <string name="card_edit_label">Kartenbearbeitung</string>
     <string name="card_edit_logo_helper_text">Sie können den Link zum Bild einfügen oder einfach die Website-Adresse hier eingeben ☝</string>
     <string name="card_edit_logo_hint">Logo</string>
+    <string name="card_edit_logo_suggestions_title">Passende Logos</string>
     <string name="card_edit_logo_suggestion_content_description">Logo von %s verwenden</string>
     <string name="card_edit_name_hint">Name</string>
     <string name="card_edit_name_is_empty_error_message">Name ist leer</string>

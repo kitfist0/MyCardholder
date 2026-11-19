@@ -71,6 +71,7 @@
     <string name="card_edit_label">Редактирование карты</string>
     <string name="card_edit_logo_helper_text">Вы можете вставить ссылку на изображение или просто указать адрес сайта здесь ☝</string>
     <string name="card_edit_logo_hint">Логотип</string>
+    <string name="card_edit_logo_suggestions_title">Подходящие логотипы</string>
     <string name="card_edit_logo_suggestion_content_description">Взять логотип: %s</string>
     <string name="card_edit_name_hint">Имя</string>
     <string name="card_edit_name_is_empty_error_message">Имя пустое</string>

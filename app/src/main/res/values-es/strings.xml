@@ -71,6 +71,7 @@
     <string name="card_edit_label">Editar</string>
     <string name="card_edit_logo_helper_text">Puedes pegar el enlace a la imagen o simplemente ingresar la dirección del sitio web aquí ☝</string>
     <string name="card_edit_logo_hint">Logo</string>
+    <string name="card_edit_logo_suggestions_title">Logos que coinciden</string>
     <string name="card_edit_logo_suggestion_content_description">Usar el logo de %s</string>
     <string name="card_edit_name_hint">Nombre</string>
     <string name="card_edit_name_is_empty_error_message">El nombre está vacío</string>

@@ -165,8 +165,8 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
         }
     }
 
-    private fun showLogoSuggestions(suggestions: List<LogoSuggestion>) = with(binding) {
-        cardEditLogoSuggestionsScroll.isVisible = suggestions.isNotEmpty()
+    private fun showLogoSuggestions(suggestions: List<LogoSuggestion>): Unit = with(binding) {
+        cardEditLogoSuggestionsLayout.isVisible = suggestions.isNotEmpty()
         // Recreated only when they change, so that loaded icons don't blink while typing
         if (cardEditLogoSuggestionsGroup.tag == suggestions) {
             return

@@ -50,26 +50,44 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <HorizontalScrollView
-                android:id="@+id/card_edit_logo_suggestions_scroll"
+            <!-- Says what the chips are, as next to the name they look like names -->
+            <LinearLayout
+                android:id="@+id/card_edit_logo_suggestions_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingHorizontal="8dp"
-                android:scrollbars="none"
+                android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_edit_card_name_input_layout"
                 tools:visibility="visible">
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/card_edit_logo_suggestions_group"
+                <TextView
+                    android:id="@+id/card_edit_logo_suggestions_title_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:singleLine="true" />
+                    android:layout_marginHorizontal="24dp"
+                    android:text="@string/card_edit_logo_suggestions_title"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?colorOnSurfaceVariant" />
 
-            </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/card_edit_logo_suggestions_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="8dp"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/card_edit_logo_suggestions_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true" />
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/card_edit_card_content_input_layout"
@@ -84,7 +102,7 @@
                 app:hintAnimationEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_edit_logo_suggestions_scroll">
+                app:layout_constraintTop_toBottomOf="@id/card_edit_logo_suggestions_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
