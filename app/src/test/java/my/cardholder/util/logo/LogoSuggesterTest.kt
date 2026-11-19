@@ -68,6 +68,13 @@ class LogoSuggesterTest {
     }
 
     @Test
+    fun `banks are found by their old names too`() {
+        assertEquals("tbank.ru", logos("Тинькофф").first())
+        assertEquals("sberbank.ru", logos("Сбербанк").first())
+        assertEquals("halvacard.ru", logos("Халва").first())
+    }
+
+    @Test
     fun `catalog logos are unique`() {
         val logos = BrandCatalog.brands.map { it.logo }
         assertEquals(logos.distinct(), logos)
