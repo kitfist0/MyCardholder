@@ -1,14 +1,17 @@
-package my.cardholder.util.logo
+package my.cardholder.data
+
+import my.cardholder.data.model.Brand
+import my.cardholder.data.source.BrandCatalog
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class LogoSuggesterTest {
+class BrandRepositoryTest {
 
-    private val suggester = LogoSuggester()
+    private val brandRepository = BrandRepository()
 
-    private fun logos(cardName: String) = suggester.suggest(cardName).map { it.logo }
+    private fun logos(cardName: String) = brandRepository.suggestLogos(cardName).map { it.logo }
 
     @Test
     fun `brand is found by the start of its name`() {
@@ -37,13 +40,13 @@ class LogoSuggesterTest {
 
     @Test
     fun `exact name comes before names that only start with it`() {
-        val suggester = LogoSuggester(
+        val brandRepository = BrandRepository(
             listOf(
-                BrandCatalog.Brand("long.example", listOf("Shopping")),
-                BrandCatalog.Brand("short.example", listOf("Shop")),
+                Brand("long.example", listOf("Shopping")),
+                Brand("short.example", listOf("Shop")),
             )
         )
-        assertEquals(listOf("short.example", "long.example"), suggester.suggest("shop").map { it.logo })
+        assertEquals(listOf("short.example", "long.example"), brandRepository.suggestLogos("shop").map { it.logo })
     }
 
     @Test
@@ -57,12 +60,12 @@ class LogoSuggesterTest {
 
     @Test
     fun `suggestions are limited`() {
-        assertTrue(logos("ма").size <= LogoSuggester.MAX_SUGGESTIONS)
+        assertTrue(logos("ма").size <= BrandRepository.MAX_SUGGESTIONS)
     }
 
     @Test
     fun `suggestion shows the main brand name`() {
-        val suggestion = suggester.suggest("Leroy Merlin").first()
+        val suggestion = brandRepository.suggestLogos("Leroy Merlin").first()
         assertEquals("Лемана ПРО", suggestion.name)
         assertEquals("lemanapro.ru", suggestion.logo)
     }

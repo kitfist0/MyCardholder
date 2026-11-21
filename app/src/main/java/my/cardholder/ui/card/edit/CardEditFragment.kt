@@ -14,13 +14,13 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import my.cardholder.R
-import my.cardholder.databinding.ItemLogoSuggestionBinding
+import my.cardholder.data.model.LogoSuggestion
 import my.cardholder.databinding.FragmentCardEditBinding
+import my.cardholder.databinding.ItemLogoSuggestionBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.ui.card.CardSystemBarsAppearance
 import my.cardholder.util.LogoLoader
 import my.cardholder.util.ext.*
-import my.cardholder.util.logo.LogoSuggestion
 
 @AndroidEntryPoint
 class CardEditFragment : BaseFragment<FragmentCardEditBinding>(

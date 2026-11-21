@@ -9,16 +9,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import my.cardholder.R
+import my.cardholder.data.BrandRepository
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CategoryRepository
 import my.cardholder.data.model.Category
+import my.cardholder.data.model.LogoSuggestion
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.ui.base.BaseViewModel
 import my.cardholder.util.ImageUrlValidator
 import my.cardholder.util.NetworkChecker
 import my.cardholder.util.Text
-import my.cardholder.util.logo.LogoSuggester
-import my.cardholder.util.logo.LogoSuggestion
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -29,7 +29,7 @@ class CardEditViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository,
     private val imageUrlValidator: ImageUrlValidator,
     private val networkChecker: NetworkChecker,
-    private val logoSuggester: LogoSuggester,
+    private val brandRepository: BrandRepository,
 ) : BaseViewModel() {
 
     private companion object {
@@ -193,7 +193,7 @@ class CardEditViewModel @Inject constructor(
     }
 
     private fun logoSuggestions(name: String, logo: String): List<LogoSuggestion> {
-        return if (logo.isBlank()) logoSuggester.suggest(name) else emptyList()
+        return if (logo.isBlank()) brandRepository.suggestLogos(name) else emptyList()
     }
 
     /** Checks the logo once it stops changing */

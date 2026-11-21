@@ -1,16 +1,18 @@
-package my.cardholder.util.logo
+package my.cardholder.data
 
+import my.cardholder.data.model.Brand
+import my.cardholder.data.model.LogoSuggestion
+import my.cardholder.data.source.BrandCatalog
 import javax.inject.Inject
-
-/** A logo offered for a card by its name, see [BrandCatalog.Brand.logo] */
-data class LogoSuggestion(val name: String, val logo: String)
+import javax.inject.Singleton
 
 /**
- * Suggests logos of the [BrandCatalog] brands a card name may be about, e.g. "Пятёрочка"
- * for "пятер". Works offline and sends the card name nowhere.
+ * Brands of the [BrandCatalog]. Suggests logos of the brands a card name may be about,
+ * e.g. "Пятёрочка" for "пятер". Works offline and sends the card name nowhere.
  */
-class LogoSuggester(
-    private val brands: List<BrandCatalog.Brand>,
+@Singleton
+class BrandRepository(
+    private val brands: List<Brand>,
 ) {
 
     @Inject
@@ -35,7 +37,7 @@ class LogoSuggester(
         brand to brand.names.map { name -> words(name) }
     }
 
-    fun suggest(cardName: String): List<LogoSuggestion> {
+    fun suggestLogos(cardName: String): List<LogoSuggestion> {
         val queryWords = words(cardName)
         val query = queryWords.joinToString("")
         if (query.length < MIN_QUERY_LENGTH) {

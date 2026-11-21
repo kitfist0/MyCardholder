@@ -1,4 +1,6 @@
-package my.cardholder.util.logo
+package my.cardholder.data.source
+
+import my.cardholder.data.model.Brand
 
 /**
  * Popular stores and services whose cards people keep, with the names they are typed by.
@@ -7,11 +9,6 @@ package my.cardholder.util.logo
  * only a blurry 16px icon are left out.
  */
 object BrandCatalog {
-
-    /** The [logo] is a website, whose icon is the logo, or a link to an image */
-    data class Brand(val logo: String, val names: List<String>) {
-        val displayName: String get() = names.first()
-    }
 
     private fun brand(logo: String, vararg names: String) = Brand(logo, names.toList())
 

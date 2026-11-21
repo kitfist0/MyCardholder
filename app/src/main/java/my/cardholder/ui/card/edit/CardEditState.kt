@@ -1,8 +1,8 @@
 package my.cardholder.ui.card.edit
 
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.LogoSuggestion
 import my.cardholder.data.model.SupportedFormat
-import my.cardholder.util.logo.LogoSuggestion
 import java.io.File
 
 sealed class CardEditState {

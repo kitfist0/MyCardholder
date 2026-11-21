@@ -16,15 +16,15 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import my.cardholder.data.BrandRepository
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CategoryRepository
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.CardAndCategory
+import my.cardholder.data.model.LogoSuggestion
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.util.ImageUrlValidator
 import my.cardholder.util.NetworkChecker
-import my.cardholder.util.logo.LogoSuggester
-import my.cardholder.util.logo.LogoSuggestion
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -215,6 +215,6 @@ class CardEditViewModelTest {
         categoryRepository,
         mockk<ImageUrlValidator>(relaxed = true),
         mockk<NetworkChecker>(relaxed = true),
-        LogoSuggester(),
+        BrandRepository(),
     )
 }
