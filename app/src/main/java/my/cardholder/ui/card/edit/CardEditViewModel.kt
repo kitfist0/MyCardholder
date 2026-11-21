@@ -47,6 +47,12 @@ class CardEditViewModel @Inject constructor(
 
     /** The name is saved as it's typed, so erasing it would leave a part of it, e.g. its first letter */
     private var cardNameWhenOpened: String? = null
+
+    /**
+     * Logos are suggested only once the name is edited: the field gets the saved name when the
+     * screen is opened, and suggestions for it would just be in the way of other changes.
+     */
+    private var isCardNameEdited = false
     private var cardCategoryName: String? = null
     private var cardColor: String? = null
     private var cardFormat: String? = null
@@ -119,6 +125,9 @@ class CardEditViewModel @Inject constructor(
             return
         }
         cardName = changedName
+        if (changedName != cardNameWhenOpened) {
+            isCardNameEdited = true
+        }
         val nameIsEmpty = changedName.isBlank()
         _state.update { state ->
             (state as? CardEditState.Success)?.copy(
@@ -193,7 +202,7 @@ class CardEditViewModel @Inject constructor(
     }
 
     private fun logoSuggestions(name: String, logo: String): List<LogoSuggestion> {
-        return if (logo.isBlank()) brandRepository.suggestLogos(name) else emptyList()
+        return if (isCardNameEdited && logo.isBlank()) brandRepository.suggestLogos(name) else emptyList()
     }
 
     /** Checks the logo once it stops changing */

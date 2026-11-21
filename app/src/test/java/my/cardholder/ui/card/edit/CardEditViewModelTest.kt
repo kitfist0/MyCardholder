@@ -186,6 +186,28 @@ class CardEditViewModelTest {
     }
 
     @Test
+    fun `opening a card with a brand name suggests no logos`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Пятёрочка"), null)
+        val viewModel = createViewModel()
+
+        // The field gets the saved name when the screen is opened
+        viewModel.onCardNameChanged("Пятёрочка")
+
+        assertEquals(emptyList<LogoSuggestion>(), (viewModel.state.value as CardEditState.Success).logoSuggestions)
+    }
+
+    @Test
+    fun `editing the name of a card with a brand name suggests logos`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Пятёрочка"), null)
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Пятёрочка")
+
+        viewModel.onCardNameChanged("Пятёрочк")
+
+        assertEquals("5ka.ru", (viewModel.state.value as CardEditState.Success).logoSuggestions.first().logo)
+    }
+
+    @Test
     fun `chosen suggestion becomes the name and the logo and hides suggestions`() = runTest {
         val viewModel = createViewModel()
         viewModel.onCardNameChanged("Пятёр")
