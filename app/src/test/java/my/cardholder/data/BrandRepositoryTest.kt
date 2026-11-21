@@ -85,6 +85,13 @@ class BrandRepositoryTest {
     }
 
     @Test
+    fun `coffee shops are found`() {
+        assertEquals("surfcoffee.ru", logos("Surf").first())
+        assertEquals("coffeemania.ru", logos("Кофемания").first())
+        assertEquals("costa.co.uk", logos("Коста").first())
+    }
+
+    @Test
     fun `catalog logos are unique`() {
         val logos = BrandCatalog.brands.map { it.logo }
         assertEquals(logos.distinct(), logos)
