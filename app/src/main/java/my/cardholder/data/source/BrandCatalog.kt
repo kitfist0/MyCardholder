@@ -86,6 +86,12 @@ object BrandCatalog {
         brand("labirint.ru", "Лабиринт", "Labirint"),
         // Clothes, shoes and jewelry
         brand("sportmaster.ru", "Спортмастер", "Sportmaster"),
+        brand("desport.ru", "Desport", "Деспорт", "Декатлон"),
+        brand("kant.ru", "Kant", "Кант"),
+        brand("trial-sport.ru", "Триал-Спорт", "Trial Sport"),
+        brand("alpindustria.ru", "Альпиндустрия", "Alpindustria"),
+        brand("superstep.ru", "Superstep", "Суперстеп"),
+        brand("snowqueen.ru", "Снежная Королева", "Snow Queen"),
         brand("gloria-jeans.ru", "Gloria Jeans", "Глория Джинс"),
         brand("ostin.com", "O'STIN", "Остин", "Ostin"),
         brand("zarina.ru", "Zarina", "Зарина"),
@@ -256,6 +262,10 @@ object BrandCatalog {
         brand("massimodutti.com", "Massimo Dutti", "Массимо Дутти"),
         brand("cos.com", "COS"),
         brand("defacto.com.tr", "DeFacto", "Дефакто"),
+        brand("jdsports.com", "JD Sports", "ДжейДи Спортс"),
+        brand("sportsdirect.com", "Sports Direct", "Спортс Директ"),
+        brand("hervis.at", "Hervis", "Хервис"),
+        brand("xxl.no", "XXL"),
         // International: beauty and pharmacies
         brand("douglas.de", "Douglas", "Дуглас"),
         brand("lush.com", "Lush", "Лаш"),

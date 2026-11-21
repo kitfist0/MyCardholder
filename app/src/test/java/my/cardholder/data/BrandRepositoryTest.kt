@@ -99,6 +99,13 @@ class BrandRepositoryTest {
     }
 
     @Test
+    fun `sports stores are found`() {
+        assertEquals("kant.ru", logos("Кант").first())
+        assertEquals("jdsports.com", logos("JD Sports").first())
+        assertTrue(logos("Декатлон").contains("desport.ru"))
+    }
+
+    @Test
     fun `catalog logos are unique`() {
         val logos = BrandCatalog.brands.map { it.logo }
         assertEquals(logos.distinct(), logos)
