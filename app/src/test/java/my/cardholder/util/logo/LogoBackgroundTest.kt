@@ -73,6 +73,46 @@ class LogoBackgroundTest {
         assertEquals(0xFF, (color shr 16) and 0xFF, 2.0)
     }
 
+    @Test
+    fun `pale outermost line of a scaled logo doesn't hide its background`() {
+        // As on the icon of Lidl: blue, with a line of two pale blues around it
+        val blue = 0xFF0050AA.toInt()
+        val pixels = logo { x, y ->
+            when {
+                y == 0 || y == SIZE - 1 -> 0xFFBFD3EA.toInt()
+                x == 0 || x == SIZE - 1 -> 0xFFC4D6EB.toInt()
+                else -> blue
+            }
+        }
+
+        assertEquals(blue, edgeColor(pixels))
+    }
+
+    @Test
+    fun `logo covering the middles of its sides still gives its background color`() {
+        // As on the icon of Lidl: a yellow circle almost touching the sides of a blue square
+        val blue = 0xFF0050AA.toInt()
+        val center = SIZE / 2.0
+        val pixels = logo { x, y -> if (hypot(x + 0.5 - center, y + 0.5 - center) < center - 1) YELLOW else blue }
+
+        assertEquals(blue, edgeColor(pixels))
+    }
+
+    @Test
+    fun `colors on both sides of a bucket border are one color`() {
+        // 0x7F and 0x80 are in different buckets of 16
+        val pixels = logo { x, _ -> if (x % 2 == 0) 0xFF7F7F7F.toInt() else 0xFF808080.toInt() }
+
+        assertEquals(0x7F, edgeColor(pixels)!! and 0xFF, 1.0)
+    }
+
+    @Test
+    fun `edge is read inside the logo but not in a tiny one`() {
+        assertEquals(2, LogoBackground.edgeInset(60, 60))
+        assertEquals(5, LogoBackground.edgeInset(128, 128))
+        assertEquals(0, LogoBackground.edgeInset(8, 8))
+    }
+
     private fun assertEquals(expected: Int, actual: Int, delta: Double) {
         assertEquals(expected.toDouble(), actual.toDouble(), delta)
     }

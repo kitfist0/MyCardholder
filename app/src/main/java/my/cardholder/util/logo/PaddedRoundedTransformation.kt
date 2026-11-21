@@ -18,7 +18,7 @@ class PaddedRoundedTransformation(
 ) : Transformation {
 
     override val cacheKey: String =
-        "${javaClass.name}-edge-$paddingPx-$cornerRadiusPx-$defaultBackgroundColor"
+        "${javaClass.name}-edge-inset-$paddingPx-$cornerRadiusPx-$defaultBackgroundColor"
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         // Logos are shown in squares, and a wide or tall logo would be stretched to fill one.
@@ -32,8 +32,9 @@ class PaddedRoundedTransformation(
         val canvas = Canvas(output)
 
         // Draw the background with rounded corners
+        val edgeColor = input.edgeColor()
         val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        backgroundPaint.color = input.edgeColor() ?: defaultBackgroundColor
+        backgroundPaint.color = edgeColor ?: defaultBackgroundColor
 
         val backgroundRect = RectF(0f, 0f, outputSize.toFloat(), outputSize.toFloat())
         canvas.drawRoundRect(
@@ -65,8 +66,17 @@ class PaddedRoundedTransformation(
             }
             clipPath(path)
 
-            // Draw the image
-            drawBitmap(input, imageLeft, imageTop, null)
+            // Draw the image. On its own background, without its outermost pixels, which are
+            // often a blend of the background with something else (see LogoBackground.edgeInset).
+            val inset = if (edgeColor != null) LogoBackground.edgeInset(input.width, input.height) else 0
+            val source = Rect(inset, inset, input.width - inset, input.height - inset)
+            val destination = RectF(
+                imageLeft + inset,
+                imageTop + inset,
+                imageLeft + input.width - inset,
+                imageTop + input.height - inset,
+            )
+            drawBitmap(input, source, destination, null)
         }
 
         return output
