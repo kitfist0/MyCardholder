@@ -208,6 +208,44 @@ class CardEditViewModelTest {
     }
 
     @Test
+    fun `erasing the name suggests logos again after one is chosen`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Петр")
+        viewModel.onLogoSuggestionClicked(LogoSuggestion(name = "Петрович", logo = "petrovich.ru"))
+
+        viewModel.onCardNameChanged("")
+        viewModel.onCardNameChanged("Пятёр")
+
+        assertEquals("5ka.ru", (viewModel.state.value as CardEditState.Success).logoSuggestions.first().logo)
+    }
+
+    @Test
+    fun `editing the name of a card with a logo without erasing it suggests no logos`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Пятёрочка", logo = "https://example.com/logo.png"), null)
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Пятёрочка")
+
+        viewModel.onCardNameChanged("Пятёрочк")
+
+        assertEquals(emptyList<LogoSuggestion>(), (viewModel.state.value as CardEditState.Success).logoSuggestions)
+    }
+
+    @Test
+    fun `erasing the name of a card with its own logo suggests logos`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Магазин", logo = "https://example.com/logo.png"), null)
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Магазин")
+
+        viewModel.onCardNameChanged("")
+        viewModel.onCardNameChanged("Пятёр")
+
+        val state = viewModel.state.value as CardEditState.Success
+        assertEquals("5ka.ru", state.logoSuggestions.first().logo)
+        // Only a chosen suggestion replaces the logo
+        assertEquals("https://example.com/logo.png", state.cardLogo)
+    }
+
+    @Test
     fun `chosen suggestion becomes the name and the logo and hides suggestions`() = runTest {
         val viewModel = createViewModel()
         viewModel.onCardNameChanged("Пятёр")

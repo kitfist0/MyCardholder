@@ -53,6 +53,12 @@ class CardEditViewModel @Inject constructor(
      * screen is opened, and suggestions for it would just be in the way of other changes.
      */
     private var isCardNameEdited = false
+
+    /**
+     * Whether the name was erased since the logo was last set. Erasing it means the card is named
+     * anew, so logos are suggested again even if the card has one, e.g. a wrongly chosen one.
+     */
+    private var isCardNameErasedSinceLogo = false
     private var cardCategoryName: String? = null
     private var cardColor: String? = null
     private var cardFormat: String? = null
@@ -129,6 +135,9 @@ class CardEditViewModel @Inject constructor(
             isCardNameEdited = true
         }
         val nameIsEmpty = changedName.isBlank()
+        if (nameIsEmpty) {
+            isCardNameErasedSinceLogo = true
+        }
         _state.update { state ->
             (state as? CardEditState.Success)?.copy(
                 cardName = changedName,
@@ -184,6 +193,7 @@ class CardEditViewModel @Inject constructor(
             return
         }
         cardLogo = changedLogo
+        isCardNameErasedSinceLogo = false
         _state.update { state ->
             (state as? CardEditState.Success)?.copy(
                 cardLogo = changedLogo,
@@ -202,7 +212,8 @@ class CardEditViewModel @Inject constructor(
     }
 
     private fun logoSuggestions(name: String, logo: String): List<LogoSuggestion> {
-        return if (isCardNameEdited && logo.isBlank()) brandRepository.suggestLogos(name) else emptyList()
+        val canHaveLogo = logo.isBlank() || isCardNameErasedSinceLogo
+        return if (isCardNameEdited && canHaveLogo) brandRepository.suggestLogos(name) else emptyList()
     }
 
     /** Checks the logo once it stops changing */
