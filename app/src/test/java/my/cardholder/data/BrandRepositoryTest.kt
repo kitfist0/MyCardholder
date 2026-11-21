@@ -106,6 +106,12 @@ class BrandRepositoryTest {
     }
 
     @Test
+    fun `russian gas stations have icons of the icon service of Yandex`() {
+        assertEquals("https://favicon.yandex.net/favicon/v2/lukoil.ru?size=120", logos("Лукойл").first())
+        assertEquals("https://favicon.yandex.net/favicon/v2/gpnbonus.ru?size=120", logos("Газпром нефть").first())
+    }
+
+    @Test
     fun `catalog logos are unique`() {
         val logos = BrandCatalog.brands.map { it.logo }
         assertEquals(logos.distinct(), logos)

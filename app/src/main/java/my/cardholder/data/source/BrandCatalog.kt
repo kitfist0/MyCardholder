@@ -5,16 +5,25 @@ import my.cardholder.data.model.Brand
 /**
  * Popular stores and services whose cards people keep, with the names they are typed by.
  * The first name is shown in suggestions. Every website here has an icon of at least 32px
- * (see [my.cardholder.util.LogoLoader]), or a link to a sharp icon of its own: sites with
- * only a blurry 16px icon are left out.
+ * (see [my.cardholder.util.LogoLoader]), or a link to a sharp icon of its own or of
+ * [yandexIcon]: sites with only a blurry 16px icon are left out.
  */
 object BrandCatalog {
 
     private fun brand(logo: String, vararg names: String) = Brand(logo, names.toList())
 
+    /**
+     * The icon of the website from the icon service of Yandex, for sites of which the icon
+     * service of Google has only a blurry 16px icon, e.g. many Russian sites. Unlike Google, it
+     * gives a 1px image instead of an error for a site it has no icon of.
+     */
+    private fun yandexIcon(website: String) = "https://favicon.yandex.net/favicon/v2/$website?size=120"
+
     val brands: List<Brand> = listOf(
         // Groceries
         brand("5ka.ru", "Пятёрочка", "Pyaterochka", "5ka"),
+        brand(yandexIcon("dixy.ru"), "Дикси", "Dixy"),
+        brand(yandexIcon("verno-info.ru"), "Верный", "Verny"),
         brand("perekrestok.ru", "Перекрёсток", "Perekrestok"),
         brand("magnit.ru", "Магнит", "Magnit", "Магнит Косметик"),
         brand("lenta.com", "Лента", "Lenta"),
@@ -34,6 +43,7 @@ object BrandCatalog {
         brand("svetofore.ru", "Светофор", "Svetofor"),
         // Beauty
         brand("r-ulybka.ru", "Улыбка радуги", "Ulybka Radugi"),
+        brand(yandexIcon("podrygka.ru"), "Подружка", "Podruzhka"),
         brand("goldapple.ru", "Золотое яблоко", "Gold Apple", "Zolotoe Yabloko"),
         brand("letu.ru", "Л'Этуаль", "Летуаль", "Letu", "L'Etoile"),
         brand("rivegauche.ru", "Рив Гош", "Rive Gauche"),
@@ -75,12 +85,14 @@ object BrandCatalog {
         brand("market.yandex.ru", "Яндекс Маркет", "Yandex Market"),
         brand("lamoda.ru", "Lamoda", "Ламода"),
         brand("detmir.ru", "Детский мир", "Detsky Mir", "Detmir"),
+        brand(yandexIcon("korablik.ru"), "Кораблик", "Korablik"),
         brand("leonardo.ru", "Леонардо", "Leonardo"),
         brand("chitai-gorod.ru", "Читай-город", "Chitai Gorod"),
         brand("bookvoed.ru", "Буквоед", "Bookvoed"),
         brand("labirint.ru", "Лабиринт", "Labirint"),
         // Clothes, shoes and jewelry
         brand("sportmaster.ru", "Спортмастер", "Sportmaster"),
+        brand(yandexIcon("street-beat.ru"), "Street Beat", "Стрит Бит"),
         brand("desport.ru", "Desport", "Деспорт", "Декатлон"),
         brand("kant.ru", "Kant", "Кант"),
         brand("trial-sport.ru", "Триал-Спорт", "Trial Sport"),
@@ -116,7 +128,14 @@ object BrandCatalog {
         brand("rostics.ru", "Rostic's", "Ростикс"),
         brand("teremok.ru", "Теремок", "Teremok"),
         brand("tanuki.ru", "Тануки", "Tanuki"),
+        brand(yandexIcon("shoko.ru"), "Шоколадница", "Shokoladnitsa"),
+        brand(yandexIcon("yakitoriya.ru"), "Якитория", "Yakitoriya"),
         // Gas stations
+        brand(yandexIcon("lukoil.ru"), "Лукойл", "Lukoil"),
+        brand(yandexIcon("rosneft.ru"), "Роснефть", "Rosneft"),
+        // The site of its loyalty program has the logo, unlike the site of the company
+        brand(yandexIcon("gpnbonus.ru"), "Газпромнефть", "Газпром нефть", "Gazpromneft"),
+        brand(yandexIcon("tatneft.ru"), "Татнефть", "Tatneft"),
         brand("bashneft-azs.ru", "Башнефть", "Bashneft"),
         // Its site has a sharp icon, but not the icon service
         brand("https://teboil.ru/favicon.svg", "Teboil", "Тебойл"),
@@ -149,6 +168,8 @@ object BrandCatalog {
         brand("jusan.kz", "Jusan Bank", "Жусан", "Jusan"),
         brand("bcc.kz", "Банк ЦентрКредит", "BCC", "CenterCredit"),
         brand("alfabank.by", "Альфа-Банк Беларусь", "Alfa-Bank Belarus"),
+        brand(yandexIcon("belarusbank.by"), "Беларусбанк", "Belarusbank"),
+        brand(yandexIcon("priorbank.by"), "Приорбанк", "Priorbank"),
         brand("kapitalbank.uz", "Kapitalbank", "Капиталбанк"),
         brand("uzum.uz", "Uzum Bank", "Узум", "Uzum"),
         brand("hamkorbank.uz", "Hamkorbank", "Хамкорбанк"),
@@ -231,6 +252,7 @@ object BrandCatalog {
         brand("dominos.com", "Domino's", "Доминос", "Dominos Pizza"),
         brand("pizzahut.com", "Pizza Hut", "Пицца Хат"),
         brand("dunkindonuts.com", "Dunkin'", "Данкин Донатс", "Dunkin Donuts"),
+        brand("cinnabon.com", "Cinnabon", "Синнабон"),
         // International: marketplaces and electronics
         brand("amazon.com", "Amazon", "Амазон"),
         brand("aliexpress.com", "AliExpress", "Алиэкспресс"),
