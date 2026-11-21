@@ -22,7 +22,7 @@ class BrandRepositoryTest {
     @Test
     fun `letter case, yo and punctuation don't matter`() {
         assertEquals("5ka.ru", logos("ПЯТЕРОЧКА").first())
-        assertEquals("okmarket.ru", logos("окей").first())
+        assertEquals("rostics.ru", logos("rostics").first())
         assertEquals("krasnoeibeloe.ru", logos("Красное и белое").first())
         assertEquals("mvideo.ru", logos("мвидео").first())
     }
