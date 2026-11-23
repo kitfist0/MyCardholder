@@ -129,8 +129,33 @@ class CardDisplayViewModelTest {
         }
     }
 
-    private fun createViewModel() = CardDisplayViewModel(
-        SavedStateHandle(mapOf("card_id" to CARD_ID)),
+    @Test
+    fun `card added manually opens its editing`() = runTest {
+        createViewModel(SavedStateHandle(mapOf("card_id" to CARD_ID, "open_card_edit" to true))).baseEvents.test {
+            assertEquals(
+                BaseEvent.Navigate(CardDisplayFragmentDirections.fromCardDisplayToCardEdit(CARD_ID)),
+                awaitItem(),
+            )
+        }
+    }
+
+    @Test
+    fun `card editing is not opened again when the screen is recreated`() = runTest {
+        val savedStateHandle = SavedStateHandle(mapOf("card_id" to CARD_ID, "open_card_edit" to true))
+        createViewModel(savedStateHandle).baseEvents.test { awaitItem() }
+
+        createViewModel(savedStateHandle).baseEvents.test { expectNoEvents() }
+    }
+
+    @Test
+    fun `card editing is not opened by default`() = runTest {
+        createViewModel().baseEvents.test { expectNoEvents() }
+    }
+
+    private fun createViewModel(
+        savedStateHandle: SavedStateHandle = SavedStateHandle(mapOf("card_id" to CARD_ID)),
+    ) = CardDisplayViewModel(
+        savedStateHandle,
         cardRepository,
         cardShortcutManager,
         settingsRepository,

@@ -163,6 +163,11 @@
         <argument
             android:name="card_id"
             app:argType="long" />
+        <!-- For a card added manually, which is empty until it is edited -->
+        <argument
+            android:name="open_card_edit"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/from_card_display_to_delete_card"
             app:destination="@id/delete_card_dialog" />

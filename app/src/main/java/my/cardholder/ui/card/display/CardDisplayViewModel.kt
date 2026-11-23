@@ -26,14 +26,22 @@ class CardDisplayViewModel @Inject constructor(
 
     private companion object {
         const val ZOOM_EXPLANATION_ACTION_CODE = 1
+        const val CARD_EDIT_OPENED_KEY = "card_edit_opened"
     }
 
-    private val cardId = CardDisplayFragmentArgs.fromSavedStateHandle(savedStateHandle).cardId
+    private val args = CardDisplayFragmentArgs.fromSavedStateHandle(savedStateHandle)
+    private val cardId = args.cardId
 
     private val _state = MutableStateFlow<CardDisplayState>(CardDisplayState.Loading)
     val state = _state.asStateFlow()
 
     init {
+        // Only once: the saved flag keeps it from opening again on the way back from editing
+        // after the app process is recreated
+        if (args.openCardEdit && savedStateHandle.get<Boolean>(CARD_EDIT_OPENED_KEY) != true) {
+            savedStateHandle[CARD_EDIT_OPENED_KEY] = true
+            navigate(CardDisplayFragmentDirections.fromCardDisplayToCardEdit(cardId))
+        }
         cardRepository.getCardAndCategory(cardId)
             .onEach { cardAndCategory ->
                 if (cardAndCategory == null) {

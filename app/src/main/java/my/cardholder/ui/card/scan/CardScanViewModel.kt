@@ -128,7 +128,8 @@ class CardScanViewModel @Inject constructor(
     fun onAddManuallyFabClicked() {
         viewModelScope.launch {
             val cardId = cardRepository.insertNewCard()
-            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId))
+            // The new card is empty, so it is edited right away, and then shown
+            navigate(CardScanFragmentDirections.fromCardScanToCardDisplay(cardId, openCardEdit = true))
         }
     }
 }
