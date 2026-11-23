@@ -34,6 +34,8 @@
     <dimen name="card_item_stack_stride">160dp</dimen>
     <!-- Visible top edge of each card in the pile at the top of a scrolled single-column list -->
     <dimen name="card_item_stack_edge">8dp</dimen>
+    <!-- Shadow of a card on the card it covers in a single-column list, so that cards of one color don't merge -->
+    <dimen name="card_item_stack_shadow_height">8dp</dimen>
     <!--endregion-->
 
     <!--region Widget-->

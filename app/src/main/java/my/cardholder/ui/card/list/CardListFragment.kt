@@ -47,6 +47,9 @@ class CardListFragment : BaseFragment<FragmentCardListBinding>(
                     CardStackItemDecoration(
                         stridePx = stridePx,
                         stackTopSpacePx = CardStackScrollEffect.MAX_VISIBLE_EDGES * edgePx,
+                        shadowHeightPx = resources.getDimension(R.dimen.card_item_stack_shadow_height),
+                        cornerRadiusPx = resources.getDimension(R.dimen.card_item_corner_radius),
+                        isDragged = listAdapter::isDragged,
                     )
                 )
                 adapter = listAdapter
