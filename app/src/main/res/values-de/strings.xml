@@ -63,6 +63,7 @@
     <!--region CardEdit-->
     <string name="card_edit_barcode_format_hint">Format</string>
     <string name="card_edit_category_hint">Kategorie</string>
+    <string name="card_edit_no_category">Keine Kategorie</string>
     <string name="card_edit_color_hint">Farbe</string>
     <string name="card_edit_comment_hint">Kommentar</string>
     <string name="card_edit_content_hint">Text</string>

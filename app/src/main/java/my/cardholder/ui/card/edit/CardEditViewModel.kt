@@ -59,7 +59,6 @@ class CardEditViewModel @Inject constructor(
      * anew, so logos are suggested again even if the card has one, e.g. a wrongly chosen one.
      */
     private var isCardNameErasedSinceLogo = false
-    private var cardCategoryName: String? = null
     private var cardColor: String? = null
     private var cardFormat: String? = null
 
@@ -94,8 +93,8 @@ class CardEditViewModel @Inject constructor(
                     cardName = shownCardName,
                     cardNameIsEmpty = shownCardName.isBlank(),
                     cardContent = card.content,
-                    cardCategoryName = cardAndCategory.category?.name ?: Category.NULL_NAME,
-                    cardCategoryNames = listOf(Category.NULL_NAME).plus(categoryNames),
+                    cardCategoryName = cardAndCategory.category?.name,
+                    cardCategoryNames = categoryNames,
                     cardComment = card.comment.orEmpty(),
                     cardColor = card.color,
                     cardLogo = shownCardLogo,
@@ -159,13 +158,10 @@ class CardEditViewModel @Inject constructor(
         navigate(CardEditFragmentDirections.fromCardEditToCardScan(cardId))
     }
 
-    fun onCardCategoryNameChanged(changedCategoryName: String?) {
-        if (changedCategoryName == null || cardCategoryName == changedCategoryName) {
-            return
-        }
-        cardCategoryName = changedCategoryName
+    /** [categoryName] is null when the card is left without a category */
+    fun onCardCategorySelected(categoryName: String?) {
         viewModelScope.launch {
-            val categoryId = categoryRepository.getCategoryIdByName(changedCategoryName)
+            val categoryId = categoryName?.let { categoryRepository.getCategoryIdByName(it) }
             cardRepository.updateCardCategoryId(cardId, categoryId)
         }
     }

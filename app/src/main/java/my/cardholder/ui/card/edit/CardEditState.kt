@@ -13,7 +13,8 @@ sealed class CardEditState {
         val cardName: String,
         val cardNameIsEmpty: Boolean = false,
         val cardContent: String,
-        val cardCategoryName: String,
+        /** Null when the card has no category */
+        val cardCategoryName: String?,
         val cardCategoryNames: List<String>,
         val cardComment: String,
         val cardColor: String,

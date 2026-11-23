@@ -56,9 +56,12 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                 }
                 setEndIconOnClickListener { viewModel.onCardContentScanIconClicked() }
             }
-            cardEditCardCategoryInputLayout.apply {
-                setupUniqueTransitionName(uniqueNameSuffix)
-                editText?.doAfterTextChanged { viewModel.onCardCategoryNameChanged(it?.toString()) }
+            cardEditCardCategoryInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
+            // By position, as a category may be named like the item of no category
+            cardEditCardCategoryAutoCompleteText.setOnItemClickListener { _, _, position, _ ->
+                val state = viewModel.state.value as? CardEditState.Success
+                    ?: return@setOnItemClickListener
+                viewModel.onCardCategorySelected(state.cardCategoryNames.getOrNull(position - 1))
             }
             cardEditCardCommentInputLayout.apply {
                 setupUniqueTransitionName(uniqueNameSuffix)
@@ -128,9 +131,11 @@ class CardEditFragment : BaseFragment<FragmentCardEditBinding>(
                         editText?.setTextAndSelectionIfRequired(state.cardContent)
                     }
                     cardEditCardCategoryInputLayout.isEnabled = true
-                    (cardEditCardCategoryInputLayout.editText as? AutoCompleteTextView)?.apply {
-                        setTextAndSelectionIfRequired(state.cardCategoryName)
-                        adapter ?: setDefaultAdapter(state.cardCategoryNames)
+                    cardEditCardCategoryAutoCompleteText.apply {
+                        val noCategoryName = getString(R.string.card_edit_no_category)
+                        setTextAndSelectionIfRequired(state.cardCategoryName ?: noCategoryName)
+                        // The item of no category goes first
+                        adapter ?: setDefaultAdapter(listOf(noCategoryName) + state.cardCategoryNames)
                     }
                     cardEditCardCommentInputLayout.apply {
                         isEnabled = true
