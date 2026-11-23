@@ -87,86 +87,74 @@ class CardRepository @Inject constructor(
     }
 
     suspend fun updateCardCategoryId(cardId: Long, categoryId: Long?) {
-        getCard(cardId)?.let { card ->
+        cardDao.updateCard(cardId) { card ->
             if (card.categoryId != categoryId) {
-                cardDao.upsert(
-                    card.copy(
-                        categoryId = categoryId,
-                        categoryChangedAt = nextChangeTime(card.categoryChangedAt),
-                    )
+                card.copy(
+                    categoryId = categoryId,
+                    categoryChangedAt = nextChangeTime(card.categoryChangedAt),
                 )
+            } else {
+                null
             }
         }
     }
 
     suspend fun updateCardColor(cardId: Long, color: String) {
-        getCard(cardId)?.let { card ->
-            if (card.color != color) {
-                upsertCard(
-                    card.copy(color = color)
-                )
-            }
+        updateCard(cardId) { card ->
+            if (card.color != color) card.copy(color = color) else null
         }
     }
 
     suspend fun updateCardContent(cardId: Long, content: String) {
-        getCard(cardId)?.let { card ->
-            val newContent = content.trim()
+        val newContent = content.trim()
+        updateCard(cardId) { card ->
             if (card.content != newContent) {
                 card.barcodeFile?.delete()
                 val barcodeFilePath = writeNewBarcodeFile(newContent, card.format)
-                upsertCard(
-                    card.copy(content = newContent, path = barcodeFilePath)
-                )
+                card.copy(content = newContent, path = barcodeFilePath)
+            } else {
+                null
             }
         }
     }
 
     suspend fun updateCardComment(cardId: Long, comment: String?) {
-        getCard(cardId)?.let { card ->
-            val newComment = comment?.trim()
-            if (card.comment != newComment) {
-                upsertCard(
-                    card.copy(comment = newComment)
-                )
-            }
+        val newComment = comment?.trim()
+        updateCard(cardId) { card ->
+            if (card.comment != newComment) card.copy(comment = newComment) else null
         }
     }
 
     suspend fun updateCardFormat(cardId: Long, format: SupportedFormat) {
-        getCard(cardId)?.let { card ->
+        updateCard(cardId) { card ->
             if (card.format != format) {
                 card.barcodeFile?.delete()
                 val barcodeFilePath = writeNewBarcodeFile(card.content, format)
-                upsertCard(
-                    card.copy(format = format, path = barcodeFilePath)
-                )
+                card.copy(format = format, path = barcodeFilePath)
+            } else {
+                null
             }
         }
     }
 
     /** Replaces the card's barcode, e.g. with a newly scanned one. */
     suspend fun updateCardContentAndFormat(cardId: Long, content: String, format: SupportedFormat) {
-        getCard(cardId)?.let { card ->
-            val newContent = content.trim()
+        val newContent = content.trim()
+        updateCard(cardId) { card ->
             if (card.content != newContent || card.format != format) {
                 card.barcodeFile?.delete()
                 val barcodeFilePath = writeNewBarcodeFile(newContent, format)
-                upsertCard(
-                    card.copy(content = newContent, format = format, path = barcodeFilePath)
-                )
+                card.copy(content = newContent, format = format, path = barcodeFilePath)
+            } else {
+                null
             }
         }
     }
 
     suspend fun updateCardLogo(cardId: Long, logo: String?) {
         val newLogo = logo?.trim()
-        getCard(cardId)?.let { card ->
-            if (card.logo != newLogo) {
-                upsertCard(
-                    card.copy(logo = newLogo)
-                )
-            }
+        updateCard(cardId) { card ->
+            if (card.logo != newLogo) card.copy(logo = newLogo) else null
         }
     }
 
@@ -176,12 +164,8 @@ class CardRepository @Inject constructor(
         if (newName.isEmpty()) {
             return
         }
-        getCard(cardId)?.let { card ->
-            if (card.name != newName) {
-                upsertCard(
-                    card.copy(name = newName)
-                )
-            }
+        updateCard(cardId) { card ->
+            if (card.name != newName) card.copy(name = newName) else null
         }
     }
 
@@ -211,6 +195,13 @@ class CardRepository @Inject constructor(
 
     private fun writeNewBarcodeFile(content: String, format: SupportedFormat): BarcodeFilePath? {
         return barcodeFileRepository.writeBarcodeFile(content, format)
+    }
+
+    /** Changes the card atomically (see [CardDao.updateCard]) and marks it as changed for cloud sync */
+    private suspend fun updateCard(cardId: Long, change: (Card) -> Card?) {
+        cardDao.updateCard(cardId) { card ->
+            change(card)?.let { changedCard -> changedCard.copy(changedAt = card.nextChangedAt()) }
+        }
     }
 
     private suspend fun upsertCard(card: Card): Long {

@@ -68,6 +68,17 @@ interface CardDao {
         insertDeletedCard(DeletedCard(syncId = card.syncId, deletedAt = deletedAt))
     }
 
+    /**
+     * Reads the card, [change]s it and writes it in one transaction. Write transactions run one
+     * at a time, so concurrent changes of different fields, e.g. of the name and of the logo,
+     * don't overwrite each other with copies read before the other change. Null means no change.
+     */
+    @Transaction
+    suspend fun updateCard(id: Long, change: (Card) -> Card?) {
+        val card = getCard(id) ?: return
+        change(card)?.let { changedCard -> upsert(changedCard) }
+    }
+
     @Upsert
     suspend fun upsert(card: Card): Long
 

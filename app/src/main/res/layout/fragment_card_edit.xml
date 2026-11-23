@@ -50,6 +50,27 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <HorizontalScrollView
+                android:id="@+id/card_edit_logo_suggestions_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingHorizontal="8dp"
+                android:scrollbars="none"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_edit_card_name_input_layout"
+                tools:visibility="visible">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/card_edit_logo_suggestions_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true" />
+
+            </HorizontalScrollView>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/card_edit_card_content_input_layout"
                 android:layout_width="match_parent"
@@ -63,7 +84,7 @@
                 app:hintAnimationEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_edit_card_name_input_layout">
+                app:layout_constraintTop_toBottomOf="@id/card_edit_logo_suggestions_scroll">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"

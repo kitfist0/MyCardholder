@@ -1,6 +1,7 @@
 package my.cardholder.ui.card.edit
 
 import my.cardholder.data.model.Card
+import my.cardholder.data.model.LogoSuggestion
 import my.cardholder.data.model.SupportedFormat
 import java.io.File
 
@@ -18,6 +19,8 @@ sealed class CardEditState {
         val cardColor: String,
         val cardColors: List<String> = Card.COLORS.toList(),
         val cardLogo: String,
+        /** Offered while the card has no logo */
+        val logoSuggestions: List<LogoSuggestion> = emptyList(),
         val barcodeFormatName: String,
         val barcodeFormatNames: List<String> = SupportedFormat.entries.map { it.toString() },
     ) : CardEditState()

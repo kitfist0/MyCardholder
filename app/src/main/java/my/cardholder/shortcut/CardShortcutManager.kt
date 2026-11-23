@@ -143,7 +143,7 @@ class CardShortcutManager @Inject constructor(
         return output
     }
 
-    // The white rounded background matches what PaddedRoundedTransformation draws behind logo images.
+    // The white rounded background matches what PaddedRoundedTransformation draws behind logos without a background of their own.
     private fun whiteBackgroundIconBitmap(@DrawableRes iconRes: Int, sizePx: Int): Bitmap {
         val paddingPx = dpToPx(LOGO_PADDING_DP)
         val cornerRadiusPx = dpToPx(LOGO_CORNER_RADIUS_DP).toFloat()

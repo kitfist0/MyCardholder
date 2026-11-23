@@ -16,6 +16,30 @@ class CardRepositoryTest {
     private val cardDao = mockk<CardDao>(relaxed = true)
     private val cardRepository = CardRepository(barcodeFileRepository, cardDao)
 
+    init {
+        // The real transaction reads, changes and writes the card through the same DAO methods
+        coEvery { cardDao.updateCard(any(), any()) } coAnswers {
+            val change = secondArg<(Card) -> Card?>()
+            cardDao.getCard(firstArg())?.let(change)?.let { cardDao.upsert(it) }
+        }
+    }
+
+    @Test
+    fun `fields are changed in the transaction of the DAO`() = runTest {
+        // Separate reads and writes of concurrent changes would overwrite each other, e.g. a new
+        // name with a copy of the card read for a new logo before the name was saved
+        cardRepository.updateCardName(1L, "Петрович")
+        cardRepository.updateCardLogo(1L, "petrovich.ru")
+        cardRepository.updateCardColor(1L, "#FFFFFF")
+        cardRepository.updateCardComment(1L, "comment")
+        cardRepository.updateCardContent(1L, "123")
+        cardRepository.updateCardFormat(1L, SupportedFormat.QR_CODE)
+        cardRepository.updateCardContentAndFormat(1L, "123", SupportedFormat.QR_CODE)
+        cardRepository.updateCardCategoryId(1L, 2L)
+
+        coVerify(exactly = 8) { cardDao.updateCard(1L, any()) }
+    }
+
     @Test
     fun `insertNewCard writes barcode file and upserts card`() = runTest {
         val content = "12345"

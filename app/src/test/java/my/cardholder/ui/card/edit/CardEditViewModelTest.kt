@@ -16,10 +16,12 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import my.cardholder.data.BrandRepository
 import my.cardholder.data.CardRepository
 import my.cardholder.data.CategoryRepository
 import my.cardholder.data.model.Card
 import my.cardholder.data.model.CardAndCategory
+import my.cardholder.data.model.LogoSuggestion
 import my.cardholder.data.model.SupportedFormat
 import my.cardholder.util.ImageUrlValidator
 import my.cardholder.util.NetworkChecker
@@ -173,11 +175,106 @@ class CardEditViewModelTest {
 
     private fun successState(viewModel: CardEditViewModel) = viewModel.state.value as CardEditState.Success
 
+    @Test
+    fun `logos are suggested by the typed name while the card has no logo`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.onCardNameChanged("Пятёр")
+
+        val suggestions = (viewModel.state.value as CardEditState.Success).logoSuggestions
+        assertEquals(LogoSuggestion(name = "Пятёрочка", logo = "5ka.ru"), suggestions.first())
+    }
+
+    @Test
+    fun `opening a card with a brand name suggests no logos`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Пятёрочка"), null)
+        val viewModel = createViewModel()
+
+        // The field gets the saved name when the screen is opened
+        viewModel.onCardNameChanged("Пятёрочка")
+
+        assertEquals(emptyList<LogoSuggestion>(), (viewModel.state.value as CardEditState.Success).logoSuggestions)
+    }
+
+    @Test
+    fun `editing the name of a card with a brand name suggests logos`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Пятёрочка"), null)
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Пятёрочка")
+
+        viewModel.onCardNameChanged("Пятёрочк")
+
+        assertEquals("5ka.ru", (viewModel.state.value as CardEditState.Success).logoSuggestions.first().logo)
+    }
+
+    @Test
+    fun `erasing the name suggests logos again after one is chosen`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Петр")
+        viewModel.onLogoSuggestionClicked(LogoSuggestion(name = "Петрович", logo = "petrovich.ru"))
+
+        viewModel.onCardNameChanged("")
+        viewModel.onCardNameChanged("Пятёр")
+
+        assertEquals("5ka.ru", (viewModel.state.value as CardEditState.Success).logoSuggestions.first().logo)
+    }
+
+    @Test
+    fun `editing the name of a card with a logo without erasing it suggests no logos`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Пятёрочка", logo = "https://example.com/logo.png"), null)
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Пятёрочка")
+
+        viewModel.onCardNameChanged("Пятёрочк")
+
+        assertEquals(emptyList<LogoSuggestion>(), (viewModel.state.value as CardEditState.Success).logoSuggestions)
+    }
+
+    @Test
+    fun `erasing the name of a card with its own logo suggests logos`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Магазин", logo = "https://example.com/logo.png"), null)
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Магазин")
+
+        viewModel.onCardNameChanged("")
+        viewModel.onCardNameChanged("Пятёр")
+
+        val state = viewModel.state.value as CardEditState.Success
+        assertEquals("5ka.ru", state.logoSuggestions.first().logo)
+        // Only a chosen suggestion replaces the logo
+        assertEquals("https://example.com/logo.png", state.cardLogo)
+    }
+
+    @Test
+    fun `chosen suggestion becomes the name and the logo and hides suggestions`() = runTest {
+        val viewModel = createViewModel()
+        viewModel.onCardNameChanged("Пятёр")
+
+        viewModel.onLogoSuggestionClicked(LogoSuggestion(name = "Пятёрочка", logo = "5ka.ru"))
+
+        val state = viewModel.state.value as CardEditState.Success
+        assertEquals("Пятёрочка", state.cardName)
+        assertEquals("5ka.ru", state.cardLogo)
+        assertEquals(emptyList<LogoSuggestion>(), state.logoSuggestions)
+        coVerify { cardRepository.updateCardName(CARD_ID, "Пятёрочка") }
+        coVerify { cardRepository.updateCardLogo(CARD_ID, "5ka.ru") }
+    }
+
+    @Test
+    fun `card with a logo gets no suggestions`() = runTest {
+        cardFromDatabase.value = CardAndCategory(card.copy(name = "Пятёрочка", logo = "https://example.com/logo.png"), null)
+
+        val viewModel = createViewModel()
+
+        assertEquals(emptyList<LogoSuggestion>(), (viewModel.state.value as CardEditState.Success).logoSuggestions)
+    }
+
     private fun createViewModel() = CardEditViewModel(
         SavedStateHandle(mapOf("card_id" to CARD_ID)),
         cardRepository,
         categoryRepository,
         mockk<ImageUrlValidator>(relaxed = true),
         mockk<NetworkChecker>(relaxed = true),
+        BrandRepository(),
     )
 }
