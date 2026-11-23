@@ -109,6 +109,10 @@ class CardStackScrollEffect(
         // Keeps cards attached until they have faded out of the pile.
         (recyclerView.layoutManager as? CardStackLayoutManager)?.extraStartSpacePx =
             (MAX_VISIBLE_EDGES + 1) * stridePx
+        // Moving a card only redraws the card itself, but CardStackItemDecoration draws the
+        // shadows of the cards on the list, so it must be redrawn too. Scrolling and pulling
+        // redraw it anyway, unlike the animation of the cards springing back on release.
+        recyclerView.invalidate()
     }
 
     private fun reset(view: View) {
