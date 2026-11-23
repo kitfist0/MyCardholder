@@ -2,15 +2,17 @@ package my.cardholder.util
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.request.ImageRequest
+import coil.size.Size
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
+import my.cardholder.util.logo.Favicons
 import my.cardholder.util.logo.PaddedRoundedTransformation
-import java.net.URL
 import kotlin.coroutines.resume
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -53,6 +55,10 @@ class LogoLoader(
         }
     }
 
+    /**
+     * Loads the image of [imageUrl]. If it isn't an image, e.g. it's a website address, loads the
+     * best icon of the website instead (see [Favicons]).
+     */
     fun load(
         imageUrl: String?,
         sizePx: Int,
@@ -61,66 +67,77 @@ class LogoLoader(
         onSuccess: (Drawable) -> Unit,
         onError: () -> Unit,
     ) {
-        val imageRequestBuilder = ImageRequest.Builder(context)
-            .decoderFactory(SvgDecoder.Factory())
-            .data(imageUrl)
-            .size(sizePx, sizePx)
-            .allowHardware(false)
-            .transformations(
-                PaddedRoundedTransformation(
-                    paddingPx = paddingPx,
-                    cornerRadiusPx = cornerRadiusPx,
+        fun loadLogo(url: String?, onLogoError: () -> Unit) {
+            val request = ImageRequest.Builder(context)
+                .decoderFactory(SvgDecoder.Factory())
+                .data(url)
+                .size(sizePx, sizePx)
+                .allowHardware(false)
+                .transformations(
+                    PaddedRoundedTransformation(
+                        paddingPx = paddingPx,
+                        cornerRadiusPx = cornerRadiusPx,
+                    )
                 )
-            )
-            .target(
-                onSuccess = {
-                    it.setBounds(0, 0, sizePx, sizePx)
-                    onSuccess.invoke(it)
-                },
-                onError = {
-                    val favIconUrl = fetchFavIconUrl(imageUrl)
-                    val favIconRequestBuilder = ImageRequest.Builder(context)
-                        .data(favIconUrl)
-                        .size(sizePx, sizePx)
-                        .allowHardware(false)
-                        .transformations(
-                            PaddedRoundedTransformation(
-                                paddingPx = paddingPx,
-                                cornerRadiusPx = cornerRadiusPx,
-                            )
-                        )
-                        .target(
-                            onSuccess = {
-                                it.setBounds(0, 0, sizePx, sizePx)
-                                onSuccess.invoke(it)
-                            },
-                            onError = {
-                                onError.invoke()
-                            }
-                        )
-                    context.imageLoader.enqueue(favIconRequestBuilder.build())
-                }
-            )
-        context.imageLoader.enqueue(imageRequestBuilder.build())
-    }
-
-    private fun fetchFavIconUrl(url: String?): String? {
-        url ?: return null
-        val normalizedUrl = normalizeUrl(url)
-        return getGoogleFaviconUrl(normalizedUrl)
-    }
-
-    private fun normalizeUrl(urlString: String): String {
-        var url = urlString.trim()
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://$url"
+                .target(
+                    onSuccess = {
+                        it.setBounds(0, 0, sizePx, sizePx)
+                        onSuccess.invoke(it)
+                    },
+                    onError = { onLogoError() },
+                )
+                .build()
+            context.imageLoader.enqueue(request)
         }
-        return url
+
+        loadLogo(imageUrl) {
+            val website = imageUrl?.let(Favicons::website)
+            if (website == null) {
+                onError()
+                return@loadLogo
+            }
+            chooseFavicon(website) { faviconUrl ->
+                if (faviconUrl != null) loadLogo(faviconUrl, onError) else onError()
+            }
+        }
     }
 
-    private fun getGoogleFaviconUrl(urlString: String): String {
-        val domain = runCatching { URL(urlString).host ?: urlString }
-            .getOrDefault(urlString.replace(Regex("^(https?://)"), ""))
-        return "https://www.google.com/s2/favicons?domain=$domain&sz=128"
+    /** Finds the icon of the website of Google or Yandex, see [Favicons.choose] */
+    private fun chooseFavicon(website: String, onChosen: (String?) -> Unit) {
+        val googleUrl = Favicons.googleUrl(website)
+        val yandexUrl = Favicons.yandexUrl(website)
+        loadSize(googleUrl) { googleSizePx ->
+            if (Favicons.isSharp(googleSizePx)) {
+                onChosen(googleUrl)
+                return@loadSize
+            }
+            loadSize(yandexUrl) { yandexSizePx ->
+                val faviconUrl = when (Favicons.choose(googleSizePx, yandexSizePx)) {
+                    Favicons.Source.GOOGLE -> googleUrl
+                    Favicons.Source.YANDEX -> yandexUrl
+                    null -> null
+                }
+                onChosen(faviconUrl)
+            }
+        }
+    }
+
+    /**
+     * Loads the image in its own size, to know how sharp it is, or null if it can't be loaded.
+     * The image is cached, so loading it again as the logo doesn't download it again.
+     */
+    private fun loadSize(url: String, onSize: (Int?) -> Unit) {
+        val request = ImageRequest.Builder(context)
+            .data(url)
+            .size(Size.ORIGINAL)
+            .allowHardware(false)
+            .target(
+                onSuccess = { drawable ->
+                    onSize((drawable as? BitmapDrawable)?.bitmap?.width ?: drawable.intrinsicWidth)
+                },
+                onError = { onSize(null) },
+            )
+            .build()
+        context.imageLoader.enqueue(request)
     }
 }

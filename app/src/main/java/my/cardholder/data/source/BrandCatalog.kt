@@ -1,6 +1,7 @@
 package my.cardholder.data.source
 
 import my.cardholder.data.model.Brand
+import my.cardholder.util.logo.Favicons
 
 /**
  * Popular stores and services whose cards people keep, with the names they are typed by.
@@ -14,10 +15,10 @@ object BrandCatalog {
 
     /**
      * The icon of the website from the icon service of Yandex, for sites of which the icon
-     * service of Google has only a blurry 16px icon, e.g. many Russian sites. Unlike Google, it
-     * gives a 1px image instead of an error for a site it has no icon of.
+     * service of Google has only a blurry 16px icon, e.g. many Russian sites. The loader would
+     * find it for the website too, but only after trying Google, so the link is faster.
      */
-    private fun yandexIcon(website: String) = "https://favicon.yandex.net/favicon/v2/$website?size=120"
+    private fun yandexIcon(website: String) = Favicons.yandexUrl(website)
 
     val brands: List<Brand> = listOf(
         // Groceries
