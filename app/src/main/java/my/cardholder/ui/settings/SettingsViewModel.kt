@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import my.cardholder.BuildConfig
 import my.cardholder.R
 import my.cardholder.data.SettingsRepository
 import my.cardholder.data.model.AppTheme
@@ -31,6 +32,8 @@ class SettingsViewModel @Inject constructor(
             settingsItems = SettingId.entries
                 // Dynamic colors are supported since Android 12
                 .filter { it != SettingId.DYNAMIC_COLORS || dynamicColorsManager.isAvailable }
+                // The subscription screen is not connected to billing yet, so it is only for testing
+                .filter { it != SettingId.SUPPORT || BuildConfig.DEBUG }
                 .map {
                 SettingsItem(
                     id = it,
@@ -145,6 +148,9 @@ class SettingsViewModel @Inject constructor(
 
             SettingId.BACKUP ->
                 navigate(SettingsFragmentDirections.fromSettingsToCardBackup())
+
+            SettingId.SUPPORT ->
+                navigate(SettingsFragmentDirections.fromSettingsToPaymentOptions())
 
             SettingId.COFFEE ->
                 navigate(SettingsFragmentDirections.fromSettingsToCoffee())

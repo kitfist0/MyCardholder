@@ -114,6 +114,16 @@ class SettingsViewModelTest {
     }
 
     @Test
+    fun `support click opens subscription options`() = runTest {
+        val viewModel = createViewModel()
+
+        viewModel.baseEvents.test {
+            viewModel.onItemWithoutOptionsClicked(SettingId.SUPPORT)
+            assertEquals(BaseEvent.Navigate(SettingsFragmentDirections.fromSettingsToPaymentOptions()), awaitItem())
+        }
+    }
+
+    @Test
     fun `cloud click invokes navigation event`() = runTest {
         every { settingsRepository.cloudSyncEnabled } returns MutableStateFlow(false)
         val viewModel = createViewModel()
