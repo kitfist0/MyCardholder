@@ -143,12 +143,6 @@ class CardListAdapter(
                 val textColor = ContentColor.on(cardColor)
                 itemCardLayout.background = getCardGradientDrawable(cardColor, textColor)
                 val isCompact = spanCount >= COMPACT_SPAN_COUNT
-                // A large name may be more colorful, the small one of a compact card needs more contrast
-                val nameColor = if (isCompact) {
-                    textColor
-                } else {
-                    ContentColor.on(cardColor, ContentColor.LARGE_TEXT_CONTRAST)
-                }
                 itemCardLogoImage.apply {
                     setupUniqueTransitionName(uniqueNameSuffix)
                     loadLogoImage(
@@ -171,7 +165,7 @@ class CardListAdapter(
                 applyCompactLayout(isCompact = isCompact)
                 placeCategory(atTop = spanCount == 1)
                 // After the compact layout, as setting a text appearance resets the text color
-                itemCardNameText.setTextColor(nameColor)
+                itemCardNameText.setTextColor(textColor)
                 itemCardContentText.setTextColor(textColor)
                 itemCardCategoryText.setTextColor(textColor)
             }
