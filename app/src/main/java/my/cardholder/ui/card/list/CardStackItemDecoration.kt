@@ -33,7 +33,7 @@ class CardStackItemDecoration(
 
     private companion object {
         // Of black, at the top edge of the covering card
-        const val SHADOW_ALPHA = 0.22f
+        const val SHADOW_ALPHA = 0.12f
     }
 
     private val shadowPaint = Paint(Paint.FILTER_BITMAP_FLAG)
