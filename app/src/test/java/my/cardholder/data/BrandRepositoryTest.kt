@@ -92,6 +92,17 @@ class BrandRepositoryTest {
     }
 
     @Test
+    fun `restaurants are found`() {
+        assertEquals("papajohns.ru", logos("Папа Джонс").first())
+        assertEquals("tokyo-city.ru", logos("Токио Сити").first())
+        assertEquals("ilpatio.ru", logos("IL Patio").first())
+        assertEquals("subway.ru", logos("Сабвей").first())
+        assertEquals("farshburger.ru", logos("Фарш").first())
+        assertEquals("novikovgroup.ru", logos("Новиков Групп").first())
+        assertEquals("syrovarnya.com", logos("Сыроварня").first())
+    }
+
+    @Test
     fun `international brands are found by their names in both alphabets`() {
         assertEquals("nike.com", logos("Найк").first())
         assertEquals("turkishairlines.com", logos("Turkish").first())
