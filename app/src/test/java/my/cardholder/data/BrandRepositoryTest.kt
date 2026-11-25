@@ -103,6 +103,13 @@ class BrandRepositoryTest {
     }
 
     @Test
+    fun `telecom operators are found`() {
+        assertEquals("rt.ru", logos("Ростелеком").first())
+        assertEquals("yota.ru", logos("Йота").first())
+        assertEquals("dom.ru", logos("Дом.ру").first())
+    }
+
+    @Test
     fun `international brands are found by their names in both alphabets`() {
         assertEquals("nike.com", logos("Найк").first())
         assertEquals("turkishairlines.com", logos("Turkish").first())
