@@ -64,6 +64,9 @@ class CardStackScrollEffect(
         v: View, left: Int, top: Int, right: Int, bottom: Int,
         oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int,
     ) {
+        if (right - left != oldRight - oldLeft || bottom - top != oldBottom - oldTop) {
+            recyclerView.invalidateItemDecorations()
+        }
         update()
     }
 
@@ -106,9 +109,11 @@ class CardStackScrollEffect(
                 child.alpha = 1f
             }
         }
-        // Keeps cards attached until they have faded out of the pile.
-        (recyclerView.layoutManager as? CardStackLayoutManager)?.extraStartSpacePx =
-            (MAX_VISIBLE_EDGES + 1) * stridePx
+        // Keeps cards attached until they have faded out of the pile or entered/exited at the bottom.
+        (recyclerView.layoutManager as? CardStackLayoutManager)?.apply {
+            extraStartSpacePx = (MAX_VISIBLE_EDGES + 1) * stridePx
+            extraEndSpacePx = stridePx
+        }
         // Moving a card only redraws the card itself, but CardStackItemDecoration draws the
         // shadows of the cards on the list, so it must be redrawn too. Scrolling and pulling
         // redraw it anyway, unlike the animation of the cards springing back on release.
