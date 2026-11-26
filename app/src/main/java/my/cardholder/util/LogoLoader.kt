@@ -90,12 +90,20 @@ class LogoLoader(
             context.imageLoader.enqueue(request)
         }
 
-        loadLogo(imageUrl) {
-            val website = imageUrl?.let(Favicons::website)
-            if (website == null) {
-                onError()
-                return@loadLogo
+        val isDirectUrl = imageUrl?.startsWith("http://") == true || imageUrl?.startsWith("https://") == true
+        val website = imageUrl?.let(Favicons::website)
+
+        if (isDirectUrl || website == null) {
+            loadLogo(imageUrl) {
+                if (website != null) {
+                    chooseFavicon(website) { faviconUrl ->
+                        if (faviconUrl != null) loadLogo(faviconUrl, onError) else onError()
+                    }
+                } else {
+                    onError()
+                }
             }
+        } else {
             chooseFavicon(website) { faviconUrl ->
                 if (faviconUrl != null) loadLogo(faviconUrl, onError) else onError()
             }
