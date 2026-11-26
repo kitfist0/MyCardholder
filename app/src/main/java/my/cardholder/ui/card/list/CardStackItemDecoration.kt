@@ -98,10 +98,12 @@ class CardStackItemDecoration(
         val margins = layoutParams as ViewGroup.MarginLayoutParams
         // A list that measures itself lays its cards out before its own width is set, and these
         // offsets are kept until invalidated. Its layout manager already has the measured width then.
-        val parentWidth = parent.layoutManager?.width ?: parent.width
+        val parentWidth = (parent.layoutManager?.width ?: parent.width)
+            .takeIf { it > 0 }
+            ?: parent.resources.displayMetrics.widthPixels
         val width = parentWidth - parent.paddingLeft - parent.paddingRight -
             margins.leftMargin - margins.rightMargin
-        return maxOf(measuredHeight, CardItemView.realHeightForWidth(width)) +
+        return maxOf(measuredHeight, CardItemView.realHeightForWidth(width.coerceAtLeast(0))) +
             margins.topMargin + margins.bottomMargin
     }
 
