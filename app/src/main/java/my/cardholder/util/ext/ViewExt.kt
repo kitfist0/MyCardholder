@@ -200,6 +200,7 @@ fun ImageView.loadLogoImage(
     logoUrl: String?,
     @DrawableRes defaultDrawableRes: Int,
 ) {
+    setImageResource(defaultDrawableRes)
     logoUrl?.ifEmpty { null }
         ?.let {
             val sizePx = dpToPx(128)
@@ -214,7 +215,6 @@ fun ImageView.loadLogoImage(
                 onError = { setImageResource(defaultDrawableRes) }
             )
         }
-        ?: setImageResource(defaultDrawableRes)
 }
 
 fun EditText.onImeActionDone(callback: () -> Unit) {
