@@ -42,10 +42,7 @@ class CategoryEditViewModel @Inject constructor(
 
     fun onMenuItemClicked(itemId: Int): Boolean {
         if (itemId == R.id.category_delete_menu_item) {
-            viewModelScope.launch {
-                categoryRepository.deleteCategoryById(categoryId)
-                navigateUp()
-            }
+            navigate(CategoryEditFragmentDirections.fromCategoryEditToDeleteCategory(categoryId))
             return true
         }
         return false

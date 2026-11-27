@@ -241,7 +241,25 @@
         <argument
             android:name="category_id"
             app:argType="long" />
+        <action
+            android:id="@+id/from_category_edit_to_delete_category"
+            app:destination="@id/delete_category_dialog" />
     </fragment>
+
+    <dialog
+        android:id="@+id/delete_category_dialog"
+        android:name="my.cardholder.ui.category.delete.DeleteCategoryDialog"
+        android:label="@string/delete_category_dialog_label"
+        tools:layout="@layout/dialog_delete_category">
+        <argument
+            android:name="category_id"
+            app:argType="long" />
+        <action
+            android:id="@+id/from_delete_category_to_category_list"
+            app:destination="@id/category_list_fragment"
+            app:popUpTo="@id/category_list_fragment"
+            app:popUpToInclusive="false" />
+    </dialog>
 
     <dialog
         android:id="@+id/delete_card_dialog"
