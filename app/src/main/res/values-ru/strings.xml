@@ -158,6 +158,12 @@
     <string name="delete_card_dialog_title">Удалить? Карта \"%s\" будет удалена навсегда</string>
     <!--endregion-->
 
+    <!--region DeleteCategory-->
+    <string name="delete_category_dialog_button_text">Удалить навсегда</string>
+    <string name="delete_category_dialog_label">Удалить</string>
+    <string name="delete_category_dialog_title">Удалить? Категория \"%s\" будет удалена навсегда</string>
+    <!--endregion-->
+
     <!--region Info-->
     <string name="info_dialog_copyright_button_text">Авторские права</string>
     <string name="info_dialog_label">Информация</string>

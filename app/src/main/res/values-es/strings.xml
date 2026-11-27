@@ -158,6 +158,12 @@
     <string name="delete_card_dialog_title">¿Borrar? La tarjeta \"%s\" se eliminará de forma permanente</string>
     <!--endregion-->
 
+    <!--region DeleteCategory-->
+    <string name="delete_category_dialog_button_text">Borrar permanentemente</string>
+    <string name="delete_category_dialog_label">Borrar</string>
+    <string name="delete_category_dialog_title">¿Borrar? La categoría \"%s\" se eliminará de forma permanente</string>
+    <!--endregion-->
+
     <!--region Info-->
     <string name="info_dialog_copyright_button_text">Derechos de autor</string>
     <string name="info_dialog_label">Información</string>

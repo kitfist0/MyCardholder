@@ -158,6 +158,12 @@
     <string name="delete_card_dialog_title">Delete? The card \"%s\" will be permanently deleted</string>
     <!--endregion-->
 
+    <!--region DeleteCategory-->
+    <string name="delete_category_dialog_button_text">Delete permanently</string>
+    <string name="delete_category_dialog_label">Delete</string>
+    <string name="delete_category_dialog_title">Delete? The category \"%s\" will be permanently deleted</string>
+    <!--endregion-->
+
     <!--region Info-->
     <string name="info_dialog_copyright_button_text">Copyright</string>
     <string name="info_dialog_label">Info</string>
