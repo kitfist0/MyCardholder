@@ -11,6 +11,7 @@ import my.cardholder.R
 import my.cardholder.databinding.FragmentCategoryEditBinding
 import my.cardholder.ui.base.BaseFragment
 import my.cardholder.util.ext.collectWhenStarted
+import my.cardholder.util.ext.hideSoftInputAndDo
 import my.cardholder.util.ext.onImeActionDone
 import my.cardholder.util.ext.setTextAndSelectionIfRequired
 import my.cardholder.util.ext.setupUniqueTransitionName
@@ -33,7 +34,14 @@ class CategoryEditFragment : BaseFragment<FragmentCategoryEditBinding>(
             val uniqueNameSuffix = args.categoryId
             root.updateVerticalPaddingAfterApplyingWindowInsets()
             categoryEditToolbar.setOnMenuItemClickListener { menuItem ->
-                viewModel.onMenuItemClicked(menuItem.itemId)
+                if (menuItem.itemId == R.id.category_delete_menu_item) {
+                    binding.root.hideSoftInputAndDo {
+                        viewModel.onMenuItemClicked(menuItem.itemId)
+                    }
+                    true
+                } else {
+                    viewModel.onMenuItemClicked(menuItem.itemId)
+                }
             }
             categoryEditCategoryNameInputLayout.setupUniqueTransitionName(uniqueNameSuffix)
             categoryEditCategoryNameInputLayout.editText?.apply {

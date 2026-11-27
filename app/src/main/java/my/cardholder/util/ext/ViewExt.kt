@@ -283,3 +283,16 @@ fun TextInputLayout.showSoftInput() {
     (context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
         ?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
 }
+
+fun View.hideSoftInputAndDo(action: () -> Unit) {
+    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+    val isImeVisible = ViewCompat.getRootWindowInsets(this)
+        ?.isVisible(WindowInsetsCompat.Type.ime()) == true
+    if (isImeVisible) {
+        clearFocus()
+        imm?.hideSoftInputFromWindow(windowToken, 0)
+        postDelayed({ action.invoke() }, 180L)
+    } else {
+        action.invoke()
+    }
+}
